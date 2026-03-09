@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
@@ -62,6 +62,17 @@
       padding-bottom: 20px;
       margin-bottom: 30px;
       position: relative;
+    }
+
+    .hero-logo {
+      width: min(240px, 52vw);
+      margin: 0 auto 16px;
+    }
+
+    .hero-logo img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
     }
 
     .eyebrow {
@@ -580,9 +591,95 @@
     }
 
     @media (max-width: 900px) {
+      .wrap {
+        width: min(100vw - 12px, 100%);
+        margin: 8px auto;
+        padding: 20px 14px;
+      }
+      .hero-logo {
+        width: min(180px, 46vw);
+        margin-bottom: 12px;
+      }
+      .eyebrow {
+        font-size: 12px;
+        letter-spacing: 0.14em;
+      }
+      .title {
+        font-size: clamp(28px, 15vw, 64px);
+        line-height: 0.95;
+        letter-spacing: 0.03em;
+      }
+      .subtitle {
+        font-size: clamp(16px, 6.4vw, 24px);
+        line-height: 1.45;
+        letter-spacing: 0.03em;
+      }
+      .director {
+        font-size: 15px;
+        line-height: 1.8;
+        padding: 14px 0;
+      }
+      .director p:first-child::first-letter {
+        font-size: 2.2em;
+      }
+      .news-strip {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        font-size: 15px;
+        padding: 12px 0;
+      }
+      .news-strip strong {
+        border-right: 0;
+        margin-right: 0;
+        padding-right: 0;
+      }
+      .section-title {
+        font-size: 26px;
+        padding: 9px 0;
+        margin: 30px 0 20px;
+      }
+      .section-title::before,
+      .section-title::after {
+        display: none;
+      }
       .director { column-count: 1; }
       .tool-grid { grid-template-columns: 1fr; }
-      .travel-showcase { grid-template-columns: 1fr; }
+      .travel-showcase {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 14px;
+      }
+      .travel-art h3 {
+        font-size: 42px;
+      }
+      .travel-copy {
+        font-size: 15px;
+      }
+      .floating-item {
+        width: min(100%, 290px);
+        margin: 10px auto 0;
+        padding: 10px;
+      }
+      .floating-ticket {
+        min-height: 0;
+        padding: 14px 12px;
+      }
+      .floating-ticket strong {
+        font-size: 24px;
+      }
+      .floating-ticket p {
+        font-size: 13px;
+        line-height: 1.6;
+      }
+      .suitcase-demo {
+        width: 148px;
+        height: 192px;
+        margin: 4px auto 12px;
+      }
+      .suitcase-tag {
+        font-size: 14px;
+      }
       .col-main, .col-side { grid-column: span 12; border-right: none; padding-right: 0; }
       .postcard-stack { height: 760px; }
       .paper-card { width: min(360px, 72%); }
@@ -596,6 +693,9 @@
   <div class="wrap">
 
     <header class="hero">
+      <a class="hero-logo" href="https://www.pbooks.com.tw/" target="_blank" rel="noopener noreferrer" aria-label="前往腓利門書房網站">
+        <img src="https://raw.githubusercontent.com/philemon86/philemon202603-news/master/LOGO.png" alt="腓利門書房 LOGO" />
+      </a>
       <div class="eyebrow">The Dispatch of Philemon</div>
       <h1 class="title">PHILEMON TIMES</h1>
       <div class="subtitle">【書房動態報導】網站數位功能全面升級，加碼推出限期贈書與行李箱延長預購</div>
@@ -936,4 +1036,3 @@
   </script>
 </body>
 </html>
-
