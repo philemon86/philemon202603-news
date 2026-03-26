@@ -116,6 +116,10 @@ function photoFull(fileName) {
   return `./assets/photos/full/${fileName}`;
 }
 
+function photoSlide(fileName) {
+  return `./assets/photos/slide/${fileName}`;
+}
+
 function openLightbox(fileName) {
   lightboxImage.src = photoFull(fileName);
   lightboxImage.alt = fileName;
@@ -144,14 +148,14 @@ function preloadImages() {
 
     image.onload = done;
     image.onerror = done;
-    image.src = photoFull(fileName);
+    image.src = photoSlide(fileName);
   })));
 }
 
 function buildSlides() {
   const [hero, ...rest] = galleryData;
 
-  heroBackground.style.backgroundImage = `url('${photoFull(hero.fileName)}')`;
+  heroBackground.style.backgroundImage = `url('${photoSlide(hero.fileName)}')`;
   heroQuote.textContent = hero.english;
 
   rest.forEach((data, index) => {
@@ -162,7 +166,7 @@ function buildSlides() {
 
     const background = document.createElement("div");
     background.className = "slide-background";
-    background.style.backgroundImage = `url('${photoFull(data.fileName)}')`;
+    background.style.backgroundImage = `url('${photoSlide(data.fileName)}')`;
     slide.appendChild(background);
 
     const shade = document.createElement("div");
