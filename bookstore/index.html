@@ -10,7 +10,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles.css">
 </head>
-<body>
+<body class="is-loading">
+  <div class="loading-screen" id="loading-screen" aria-live="polite">
+    <div class="loading-inner">
+      <div class="loading-brand">PHILEMON</div>
+      <div class="loading-bar">
+        <div class="loading-bar-fill" id="loading-bar-fill"></div>
+      </div>
+      <p class="loading-progress" id="loading-progress">0%</p>
+    </div>
+  </div>
+
   <main id="app" class="full-page-scroll">
     <section class="slide first-slide" id="first-slide">
       <div class="slide-background" id="hero-background"></div>

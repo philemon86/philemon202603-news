@@ -105,6 +105,9 @@ const app = document.getElementById("app");
 const heroBackground = document.getElementById("hero-background");
 const heroQuote = document.getElementById("hero-quote");
 const scrollHint = document.getElementById("scroll-hint");
+const loadingScreen = document.getElementById("loading-screen");
+const loadingBarFill = document.getElementById("loading-bar-fill");
+const loadingProgress = document.getElementById("loading-progress");
 const lightbox = document.getElementById("lightbox");
 const lightboxImage = document.getElementById("lightbox-image");
 const lightboxClose = document.getElementById("lightbox-close");
@@ -117,6 +120,32 @@ function openLightbox(fileName) {
   lightboxImage.src = photoFull(fileName);
   lightboxImage.alt = fileName;
   lightbox.showModal();
+}
+
+function preloadImages() {
+  const files = galleryData.map((item) => item.fileName);
+  let loaded = 0;
+
+  const updateProgress = () => {
+    const progress = Math.round((loaded / files.length) * 100);
+    loadingBarFill.style.width = `${progress}%`;
+    loadingProgress.textContent = `${progress}%`;
+  };
+
+  updateProgress();
+
+  return Promise.all(files.map((fileName) => new Promise((resolve) => {
+    const image = new Image();
+    const done = () => {
+      loaded += 1;
+      updateProgress();
+      resolve();
+    };
+
+    image.onload = done;
+    image.onerror = done;
+    image.src = photoFull(fileName);
+  })));
 }
 
 function buildSlides() {
@@ -214,5 +243,9 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-buildSlides();
-bindSlideEffects();
+preloadImages().then(() => {
+  buildSlides();
+  bindSlideEffects();
+  document.body.classList.remove("is-loading");
+  loadingScreen.classList.add("is-hidden");
+});
