@@ -1,51 +1,119 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
+﻿<!DOCTYPE html>
+<html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>腓利門書房 | PHILEMON</title>
-  <meta name="description" content="腓利門書房 - 一個安靜的角落，與書相遇，發現故事。">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>腓利門電子報</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Noto+Serif+TC:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #eadcc4;
+      --ink: #2b2219;
+      --line: #3a2c1d;
+      --accent: #7c2d23;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      font-family: "Noto Serif TC", serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top, rgba(255,255,255,0.35), transparent 45%),
+        repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(43,34,25,0.03) 3px, rgba(43,34,25,0.03) 4px),
+        var(--paper);
+    }
+    .sheet {
+      width: min(820px, 100%);
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(43,34,25,0.25);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.18);
+      padding: 36px 24px;
+      text-align: center;
+    }
+    .eyebrow {
+      display: inline-block;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 6px 10px;
+      font-family: "Cinzel", serif;
+      font-size: 14px;
+      letter-spacing: 0.18em;
+      margin-bottom: 14px;
+    }
+    h1 {
+      margin: 0;
+      font-family: "Cinzel", serif;
+      font-size: clamp(34px, 8vw, 68px);
+      line-height: 1;
+      letter-spacing: 0.05em;
+    }
+    .subtitle {
+      margin: 10px 0 18px;
+      font-size: clamp(18px, 4vw, 28px);
+      font-weight: 900;
+    }
+    .intro {
+      margin: 0 auto 28px;
+      max-width: 620px;
+      font-size: 16px;
+      line-height: 1.9;
+      text-align: justify;
+    }
+    .issue-card {
+      border: 2px solid var(--line);
+      padding: 22px;
+      background: rgba(255,255,255,0.22);
+    }
+    .issue-date {
+      font-family: "Cinzel", serif;
+      font-size: 15px;
+      letter-spacing: 0.18em;
+      margin-bottom: 10px;
+    }
+    .issue-title {
+      font-size: clamp(26px, 6vw, 40px);
+      margin: 0 0 12px;
+      font-weight: 900;
+    }
+    .issue-copy {
+      margin: 0 auto 20px;
+      max-width: 560px;
+      font-size: 15px;
+      line-height: 1.8;
+    }
+    .btn {
+      display: inline-block;
+      padding: 10px 18px;
+      border: 2px solid var(--line);
+      font-weight: 700;
+      text-decoration: none;
+      color: var(--ink);
+      transition: .2s ease;
+    }
+    .btn:hover {
+      background: var(--ink);
+      color: var(--paper);
+    }
+  </style>
 </head>
 <body>
-  <main id="app" class="full-page-scroll">
-    <section class="slide first-slide" id="first-slide">
-      <div class="slide-background" id="hero-background"></div>
-      <div class="slide-shade"></div>
-
-      <header class="brand-header">
-        <div class="logo-container">
-          <img src="./assets/logo.png" alt="PHILEMON LOGO" class="site-logo">
-        </div>
-        <div class="site-wordmark">PHILEMON</div>
-      </header>
-
-      <div class="witty-text">
-        <p id="hero-quote"></p>
-      </div>
-
-      <div class="brand-block">
-        <h1 class="vertical-title">PHILEMON</h1>
-        <div class="chinese-title-group">
-          <h2 class="chinese-title">腓利門書房</h2>
-          <p class="tagline">我在這裡，與書相遇</p>
-        </div>
-      </div>
-
-      <div class="scroll-hint-wrapper">
-        <button class="scroll-hint" id="scroll-hint" type="button" aria-label="下滑欣賞">下滑欣賞</button>
-      </div>
+  <main class="sheet">
+    <div class="eyebrow">PHILEMON NEWSLETTER ARCHIVE</div>
+    <h1>PHILEMON NEWS</h1>
+    <div class="subtitle">腓利門電子報</div>
+    <section class="issue-card">
+      <div class="issue-date">2026 MARCH ISSUE</div>
+      <h2 class="issue-title">三月電子報</h2>
+      <p class="issue-copy">本期收錄主禱文與洗禮論贈書活動、行李箱預購延長資訊、書房最新線上小幫手，以及本月精選商品。</p>
+      <a class="btn" href="./2026-03/">閱讀本期電子報</a>
     </section>
   </main>
-
-  <dialog class="lightbox" id="lightbox">
-    <button class="lightbox-close" id="lightbox-close" type="button" aria-label="Close">×</button>
-    <img id="lightbox-image" alt="">
-  </dialog>
-
-  <script src="./app.js"></script>
 </body>
 </html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>腓利門書房 | PHILEMON</title>
+  <meta name="description" content="腓利門書房 - 一個安靜的角落，與書相遇，發現故事。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main id="app" class="full-page-scroll">
+    <section class="slide first-slide" id="first-slide">
+      <div class="slide-background" id="hero-background"></div>
+      <div class="slide-shade"></div>
+
+      <header class="brand-header">
+        <div class="logo-container">
+          <img src="./assets/logo.png" alt="PHILEMON LOGO" class="site-logo">
+        </div>
+        <div class="site-wordmark">PHILEMON</div>
+      </header>
+
+      <div class="witty-text">
+        <p id="hero-quote"></p>
+      </div>
+
+      <div class="brand-block">
+        <h1 class="vertical-title">PHILEMON</h1>
+        <div class="chinese-title-group">
+          <h2 class="chinese-title">腓利門書房</h2>
+          <p class="tagline">我在這裡，與書相遇</p>
+        </div>
+      </div>
+
+      <div class="scroll-hint-wrapper">
+        <button class="scroll-hint" id="scroll-hint" type="button" aria-label="下滑欣賞">下滑欣賞</button>
+      </div>
+    </section>
+  </main>
+
+  <dialog class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightbox-close" type="button" aria-label="Close">×</button>
+    <img id="lightbox-image" alt="">
+  </dialog>
+
+  <script src="./app.js"></script>
+</body>
+</html>
