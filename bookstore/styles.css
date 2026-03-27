@@ -130,8 +130,10 @@ h3 {
   overflow-x: auto;
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
   position: relative;
   z-index: 1;
 }
@@ -139,6 +141,7 @@ h3 {
 .slide {
   flex: 0 0 100vw;
   scroll-snap-align: start;
+  scroll-snap-stop: always;
   height: 100vh;
   width: 100vw;
   position: relative;
@@ -570,6 +573,7 @@ h3 {
   .subtitle-verse {
     display: grid;
     grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(72px, auto);
     gap: 6px;
   }
 
@@ -616,10 +620,12 @@ h3 {
   animation: none;
 }
 
-.gallery-slide.is-active .subtitle-zh {
-  animation: subtitle-slide-in 520ms ease forwards 120ms;
-}
+@media (min-width: 769px) {
+  .gallery-slide.is-active .subtitle-zh {
+    animation: subtitle-slide-in 520ms ease forwards 120ms;
+  }
 
-.gallery-slide.is-active .subtitle-en {
-  animation: subtitle-slide-in 520ms ease forwards 420ms;
+  .gallery-slide.is-active .subtitle-en {
+    animation: subtitle-slide-in 520ms ease forwards 420ms;
+  }
 }
