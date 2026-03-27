@@ -559,13 +559,12 @@ h3 {
   .gallery-slide .slide-background {
     inset: 0;
     transform: none;
-    background-size: cover;
-    animation: mobile-pan-left 18s ease-in-out infinite;
-    will-change: background-position;
-  }
-
-  .gallery-slide:nth-of-type(even) .slide-background {
-    animation-name: mobile-pan-right;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: rgba(12, 8, 6, 0.96);
+    animation: none;
+    will-change: auto;
   }
 
   .gallery-slide .slide-shade {
