@@ -137,7 +137,8 @@ const lightbox = document.getElementById("lightbox");
 const lightboxImage = document.getElementById("lightbox-image");
 const lightboxClose = document.getElementById("lightbox-close");
 const mobileViewport = window.matchMedia("(max-width: 768px)");
-let returnHomeTimer = null;
+let loopAdvanceTimer = null;
+let loopResetTimer = null;
 
 function photoFull(fileName) {
   return `./assets/photos/full/${fileName}`;
@@ -191,6 +192,25 @@ function preloadRemainingSlides() {
   };
 
   loadNext();
+}
+
+function buildLoopSlide() {
+  const firstSlide = document.getElementById("first-slide");
+  const loopSlide = firstSlide.cloneNode(true);
+  loopSlide.id = "loop-slide";
+  loopSlide.classList.add("loop-slide");
+
+  const loopQuote = loopSlide.querySelector("#hero-quote");
+  if (loopQuote) {
+    loopQuote.removeAttribute("id");
+  }
+
+  const loopButton = loopSlide.querySelector("#scroll-hint");
+  if (loopButton) {
+    loopButton.removeAttribute("id");
+  }
+
+  app.appendChild(loopSlide);
 }
 
 function buildSlides() {
@@ -257,25 +277,44 @@ function buildSlides() {
       slide.classList.add("slide-break");
     }
   });
+
+  buildLoopSlide();
 }
 
 function bindSlideEffects() {
-  const slides = document.querySelectorAll(".gallery-slide");
-  const lastSlide = slides[slides.length - 1];
+  const slides = document.querySelectorAll(".gallery-slide, .loop-slide");
+  const gallerySlides = document.querySelectorAll(".gallery-slide");
+  const lastGallerySlide = gallerySlides[gallerySlides.length - 1];
+  const loopSlide = document.getElementById("loop-slide");
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       const isActive = entry.isIntersecting && entry.intersectionRatio > 0.55;
       entry.target.classList.toggle("is-active", isActive);
 
-      if (entry.target === lastSlide) {
+      if (entry.target === lastGallerySlide) {
         if (isActive) {
-          window.clearTimeout(returnHomeTimer);
-          returnHomeTimer = window.setTimeout(() => {
-            app.scrollTo({ left: 0, behavior: "smooth" });
+          window.clearTimeout(loopAdvanceTimer);
+          window.clearTimeout(loopResetTimer);
+          loopAdvanceTimer = window.setTimeout(() => {
+            app.scrollTo({ left: loopSlide.offsetLeft, behavior: "smooth" });
           }, 2200);
         } else {
-          window.clearTimeout(returnHomeTimer);
-          returnHomeTimer = null;
+          window.clearTimeout(loopAdvanceTimer);
+          window.clearTimeout(loopResetTimer);
+          loopAdvanceTimer = null;
+          loopResetTimer = null;
+        }
+      }
+
+      if (entry.target === loopSlide) {
+        if (isActive) {
+          window.clearTimeout(loopResetTimer);
+          loopResetTimer = window.setTimeout(() => {
+            app.scrollTo({ left: 0, behavior: "auto" });
+          }, 900);
+        } else {
+          window.clearTimeout(loopResetTimer);
+          loopResetTimer = null;
         }
       }
     });
