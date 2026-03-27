@@ -152,30 +152,44 @@ function openLightbox(fileName) {
   lightbox.showModal();
 }
 
-function preloadImages() {
-  const files = galleryData.map((item) => item.fileName);
-  let loaded = 0;
+function preloadHeroImage() {
+  const hero = galleryData[0];
 
-  const updateProgress = () => {
-    const progress = Math.round((loaded / files.length) * 100);
-    loadingBarFill.style.width = `${progress}%`;
-    loadingProgress.textContent = `${progress}%`;
-  };
+  loadingBarFill.style.width = "12%";
+  loadingProgress.textContent = "Loading...";
 
-  updateProgress();
-
-  return Promise.all(files.map((fileName) => new Promise((resolve) => {
+  return new Promise((resolve) => {
     const image = new Image();
     const done = () => {
-      loaded += 1;
-      updateProgress();
+      loadingBarFill.style.width = "100%";
+      loadingProgress.textContent = "100%";
       resolve();
     };
 
     image.onload = done;
     image.onerror = done;
-    image.src = photoSlide(fileName);
-  })));
+    image.src = photoSlide(hero.fileName);
+  });
+}
+
+function preloadRemainingSlides() {
+  const files = galleryData.slice(1).map((item) => item.fileName);
+  let loaded = 0;
+
+  const loadNext = () => {
+    if (loaded >= files.length) {
+      return;
+    }
+
+    const image = new Image();
+    image.onload = image.onerror = () => {
+      loaded += 1;
+      loadNext();
+    };
+    image.src = photoSlide(files[loaded]);
+  };
+
+  loadNext();
 }
 
 function buildSlides() {
@@ -288,9 +302,10 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-preloadImages().then(() => {
+preloadHeroImage().then(() => {
   buildSlides();
   bindSlideEffects();
   document.body.classList.remove("is-loading");
   loadingScreen.classList.add("is-hidden");
+  window.setTimeout(preloadRemainingSlides, 120);
 });
