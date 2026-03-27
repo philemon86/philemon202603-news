@@ -241,8 +241,11 @@ function buildSlides() {
 
     const verses = index === 0
       ? [
-          { verse: 1, chinese: hero.chinese, english: hero.english },
-          { verse: 2, chinese: data.chinese, english: data.english }
+          {
+            verse: "1-2",
+            chinese: `${hero.chinese}${data.chinese}`,
+            english: `${hero.english}${data.english}`
+          }
         ]
       : [
           { verse: index + 2, chinese: data.chinese, english: data.english }
