@@ -506,12 +506,22 @@ h3 {
     padding: 18vh 18px 26px;
   }
 
+  .first-slide {
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: max(16px, env(safe-area-inset-top)) 18px 26px;
+  }
+
   .brand-header {
+    position: absolute;
+    top: max(16px, env(safe-area-inset-top));
+    left: 18px;
+    right: 18px;
     margin-top: 0;
   }
 
   .witty-text {
-    margin-top: 18vh;
+    margin-top: 24vh;
     margin-bottom: auto;
     font-size: 0.88rem;
   }
@@ -520,6 +530,7 @@ h3 {
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
+    margin-top: auto;
     margin-bottom: 8vh;
   }
 
@@ -564,17 +575,21 @@ h3 {
   }
 
   .subtitle-overlay {
+    position: absolute;
+    left: 18px;
+    right: 18px;
+    bottom: max(88px, calc(env(safe-area-inset-bottom) + 64px));
     width: auto;
-    margin: auto 18px 28px;
+    margin: 0;
     padding: 0;
-    gap: 14px;
+    gap: 10px;
   }
 
   .subtitle-verse {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: auto minmax(72px, auto);
-    gap: 6px;
+    grid-template-rows: auto minmax(62px, auto);
+    gap: 4px;
   }
 
   .subtitle-ref {
@@ -586,15 +601,15 @@ h3 {
   .subtitle-zh {
     grid-column: 1;
     grid-row: 2;
-    font-size: 0.9rem;
-    line-height: 1.62;
+    font-size: 0.82rem;
+    line-height: 1.54;
   }
 
   .subtitle-en {
     grid-column: 1;
     grid-row: 2;
-    font-size: 0.84rem;
-    line-height: 1.65;
+    font-size: 0.78rem;
+    line-height: 1.56;
     color: rgba(255, 248, 241, 0.88);
     max-width: none;
   }
