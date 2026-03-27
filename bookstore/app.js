@@ -137,6 +137,7 @@ const lightbox = document.getElementById("lightbox");
 const lightboxImage = document.getElementById("lightbox-image");
 const lightboxClose = document.getElementById("lightbox-close");
 const mobileViewport = window.matchMedia("(max-width: 768px)");
+let returnHomeTimer = null;
 
 function photoFull(fileName) {
   return `./assets/photos/full/${fileName}`;
@@ -196,8 +197,9 @@ function buildSlides() {
   const [hero, ...rest] = galleryData;
 
   heroBackground.style.backgroundImage = `url('${photoSlide(hero.fileName)}')`;
-  heroQuote.textContent = "Philemon Bookroom";
+  heroQuote.textContent = "Welcome to the Bookstore";
   heroQuote.closest(".witty-text").hidden = false;
+  scrollHint.textContent = "右滑欣賞";
 
   rest.forEach((data, index) => {
     const slide = document.createElement("section");
@@ -259,9 +261,23 @@ function buildSlides() {
 
 function bindSlideEffects() {
   const slides = document.querySelectorAll(".gallery-slide");
+  const lastSlide = slides[slides.length - 1];
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      entry.target.classList.toggle("is-active", entry.isIntersecting && entry.intersectionRatio > 0.55);
+      const isActive = entry.isIntersecting && entry.intersectionRatio > 0.55;
+      entry.target.classList.toggle("is-active", isActive);
+
+      if (entry.target === lastSlide) {
+        if (isActive) {
+          window.clearTimeout(returnHomeTimer);
+          returnHomeTimer = window.setTimeout(() => {
+            app.scrollTo({ left: 0, behavior: "smooth" });
+          }, 2200);
+        } else {
+          window.clearTimeout(returnHomeTimer);
+          returnHomeTimer = null;
+        }
+      }
     });
   }, {
     threshold: [0.2, 0.55, 0.8]
