@@ -257,13 +257,13 @@
       }).catch(err => console.error(err));
     }
 
-    const assetBase = `${location.origin}${location.pathname.replace(/[^/]*$/, "")}`;
+    const assetBase = "https://news.pbooks.com.tw/cup/"; // 固定絕對路徑，避免相對路徑解析錯誤
 
     function loadImg(src) {
       return new Promise((resolve) => {
         const img = new Image();
         img.crossOrigin = "anonymous";
-        img.src = encodeURI(assetBase + src);
+        img.src = assetBase + src;
         img.onload = () => resolve(img);
         img.onerror = () => {
           const c = document.createElement("canvas"); c.width = 2; c.height = 2;
