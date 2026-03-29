@@ -58,8 +58,11 @@
     }
 
   /* 右下膠囊移除 */
-  #church-capsule { display: none; }
+  /*膠囊保留但不顯示*/ #church-capsule { display: none; }
   </style>
+</head>
+<body>
+  <div id="church-capsule" style="display:none;"><span id="church-name">載入中...</span></div>
   <script type="importmap">
     { "imports": {
         "three": "https://unpkg.com/three@0.164.1/build/three.module.js",
@@ -326,6 +329,7 @@
   </script>
 </body>
 </html>
+
 
 
 
