@@ -57,30 +57,8 @@
       letter-spacing: 2px;
     }
 
-    /* 底部右下角教會名稱膠囊 UI */
-    #church-capsule {
-      position: absolute;
-      bottom: 30px;
-      right: 30px;
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      padding: 10px 24px;
-      border-radius: 30px;
-      text-align: center;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-      border: 1px solid rgba(255,255,255,0.6);
-      pointer-events: none;
-      z-index: 10;
-      transition: all 0.3s ease;
-    }
-    #church-name {
-      display: block;
-      font-size: 16px;
-      font-weight: 700;
-      color: #1a202c;
-      letter-spacing: 1.5px;
-    }
+  /* 右下膠囊移除 */
+  #church-capsule { display: none; }
   </style>
   <script type="importmap">
     { "imports": {
@@ -97,9 +75,7 @@
     <p>腓利門書房 · 3D 預覽</p>
   </div>
 
-  <div id="church-capsule">
-    <span id="church-name">載入中...</span>
-  </div>
+  <!-- 膠囊已移除 -->
 
   <aside>
     <select id="logoSelect"><option value="主視覺文字.png">主視覺文字.png</option></select>
@@ -264,7 +240,7 @@
         const img = new Image();
         img.crossOrigin = "anonymous";
         const baseUrl = /^https?:/i.test(src) ? src : assetBase + src;
-        img.src = baseUrl + (baseUrl.includes('?') ? '&' : '?') + 'v=14';
+        img.src = baseUrl;
         img.onload = () => resolve(img);
         img.onerror = () => {
           const c = document.createElement("canvas"); c.width = 2; c.height = 2;
