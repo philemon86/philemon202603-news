@@ -1,0 +1,799 @@
+﻿<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>旅行箱，履行愛</title>
+  <style>
+    :root {
+      --text: #1d1d1f;
+      --muted: #6e6e73;
+      --bg: #f5f5f7;
+      --line: #d2d2d7;
+      --blue: #0071e3;
+      --card: #ffffff;
+      --radius: 28px;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      --green: #b7e3a8;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: "SF Pro Display", "SF Pro TC", "PingFang TC", "Helvetica Neue", Arial, sans-serif;
+      background: #fff;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    .announcement {
+      border-bottom: 1px solid var(--line);
+      text-align: center;
+      font-size: 12px;
+      padding: 11px 16px;
+      background: #fff;
+      letter-spacing: 0.01em;
+    }
+
+    .announcement strong { color: #bf4800; }
+
+    .announcement-countdown {
+      margin: 8px auto 2px;
+      width: fit-content;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      background: linear-gradient(180deg, #ffffff 0%, #f5f5f7 100%);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      position: relative;
+      overflow: hidden;
+      font-size: 12px;
+      font-weight: 600;
+      color: #1d1d1f;
+      white-space: nowrap;
+      max-width: 100%;
+    }
+
+    .announcement-countdown::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(110deg, transparent 20%, rgba(255, 255, 255, 0.75) 50%, transparent 80%);
+      transform: translateX(-130%);
+      animation: countdown-shine 3.6s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .count-num {
+      min-width: 2.3em;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #0071e3;
+      text-shadow: 0 0 16px rgba(0, 113, 227, 0.2);
+      animation: count-breathe 1.8s ease-in-out infinite;
+    }
+
+    @keyframes countdown-shine {
+      0%, 62% { transform: translateX(-130%); }
+      100% { transform: translateX(130%); }
+    }
+
+    @keyframes count-breathe {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      border-bottom: 1px solid rgba(210, 210, 215, 0.75);
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(14px) saturate(160%);
+    }
+
+    .nav-inner {
+      width: min(1180px, 94vw);
+      margin: 0 auto;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-brand img {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .nav a {
+      color: var(--text);
+      text-decoration: none;
+      opacity: 0.82;
+    }
+
+    .nav a:hover { opacity: 1; }
+
+    .wrap {
+      width: min(1180px, 94vw);
+      margin: 0 auto;
+    }
+
+    .hero {
+      position: relative;
+      text-align: center;
+      padding: 80px 0 68px;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(72% 60% at 50% 6%, #eef4ff 0%, #ffffff 68%);
+      z-index: -1;
+    }
+
+    .eyebrow {
+      margin: 0;
+      font-size: 19px;
+      font-weight: 600;
+      color: #1f6dbd;
+      letter-spacing: 0.01em;
+    }
+
+    .hero h1 {
+      margin: 10px 0 0;
+      font-size: clamp(46px, 7vw, 94px);
+      line-height: 1.03;
+      letter-spacing: -0.035em;
+    }
+
+    .hero p {
+      margin: 14px auto 0;
+      max-width: 820px;
+      font-size: clamp(21px, 2.5vw, 34px);
+      line-height: 1.24;
+      color: var(--muted);
+      letter-spacing: -0.01em;
+    }
+
+    .hero-links {
+      margin-top: 18px;
+      display: flex;
+      justify-content: center;
+      gap: 22px;
+      flex-wrap: wrap;
+      font-size: 22px;
+      font-weight: 500;
+    }
+
+    .hero-links a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    .hero-links a:hover { text-decoration: underline; }
+
+    .hero-image {
+      position: relative;
+      margin-top: 36px;
+      border-radius: 34px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      background: #f4f4f4;
+      border: 1px solid #ededf0;
+      aspect-ratio: 1477 / 860;
+    }
+
+    .hero-image img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center 24%;
+    }
+
+    .hero-image .slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      animation: hero-rotate 16s infinite;
+    }
+
+    .hero-image .slide:nth-child(1) { animation-delay: 0s; }
+    .hero-image .slide:nth-child(2) { animation-delay: 4s; }
+    .hero-image .slide:nth-child(3) { animation-delay: 8s; }
+    .hero-image .slide:nth-child(4) { animation-delay: 12s; }
+
+    @keyframes hero-rotate {
+      0%, 20% { opacity: 1; }
+      25%, 100% { opacity: 0; }
+    }
+
+    .section {
+      padding: 82px 0;
+    }
+
+    .section.gray {
+      background: linear-gradient(180deg, #fbfbfd 0%, #f5f5f7 100%);
+    }
+
+    h2 {
+      margin: 0;
+      text-align: center;
+      font-size: clamp(38px, 4.7vw, 70px);
+      line-height: 1.06;
+      letter-spacing: -0.03em;
+    }
+
+    .sub {
+      margin: 12px auto 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: clamp(18px, 2vw, 26px);
+      max-width: 860px;
+      line-height: 1.34;
+      letter-spacing: -0.01em;
+    }
+
+    .colors {
+      margin-top: 36px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .color-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      border: 1px solid #ededf0;
+    }
+
+    .color-card h3 {
+      margin: 0;
+      font-size: 32px;
+      letter-spacing: -0.02em;
+    }
+
+    .color-card p {
+      margin: 8px 0 14px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.4;
+    }
+
+    .color-card img {
+      width: 100%;
+      border-radius: 20px;
+      display: block;
+      background: #f2f2f2;
+    }
+
+    .color-card.full {
+      grid-column: span 2;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+      margin-top: 40px;
+    }
+
+    .price-card {
+      background: #fff;
+      border: 2px solid var(--line);
+      border-radius: var(--radius);
+      padding: 30px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+
+    .price-card:hover {
+      border-color: var(--muted);
+    }
+
+    .price-card.featured {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 1px var(--blue);
+    }
+
+    .size-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #4a4a4a;
+      text-align: center;
+      display: block;
+      line-height: 1.45;
+      margin-bottom: 8px;
+    }
+
+    .size-title {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      letter-spacing: -0.01em;
+    }
+
+    .size-dims {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    .price-tag {
+      font-size: 36px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .price-currency {
+      font-size: 17px;
+      vertical-align: middle;
+      margin-right: 4px;
+    }
+
+    .color-info {
+      margin-top: 20px;
+      font-size: 14px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      padding-top: 15px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .price-cta {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .feature {
+      margin-top: 36px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .feature-card {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      border: 1px solid #ededf0;
+    }
+
+    .feature-card h4 {
+      margin: 0;
+      font-size: 29px;
+      letter-spacing: -0.02em;
+    }
+
+    .feature-card p {
+      margin: 8px 0 14px;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 17px;
+    }
+
+    .feature-card img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      object-position: center top;
+      border-radius: 18px;
+      display: block;
+    }
+
+    .feature-card img.fit-contain {
+      object-fit: contain;
+      object-position: center;
+      background: #f5f5f7;
+    }
+
+    .spec-grid {
+      margin-top: 36px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .spec-card {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      border: 1px solid #ededf0;
+    }
+
+    .spec-card h4 {
+      margin: 0;
+      font-size: 28px;
+      letter-spacing: -0.02em;
+    }
+
+    .spec-card p {
+      margin: 8px 0 14px;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 17px;
+    }
+
+    .spec-media {
+      width: 100%;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid #f0ece6;
+      background: #fbf9f5;
+    }
+
+    .spec-media.tall { aspect-ratio: 9 / 16; }
+    .spec-media.wide { aspect-ratio: 16 / 10; }
+    .spec-media img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+      object-position: center;
+    }
+
+    .spec-media.tall img {
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    .buy {
+      margin-top: 34px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .buy-card {
+      text-align: center;
+      padding: 26px 22px;
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid #ededf0;
+    }
+
+    .buy-card h4 {
+      margin: 0;
+      font-size: 30px;
+      letter-spacing: -0.02em;
+    }
+
+    .buy-card p {
+      margin: 10px 0 16px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .btn {
+      display: inline-block;
+      text-decoration: none;
+      color: #fff;
+      background: var(--blue);
+      border-radius: 999px;
+      font-size: 16px;
+      padding: 11px 24px;
+      font-weight: 500;
+    }
+
+    .btn:hover { filter: brightness(1.05); }
+
+    footer {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.72;
+      padding: 54px 16px 72px;
+    }
+
+    @media (max-width: 980px) {
+      .colors,
+      .feature,
+      .spec-grid,
+      .buy { grid-template-columns: 1fr; }
+      .color-card.full { grid-column: auto; }
+      .nav-inner { width: min(1180px, 96vw); }
+      .nav-links {
+        display: flex;
+        gap: 12px;
+        white-space: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .nav-links::-webkit-scrollbar { display: none; }
+    }
+
+    @media (max-width: 700px) {
+      .hero { padding: 62px 0 52px; }
+      .hero-links { font-size: 19px; }
+      .section { padding: 58px 0; }
+      .hero-image { aspect-ratio: 16 / 10; }
+      .hero-image img { object-position: center 22%; }
+      .announcement-countdown {
+        font-size: 10px;
+        padding: 6px 9px;
+        gap: 5px;
+      }
+      .count-num { font-size: 12px; }
+      .color-card,
+      .feature-card,
+      .buy-card { padding: 20px; }
+      .pricing-grid { grid-template-columns: 1fr; gap: 16px; }
+      .price-card { padding: 24px 20px; }
+      .price-tag { font-size: 32px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-image .slide {
+        animation: none;
+        opacity: 0;
+      }
+      .hero-image .slide:first-child { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="announcement">
+    <div class="announcement-countdown" aria-live="polite">
+      預購截止 <strong>2026.03.31</strong> 還有 <span class="count-num" id="preorder-days">--</span> 天，預計4-5月陸續發貨。
+    </div>
+  </div>
+
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="nav-brand" href="https://www.pbooks.com.tw/" target="_blank" rel="noopener">
+        <img src="https://cdn-next.cybassets.com/s/files/27295/ckeditor/pictures/3beaddb8-95db-4024-bf21-9be30c5a6757.png" alt="品牌 Logo" />
+        <span>旅行箱，履行愛</span>
+      </a>
+      <div class="nav-links">
+        <a href="#colors">五色系列</a>
+        <a href="#prices">售價</a>
+        <a href="#buy">立即預購</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero wrap">
+      <p class="eyebrow">True Jesus Church Collection</p>
+      <h1>旅行箱，履行愛</h1>
+      <p>真耶穌教會專屬系列行李箱。俐落外型與實用機能，為每一次服事與旅程而生。</p>
+      <div class="hero-links">
+        <a href="#prices">查看金額 &gt;</a>
+        <a href="#buy">立即預購 &gt;</a>
+      </div>
+      <div class="hero-image">
+        <img class="slide" src="https://cdn-next.cybassets.com/s/files/27295/ckeditor/pictures/95b6b01e-c13f-4b63-a767-78c9f67725e2.png" alt="行李箱主視覺 LOGO 呈現圖 1" />
+        <img class="slide" src="https://cdn-next.cybassets.com/s/files/27295/ckeditor/pictures/f62a8246-2b93-49e9-ab1d-4bf37adca002.png" alt="行李箱主視覺 LOGO 呈現圖 2" />
+        <img class="slide" src="https://cdn-next.cybassets.com/s/files/27295/ckeditor/pictures/f2a407f4-7cc3-4262-8720-efc7e5914f15.png" alt="行李箱主視覺 LOGO 呈現圖 3" />
+        <img class="slide" src="https://cdn-next.cybassets.com/s/files/27295/ckeditor/pictures/9a4ee034-76e6-444a-a406-1ba36315de9f.png" alt="行李箱主視覺 LOGO 呈現圖 4" />
+      </div>
+    </section>
+
+    <section class="section gray" id="colors">
+      <div class="wrap">
+        <h2>五色系列</h2>
+        <p class="sub">黃色、白色、粉色、棕白色、黑色。</p>
+        <div class="colors">
+          <article class="color-card">
+            <h3>黃色</h3>
+            <p>明亮醒目，遠距離也容易辨識。</p>
+            <img src="https://cdn-next.cybassets.com/s/files/27295/ckeditor/pictures/1de792cd-0a30-43fe-ae9f-a32a62fc3bbb.png" alt="黃色行李箱" />
+          </article>
+          <article class="color-card">
+            <h3>白色</h3>
+            <p>簡潔純淨，乾淨俐落的經典選擇。</p>
+            <img src="https://cdn-next.cybassets.com/s/files/27295/ckeditor/pictures/a622bf60-cb7a-47d0-a783-37dcb6ea397e.png" alt="白色行李箱" />
+          </article>
+          <article class="color-card">
+            <h3>粉色</h3>
+            <p>柔和溫潤，視覺更具親和感。</p>
+            <img src="https://cdn-next.cybassets.com/s/files/27295/ckeditor/pictures/dc7c479d-1945-4f07-9fc8-29a02024f34d.png" alt="粉色行李箱" />
+          </article>
+          <article class="color-card">
+            <h3>棕白色</h3>
+            <p>雙色對比，層次清楚又耐看。</p>
+            <img src="https://cdn-next.cybassets.com/s/files/27295/ckeditor/pictures/45641894-9a81-45b5-99fd-83201ebf3bfa.png" alt="棕白色行李箱" />
+          </article>
+          <article class="color-card full">
+            <h3>黑色</h3>
+            <p>沉穩俐落，通勤與正式場合都合適。</p>
+            <img src="https://cdn-next.cybassets.com/s/files/27295/ckeditor/pictures/f9feecf3-63ad-44e5-aea5-1dd3eb762538.png" alt="黑色行李箱" />
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="prices">
+      <div class="wrap">
+        <h2>哪款尺寸最適合你？</h2>
+        <p class="sub">五種精選配色，不同尺寸與顏色，滿足各種需求</p>
+        <div class="pricing-grid" aria-label="行李箱尺寸價格卡片">
+          <article class="price-card">
+            <span class="size-label">三日遊首選<br />學靈會首選</span>
+            <div class="size-title">20 吋</div>
+            <div class="size-dims">55 x 35 x 28 cm</div>
+            <div class="price-tag"><span class="price-currency">NT$</span>2,026</div>
+            <div class="color-info">五色可選</div>
+          </article>
+          <article class="price-card featured">
+            <span class="size-label">短程出國<br />五日教會活動</span>
+            <div class="size-title">24 吋</div>
+            <div class="size-dims">64 x 38 x 30 cm</div>
+            <div class="price-tag"><span class="price-currency">NT$</span>2,399</div>
+            <div class="color-info">五色可選</div>
+          </article>
+          <article class="price-card">
+            <span class="size-label">長程出國<br />教講/神訓班推薦</span>
+            <div class="size-title">26 吋</div>
+            <div class="size-dims">70 x 40 x 32 cm</div>
+            <div class="price-tag"><span class="price-currency">NT$</span>2,499</div>
+            <div class="color-info">五色可選</div>
+          </article>
+        </div>
+        <div class="price-cta">
+          <a href="#buy" class="btn">立即預購</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section gray">
+      <div class="wrap">
+        <h2>功能說明</h2>
+        <p class="sub">聚焦旅途中最常用的六項機能，從取物、充電到隨身收納一次到位。</p>
+        <div class="feature">
+          <article class="feature-card">
+            <h4>前開快取設計</h4>
+            <p>不必整箱平放，通關、候機或轉車時都能快速拿取重點物品。</p>
+            <img class="fit-contain" src="https://cdn-next.cybassets.com/s/files/27295/ckeditor/pictures/57050549-4b46-4e74-920b-1984d0d91764.jpg" alt="2秒開箱，箱內物品不易滑動" />
+          </article>
+          <article class="feature-card">
+            <h4>旅途行動供電</h4>
+            <p>外接電源更順手，手機在移動中也能維持穩定電量。</p>
+            <img src="https://cdn-next.cybassets.com/s/files/27295/ckeditor/pictures/6f5179a1-b752-462e-ba2a-7e57ae08013c.jpg" alt="可充電功能示意" />
+          </article>
+          <article class="feature-card">
+            <h4>側邊杯架模組</h4>
+            <p>飲料有固定位置，行走時不必手持，雙手可保留給票證與行李。</p>
+            <img class="fit-contain" src="https://cdn-next.cybassets.com/s/files/27295/ckeditor/pictures/ac201b29-bb07-4746-b159-89ba5ebe3a4b.jpg" alt="折疊水杯架" />
+          </article>
+          <article class="feature-card">
+            <h4>外掛收納掛點</h4>
+            <p>購物袋與隨身提袋可直接外掛，轉移短距離時更省力。</p>
+            <img src="https://cdn-next.cybassets.com/s/files/27295/ckeditor/pictures/f43274d9-b2a6-4963-b26c-6d80e215b6a7.jpg" alt="外掛收納掛點" />
+          </article>
+          <article class="feature-card">
+            <h4>把手頂端托架</h4>
+            <p>等車、候機、排隊時可穩定放置手機，觀看資訊更輕鬆。</p>
+            <img src="https://cdn-next.cybassets.com/s/files/27295/ckeditor/pictures/aa785ef3-2071-4477-b94d-aff4e8063de6.jpg" alt="手機托架" />
+          </article>
+          <article class="feature-card">
+            <h4>前開筆電放置區</h4>
+            <p>20 吋前開區約 32 x 25 cm，可放置約 14 吋筆電，通勤與出差取放更直覺。</p>
+            <img src="https://cdn-next.cybassets.com/s/files/27295/ckeditor/pictures/ff243129-b667-4d95-9c56-ebfed355622a.png" alt="前開區筆電尺寸示意" />
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <h2>進階功能介紹</h2>
+        <p class="sub">材質、輪組與雙封閉分區，三項重點一次看懂。</p>
+        <div class="spec-grid">
+          <article class="spec-card">
+            <h4>三層複合箱體</h4>
+            <p>採用 PC + ABS 複合構，兼顧輕量手感與日常抗壓，降低碰撞時的變形風險。</p>
+            <div class="spec-media tall">
+              <img src="https://cdn-next.cybassets.com/s/files/27295/ckeditor/pictures/449e9d3a-6a88-4468-b571-dd3d6d2d0592.png" alt="三層複合材質結構" />
+            </div>
+          </article>
+          <article class="spec-card">
+            <h4>360° 靜音輪組</h4>
+            <p>高負重情境下仍能保持順暢推行，長距離移動更省力，室內外地面都較安靜。</p>
+            <div class="spec-media tall">
+              <img src="https://cdn-next.cybassets.com/s/files/27295/ckeditor/pictures/7c59ee0d-fd43-4efc-83ff-babab7bc683d.png" alt="靜音萬向輪" />
+            </div>
+          </article>
+          <article class="spec-card">
+            <h4>雙封閉分區內裝</h4>
+            <p>拉鍊封閉式分區可穩定收納衣物與配件，乾濕與小件分類更清楚、移動中不易散亂。</p>
+            <div class="spec-media tall">
+              <img src="https://cdn-next.cybassets.com/s/files/27295/ckeditor/pictures/392e2de2-86ff-4999-afcd-b61c8b14f273.png" alt="雙封閉分區內裝" />
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="buy">
+      <div class="wrap">
+        <h2>選擇您的下單方式</h2>
+        <div class="buy">
+          <article class="buy-card">
+            <h4>教會訂購</h4>
+            <p>限負責人或書報組下單<br />教會訂購可到貨後付款</p>
+            <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSfGKZjL4a-yGFtr3R-4Uovk_PSj-2PU2qXJ7gMzE4kyKjer-w/viewform" target="_blank" rel="noopener">預購表單</a>
+          </article>
+          <article class="buy-card">
+            <h4>個人訂購</h4>
+            <p>先付款下單，到貨後由倉庫直送<br />個人購買需要一律先付款</p>
+            <a class="btn" href="https://www.pbooks.com.tw/products/pg47" target="_blank" rel="noopener">立即購買</a>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>本行李箱收入扣除成本後盈餘之 5% 會捐助給「財團法人利河伯社會福利基金會」，一起實踐履行愛。</p>
+    <p>PS：本行李箱不寄送國外，如需購買請提供臺灣收件地址。個人預購後將於到貨後陸續出貨。</p>
+    <p>Philemon CO., LTD.All Rights Reserved.</p>
+  </footer>
+  <script>
+    (() => {
+      const el = document.getElementById("preorder-days");
+      if (!el) return;
+
+      const deadline = new Date("2026-03-31T23:59:59");
+      const update = () => {
+        const now = new Date();
+        const diff = deadline.getTime() - now.getTime();
+        const days = Math.max(0, Math.ceil(diff / 86400000));
+        el.textContent = String(days);
+        if (days === 0) {
+          const wrap = el.closest(".announcement-countdown");
+          if (wrap) wrap.innerHTML = "預購截止日 2026.03.31，預購已截止";
+        }
+      };
+
+      update();
+      setInterval(update, 60000);
+    })();
+  </script>
+</body>
+</html>
