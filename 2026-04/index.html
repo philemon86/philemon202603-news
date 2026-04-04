@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>腓利門電子報｜2026 四月號</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Noto+Serif+TC:wght@500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f3ecdf;
+      --ink: #1f1a17;
+      --muted: #4b4037;
+      --accent: #8c2f24;
+      --line: rgba(31,26,23,0.16);
+      --card: rgba(255,255,255,0.9);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Space Grotesk", "Noto Serif TC", system-ui, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    .page { max-width: 1100px; margin: 0 auto; padding: 32px clamp(18px, 4vw, 42px) 72px; }
+    header { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 0 4px; }
+    .brand { font-weight: 800; letter-spacing: 0.08em; font-size: 18px; }
+    nav { display: flex; gap: 16px; font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase; }
+    nav a { padding: 6px 0; border-bottom: 1px solid transparent; }
+    nav a:hover { border-color: var(--ink); }
+
+    .hero { margin: 46px 0 38px; display: grid; gap: 12px; }
+    .hero h1 { margin: 0; font-size: clamp(40px, 7vw, 72px); line-height: 1.02; letter-spacing: -0.01em; }
+    .hero p { margin: 6px 0 16px; font-size: 18px; color: var(--muted); line-height: 1.6; }
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn { padding: 12px 18px; border-radius: 12px; border: 1px solid var(--ink); font-weight: 700; letter-spacing: 0.01em; transition: 0.15s ease; background: #fff; }
+    .btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
+
+    .section { margin: 48px 0; }
+    .section h2 { margin: 0 0 12px; font-size: 22px; letter-spacing: 0.02em; }
+    .section small { color: var(--muted); }
+
+    .flex { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; align-items: center; }
+    .card { border: 1px solid var(--line); background: var(--card); padding: 18px; border-radius: 14px; }
+    .card h3 { margin: 0 0 8px; font-size: 20px; }
+    .card p { margin: 0; color: var(--muted); line-height: 1.55; }
+    .pill { display: inline-flex; padding: 6px 10px; border-radius: 999px; background: rgba(140,47,36,0.12); color: var(--accent); font-weight: 700; font-size: 13px; letter-spacing: 0.02em; }
+
+    .product { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; align-items: center; }
+    .product img { width: 100%; border-radius: 18px; border: 1px solid var(--line); background: #f7f7f7; }
+    .list { margin: 10px 0 0; padding-left: 18px; color: var(--muted); line-height: 1.6; }
+
+    .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
+    .video-card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; box-shadow: 0 12px 28px rgba(0,0,0,0.06); }
+    .video-card iframe { width: 100%; aspect-ratio: 16 / 9; border: none; display: block; }
+    .video-card .meta { padding: 12px 14px; font-weight: 700; }
+
+    .archive { border: 1px solid var(--line); padding: 16px; border-radius: 14px; background: var(--card); }
+    .row { display: flex; justify-content: space-between; gap: 12px; align-items: center; border-bottom: 1px solid var(--line); padding: 10px 0; }
+    .row:last-child { border-bottom: none; }
+    .muted { color: var(--muted); }
+
+    footer { margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+
+    @media (max-width: 640px) {
+      header { flex-direction: column; align-items: flex-start; }
+      .row { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="brand">PHILEMON NEWS · 2026 四月號</div>
+      <nav>
+        <a href="#product">商品</a>
+        <a href="#video">影片</a>
+        <a href="#archive">Archive</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <h1>旅行箱、保溫瓶與全新書房</h1>
+      <p>因應真耶穌教會臺灣傳教百年，書房整修完成，歡迎來逛逛；同場推出漸變保溫瓶與百年旅行箱專頁。</p>
+      <div class="actions">
+        <a class="btn primary" href="https://www.pbooks.com.tw/products/pg47" target="_blank" rel="noopener">立即購買旅行箱</a>
+        <a class="btn" href="#product">看保溫瓶</a>
+        <a class="btn" href="../bookstore/">參觀書房</a>
+      </div>
+    </section>
+
+    <section id="product" class="section">
+      <h2>漸變保溫瓶（四色）</h2>
+      <small>按鈕翻蓋｜鎖扣防漏｜輕量隨行</small>
+      <div class="product" style="margin-top:14px;">
+        <img src="./bottle.png" alt="漸變保溫瓶四色" />
+        <div class="card">
+          <div class="pill">新品</div>
+          <h3>真耶穌教會百年紀念款</h3>
+          <ul class="list">
+            <li>四款漸層色：米白、冰藍、草綠、玫粉。</li>
+            <li>翻蓋鎖扣、防漏矽膠圈，單手即可開啟。</li>
+            <li>便攜直身瓶身，適合通勤、聚會與露營。</li>
+          </ul>
+          <div class="actions" style="margin-top:14px;">
+            <a class="btn primary" href="https://www.pbooks.com.tw/products/cup10" target="_blank" rel="noopener">個人訂購（先付款，倉庫直送）</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="video" class="section">
+      <h2>書房整修 × 百年特輯</h2>
+      <small>歡迎親臨，影片先睹為快</small>
+      <div class="video-grid" style="margin-top:14px;">
+        <div class="video-card">
+          <iframe src="https://www.youtube.com/embed/q4xy4MRdrcs" allowfullscreen title="書房整修完成影片"></iframe>
+          <div class="meta">書房整修後影片</div>
+        </div>
+        <div class="video-card">
+          <iframe src="https://www.youtube.com/embed/0g5a9dgRZec" allowfullscreen title="書房沿革介紹"></iframe>
+          <div class="meta">書房沿革介紹</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>百年旅行箱專頁</h2>
+      <small>同場連結：旅行箱，履行愛</small>
+      <div class="flex" style="margin-top:14px;">
+        <div class="card">
+          <div class="pill">特別企劃</div>
+          <h3>旅行箱，履行愛</h3>
+          <p>真耶穌教會專屬系列行李箱，五色三尺寸，專為服事旅程設計。</p>
+          <div class="actions" style="margin-top:12px;">
+            <a class="btn" href="../2026-luggage/">查看專頁</a>
+          </div>
+        </div>
+        <div class="card">
+          <div class="pill">書房</div>
+          <h3>全新空間，歡迎來逛</h3>
+          <p>為紀念臺灣傳教百年，書房完成整修，提供更舒適的閱讀與交流場域。</p>
+          <div class="actions" style="margin-top:12px;">
+            <a class="btn" href="../bookstore/">前往書房</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="archive" class="section">
+      <h2>Archive</h2>
+      <div class="archive" style="margin-top:12px;">
+        <div class="row">
+          <div>2026 · 04 四月號</div>
+          <a class="btn" href="./">本期</a>
+        </div>
+        <div class="row">
+          <div>2026 · 03 三月號</div>
+          <a class="btn" href="../2026-03/">查看</a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      PHILEMON NEWS · 2026 年 4 月 · GitHub Pages
+    </footer>
+  </div>
+</body>
+</html>
