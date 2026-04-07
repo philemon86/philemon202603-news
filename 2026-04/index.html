@@ -96,7 +96,20 @@
     .row { display: flex; justify-content: space-between; gap: 12px; align-items: center; border-bottom: 1px solid var(--line); padding: 10px 0; }
     .row:last-child { border-bottom: none; }
     .muted { color: var(--muted); }
-    .price-tag { font-weight: 900; color: var(--highlight); letter-spacing: 0.06em; }
+    .price-tag { font-weight: 900; color: var(--highlight); letter-spacing: 0.06em; } /* legacy */
+    .price-line { display:flex; flex-wrap:wrap; gap:10px; margin-top:auto; }
+    .price-capsule {
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 12px;
+      border-radius: 999px;
+      border: 2px solid var(--ink);
+      background: #fff7ec;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+    }
+    .price-capsule.sale { background: var(--highlight); color: #fff; }
 
     /* 三月版式感：仿紙質邊框與卡片 */
     .vintage-section {
@@ -197,7 +210,10 @@
             <div class="photo-frame" style="margin: 10px 0 12px;">
               <img src="./correction.png" alt="暖色系按壓式修正帶" />
             </div>
-            <div class="price-tag" style="margin-bottom:10px;">定價 NT$50｜特價 NT$50</div>
+            <div class="price-line">
+              <span class="price-capsule">定價 NT$50</span>
+              <span class="price-capsule sale">特價 NT$40</span>
+            </div>
             <div class="actions" style="gap: 10px; flex-wrap: wrap;">
               <a class="btn primary" href="https://www.pbooks.com.tw/products/pg48" target="_blank" rel="noopener">前往商品頁</a>
             </div>
@@ -210,7 +226,10 @@
             <div class="photo-frame" style="margin: 10px 0 12px;">
               <img src="./pen.png" alt="水滴鋼珠筆" />
             </div>
-            <div class="price-tag" style="margin-bottom:10px;">定價 NT$25｜特價 NT$25</div>
+            <div class="price-line">
+              <span class="price-capsule">定價 NT$25</span>
+              <span class="price-capsule sale">特價 NT$20</span>
+            </div>
             <div class="actions" style="gap: 10px; flex-wrap: wrap;">
               <a class="btn primary" href="https://www.pbooks.com.tw/products/p5p6p7" target="_blank" rel="noopener">前往商品頁</a>
             </div>
@@ -222,23 +241,25 @@
     <section id="product" class="section">
       <h2>漸變保溫瓶（四色）</h2>
       <small>按鈕翻蓋｜鎖扣防漏｜輕量隨行</small>
-      <div class="card" style="margin:14px 0 10px; border-style:dashed;">
-        <h3 style="margin:0 0 6px;">彈蓋保溫瓶：保守起初的熱度</h3>
-        <p style="margin:0; color:#4a3e32;">時間會讓很多東西變淡，但信仰的核心，不該在日常中慢慢冷卻。從記錄、到修復、再到持守，這件物件提醒我們：被保守的，是那一開始願意相信的心。</p>
-      </div>
-      <div class="product" style="margin-top:14px;">
-        <img src="./bottle.png" alt="漸變保溫瓶四色" />
-        <div class="card">
-          <div class="pill">新品</div>
-          <h3>真耶穌教會百年紀念款</h3>
-          <ul class="list">
-            <li>四款漸層色：米白、冰藍、草綠、玫粉。</li>
-            <li>翻蓋鎖扣、防漏矽膠圈，單手即可開啟。</li>
-            <li>便攜直身瓶身，適合通勤、聚會與露營。</li>
-          </ul>
-          <div class="price-tag" style="margin-top:8px;">定價 NT$399｜特價 NT$399</div>
-          <div class="actions" style="margin-top:14px;">
-            <a class="btn primary" href="https://www.pbooks.com.tw/products/cup10" target="_blank" rel="noopener">點我購買</a>
+      <div class="card" style="margin-top:14px;">
+        <div class="product" style="margin:0; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));">
+          <img src="./bottle.png" alt="漸變保溫瓶四色" />
+          <div class="card" style="border:none; box-shadow:none; padding:0; height:100%;">
+            <div class="pill">新品</div>
+            <h3>漸變彈蓋保溫瓶 · 真耶穌教會百年紀念款</h3>
+            <p class="muted" style="margin:0 0 12px;">時間會讓很多東西變淡，但信仰的核心，不該在日常中慢慢冷卻。從記錄、到修復、再到持守，這只彈蓋保溫瓶提醒我們：被保守的，是那一開始願意相信的心。</p>
+            <ul class="list">
+              <li>四款漸層色：米白、冰藍、草綠、玫粉。</li>
+              <li>翻蓋鎖扣、防漏矽膠圈，單手即可開啟。</li>
+              <li>便攜直身瓶身，適合通勤、聚會與露營。</li>
+            </ul>
+            <div class="price-line">
+              <span class="price-capsule">定價 NT$399</span>
+              <span class="price-capsule sale">特價 NT$399</span>
+            </div>
+            <div class="actions" style="margin-top:14px;">
+              <a class="btn primary" href="https://www.pbooks.com.tw/products/cup10" target="_blank" rel="noopener">點我購買</a>
+            </div>
           </div>
         </div>
       </div>
