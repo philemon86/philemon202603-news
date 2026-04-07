@@ -135,6 +135,9 @@
       padding: 16px;
       border-radius: 14px;
       box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5), 6px 10px 0 rgba(43,34,25,0.12);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
     }
     .vintage-card h3 { margin: 6px 0 8px; font-size: 20px; letter-spacing: 0.02em; }
     .vintage-card p { margin: 0 0 10px; color: #4a3e32; line-height: 1.55; }
@@ -155,7 +158,7 @@
       box-shadow: 4px 6px 0 rgba(43,34,25,0.16);
       background: #f9f4ea;
     }
-    .photo-frame img { width: 100%; display: block; }
+    .photo-frame img { width: 100%; display: block; height: auto; }
 
     footer { margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
 
@@ -180,11 +183,7 @@
     <section class="hero">
       <h1>旅行箱、保溫瓶與全新書房</h1>
       <p>【現場直擊】為迎接臺灣傳教百年，腓利門書房完成整修並同步發佈兩項百年限定：漸層保溫瓶與專屬旅行箱。實體空間已開放，線上專頁也同步上線，邀請你走進這場百年記憶的日常報導。</p>
-      <div class="actions">
-        <a class="btn primary" href="https://www.pbooks.com.tw/products/pg47" target="_blank" rel="noopener">立即購買旅行箱</a>
-        <a class="btn" href="#product">看保溫瓶（NT$399）</a>
-        <a class="btn" href="../bookstore/" target="_blank" rel="noopener">參觀書房</a>
-      </div>
+      <div style="margin-top:8px; font-size:14px; color:var(--muted);">旅行箱預計四月中下旬到貨，線上預購依序出貨。</div>
     </section>
 
     <section id="stationery" class="section">
@@ -199,7 +198,7 @@
             <div class="photo-frame" style="margin: 10px 0 12px;">
               <img src="./correction.png" alt="暖色系按壓式修正帶" />
             </div>
-            <div class="price-tag" style="margin-bottom:10px;">NT$40</div>
+            <div class="price-tag" style="margin-bottom:10px;">NT$50</div>
             <div class="actions" style="gap: 10px; flex-wrap: wrap;">
               <a class="btn primary" href="https://www.pbooks.com.tw/products/pg48" target="_blank" rel="noopener">前往商品頁</a>
             </div>
@@ -212,7 +211,7 @@
             <div class="photo-frame" style="margin: 10px 0 12px;">
               <img src="./pen.png" alt="水滴鋼珠筆" />
             </div>
-            <div class="price-tag" style="margin-bottom:10px;">NT$20</div>
+            <div class="price-tag" style="margin-bottom:10px;">NT$25</div>
             <div class="actions" style="gap: 10px; flex-wrap: wrap;">
               <a class="btn primary" href="https://www.pbooks.com.tw/products/p5p6p7" target="_blank" rel="noopener">前往商品頁</a>
             </div>
