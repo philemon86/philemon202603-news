@@ -97,7 +97,7 @@
     .row:last-child { border-bottom: none; }
     .muted { color: var(--muted); }
     .price-tag { font-weight: 900; color: var(--highlight); letter-spacing: 0.06em; } /* legacy */
-    .price-line { display:flex; flex-wrap:wrap; gap:10px; margin-top:auto; }
+    .price-line { display:flex; flex-wrap:wrap; gap:10px; margin-top:auto; align-items:center; }
     .price-capsule {
       display:inline-flex;
       align-items:center;
@@ -214,8 +214,10 @@
               <span class="price-capsule">定價 NT$50</span>
               <span class="price-capsule sale">特價 NT$40</span>
             </div>
-            <div class="actions" style="gap: 10px; flex-wrap: wrap;">
-              <a class="btn primary" href="https://www.pbooks.com.tw/products/pg48" target="_blank" rel="noopener">前往商品頁</a>
+            <div class="actions" style="gap: 10px; flex-wrap: wrap; align-items:center;">
+              <span class="price-capsule">定價 NT$50</span>
+              <span class="price-capsule sale">特價 NT$40</span>
+              <a class="btn primary" style="flex:1;" href="https://www.pbooks.com.tw/products/pg48" target="_blank" rel="noopener">前往商品頁</a>
             </div>
           </div>
 
@@ -226,12 +228,10 @@
             <div class="photo-frame" style="margin: 10px 0 12px;">
               <img src="./pen.png" alt="水滴鋼珠筆" />
             </div>
-            <div class="price-line">
+            <div class="actions" style="gap: 10px; flex-wrap: wrap; align-items:center;">
               <span class="price-capsule">定價 NT$25</span>
               <span class="price-capsule sale">特價 NT$20</span>
-            </div>
-            <div class="actions" style="gap: 10px; flex-wrap: wrap;">
-              <a class="btn primary" href="https://www.pbooks.com.tw/products/p5p6p7" target="_blank" rel="noopener">前往商品頁</a>
+              <a class="btn primary" style="flex:1;" href="https://www.pbooks.com.tw/products/p5p6p7" target="_blank" rel="noopener">前往商品頁</a>
             </div>
           </div>
         </div>
@@ -253,12 +253,10 @@
               <li>翻蓋鎖扣、防漏矽膠圈，單手即可開啟。</li>
               <li>便攜直身瓶身，適合通勤、聚會與露營。</li>
             </ul>
-            <div class="price-line">
+            <div class="actions" style="margin-top:14px; gap:10px; flex-wrap:wrap; align-items:center;">
               <span class="price-capsule">定價 NT$399</span>
               <span class="price-capsule sale">特價 NT$399</span>
-            </div>
-            <div class="actions" style="margin-top:14px;">
-              <a class="btn primary" href="https://www.pbooks.com.tw/products/cup10" target="_blank" rel="noopener">點我購買</a>
+              <a class="btn primary" style="flex:1;" href="https://www.pbooks.com.tw/products/cup10" target="_blank" rel="noopener">點我購買</a>
             </div>
           </div>
         </div>
