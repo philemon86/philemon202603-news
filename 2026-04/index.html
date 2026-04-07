@@ -1,16 +1,13 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
+ï»¿<!DOCTYPE html>
+<html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>¦Ê¦~¨½µ{ - ®È¦æ½c ¡Ñ «O·Å²~ ¡Ñ ·s®Ñ©Ğ</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>è…“åˆ©é–€é›»å­å ±ï½œ2026 å››æœˆè™Ÿ</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&display=swap" rel="stylesheet">
   <style>
-    /* =========================================
-       1) ¥ş°ì¼Ë¦¡¡]«O¯d­ì©³¼h»P©³¦â³]­p¡^
-       ========================================= */
     :root {
       --paper: #eaddc5;
       --paper-dark: #d4c1a0;
@@ -18,28 +15,31 @@
       --muted: #4a3e32;
       --highlight: #7c2d23;
       --line: #2b2219;
-      --card: rgba(255, 255, 255, 0.94);
+      --card: rgba(255,255,255,0.9);
     }
-
+    * { box-sizing: border-box; }
     body {
+      margin: 0;
       font-family: "Noto Serif TC", serif;
       color: var(--ink);
       background-color: var(--paper);
       background-image:
         radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.05) 100%),
         repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(43,34,25,0.03) 3px, rgba(43,34,25,0.03) 4px);
+      -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
-      margin: 0;
-      line-height: 1.6;
     }
-
-    body::before { /* ¯È½è¾¸ÂI */
+    a { color: inherit; text-decoration: none; }
+    body::before {
       content: "";
-      position: fixed; inset: 0;
-      background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)"/></svg>');
-      opacity: 0.08; mix-blend-mode: multiply; pointer-events: none; z-index: 100;
+      position: fixed;
+      inset: 0;
+      background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)"/></svg>');
+      opacity: 0.08;
+      pointer-events: none;
+      z-index: 100;
+      mix-blend-mode: multiply;
     }
-
     .page {
       width: min(1200px, calc(100vw - 20px));
       margin: 20px auto 60px;
@@ -47,246 +47,236 @@
       background: var(--paper);
       border: 1px solid var(--paper-dark);
       box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-      position: relative; z-index: 1;
-      box-sizing: border-box;
+      position: relative;
+      z-index: 1;
     }
+    header { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 0 4px; }
+    .brand { font-weight: 800; letter-spacing: 0.08em; font-size: 18px; }
+    nav { display: flex; gap: 16px; font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase; }
+    nav a { padding: 6px 0; border-bottom: 1px solid transparent; }
+    nav a:hover { border-color: var(--ink); }
 
-    /* =========================================
-       2) «ö¶s»P¤p¼ĞÅÒ¼Ë¦¡
-       ========================================= */
+    .hero { margin: 46px 0 38px; display: grid; gap: 12px; }
+    .hero h1 { margin: 0; font-size: clamp(44px, 7vw, 78px); line-height: 1.02; letter-spacing: 0.01em; }
+    .hero p { margin: 6px 0 16px; font-size: 18px; color: var(--muted); line-height: 1.6; }
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; }
     .btn {
-      display: inline-block;
-      text-align: center;
-      text-decoration: none;
       padding: 12px 18px;
       border-radius: 10px;
       border: 2px solid var(--ink);
       font-weight: 800;
       letter-spacing: 0.06em;
-      background: #fff7ec;
-      color: var(--ink);
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.7), 2px 4px 0 rgba(43,34,25,0.16);
       transition: 0.15s ease;
-      cursor: pointer;
+      background: #fff7ec;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.7), 2px 4px 0 rgba(43,34,25,0.16);
     }
-    .btn.primary { background: var(--highlight); color: #fff; }
+    .btn.primary { background: var(--highlight); color: #fff; border-color: var(--ink); }
     .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.18); }
 
-    .pill, .vintage-tag {
-      display: inline-block;
-      background: var(--highlight);
-      color: #fff;
-      font-size: 13px;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 6px;
-      margin-bottom: 12px;
-      align-self: flex-start;
-      letter-spacing: 0.05em;
-    }
-
-    /* =========================================
-       3) °Ï¶ô»P±Æª©±±¨î
-       ========================================= */
     .section { margin: 48px 0; }
-    .section h2 { margin: 0 0 6px; font-size: 26px; letter-spacing: 0.04em; }
-    .section small { display: block; color: var(--muted); margin-bottom: 20px; font-weight: 600; }
+    .section h2 { margin: 0 0 12px; font-size: 24px; letter-spacing: 0.04em; text-transform: none; }
+    .section small { color: var(--muted); }
 
-    /* µ¥°ª¥d¤ù¡]¤å¨ã/°Ó«~¬Ò¥Î¡^ */
-    .card, .vintage-card {
-      border: 2px solid var(--line);
-      background: var(--card);
+    .flex { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; align-items: center; }
+    .card { border: 2px solid var(--line); background: rgba(255,255,255,0.9); padding: 18px; border-radius: 14px; box-shadow: 4px 6px 0 rgba(43,34,25,0.16); }
+    .card h3 { margin: 0 0 8px; font-size: 20px; }
+    .card p { margin: 0; color: var(--muted); line-height: 1.55; }
+    .pill { display: inline-flex; padding: 6px 10px; border-radius: 999px; background: rgba(124,45,35,0.12); color: var(--highlight); font-weight: 800; font-size: 13px; letter-spacing: 0.08em; }
+
+    .product { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; align-items: center; }
+    .product img { width: 100%; border-radius: 18px; border: 1px solid var(--line); background: #f7f7f7; }
+    .list { margin: 10px 0 0; padding-left: 18px; color: var(--muted); line-height: 1.6; }
+
+    .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
+    .video-card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; box-shadow: 0 12px 28px rgba(0,0,0,0.06); }
+    .video-card iframe { width: 100%; aspect-ratio: 16 / 9; border: none; display: block; }
+    .video-card .meta { padding: 12px 14px; font-weight: 700; }
+
+    .archive { border: 1px solid var(--line); padding: 16px; border-radius: 14px; background: var(--card); }
+    .row { display: flex; justify-content: space-between; gap: 12px; align-items: center; border-bottom: 1px solid var(--line); padding: 10px 0; }
+    .row:last-child { border-bottom: none; }
+    .muted { color: var(--muted); }
+    .price-tag { font-weight: 900; color: var(--highlight); letter-spacing: 0.06em; }
+
+    /* ä¸‰æœˆç‰ˆå¼æ„Ÿï¼šä»¿ç´™è³ªé‚Šæ¡†èˆ‡å¡ç‰‡ */
+    .vintage-section {
+      position: relative;
+      background: #efe5d3;
+      border: 2px solid #2b2219;
+      border-radius: 18px;
       padding: 22px;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.18);
+      overflow: hidden;
+    }
+    .vintage-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(0,0,0,0.06), transparent 38%),
+        linear-gradient(135deg, rgba(0,0,0,0.04) 25%, transparent 25%),
+        linear-gradient(45deg, rgba(0,0,0,0.04) 25%, transparent 25%);
+      opacity: 0.5;
+      mix-blend-mode: multiply;
+      pointer-events: none;
+    }
+    .vintage-headline {
+      font-family: "Noto Serif TC", serif;
+      margin: 0 0 10px;
+      font-size: 24px;
+      letter-spacing: 0.04em;
+      text-align: center;
+    }
+    .vintage-sub { text-align: center; color: var(--muted); margin: 0 0 18px; }
+    .vintage-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; position: relative; z-index: 1; }
+    .vintage-card {
+      border: 2px solid #2b2219;
+      background: rgba(255,255,255,0.9);
+      padding: 16px;
       border-radius: 14px;
-      box-shadow: 4px 6px 0 rgba(43,34,25,0.16);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5), 6px 10px 0 rgba(43,34,25,0.12);
       display: flex;
       flex-direction: column;
       height: 100%;
-      box-sizing: border-box;
     }
-
-    .card h3, .vintage-card h3 { margin: 0 0 10px 0; font-size: 20px; }
-    .card p, .vintage-card p { margin: 0 0 16px 0; color: var(--muted); font-size: 15px; }
-
-    ul.list {
-      margin: 0 0 20px 0;
-      padding-left: 22px;
-      color: var(--muted);
-      font-size: 15px;
+    .vintage-card h3 { margin: 6px 0 8px; font-size: 20px; letter-spacing: 0.02em; }
+    .vintage-card p { margin: 0 0 10px; color: #4a3e32; line-height: 1.55; }
+    .vintage-tag {
+      display: inline-flex;
+      padding: 4px 10px;
+      border: 1px solid #2b2219;
+      border-radius: 999px;
+      background: #e7d8bf;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      font-size: 12px;
     }
-    ul.list li { margin-bottom: 6px; }
-
-    /* ½T«O»ù®æ»P«ö¶s¶K©³ */
-    .price-tag {
-      font-weight: 900;
-      font-size: 18px;
-      color: var(--highlight);
-      letter-spacing: 0.06em;
-      margin-top: auto;
-      padding-top: 16px;
-    }
-    .actions {
-      margin-top: 14px;
-      display: flex;
-    }
-    .actions .btn { width: 100%; box-sizing: border-box; }
-
-    /* ·Ó¤ù®Ø¬[³]©w */
     .photo-frame {
-      border: 2px solid var(--line);
+      border: 2px solid #2b2219;
       border-radius: 12px;
       overflow: hidden;
       box-shadow: 4px 6px 0 rgba(43,34,25,0.16);
       background: #f9f4ea;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
-    .photo-frame img { width: 100%; height: auto; display: block; object-fit: cover; }
+    .photo-frame img { width: 100%; display: block; height: auto; }
 
-    /* ¤å¨ãºô®æµ¥°ª */
-    .vintage-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-      margin-top: 24px;
-    }
+    footer { margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
 
-    /* «O·Å²~°Ï¶ôºô®æ */
-    .product-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 20px;
-      align-items: stretch;
+    @media (max-width: 640px) {
+      header { flex-direction: column; align-items: flex-start; }
+      .row { flex-direction: column; align-items: flex-start; }
     }
-    .product-grid .photo-frame { height: 100%; }
-    .product-grid .photo-frame img { height: 100%; object-fit: cover; }
-    @media (min-width: 768px) {
-      .product-grid { grid-template-columns: 1fr 1fr; }
-    }
-
-    /* Hero */
-    .hero {
-      margin: 20px 0 40px;
-      display: grid;
-      gap: 12px;
-      border-bottom: 2px solid var(--paper-dark);
-      padding-bottom: 30px;
-    }
-    .hero h1 { margin: 0; font-size: clamp(36px, 6vw, 64px); line-height: 1.1; letter-spacing: 0.02em; }
-    .hero p { margin: 0; font-size: 18px; color: var(--muted); line-height: 1.7; }
-
-    /* ¤å¨ã°Ï¼ĞÃD */
-    .vintage-headline { margin: 0 0 6px 0; font-size: 26px; }
-    .vintage-sub { margin: 0; color: var(--muted); font-size: 16px; font-weight: 600; }
   </style>
 </head>
 <body>
   <div class="page">
+    <header>
+      <div class="brand">PHILEMON NEWS Â· 2026 å››æœˆè™Ÿ</div>
+      <nav>
+        <a href="#product">å•†å“</a>
+        <a href="#stationery">æ–‡å…·</a>
+        <a href="#video">å½±ç‰‡</a>
+        <a href="#archive">Archive</a>
+      </nav>
+    </header>
 
     <section class="hero">
-      <h1>®È¦æ½c ¡Ñ «O·Å²~ ¡Ñ ·s®Ñ©Ğ</h1>
-      <p>¦Ê¦~¨½µ{²{³õª½À»¡G®Ñ©Ğ¶}©ñ¡B¦Ê¦~¦æ®È½c¹wÁÊ¤¤¡Aº¥¼h¼u»\«O·Å²~¦P¨B¤W¥«¡F®È¦æ½c¹w­p¥|¤ë¤¤¤U¦¯¨ì³f¡A¹wÁÊ¨Ì§Ç¥X³f¡C</p>
-    </section>
-
-    <section id="product" class="section">
-      <h2>º¥ÅÜ¼u»\«O·Å²~¡]¥|¦â¡^</h2>
-      <small>«ö¶sÂ½»\¡UÂê¦©¨¾º|¡U»´¶qÀH¦æ</small>
-
-      <div class="card" style="margin: 0 0 20px; border-style: dashed; padding: 18px;">
-        <h3 style="margin:0 0 6px; font-size: 18px;">«O¦u°_ªìªº¼ö«×</h3>
-        <p style="margin:0;">®É¶¡·|Åı«Ü¦hªF¦èÅÜ²H¡A¦ı«H¥õªº®Ö¤ß¡A¤£¸Ó¦b¤é±`¤¤ºCºC§N«o¡C³o¥u²~¤l´£¿ô¡G³Q«O¦uªº¡A¬O¨º¤@¶}©lÄ@·N¬Û«Hªº¤ß¡C</p>
-      </div>
-
-      <div class="product-grid">
-        <div class="photo-frame">
-          <img src="./bottle.png" alt="º¥¼h¼u»\«O·Å²~¥|¦â" />
-        </div>
-        <div class="card">
-          <div class="pill">·s«~</div>
-          <h3>¯u­C¿q±Ğ·|¦Ê¦~¬ö©À´Ú</h3>
-          <ul class="list">
-            <li>¥|´Úº¥¼h¦â¡G¦Ì¥Õ¡B¦BÂÅ¡B¯óºñ¡Bª´¯»¡C</li>
-            <li>Â½»\Âê¦©¡B¨¾º|ª¿½¦°é¡A³æ¤â§Y¥i¶}±Ò¡C</li>
-            <li>«KÄâª½¨­²~¨­¡A¾A¦X³q¶Ô¡B»E·|»PÅSÀç¡C</li>
-          </ul>
-          <div class="price-tag">NT$399</div>
-          <div class="actions">
-            <a class="btn primary" href="https://www.pbooks.com.tw/products/cup10" target="_blank" rel="noopener">ÂI§ÚÁÊ¶R</a>
-          </div>
-        </div>
-      </div>
+      <h1>æ—…è¡Œç®±ã€ä¿æº«ç“¶èˆ‡å…¨æ–°æ›¸æˆ¿</h1>
+      <p>ç™¾å¹´é‡Œç¨‹ç¾å ´ç›´æ“Šï¼šæ›¸æˆ¿æ•´ä¿®é–‹æ”¾ï¼ŒåŒæ­¥æ¨å‡ºæ¼¸å±¤ä¿æº«ç“¶èˆ‡å°ˆå±¬æ—…è¡Œç®±ï¼Œç·šä¸Šå°ˆé èˆ‡å¯¦é«”ç©ºé–“åŒæ­¥è¿å®¢ã€‚æ—…è¡Œç®±é è¨ˆå››æœˆä¸­ä¸‹æ—¬åˆ°è²¨ï¼Œé è³¼ä¾åºå‡ºè²¨ã€‚</p>
     </section>
 
     <section id="stationery" class="section">
       <div class="vintage-section">
-        <h2 class="vintage-headline">¬ö¿ı ¡Ñ ­×¥¿ ¡Ñ «O·Å</h2>
-        <p class="vintage-sub">Åı«H¥õ³Q¼g¤U¡B³Q­×¾ã¡A¤]³Q«ù¦u¡C</p>
-
+        <h2 class="vintage-headline">ç´€éŒ„ Ã— ä¿®æ­£ Ã— ä¿æº«</h2>
+        <p class="vintage-sub">æœ‰äº›æ±è¥¿ï¼Œä¸æœƒè‡ªå·±ç•™ä¸‹ï¼Œå®ƒéœ€è¦è¢«å¯«ä¸‹ã€è¢«ä¿®æ•´ï¼Œä¹Ÿè¢«é•·ä¹…åœ°ä¿å®ˆã€‚</p>
         <div class="vintage-grid">
           <div class="vintage-card">
-            <span class="vintage-tag">·s«~</span>
-            <h3>·x¦â¨t«öÀ£¦¡­×¥¿±a</h3>
-            <p>­×´_°¾®t¡B­«·s¹ï»ô¡C¨C¤@¦¸­×¥¿¡A³£¬O¦A¥Xµoªº¾÷·|¡C</p>
-            <div class="photo-frame" style="margin: 0 0 16px;">
-              <img src="./correction.png" alt="·x¦â¨t«öÀ£¦¡­×¥¿±a" />
+            <span class="vintage-tag">æ–°å“</span>
+            <h3>æš–è‰²ç³»æŒ‰å£“å¼ä¿®æ­£å¸¶</h3>
+            <p>ä¿®æ­£å¸¶ï¼šä¿®å¾©ä½ ç”Ÿå‘½ä¸­çš„åå·®ã€‚èµ°åœ¨ä¿¡ä»°è£¡ï¼Œä¸ä»£è¡¨ä¸æœƒéŒ¯ï¼Œè€Œæ˜¯ç•¶åé›¢å‡ºç¾æ™‚ï¼Œä»ç„¶æœ‰æ©Ÿæœƒè¢«å°é½Šã€‚æ¯ä¸€æ¬¡ä¿®æ­£ï¼Œä¸åªæ˜¯è¦†è“‹ï¼Œè€Œæ˜¯ä¸€æ¬¡é‡æ–°é–‹å§‹çš„å¯èƒ½ã€‚</p>
+            <div class="photo-frame" style="margin: 10px 0 12px;">
+              <img src="./correction.png" alt="æš–è‰²ç³»æŒ‰å£“å¼ä¿®æ­£å¸¶" />
             </div>
-            <div class="price-tag">NT$50</div>
-            <div class="actions">
-              <a class="btn primary" href="https://www.pbooks.com.tw/products/pg48" target="_blank" rel="noopener">«e©¹°Ó«~­¶</a>
+            <div class="price-tag" style="margin-bottom:10px;">NT$50</div>
+            <div class="actions" style="gap: 10px; flex-wrap: wrap;">
+              <a class="btn primary" href="https://www.pbooks.com.tw/products/pg48" target="_blank" rel="noopener">å‰å¾€å•†å“é </a>
             </div>
           </div>
 
           <div class="vintage-card">
-            <span class="vintage-tag">¦Ê¦~´Ú</span>
-            <h3>¤ôºw¿û¯]µ§</h3>
-            <p>¬ö¿ı§A»P¯«ªº­y¸ñ¡F¥­¤Z¤ù¬q¡A¦¨¬°¨«¹LªºÃÒ¾Ú¡C</p>
-            <div class="photo-frame" style="margin: 0 0 16px;">
-              <img src="./pen.png" alt="¤ôºw¿û¯]µ§" />
+            <span class="vintage-tag">ç™¾å¹´æ¬¾</span>
+            <h3>æ°´æ»´é‹¼ç ç­†</h3>
+            <p>æ°´æ»´é‹¼ç ç­†ï¼šç´€éŒ„ä½ èˆ‡ç¥çš„è»Œè·¡ã€‚ç•¶ä¿¡ä»°é€²å…¥æ—¥å¸¸ï¼Œå®ƒä¸å†åªæ˜¯è½è¦‹ï¼Œè€Œæ˜¯è¢«ä¸€ç­†ä¸€åŠƒåœ°ç•™ä¸‹ã€‚çœ‹ä¼¼å¹³å‡¡çš„ç‰‡æ®µï¼Œæœƒåœ¨å›é ­æ™‚æˆç‚ºä½ ç¢ºå¯¦èµ°éçš„è­‰æ“šã€‚</p>
+            <div class="photo-frame" style="margin: 10px 0 12px;">
+              <img src="./pen.png" alt="æ°´æ»´é‹¼ç ç­†" />
             </div>
-            <div class="price-tag">NT$25</div>
-            <div class="actions">
-              <a class="btn primary" href="https://www.pbooks.com.tw/products/p5p6p7" target="_blank" rel="noopener">«e©¹°Ó«~­¶</a>
+            <div class="price-tag" style="margin-bottom:10px;">NT$25</div>
+            <div class="actions" style="gap: 10px; flex-wrap: wrap;">
+              <a class="btn primary" href="https://www.pbooks.com.tw/products/p5p6p7" target="_blank" rel="noopener">å‰å¾€å•†å“é </a>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- «O¯d­ì¦³¼v¤ù¡B®È¦æ½c±M­¶¡BArchive »P footer -->
+    <section id="product" class="section">
+      <h2>æ¼¸è®Šä¿æº«ç“¶ï¼ˆå››è‰²ï¼‰</h2>
+      <small>æŒ‰éˆ•ç¿»è“‹ï½œé–æ‰£é˜²æ¼ï½œè¼•é‡éš¨è¡Œ</small>
+      <div class="card" style="margin:14px 0 10px; border-style:dashed;">
+        <h3 style="margin:0 0 6px;">å½ˆè“‹ä¿æº«ç“¶ï¼šä¿å®ˆèµ·åˆçš„ç†±åº¦</h3>
+        <p style="margin:0; color:#4a3e32;">æ™‚é–“æœƒè®“å¾ˆå¤šæ±è¥¿è®Šæ·¡ï¼Œä½†ä¿¡ä»°çš„æ ¸å¿ƒï¼Œä¸è©²åœ¨æ—¥å¸¸ä¸­æ…¢æ…¢å†·å»ã€‚å¾è¨˜éŒ„ã€åˆ°ä¿®å¾©ã€å†åˆ°æŒå®ˆï¼Œé€™ä»¶ç‰©ä»¶æé†’æˆ‘å€‘ï¼šè¢«ä¿å®ˆçš„ï¼Œæ˜¯é‚£ä¸€é–‹å§‹é¡˜æ„ç›¸ä¿¡çš„å¿ƒã€‚</p>
+      </div>
+      <div class="product" style="margin-top:14px;">
+        <img src="./bottle.png" alt="æ¼¸è®Šä¿æº«ç“¶å››è‰²" />
+        <div class="card">
+          <div class="pill">æ–°å“</div>
+          <h3>çœŸè€¶ç©Œæ•™æœƒç™¾å¹´ç´€å¿µæ¬¾</h3>
+          <ul class="list">
+            <li>å››æ¬¾æ¼¸å±¤è‰²ï¼šç±³ç™½ã€å†°è—ã€è‰ç¶ ã€ç«ç²‰ã€‚</li>
+            <li>ç¿»è“‹é–æ‰£ã€é˜²æ¼çŸ½è† åœˆï¼Œå–®æ‰‹å³å¯é–‹å•Ÿã€‚</li>
+            <li>ä¾¿æ”œç›´èº«ç“¶èº«ï¼Œé©åˆé€šå‹¤ã€èšæœƒèˆ‡éœ²ç‡Ÿã€‚</li>
+          </ul>
+          <div class="price-tag" style="margin-top:8px;">NT$399</div>
+          <div class="actions" style="margin-top:14px;">
+            <a class="btn primary" href="https://www.pbooks.com.tw/products/cup10" target="_blank" rel="noopener">é»æˆ‘è³¼è²·</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="video" class="section">
-      <h2>®Ñ©Ğ¾ã­× ¡Ñ ¦Ê¦~¯S¿è</h2>
-      <small>Åwªï¿ËÁ{¡A¼v¤ù¥ı¸@¬°§Ö</small>
+      <h2>æ›¸æˆ¿æ•´ä¿® Ã— ç™¾å¹´ç‰¹è¼¯</h2>
+      <small>æ­¡è¿è¦ªè‡¨ï¼Œå½±ç‰‡å…ˆç¹ç‚ºå¿«</small>
       <div class="video-grid" style="margin-top:14px;">
         <div class="video-card">
-          <iframe src="https://www.youtube.com/embed/q4xy4MRdrcs" allowfullscreen title="®Ñ©Ğ¾ã­×§¹¦¨¼v¤ù"></iframe>
-          <div class="meta">®Ñ©Ğ¾ã­×«á¼v¤ù</div>
+          <iframe src="https://www.youtube.com/embed/q4xy4MRdrcs" allowfullscreen title="æ›¸æˆ¿æ•´ä¿®å®Œæˆå½±ç‰‡"></iframe>
+          <div class="meta">æ›¸æˆ¿æ•´ä¿®å¾Œå½±ç‰‡</div>
         </div>
         <div class="video-card">
-          <iframe src="https://www.youtube.com/embed/0g5a9dgRZec" allowfullscreen title="®Ñ©Ğªu­²¤¶²Ğ"></iframe>
-          <div class="meta">®Ñ©Ğªu­²¤¶²Ğ</div>
+          <iframe src="https://www.youtube.com/embed/0g5a9dgRZec" allowfullscreen title="æ›¸æˆ¿æ²¿é©ä»‹ç´¹"></iframe>
+          <div class="meta">æ›¸æˆ¿æ²¿é©ä»‹ç´¹</div>
         </div>
       </div>
     </section>
 
     <section class="section">
-      <h2>¦Ê¦~®È¦æ½c±M­¶</h2>
-      <small>¦P³õ³sµ²¡G®È¦æ½c¡A¼i¦æ·R</small>
+      <h2>ç™¾å¹´æ—…è¡Œç®±å°ˆé </h2>
+      <small>åŒå ´é€£çµï¼šæ—…è¡Œç®±ï¼Œå±¥è¡Œæ„›</small>
       <div class="flex" style="margin-top:14px;">
         <div class="card">
-          <div class="pill">¯S§O¥ø¹º</div>
-          <h3>®È¦æ½c¡A¼i¦æ·R</h3>
-          <p>¯u­C¿q±Ğ·|±MÄİ¨t¦C¦æ§õ½c¡A¤­¦â¤T¤Ø¤o¡A±M¬°ªA¨Æ®Èµ{³]­p¡C</p>
+          <div class="pill">ç‰¹åˆ¥ä¼åŠƒ</div>
+          <h3>æ—…è¡Œç®±ï¼Œå±¥è¡Œæ„›</h3>
+          <p>çœŸè€¶ç©Œæ•™æœƒå°ˆå±¬ç³»åˆ—è¡Œæç®±ï¼Œäº”è‰²ä¸‰å°ºå¯¸ï¼Œå°ˆç‚ºæœäº‹æ—…ç¨‹è¨­è¨ˆã€‚</p>
           <div class="actions" style="margin-top:12px;">
-            <a class="btn" href="../2026-luggage/" target="_blank" rel="noopener">¬d¬İ±M­¶</a>
+            <a class="btn" href="../2026-luggage/" target="_blank" rel="noopener">æŸ¥çœ‹å°ˆé </a>
           </div>
         </div>
         <div class="card">
-          <div class="pill">®Ñ©Ğ</div>
-          <h3>¥ş·sªÅ¶¡¡AÅwªï¨Ó³}</h3>
-          <p>¬°¬ö©À»OÆW¶Ç±Ğ¦Ê¦~¡A®Ñ©Ğ§¹¦¨¾ã­×¡A´£¨Ñ§óµÎ¾Aªº¾\Åª»P¥æ¬y³õ°ì¡C</p>
+          <div class="pill">æ›¸æˆ¿</div>
+          <h3>å…¨æ–°ç©ºé–“ï¼Œæ­¡è¿ä¾†é€›</h3>
+          <p>ç‚ºç´€å¿µè‡ºç£å‚³æ•™ç™¾å¹´ï¼Œæ›¸æˆ¿å®Œæˆæ•´ä¿®ï¼Œæä¾›æ›´èˆ’é©çš„é–±è®€èˆ‡äº¤æµå ´åŸŸã€‚</p>
           <div class="actions" style="margin-top:12px;">
-            <a class="btn" href="../bookstore/" target="_blank" rel="noopener">«e©¹®Ñ©Ğ</a>
+            <a class="btn" href="../bookstore/" target="_blank" rel="noopener">å‰å¾€æ›¸æˆ¿</a>
           </div>
         </div>
       </div>
@@ -296,18 +286,18 @@
       <h2>Archive</h2>
       <div class="archive" style="margin-top:12px;">
         <div class="row">
-          <div>2026 ¡P 04 ¥|¤ë¸¹</div>
-          <a class="btn" href="./">¥»´Á</a>
+          <div>2026 Â· 04 å››æœˆè™Ÿ</div>
+          <a class="btn" href="./">æœ¬æœŸ</a>
         </div>
         <div class="row">
-          <div>2026 ¡P 03 ¤T¤ë¸¹</div>
-          <a class="btn" href="../2026-03/">¬d¬İ</a>
+          <div>2026 Â· 03 ä¸‰æœˆè™Ÿ</div>
+          <a class="btn" href="../2026-03/">æŸ¥çœ‹</a>
         </div>
       </div>
     </section>
 
     <footer>
-      PHILEMON NEWS ¡P 2026 ¦~ 4 ¤ë ¡P GitHub Pages
+      PHILEMON NEWS Â· 2026 å¹´ 4 æœˆ Â· GitHub Pages
     </footer>
   </div>
 </body>
