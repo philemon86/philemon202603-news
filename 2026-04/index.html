@@ -171,34 +171,86 @@
       display: block;
       margin-bottom: 4px;
     }
-    .notebook-gallery {
+    .notebook-carousel {
       margin-top: 22px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-      gap: 14px;
     }
-    .notebook-gallery a {
-      display: block;
+    .notebook-carousel-frame {
+      position: relative;
       border: 2px solid var(--line);
-      border-radius: 12px;
+      border-radius: 16px;
       overflow: hidden;
-      background: #fff;
-      box-shadow: 3px 4px 0 rgba(43,34,25,0.12);
+      background: #f8f4ec;
+      box-shadow: 4px 6px 0 rgba(43,34,25,0.12);
     }
-    .notebook-gallery img {
+    .notebook-carousel-viewport {
+      overflow: hidden;
+      aspect-ratio: 3566 / 2551;
+      background: #f8f4ec;
+    }
+    .notebook-carousel-track {
+      display: flex;
+      height: 100%;
+      transition: transform 0.45s ease;
+    }
+    .notebook-slide {
+      min-width: 100%;
+      height: 100%;
+      display: block;
+      background: #f8f4ec;
+    }
+    .notebook-slide img {
       width: 100%;
+      height: 100%;
       display: block;
       object-fit: contain;
       background: #f8f4ec;
     }
-    .notebook-gallery a.inner-page img {
-      aspect-ratio: 3566 / 2551;
+    .notebook-carousel-controls {
+      margin-top: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
     }
-    .notebook-gallery a.cover-page img {
-      aspect-ratio: 1 / 1;
+    .notebook-carousel-buttons {
+      display: flex;
+      gap: 10px;
+    }
+    .notebook-carousel-buttons button {
+      padding: 10px 16px;
+      border: 2px solid var(--line);
+      border-radius: 999px;
+      background: #fff7ec;
+      color: var(--ink);
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .notebook-carousel-buttons button:hover {
+      background: var(--highlight);
+      color: #fff;
+    }
+    .notebook-carousel-dots {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .notebook-carousel-dots button {
+      width: 10px;
+      height: 10px;
+      padding: 0;
+      border-radius: 999px;
+      border: none;
+      background: rgba(43,34,25,0.22);
+      cursor: pointer;
+    }
+    .notebook-carousel-dots button.active {
+      background: var(--highlight);
+      transform: scale(1.15);
     }
     .gallery-note {
-      margin-top: 12px;
+      margin-top: 10px;
       font-size: 14px;
       color: var(--muted);
       text-align: right;
@@ -401,13 +453,26 @@
             </div>
           </div>
         </div>
-        <div class="notebook-gallery">
-          <a class="inner-page" href="./notebook-01.jpg" target="_blank" rel="noopener"><img src="./notebook-01.jpg" alt="公益筆記本內頁示意 1" /></a>
-          <a class="inner-page" href="./notebook-02.jpg" target="_blank" rel="noopener"><img src="./notebook-02.jpg" alt="公益筆記本內頁示意 2" /></a>
-          <a class="inner-page" href="./notebook-03.jpg" target="_blank" rel="noopener"><img src="./notebook-03.jpg" alt="公益筆記本內頁示意 3" /></a>
-          <a class="cover-page" href="./notebook-cover-01.jpg" target="_blank" rel="noopener"><img src="./notebook-cover-01.jpg" alt="公益筆記本封面 1" /></a>
-          <a class="cover-page" href="./notebook-cover-02.jpg" target="_blank" rel="noopener"><img src="./notebook-cover-02.jpg" alt="公益筆記本封面 2" /></a>
-          <a class="cover-page" href="./notebook-cover-03.jpg" target="_blank" rel="noopener"><img src="./notebook-cover-03.jpg" alt="公益筆記本封面 3" /></a>
+        <div class="notebook-carousel" data-carousel>
+          <div class="notebook-carousel-frame">
+            <div class="notebook-carousel-viewport">
+              <div class="notebook-carousel-track">
+                <a class="notebook-slide" href="./notebook-cover-01.jpg" target="_blank" rel="noopener"><img src="./notebook-cover-01.jpg" alt="公益筆記本封面 1" /></a>
+                <a class="notebook-slide" href="./notebook-cover-02.jpg" target="_blank" rel="noopener"><img src="./notebook-cover-02.jpg" alt="公益筆記本封面 2" /></a>
+                <a class="notebook-slide" href="./notebook-cover-03.jpg" target="_blank" rel="noopener"><img src="./notebook-cover-03.jpg" alt="公益筆記本封面 3" /></a>
+                <a class="notebook-slide" href="./notebook-01.jpg" target="_blank" rel="noopener"><img src="./notebook-01.jpg" alt="公益筆記本內頁示意 1" /></a>
+                <a class="notebook-slide" href="./notebook-02.jpg" target="_blank" rel="noopener"><img src="./notebook-02.jpg" alt="公益筆記本內頁示意 2" /></a>
+                <a class="notebook-slide" href="./notebook-03.jpg" target="_blank" rel="noopener"><img src="./notebook-03.jpg" alt="公益筆記本內頁示意 3" /></a>
+              </div>
+            </div>
+          </div>
+          <div class="notebook-carousel-controls">
+            <div class="notebook-carousel-buttons">
+              <button type="button" data-prev>上一張</button>
+              <button type="button" data-next>下一張</button>
+            </div>
+            <div class="notebook-carousel-dots" data-dots></div>
+          </div>
         </div>
         <div class="gallery-note">點擊圖片可查看封面與內頁大圖。</div>
       </div>
@@ -468,6 +533,45 @@
       PHILEMON NEWS · 2026 年 4 月
     </footer>
   </div>
-  <script></script>
+  <script>
+    document.querySelectorAll("[data-carousel]").forEach((carousel) => {
+      const track = carousel.querySelector(".notebook-carousel-track");
+      const slides = Array.from(carousel.querySelectorAll(".notebook-slide"));
+      const prev = carousel.querySelector("[data-prev]");
+      const next = carousel.querySelector("[data-next]");
+      const dotsWrap = carousel.querySelector("[data-dots]");
+      let index = 0;
+
+      function render() {
+        track.style.transform = `translateX(-${index * 100}%)`;
+        dotsWrap.querySelectorAll("button").forEach((dot, i) => {
+          dot.classList.toggle("active", i === index);
+        });
+      }
+
+      slides.forEach((_, i) => {
+        const dot = document.createElement("button");
+        dot.type = "button";
+        dot.setAttribute("aria-label", `查看第 ${i + 1} 張`);
+        dot.addEventListener("click", () => {
+          index = i;
+          render();
+        });
+        dotsWrap.appendChild(dot);
+      });
+
+      prev.addEventListener("click", () => {
+        index = (index - 1 + slides.length) % slides.length;
+        render();
+      });
+
+      next.addEventListener("click", () => {
+        index = (index + 1) % slides.length;
+        render();
+      });
+
+      render();
+    });
+  </script>
 </body>
 </html>
