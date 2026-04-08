@@ -199,8 +199,8 @@
     }
     .notebook-carousel-viewport {
       overflow: hidden;
-      aspect-ratio: 3566 / 2551;
       background: #f8f4ec;
+      aspect-ratio: 4 / 3;
     }
     .notebook-carousel-track {
       display: flex;
@@ -219,6 +219,11 @@
       display: block;
       object-fit: contain;
       background: #f8f4ec;
+    }
+    /* 封面輪播改為 1:1，避免外框留白 */
+    .notebook-cover-block .notebook-carousel-viewport {
+      aspect-ratio: 1 / 1;
+      background: #fff;
     }
     .notebook-carousel-controls {
       margin-top: 14px;
