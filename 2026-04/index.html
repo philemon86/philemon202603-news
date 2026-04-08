@@ -118,6 +118,7 @@
       gap: 22px;
       align-items: start;
     }
+    .notebook-cover-block { display:flex; flex-direction:column; gap:12px; }
     .notebook-cover {
       display: block;
       border: 2px solid var(--line);
@@ -362,6 +363,11 @@
     @media (max-width: 560px) {
       .price-capsule { width: 100%; }
     }
+    @media (max-width: 720px) {
+      .notebook-head { grid-template-columns: 1fr; }
+      .notebook-section { padding: 16px; }
+      .notebook-meta h3 { font-size: 24px; }
+    }
 
     footer { margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
 
@@ -454,9 +460,24 @@
       <small>腓利門書房發行 × 利河伯社會福利基金會主辦</small>
       <div class="notebook-section">
         <div class="notebook-head">
-          <a class="notebook-cover" href="./notebook-cover-01.jpg" target="_blank" rel="noopener">
-            <img src="./notebook-cover-01.jpg" alt="喜信系列公益筆記本封面" />
-          </a>
+          <div class="notebook-cover-block" data-carousel>
+            <div class="notebook-carousel-frame">
+              <div class="notebook-carousel-viewport">
+                <div class="notebook-carousel-track">
+                  <a class="notebook-slide" href="./notebook-cover-01.jpg" target="_blank" rel="noopener"><img src="./notebook-cover-01.jpg" alt="公益筆記本封面 1" /></a>
+                  <a class="notebook-slide" href="./notebook-cover-02.jpg" target="_blank" rel="noopener"><img src="./notebook-cover-02.jpg" alt="公益筆記本封面 2" /></a>
+                  <a class="notebook-slide" href="./notebook-cover-03.jpg" target="_blank" rel="noopener"><img src="./notebook-cover-03.jpg" alt="公益筆記本封面 3" /></a>
+                </div>
+              </div>
+            </div>
+            <div class="notebook-carousel-controls">
+              <div class="notebook-carousel-buttons">
+                <button type="button" data-prev>上一張</button>
+                <button type="button" data-next>下一張</button>
+              </div>
+              <div class="notebook-carousel-dots" data-dots></div>
+            </div>
+          </div>
           <div class="notebook-meta">
             <div class="pill-row">
               <span class="note-pill">了解利河伯</span>
@@ -479,11 +500,9 @@
               <div class="notebook-style"><strong>聖靈運行</strong><span>在臺灣</span></div>
               <div class="notebook-style"><strong>人人傳道</strong><span>熱血推廣</span></div>
             </div>
-            <div class="notebook-price-row" style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
-              <span class="price-capsule sale" style="flex:1; min-width:200px; justify-content:center;">
-                <span style="font-weight:900;">特價 NT$25</span>
-                <a class="buy-link" href="https://www.pbooks.com.tw/products/s046f" target="_blank" rel="noopener" style="color:inherit; text-decoration:underline; font-weight:900;">點我購買</a>
-              </span>
+            <div class="notebook-price-row">
+              <span class="price-capsule sale">特價 NT$25</span>
+              <span class="price-capsule buy-link"><a class="buy-link" href="https://www.pbooks.com.tw/products/s046f" target="_blank" rel="noopener" style="color:inherit; text-decoration:none; font-weight:900;">點我購買</a></span>
             </div>
           </div>
         </div>
@@ -491,9 +510,6 @@
           <div class="notebook-carousel-frame">
             <div class="notebook-carousel-viewport">
               <div class="notebook-carousel-track">
-                <a class="notebook-slide" href="./notebook-cover-01.jpg" target="_blank" rel="noopener"><img src="./notebook-cover-01.jpg" alt="公益筆記本封面 1" /></a>
-                <a class="notebook-slide" href="./notebook-cover-02.jpg" target="_blank" rel="noopener"><img src="./notebook-cover-02.jpg" alt="公益筆記本封面 2" /></a>
-                <a class="notebook-slide" href="./notebook-cover-03.jpg" target="_blank" rel="noopener"><img src="./notebook-cover-03.jpg" alt="公益筆記本封面 3" /></a>
                 <a class="notebook-slide" href="./notebook-01.jpg" target="_blank" rel="noopener"><img src="./notebook-01.jpg" alt="公益筆記本內頁示意 1" /></a>
                 <a class="notebook-slide" href="./notebook-02.jpg" target="_blank" rel="noopener"><img src="./notebook-02.jpg" alt="公益筆記本內頁示意 2" /></a>
                 <a class="notebook-slide" href="./notebook-03.jpg" target="_blank" rel="noopener"><img src="./notebook-03.jpg" alt="公益筆記本內頁示意 3" /></a>
