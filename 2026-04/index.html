@@ -373,6 +373,14 @@
       .notebook-section { padding: 16px; }
       .notebook-meta h3 { font-size: 24px; }
     }
+    @media (max-width: 640px) {
+      .vintage-grid,
+      .product { grid-template-columns: 1fr; }
+      .actions { width: 100%; }
+      .actions .price-capsule { width: 100%; }
+      .vintage-card h3,
+      .card h3 { word-break: break-word; }
+    }
 
     footer { margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
 
