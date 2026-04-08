@@ -281,6 +281,9 @@
       background: #fff7ec;
       font-weight: 900;
       letter-spacing: 0.04em;
+      justify-content: center;
+      flex-wrap: wrap;
+      text-align: center;
     }
     .price-capsule.sale { background: var(--highlight); color: #fff; }
     @keyframes buyFloat {
@@ -356,6 +359,25 @@
     }
     .photo-frame img { width: 100%; display: block; height: auto; }
 
+    /* 公益筆記本區塊 */
+    .notebook-illustration {
+      height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #7c2d23, #2b2219);
+      color: #fff7ec;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-align: center;
+      padding: 16px;
+    }
+    .notebook-card h3 { word-break: break-word; }
+
+    @media (max-width: 560px) {
+      .price-capsule { width: 100%; }
+    }
+
     footer { margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
 
     @media (max-width: 640px) {
@@ -401,6 +423,21 @@
               <span class="price-capsule sale">特價 NT$40</span>
               <span class="price-capsule buy-link" style="flex:1; min-width:120px; justify-content:center; border-color:var(--ink); background:#fff;"><a href="https://www.pbooks.com.tw/products/pg48" target="_blank" rel="noopener" style="color:inherit; text-decoration:none;">點我購買</a></span>
             </div>
+          </div>
+
+          <div class="vintage-card notebook-card">
+            <h3>全新公益系列筆記本</h3>
+            <p>喜信系列筆記本升級為公益版：每售出一本，就為利河伯社會福利基金會送上一份捐助，讓書寫也能成為祝福。</p>
+            <div class="photo-frame" style="margin: 10px 0 12px;">
+              <div class="notebook-illustration">公益系列筆記本</div>
+            </div>
+            <div class="actions" style="gap: 10px; flex-wrap: wrap; align-items:center;">
+              <span class="price-capsule sale" style="flex:1; min-width:180px; justify-content:center;">
+                <span>單本 NT$25</span>
+                <a href="https://www.pbooks.com.tw/products/s046f" target="_blank" rel="noopener" style="color:inherit; text-decoration:underline; font-weight:900;">立即購買</a>
+              </span>
+            </div>
+            <small class="muted">公益版筆記本與利河伯社會福利基金會聯名，保持原售價，收益持續回饋社福。</small>
           </div>
 
           <div class="vintage-card">
