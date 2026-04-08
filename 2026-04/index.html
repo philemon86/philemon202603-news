@@ -97,6 +97,107 @@
     .row { display: flex; justify-content: space-between; gap: 12px; align-items: center; border-bottom: 1px solid var(--line); padding: 10px 0; }
     .row:last-child { border-bottom: none; }
     .muted { color: var(--muted); }
+    .notebook-section {
+      border: 2px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.86);
+      box-shadow: 4px 6px 0 rgba(43,34,25,0.14);
+      padding: 22px;
+      margin-top: 14px;
+    }
+    .notebook-head {
+      display: grid;
+      grid-template-columns: minmax(280px, 420px) minmax(320px, 1fr);
+      gap: 22px;
+      align-items: start;
+    }
+    .notebook-cover {
+      display: block;
+      border: 2px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 4px 6px 0 rgba(43,34,25,0.12);
+    }
+    .notebook-cover img {
+      width: 100%;
+      display: block;
+    }
+    .notebook-meta .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .note-pill {
+      display: inline-flex;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: rgba(124,45,35,0.12);
+      color: var(--highlight);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+    .notebook-meta h3 {
+      margin: 0 0 10px;
+      font-size: 28px;
+      line-height: 1.25;
+    }
+    .notebook-meta p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .notebook-specs {
+      margin: 14px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .notebook-style-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .notebook-style {
+      border: 1px solid rgba(43,34,25,0.18);
+      border-radius: 12px;
+      padding: 12px;
+      background: rgba(255,255,255,0.75);
+    }
+    .notebook-style strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+    .notebook-gallery {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 14px;
+    }
+    .notebook-gallery a {
+      display: block;
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 3px 4px 0 rgba(43,34,25,0.12);
+    }
+    .notebook-gallery img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      aspect-ratio: 4 / 5;
+    }
+    .gallery-note {
+      margin-top: 12px;
+      font-size: 14px;
+      color: var(--muted);
+      text-align: right;
+    }
     .price-tag { font-weight: 900; color: var(--highlight); letter-spacing: 0.06em; } /* legacy */
     .price-line { display:flex; flex-wrap:wrap; gap:10px; margin-top:auto; align-items:center; }
     .price-capsule {
@@ -190,6 +291,7 @@
         <nav>
           <a href="https://news.pbooks.com.tw/">返回首頁</a>
           <a href="#product">商品</a>
+          <a href="#notebook">公益筆記本</a>
           <a href="#stationery">文具</a>
           <a href="#video">影片</a>
           <a href="#archive">Archive</a>
@@ -256,6 +358,53 @@
             </div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section id="notebook" class="section">
+      <h2>全新公益好禮：喜信系列筆記本</h2>
+      <small>腓利門書房發行 × 利河伯社會福利基金會主辦</small>
+      <div class="notebook-section">
+        <div class="notebook-head">
+          <a class="notebook-cover" href="./notebook-cover-01.jpg" target="_blank" rel="noopener">
+            <img src="./notebook-cover-01.jpg" alt="喜信系列公益筆記本封面" />
+          </a>
+          <div class="notebook-meta">
+            <div class="pill-row">
+              <span class="note-pill">了解利河伯</span>
+              <span class="note-pill">聯名公益</span>
+              <span class="note-pill">支持社會福利</span>
+            </div>
+            <h3>買筆記本，也能一起做公益</h3>
+            <p>每買一本，書房就幫您奉獻一小部分。公益筆記本由腓利門書房發行、利河伯社會福利基金會主辦，所得扣除成本後捐贈基金會，讓愛繼續傳遞。</p>
+            <ul class="notebook-specs">
+              <li>規格：A5（210mm × 148mm）</li>
+              <li>頁數：48 頁</li>
+              <li>內頁：線條筆記本</li>
+              <li>封面：道林紙</li>
+              <li>五種風格，歡迎通通帶回去</li>
+            </ul>
+            <div class="notebook-style-grid">
+              <div class="notebook-style"><strong>回甘綠</strong><span>簡約線條</span></div>
+              <div class="notebook-style"><strong>鮮榨黃</strong><span>活潑插圖</span></div>
+              <div class="notebook-style"><strong>濃縮棕</strong><span>沉穩質感</span></div>
+              <div class="notebook-style"><strong>聖靈運行</strong><span>在臺灣</span></div>
+              <div class="notebook-style"><strong>人人傳道</strong><span>熱血推廣</span></div>
+            </div>
+            <div class="actions" style="margin-top:16px;">
+              <a class="btn primary" href="https://www.pbooks.com.tw/products/s046f" target="_blank" rel="noopener">點我購買</a>
+            </div>
+          </div>
+        </div>
+        <div class="notebook-gallery">
+          <a href="./notebook-01.jpg" target="_blank" rel="noopener"><img src="./notebook-01.jpg" alt="公益筆記本內頁示意 1" /></a>
+          <a href="./notebook-02.jpg" target="_blank" rel="noopener"><img src="./notebook-02.jpg" alt="公益筆記本內頁示意 2" /></a>
+          <a href="./notebook-03.jpg" target="_blank" rel="noopener"><img src="./notebook-03.jpg" alt="公益筆記本內頁示意 3" /></a>
+          <a href="./notebook-cover-01.jpg" target="_blank" rel="noopener"><img src="./notebook-cover-01.jpg" alt="公益筆記本封面 1" /></a>
+          <a href="./notebook-cover-02.jpg" target="_blank" rel="noopener"><img src="./notebook-cover-02.jpg" alt="公益筆記本封面 2" /></a>
+          <a href="./notebook-cover-03.jpg" target="_blank" rel="noopener"><img src="./notebook-cover-03.jpg" alt="公益筆記本封面 3" /></a>
+        </div>
+        <div class="gallery-note">點擊圖片可查看封面與內頁大圖。</div>
       </div>
     </section>
 
