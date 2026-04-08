@@ -248,6 +248,36 @@
       animation-play-state: paused;
     }
 
+    .home-return {
+      margin: 44px 0 16px;
+      padding: 22px 20px;
+      border-top: 3px double var(--line);
+      border-bottom: 3px double var(--line);
+      text-align: center;
+      background: rgba(255,255,255,0.2);
+    }
+
+    .home-return h2 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      letter-spacing: 0.08em;
+    }
+
+    .home-return p {
+      margin: 0 0 14px;
+      color: var(--ink-light);
+      line-height: 1.7;
+    }
+
+    .home-return .btn {
+      display: inline-block;
+      padding: 12px 22px;
+      border: 2px solid var(--line);
+      background: rgba(255,255,255,0.6);
+      font-weight: 900;
+      letter-spacing: 0.08em;
+    }
+
     .photo-caption {
       position: absolute;
       bottom: 10px;
@@ -923,6 +953,11 @@
     </div>
   </div>
 
+    <section class="home-return">
+      <h2>返回首頁</h2>
+      <p>回到腓利門電子報首頁，查看最新一期與其他入口。</p>
+      <a class="btn" href="https://news.pbooks.com.tw/">返回首頁</a>
+    </section>
   <script>
     const lightbox = document.getElementById("lightbox");
     const lightboxImage = document.getElementById("lightboxImage");

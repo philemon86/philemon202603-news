@@ -97,6 +97,25 @@
     .row { display: flex; justify-content: space-between; gap: 12px; align-items: center; border-bottom: 1px solid var(--line); padding: 10px 0; }
     .row:last-child { border-bottom: none; }
     .muted { color: var(--muted); }
+    .home-return {
+      margin-top: 42px;
+      padding: 22px;
+      border: 2px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.72);
+      text-align: center;
+      box-shadow: 4px 6px 0 rgba(43,34,25,0.14);
+    }
+    .home-return h2 {
+      margin: 0 0 8px;
+      font-size: 24px;
+      letter-spacing: 0.04em;
+    }
+    .home-return p {
+      margin: 0 0 16px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
     .price-tag { font-weight: 900; color: var(--highlight); letter-spacing: 0.06em; } /* legacy */
     .price-line { display:flex; flex-wrap:wrap; gap:10px; margin-top:auto; align-items:center; }
     .price-capsule {
@@ -308,6 +327,12 @@
           <a class="btn" href="../2026-03/">查看</a>
         </div>
       </div>
+    </section>
+
+    <section class="home-return">
+      <h2>返回首頁</h2>
+      <p>回到腓利門電子報首頁，查看最新一期與其他入口。</p>
+      <a class="btn primary" href="https://news.pbooks.com.tw/">返回首頁</a>
     </section>
 
     <footer>
