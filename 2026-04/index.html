@@ -380,6 +380,11 @@
       .actions .price-capsule { width: 100%; }
       .vintage-card h3,
       .card h3 { word-break: break-word; }
+      /* 強制商品區改為單欄，蓋過內嵌樣式 */
+      #product .product { grid-template-columns: 1fr !important; }
+      #product .actions .price-capsule { min-width: 0; }
+      #product .product img { width: 100%; height: auto; }
+      #product .card { padding: 12px; }
     }
 
     footer { margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
