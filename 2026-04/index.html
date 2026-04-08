@@ -97,24 +97,10 @@
     .row { display: flex; justify-content: space-between; gap: 12px; align-items: center; border-bottom: 1px solid var(--line); padding: 10px 0; }
     .row:last-child { border-bottom: none; }
     .muted { color: var(--muted); }
-    .home-return {
-      margin-top: 42px;
-      padding: 22px;
-      border: 2px solid var(--line);
-      border-radius: 14px;
-      background: rgba(255,255,255,0.72);
-      text-align: center;
-      box-shadow: 4px 6px 0 rgba(43,34,25,0.14);
-    }
-    .home-return h2 {
-      margin: 0 0 8px;
-      font-size: 24px;
-      letter-spacing: 0.04em;
-    }
-    .home-return p {
-      margin: 0 0 16px;
-      color: var(--muted);
-      line-height: 1.6;
+    .section-return {
+      margin-top: 18px;
+      display: flex;
+      justify-content: flex-end;
     }
     .price-tag { font-weight: 900; color: var(--highlight); letter-spacing: 0.06em; } /* legacy */
     .price-line { display:flex; flex-wrap:wrap; gap:10px; margin-top:auto; align-items:center; }
@@ -227,7 +213,7 @@
         <div class="vintage-grid">
           <div class="vintage-card">
             <h3>暖色系按壓式修正帶</h3>
-            <p>修正帶：修復你生命中的偏差。走在信仰裡，不代表不會錯，而是當偏離出現時，仍然有機會被對齊。每一次修正，不只是覆蓋，而是一次重新開始的可能。</p>
+            <p>書寫難免筆誤，就像日常偶有的微小偏離。輕輕滑過，把錯誤化為留白。修正帶給予的不是掩飾，而是給自己一個重新下筆的機會，隨時都能再次出發。</p>
             <div class="photo-frame" style="margin: 10px 0 12px;">
               <img src="./correction-tape-cover.jpg" alt="暖色系按壓式修正帶" />
             </div>
@@ -240,7 +226,7 @@
 
           <div class="vintage-card">
             <h3>水滴鋼珠筆</h3>
-            <p>水滴鋼珠筆：紀錄你與神的軌跡。當信仰進入日常，它不再只是聽見，而是被一筆一劃地留下。看似平凡的片段，會在回頭時成為你確實走過的證據。</p>
+            <p>「一筆一劃，記錄百年恩典；一字一句，延續信仰使命。」每一段親手寫下的筆跡，都銘刻著對信仰的堅持與期盼。</p>
             <div class="photo-frame" style="margin: 10px 0 12px;">
               <img src="./pen-cover.jpg" alt="水滴鋼珠筆" />
             </div>
@@ -275,6 +261,9 @@
           </div>
         </div>
       </div>
+      <div class="section-return">
+        <a class="btn" href="https://news.pbooks.com.tw/">返回首頁</a>
+      </div>
     </section>
 
     <section id="video" class="section">
@@ -289,6 +278,9 @@
           <iframe src="https://www.youtube.com/embed/0g5a9dgRZec" allowfullscreen title="書房沿革介紹"></iframe>
           <div class="meta">書房沿革介紹</div>
         </div>
+      </div>
+      <div class="section-return">
+        <a class="btn" href="https://news.pbooks.com.tw/">返回首頁</a>
       </div>
     </section>
 
@@ -327,14 +319,10 @@
           <a class="btn" href="../2026-03/">查看</a>
         </div>
       </div>
+      <div class="section-return">
+        <a class="btn" href="https://news.pbooks.com.tw/">返回首頁</a>
+      </div>
     </section>
-
-    <section class="home-return">
-      <h2>返回首頁</h2>
-      <p>回到腓利門電子報首頁，查看最新一期與其他入口。</p>
-      <a class="btn primary" href="https://news.pbooks.com.tw/">返回首頁</a>
-    </section>
-
     <footer>
       PHILEMON NEWS · 2026 年 4 月
     </footer>
