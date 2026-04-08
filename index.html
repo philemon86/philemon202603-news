@@ -106,6 +106,15 @@
       width: 100%;
       max-width: 1200px;
       padding-top: 54px;
+      display: grid;
+      grid-template-columns: minmax(320px, 520px) minmax(320px, 1fr);
+      align-items: center;
+      gap: 56px;
+    }
+
+    .hero-copy-block {
+      justify-self: end;
+      max-width: 430px;
     }
 
     .hero-kicker {
@@ -128,10 +137,8 @@
 
     .hero-copy {
       margin-top: 18px;
-      max-width: 430px;
       color: var(--muted);
       font-size: 1rem;
-      transform: translateX(-50px);
     }
 
     .hero-cta {
@@ -139,7 +146,6 @@
       display: flex;
       gap: 20px;
       flex-wrap: wrap;
-      transform: translateX(-50px);
     }
 
     .btn {
@@ -274,37 +280,47 @@
       letter-spacing: 0.1em;
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 1100px) {
       .hero {
         min-height: auto;
         padding-top: 140px;
       }
 
+      .hero-content {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
       .hero-image {
         position: relative;
-        width: 100%;
+        width: min(100%, 620px);
         height: 58vh;
         min-height: 420px;
         right: auto;
         top: auto;
         transform: none;
-        margin-bottom: 28px;
+        margin: 0 auto;
         order: -1;
       }
 
-      .hero-content {
-        display: grid;
+      .hero-copy-block {
+        justify-self: center;
+        max-width: 640px;
+      }
+
+      .hero h1 {
+        transform: none;
+        text-align: center;
       }
 
       .hero h1,
-      .hero-copy,
-      .hero-cta {
-        transform: none;
-        text-align: center;
+      .hero-copy {
         max-width: none;
       }
 
+      .hero-copy,
       .hero-cta {
+        text-align: center;
         justify-content: center;
       }
     }
@@ -324,9 +340,24 @@
       }
 
       .hero-image {
-        height: 44vh;
-        min-height: 300px;
+        width: 100%;
+        height: 48vh;
+        min-height: 320px;
         border-radius: 120px 120px 18px 18px;
+      }
+
+      .hero-copy {
+        font-size: 0.98rem;
+      }
+
+      .hero-cta {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .hero-cta .btn {
+        width: min(100%, 280px);
+        text-align: center;
       }
 
       .grid {
@@ -353,12 +384,15 @@
   <section class="hero">
     <div class="hero-image" aria-hidden="true"></div>
     <div class="hero-content">
-      <div class="hero-kicker">PHILEMON NEWS</div>
-      <h1>腓利門<br>有新事</h1>
-      <p class="hero-copy">從書房、刊物到每月精選內容，整理成一個安靜可讀的入口頁。先看當期，再走進空間與選物。</p>
-      <div class="hero-cta">
-        <a href="./2026-04/" class="btn primary">最新一期</a>
-        <a href="#portal" class="btn">Explore Space</a>
+      <div></div>
+      <div class="hero-copy-block">
+        <div class="hero-kicker">PHILEMON NEWS</div>
+        <h1>腓利門<br>有新事</h1>
+        <p class="hero-copy">從書房、刊物到每月精選內容，整理成一個安靜可讀的入口頁。先看當期，再走進空間與選物。</p>
+        <div class="hero-cta">
+          <a href="./2026-04/" class="btn primary">最新一期</a>
+          <a href="#portal" class="btn">Explore Space</a>
+        </div>
       </div>
     </div>
   </section>
