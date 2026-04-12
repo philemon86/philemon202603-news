@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第一次下單看這邊｜腓利門書房</title>
+  <style>
+    :root {
+      --green: #9EB2A0;
+      --blue:  #8DA1B5;
+      --clay:  #DBC7B5;
+      --sand:  #E5DED1;
+      --text:  #2f2a25;
+      --muted: #6a635d;
+      --bg:    #FAFAFA;
+      --radius: 12px;
+      --maxw: 960px;
+    }
+    *{box-sizing:border-box;}
+    body{
+      margin:0;
+      font-family:"Helvetica Neue",Arial,"Microsoft JhengHei",sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.6;
+      -webkit-font-smoothing:antialiased;
+    }
+    a{color:inherit;text-decoration:none;}
+    .wrap{max-width:var(--maxw);margin:0 auto;padding:48px 20px 56px;}
+    .hero{
+      border-radius:var(--radius);
+      padding:28px 24px;
+      background:linear-gradient(135deg,#e7ded3,#f4efe9);
+      box-shadow:0 10px 24px rgba(0,0,0,.08);
+      margin-bottom:32px;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:url("https://cdn.pixabay.com/photo/2016/11/21/15/36/books-1845614_1280.jpg") center/cover;
+      opacity:.22;
+      z-index:0;
+    }
+    .hero-content{position:relative;z-index:1;text-align:center;}
+    .hero h1{margin:0 0 10px;font-size:28px;letter-spacing:1px;}
+    .hero p{margin:0 0 16px;color:var(--muted);}
+    .btn-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:12px 20px;border-radius:28px;font-weight:600;
+      border:1px solid transparent;box-shadow:0 6px 16px rgba(0,0,0,.06);
+    }
+    .btn-primary{background:var(--blue);color:#fff;}
+    .btn-ghost{background:#fff;border-color:#d8d2c9;color:#3a332d;}
+    .section-title{text-align:center;font-size:22px;font-weight:650;margin:32px 0 18px;letter-spacing:.6px;}
+    .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;}
+    .step{
+      background:#fff;border:1px solid #ece7e1;border-radius:12px;padding:16px;
+      box-shadow:0 6px 16px rgba(0,0,0,.04);
+    }
+    .step h3{margin:0 0 6px;font-size:17px;}
+    .step p{margin:0;color:var(--muted);font-size:14px;}
+    .cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;}
+    .cat{
+      position:relative;overflow:hidden;border-radius:12px;color:#fff;
+      min-height:160px;padding:18px;
+      background:linear-gradient(135deg,rgba(0,0,0,.55),rgba(0,0,0,.25));
+      box-shadow:0 8px 18px rgba(0,0,0,.12);
+    }
+    .cat img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.38;z-index:1;}
+    .cat div{position:relative;z-index:2;}
+    .cat h4{margin:0 0 6px;font-size:18px;font-weight:650;}
+    .cat p{margin:0;font-size:14px;}
+    @media(max-width:640px){.hero h1{font-size:24px;}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="hero-content">
+        <h1>第一次下單？這裡 60 秒學會</h1>
+        <p>先挑分類 → 加入購物車 → 10:00 前下單當日出貨。結帳可用紅利折抵。</p>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="https://www.pbooks.com.tw/collections/%E8%85%93%E5%88%A9%E9%96%80%E6%9C%AC%E7%89%88%E6%9B%B8">開始逛書</a>
+          <a class="btn btn-ghost" href="https://www.pbooks.com.tw/cart">查看購物車</a>
+          <a class="btn btn-ghost" href="https://www.pbooks.com.tw/blogs/%E5%90%84%E9%A1%9E%E8%B3%87%E8%A8%8A/168673" target="_blank">下單前說明</a>
+        </div>
+      </div>
+    </section>
+
+    <h2 class="section-title">三步就上手</h2>
+    <div class="steps">
+      <div class="step">
+        <h3>1. 選分類</h3>
+        <p>點下面最符合你需求的入口，立即看到對應商品。</p>
+      </div>
+      <div class="step">
+        <h3>2. 加入購物車</h3>
+        <p>商品頁點「加入購物車」，右上方隨時可查看數量與金額。</p>
+      </div>
+      <div class="step">
+        <h3>3. 結帳出貨</h3>
+        <p>上班日 10:00 前下單當日出貨；可用紅利折抵部分商品。</p>
+      </div>
+    </div>
+
+    <h2 class="section-title">快速直達</h2>
+    <div class="cats">
+      <a class="cat" href="https://www.pbooks.com.tw/collections/%E6%9C%AC%E7%89%88%E5%9C%96%E7%95%AB%E6%9B%B8%EF%BC%8F%E7%B9%AA%E6%9C%AC">
+        <img src="https://cdn.pixabay.com/photo/2016/11/19/14/00/child-1837375_1280.jpg" alt="童書">
+        <div><h4>童書與繪本</h4><p>陪孩子在故事裡種下信仰種子。</p></div>
+      </a>
+      <a class="cat" href="https://www.pbooks.com.tw/collections/tjc100">
+        <img src="https://cdn.pixabay.com/photo/2016/11/29/04/41/book-1869967_1280.jpg" alt="百周年">
+        <div><h4>百周年禮品</h4><p>限定紀念款，收藏與送禮首選。</p></div>
+      </a>
+      <a class="cat" href="https://www.pbooks.com.tw/collections/%E6%9C%AC%E7%89%88%E5%89%B5%E4%BD%9C%E8%A9%A9%E6%AD%8C%E5%96%AE%E8%AD%9C">
+        <img src="https://cdn.pixabay.com/photo/2016/11/22/23/46/guitar-1854221_1280.jpg" alt="詩歌單譜">
+        <div><h4>創作詩歌單譜</h4><p>敬拜／詩班練習一次備齊。</p></div>
+      </a>
+      <a class="cat" href="https://www.pbooks.com.tw/collections/%E8%85%93%E5%88%A9%E9%96%80%E6%9C%AC%E7%89%88%E6%9B%B8">
+        <img src="https://cdn.pixabay.com/photo/2015/09/09/18/07/book-932455_1280.jpg" alt="本版書">
+        <div><h4>腓利門本版書</h4><p>信仰與生活主題，一次掌握。</p></div>
+      </a>
+    </div>
+  </div>
+</body>
+</html>
