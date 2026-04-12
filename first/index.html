@@ -364,14 +364,13 @@
     }
   };
   // 先記錄原始文字，避免重複切換失效
-  // 僅翻譯純文字元素；含圖片/複合內容的元素跳過，避免破壞結構與背景圖
-  const transEls = Array.from(document.querySelectorAll('h1,h2,h3,h4,p,summary,li,a,button,strong'))
-    .filter(el => !el.querySelector('img') && !el.classList.contains('cat-card'));
-  transEls.forEach(el=>{
-    if(!el.dataset.langOrig){
-      el.dataset.langOrig = el.innerText.trim();
-    }
-  });
+  // 以 Text node 為單位翻譯，保留圖片/HTML 結構
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
+  const originals = new Map();
+  while (walker.nextNode()) {
+    const node = walker.currentNode;
+    originals.set(node, node.nodeValue);
+  }
   const norm = s => s.replace(/\\s+/g,' ').trim();
   const normMaps = {};
   for (const [lang, m] of Object.entries(maps)) {
@@ -382,10 +381,11 @@
   }
   function apply(lang){
     const map = normMaps[lang] || {};
-    transEls.forEach(el=>{
-      const orig = el.dataset.langOrig || '';
-      if(lang==='zh-TW'){ el.innerText = orig; return; }
-      el.innerText = map[norm(orig)] || orig;
+    originals.forEach((orig,node)=>{
+      if(!orig.trim()) return;
+      if(lang==='zh-TW'){ node.nodeValue = orig; return; }
+      const key = norm(orig);
+      node.nodeValue = map[key] || orig;
     });
   }
   langs.forEach(l=>{
