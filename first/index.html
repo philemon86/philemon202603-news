@@ -372,12 +372,20 @@
       el.dataset.langOrig = el.innerText.trim();
     }
   });
+  const norm = s => s.replace(/\\s+/g,' ').trim();
+  const normMaps = {};
+  for (const [lang, m] of Object.entries(maps)) {
+    normMaps[lang] = {};
+    for (const [k,v] of Object.entries(m)) {
+      normMaps[lang][norm(k)] = v;
+    }
+  }
   function apply(lang){
-    const map = maps[lang] || {};
+    const map = normMaps[lang] || {};
     transEls.forEach(el=>{
       const orig = el.dataset.langOrig || '';
       if(lang==='zh-TW'){ el.innerText = orig; return; }
-      el.innerText = map[orig] || orig;
+      el.innerText = map[norm(orig)] || orig;
     });
   }
   langs.forEach(l=>{
