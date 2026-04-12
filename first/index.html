@@ -235,5 +235,101 @@
       </details>
     </section>
   </div>
+<script>
+// 簡易語言切換（繁→簡／English），純前端示範
+(() => {
+  const btns = document.createElement('div');
+  Object.assign(btns.style, {
+    position: 'fixed', bottom: '16px', right: '16px',
+    display: 'grid', gap: '8px', zIndex: 9999
+  });
+  const styles = 'padding:10px 12px;border-radius:10px;border:1px solid #d8d2c9;background:#fff;color:#2f2a25;box-shadow:0 6px 16px rgba(0,0,0,0.08);font-size:13px;cursor:pointer;';
+  const langs = [
+    {k:'zh-TW', label:'繁體'},
+    {k:'zh-CN', label:'简体'},
+    {k:'en',    label:'English'}
+  ];
+  const maps = {
+    'zh-CN': {
+      '第一次逛網路書房？': '第一次逛网络书房？',
+      '無論是安靜獨處，或陪伴孩子的時刻，都能找到與你當下情境共鳴的文字。': '无论是安静独处，或陪伴孩子的时刻，都能找到与你当下情境共鸣的文字。',
+      '今天想找點什麼？': '今天想找点什么？',
+      '三步輕鬆逛': '三步轻松逛',
+      '遇見你的需要': '遇见你的需要',
+      '從這裡開始，尋找與你當下共鳴的文字。': '从这里开始，寻找与你当下共鸣的文字。',
+      '加入購物車': '加入购物车',
+      '結帳時可用紅利點數折抵，越逛越划算。': '结账时可用红利点数折抵，越逛越划算。',
+      '安心收件': '安心收件',
+      '上班日 10:00 前下單，當日開單出貨。': '上班日 10:00 前下单，当日开单出货。',
+      '購物與物流指南': '购物与物流指南',
+      '國內外運費與物流怎麼算？': '国内外运费与物流怎么算？',
+      '提供哪些付款方式？': '提供哪些付款方式？',
+      '出貨時間與實體書房營業時間？': '出货时间与实体书房营业时间？',
+      '紅利點數與訂購須知': '红利点数与订购须知',
+      '需要協助嗎？聯繫客服': '需要协助吗？联系客服',
+      '開始探索書籍': '开始探索书籍',
+      '查看購物車': '查看购物车',
+      '下單前說明': '下单前说明',
+      '童書與繪本': '童书与绘本',
+      '陪孩子在故事裡，種下信仰種子。': '陪孩子在故事里，种下信仰种子。',
+      '百周年紀念禮品': '百周年纪念礼品',
+      '獨家限定設計，收藏與送禮首選。': '独家限定设计，收藏与送礼首选。',
+      '創作詩歌單譜': '创作诗歌单谱',
+      '敬拜、詩班練習，一次備齊。': '敬拜、诗班练习，一次备齐。',
+      '腓利門本版書': '腓利门本版书',
+      '信仰與生活主題，一次掌握。': '信仰与生活主题，一次掌握。',
+      '電話：': '电话：',
+      '線上表單／客服：': '线上表单／客服：'
+    },
+    'en': {
+      '第一次逛網路書房？': 'First time here?',
+      '無論是安靜獨處，或陪伴孩子的時刻，都能找到與你當下情境共鳴的文字。': 'Find books that resonate—whether for quiet time or reading with your kids.',
+      '今天想找點什麼？': 'What do you want today?',
+      '三步輕鬆逛': '3 easy steps',
+      '遇見你的需要': 'Meet your need',
+      '從這裡開始，尋找與你當下共鳴的文字。': 'Start here and match the reading to your moment.',
+      '加入購物車': 'Add to cart',
+      '結帳時可用紅利點數折抵，越逛越划算。': 'Use reward points at checkout to save more.',
+      '安心收件': 'Fast shipping',
+      '上班日 10:00 前下單，當日開單出貨。': 'Order before 10:00 on weekdays for same-day dispatch.',
+      '購物與物流指南': 'Shopping & Shipping Guide',
+      '國內外運費與物流怎麼算？': 'Shipping fees (domestic & international)',
+      '提供哪些付款方式？': 'Payment methods',
+      '出貨時間與實體書房營業時間？': 'Dispatch & store hours',
+      '紅利點數與訂購須知': 'Rewards & ordering notes',
+      '需要協助嗎？聯繫客服': 'Need help? Contact us',
+      '開始探索書籍': 'Browse books',
+      '查看購物車': 'View cart',
+      '下單前說明': 'Pre-order notes',
+      '童書與繪本': 'Kids & picture books',
+      '陪孩子在故事裡，種下信仰種子。': 'Plant seeds of faith through stories.',
+      '百周年紀念禮品': 'Centennial gifts',
+      '獨家限定設計，收藏與送禮首選。': 'Exclusive designs for collection and gifting.',
+      '創作詩歌單譜': 'Original hymn sheets',
+      '敬拜、詩班練習，一次備齊。': 'All you need for worship and choir practice.',
+      '腓利門本版書': 'Philemon originals',
+      '信仰與生活主題，一次掌握。': 'Faith & life themes in one place.',
+      '電話：': 'Phone:',
+      '線上表單／客服：': 'Online form / Support:'
+    }
+  };
+  function apply(lang){
+    if(lang==='zh-TW'){ location.reload(); return; }
+    const map = maps[lang]||{};
+    document.querySelectorAll('h1,h2,h3,h4,p,summary,li,a,button').forEach(el=>{
+      const txt = el.innerText.trim();
+      if(map[txt]) el.innerText = map[txt];
+    });
+  }
+  langs.forEach(l=>{
+    const b=document.createElement('button');
+    b.textContent=l.label;
+    b.style.cssText=styles;
+    b.onclick=()=>apply(l.k);
+    btns.appendChild(b);
+  });
+  document.body.appendChild(btns);
+})();
+</script>
 </body>
 </html>
