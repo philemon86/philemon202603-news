@@ -306,7 +306,9 @@
       '需要協助嗎？聯繫客服': '需要协助吗？联系客服',
       '撥打電話 +886-4-2245-4043': '拨打电话 +886-4-2245-4043',
       '寫信 philemon@tjc.org.tw': '写信 philemon@tjc.org.tw',
-      '線上表單／客服': '线上表单／客服'
+      '線上表單／客服': '线上表单／客服',
+      '<strong>國內配送：</strong>': '<strong>国内配送：</strong>',
+      '<strong>海外訂購：</strong>': '<strong>海外订购：</strong>'
     },
     'en': {
       '第一次逛網路書房？': 'First time here?',
@@ -356,11 +358,15 @@
       '需要協助嗎？聯繫客服': 'Need help? Contact us',
       '撥打電話 +886-4-2245-4043': 'Call +886-4-2245-4043',
       '寫信 philemon@tjc.org.tw': 'Email philemon@tjc.org.tw',
-      '線上表單／客服': 'Online form / Support'
+      '線上表單／客服': 'Online form / Support',
+      '<strong>國內配送：</strong>': '<strong>Domestic:</strong>',
+      '<strong>海外訂購：</strong>': '<strong>Overseas:</strong>'
     }
   };
   // 先記錄原始文字，避免重複切換失效
-  const transEls = Array.from(document.querySelectorAll('h1,h2,h3,h4,p,summary,li,a,button'));
+  // 僅翻譯純文字元素；含圖片/複合內容的元素跳過，避免破壞結構與背景圖
+  const transEls = Array.from(document.querySelectorAll('h1,h2,h3,h4,p,summary,li,a,button,strong'))
+    .filter(el => !el.querySelector('img') && !el.classList.contains('cat-card'));
   transEls.forEach(el=>{
     if(!el.dataset.langOrig){
       el.dataset.langOrig = el.innerText.trim();
