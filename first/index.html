@@ -90,6 +90,14 @@
     .faq-content { padding: 0 0 18px 0; color: var(--pbooks-text-light); font-size: 14px; }
     .faq-content ul { margin: 0; padding-left: 18px; }
     .faq-content li { margin-bottom: 8px; }
+    .contact-actions { display:flex; flex-wrap:wrap; gap:10px; }
+    .contact-actions a {
+      display:inline-flex; align-items:center; gap:6px;
+      padding:10px 14px; border-radius:10px; border:1px solid #d8d2c9;
+      background:#fff; color:#2f2a25; box-shadow:0 4px 10px rgba(0,0,0,0.06);
+      font-size:13px; font-weight:600;
+    }
+    .contact-actions a:hover { background:#f8f5f0; }
 
     @media (max-width: 768px) {
       .hero-image-wrap { height: 240px; }
@@ -226,11 +234,11 @@
       <details>
         <summary>需要協助嗎？聯繫客服</summary>
         <div class="faq-content">
-          <ul>
-            <li>電話：<a href="tel:+886422454043">+886-4-2245-4043</a></li>
-            <li>Email：<a href="mailto:philemon@tjc.org.tw">philemon@tjc.org.tw</a></li>
-            <li>線上表單／客服：<a href="https://www.pbooks.com.tw/contact" target="_blank" rel="noopener">https://www.pbooks.com.tw/contact</a></li>
-          </ul>
+          <div class="contact-actions">
+            <a href="tel:+886422454043">📞 撥打電話 +886-4-2245-4043</a>
+            <a href="mailto:philemon@tjc.org.tw">✉️ 寫信 philemon@tjc.org.tw</a>
+            <a href="https://www.pbooks.com.tw/contact" target="_blank" rel="noopener">💬 線上表單／客服</a>
+          </div>
         </div>
       </details>
     </section>
@@ -278,8 +286,10 @@
       '敬拜、詩班練習，一次備齊。': '敬拜、诗班练习，一次备齐。',
       '腓利門本版書': '腓利门本版书',
       '信仰與生活主題，一次掌握。': '信仰与生活主题，一次掌握。',
-      '電話：': '电话：',
-      '線上表單／客服：': '线上表单／客服：'
+      '需要協助嗎？聯繫客服': '需要协助吗？联系客服',
+      '撥打電話 +886-4-2245-4043': '拨打电话 +886-4-2245-4043',
+      '寫信 philemon@tjc.org.tw': '写信 philemon@tjc.org.tw',
+      '線上表單／客服': '线上表单／客服'
     },
     'en': {
       '第一次逛網路書房？': 'First time here?',
@@ -309,8 +319,10 @@
       '敬拜、詩班練習，一次備齊。': 'All you need for worship and choir practice.',
       '腓利門本版書': 'Philemon originals',
       '信仰與生活主題，一次掌握。': 'Faith & life themes in one place.',
-      '電話：': 'Phone:',
-      '線上表單／客服：': 'Online form / Support:'
+      '需要協助嗎？聯繫客服': 'Need help? Contact us',
+      '撥打電話 +886-4-2245-4043': 'Call +886-4-2245-4043',
+      '寫信 philemon@tjc.org.tw': 'Email philemon@tjc.org.tw',
+      '線上表單／客服': 'Online form / Support'
     }
   };
   // 先記錄原始文字，避免重複切換失效
