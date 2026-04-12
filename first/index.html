@@ -313,12 +313,19 @@
       '線上表單／客服：': 'Online form / Support:'
     }
   };
+  // 先記錄原始文字，避免重複切換失效
+  const transEls = Array.from(document.querySelectorAll('h1,h2,h3,h4,p,summary,li,a,button'));
+  transEls.forEach(el=>{
+    if(!el.dataset.langOrig){
+      el.dataset.langOrig = el.innerText.trim();
+    }
+  });
   function apply(lang){
-    if(lang==='zh-TW'){ location.reload(); return; }
-    const map = maps[lang]||{};
-    document.querySelectorAll('h1,h2,h3,h4,p,summary,li,a,button').forEach(el=>{
-      const txt = el.innerText.trim();
-      if(map[txt]) el.innerText = map[txt];
+    const map = maps[lang] || {};
+    transEls.forEach(el=>{
+      const orig = el.dataset.langOrig || '';
+      if(lang==='zh-TW'){ el.innerText = orig; return; }
+      el.innerText = map[orig] || orig;
     });
   }
   langs.forEach(l=>{
