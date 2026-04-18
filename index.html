@@ -61,6 +61,60 @@
       text-transform: uppercase;
     }
 
+    .menu-toggle {
+      display: none;
+      appearance: none;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      padding: 0;
+      border-radius: 999px;
+      border: 1px solid rgba(31, 26, 23, 0.12);
+      background: rgba(255, 255, 255, 0.66);
+      color: var(--ink);
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+    }
+
+    .menu-toggle span,
+    .menu-toggle::before,
+    .menu-toggle::after {
+      content: "";
+      display: block;
+      width: 18px;
+      height: 2px;
+      border-radius: 999px;
+      background: currentColor;
+      transition: transform 0.28s ease, opacity 0.28s ease;
+    }
+
+    .menu-toggle span {
+      position: relative;
+    }
+
+    .menu-toggle::before {
+      position: absolute;
+      transform: translateY(-6px);
+    }
+
+    .menu-toggle::after {
+      position: absolute;
+      transform: translateY(6px);
+    }
+
+    header.nav-open .menu-toggle span {
+      opacity: 0;
+    }
+
+    header.nav-open .menu-toggle::before {
+      transform: rotate(45deg);
+    }
+
+    header.nav-open .menu-toggle::after {
+      transform: rotate(-45deg);
+    }
+
     nav {
       display: flex;
       gap: 30px;
@@ -619,12 +673,43 @@
 
     @media (max-width: 640px) {
       header {
-        flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
+        padding: 18px 5%;
       }
 
       nav {
         display: none;
+        position: absolute;
+        top: calc(100% + 10px);
+        right: 5%;
+        left: 5%;
+        flex-direction: column;
+        gap: 0;
+        padding: 14px 0;
+        border-radius: 24px;
+        background: rgba(255, 251, 245, 0.96);
+        border: 1px solid rgba(31, 26, 23, 0.08);
+        box-shadow: 0 20px 42px rgba(0, 0, 0, 0.08);
+        backdrop-filter: blur(14px);
+      }
+
+      header.nav-open nav {
+        display: flex;
+      }
+
+      nav a {
+        padding: 12px 20px;
+        opacity: 0.84;
+      }
+
+      nav a:last-child {
+        margin-top: 4px;
+      }
+
+      .menu-toggle {
+        display: inline-flex;
+        position: relative;
+        flex: 0 0 auto;
       }
 
       .hero {
@@ -738,6 +823,9 @@
 <body>
   <header>
     <a class="brand" href="https://www.pbooks.com.tw/" target="_blank" rel="noopener">PHILEMON</a>
+    <button class="menu-toggle" type="button" aria-label="開啟選單" aria-expanded="false">
+      <span></span>
+    </button>
     <nav>
       <a href="#newsletter">NEWSLETTER</a>
       <a href="#portal">PORTAL</a>
@@ -893,8 +981,33 @@
   </footer>
 
   <script>
+    const siteHeader = document.querySelector("header");
+    const menuToggle = document.querySelector(".menu-toggle");
+    const navLinks = document.querySelectorAll("nav a");
     const heroToggles = document.querySelectorAll(".hero-toggle");
     const heroPanels = document.querySelectorAll(".hero-panel");
+
+    function closeMenu() {
+      if (!siteHeader || !menuToggle) return;
+      siteHeader.classList.remove("nav-open");
+      menuToggle.setAttribute("aria-expanded", "false");
+    }
+
+    if (menuToggle && siteHeader) {
+      menuToggle.addEventListener("click", () => {
+        const isOpen = siteHeader.classList.toggle("nav-open");
+        menuToggle.setAttribute("aria-expanded", String(isOpen));
+      });
+
+      navLinks.forEach((link) => {
+        link.addEventListener("click", closeMenu);
+      });
+
+      document.addEventListener("click", (event) => {
+        if (window.innerWidth > 640) return;
+        if (!siteHeader.contains(event.target)) closeMenu();
+      });
+    }
 
     function setHeroPanel(targetId) {
       heroToggles.forEach((toggle) => {
