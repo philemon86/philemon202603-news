@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f2e4d0" />
+      <stop offset="100%" stop-color="#a87449" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="url(#bg)" />
+  <path d="M20 18c6 0 10 2 12 4c2-2 6-4 12-4v28c-6 0-10 2-12 4c-2-2-6-4-12-4z" fill="#fff8ef" fill-opacity="0.18" />
+  <text x="32" y="40" text-anchor="middle" font-size="28" font-family="'Noto Serif TC', serif" font-weight="700" fill="#4a3121">書</text>
+</svg>
