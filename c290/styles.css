@@ -147,6 +147,10 @@ a {
   backdrop-filter: blur(18px);
 }
 
+.brand {
+  color: #0a2740;
+}
+
 .top-link {
   color: #f8fdff;
   background: rgba(7, 27, 45, 0.34);
