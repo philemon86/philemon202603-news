@@ -147,6 +147,13 @@ a {
   backdrop-filter: blur(18px);
 }
 
+.top-link {
+  color: #f8fdff;
+  background: rgba(7, 27, 45, 0.34);
+  border-color: rgba(255, 255, 255, 0.28);
+  box-shadow: 0 10px 28px rgba(4, 20, 38, 0.16);
+}
+
 .brand-code {
   opacity: 0.72;
   letter-spacing: 0.12em;
