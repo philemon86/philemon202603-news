@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="../favicon-book.svg" />
+    <title>C290 洗禮論 | 腓利門書房</title>
+    <meta
+      name="description"
+      content="《洗禮論》從舊約預表、新約經文、使徒實踐到全家受洗議題，重新帶讀者理解洗禮在神救恩計畫中的位置與分量。"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;600;700;900&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    
+    <style>
+      /* --- 1. 頂級背景設定 (加入環境光呼吸動態) --- */
+      .premium-water-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1; 
+        /* 極致柔和的多重漸層，並加上動態流動 */
+        background: linear-gradient(-45deg, #f7f9fc, #eaf0f5, #e1e9f0, #f2f6fa);
+        background-size: 400% 400%;
+        animation: ambientGlow 18s ease infinite;
+        overflow: hidden;
+      }
+      
+      @keyframes ambientGlow {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+
+      .premium-waves {
+        position: absolute;
+        width: 100%;
+        height: 35vh;
+        bottom: 0;
+        min-height: 250px;
+        max-height: 450px;
+      }
+      .wave-parallax > use {
+        animation: wave-move-forever 25s cubic-bezier(.55,.5,.45,.5) infinite;
+      }
+      
+      /* 將原本的純色改為引用 SVG 內的漸層 (fill="url(...)")，製造光澤立體感 */
+      .wave-parallax > use:nth-child(1) { animation-delay: -2s; animation-duration: 20s; fill: url(#wave-grad1); }
+      .wave-parallax > use:nth-child(2) { animation-delay: -4s; animation-duration: 25s; fill: url(#wave-grad2); }
+      .wave-parallax > use:nth-child(3) { animation-delay: -6s; animation-duration: 30s; fill: url(#wave-grad3); }
+      .wave-parallax > use:nth-child(4) { animation-delay: -8s; animation-duration: 35s; fill: url(#wave-grad4); }
+      
+      @keyframes wave-move-forever {
+        0% { transform: translate3d(-90px,0,0); }
+        100% { transform: translate3d(85px,0,0); }
+      }
+      .ocean { display: none !important; }
+
+      /* --- 2. 文字對比度 --- */
+      .hero-copy h1 { color: #2c3e50 !important; text-shadow: none !important; }
+      .hero-subtitle { color: #a67c52 !important; font-weight: 600; text-shadow: none !important; }
+      .hero-lead { color: #4b5563 !important; }
+      .eyebrow { color: #718096 !important; }
+
+      /* --- 3. 定價區塊與按鈕 (毛玻璃) --- */
+      .price-panel {
+        background: rgba(255, 255, 255, 0.6) !important;
+        backdrop-filter: blur(12px) !important;
+        border: 1px solid rgba(255, 255, 255, 0.8) !important;
+        border-radius: 16px !important;
+        padding: 20px !important;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.04) !important;
+        color: #4b5563 !important;
+      }
+      .price-panel .label { color: #718096 !important; }
+      .price-panel strong { color: #2c3e50 !important; }
+      .price-panel p { color: #64748b !important; margin-top: 12px !important; }
+
+      .button-secondary {
+        background: rgba(255, 255, 255, 0.7) !important;
+        color: #2c3e50 !important;
+        border: 1px solid rgba(44, 62, 80, 0.1) !important;
+        backdrop-filter: blur(8px) !important;
+        text-shadow: none !important;
+        transition: all 0.3s ease;
+      }
+      .button-secondary:hover {
+        background: rgba(255, 255, 255, 0.95) !important;
+        color: #a67c52 !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
+      }
+
+      /* --- 4. 標籤頁 UI 與間距修正 --- */
+      .insight-section {
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+      
+      /* 修正：增加與上方標題的負空間間距 */
+      .tab-indicators {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 48px; /* <- 這裡增加了 48px 的間距，徹底解決太擠的問題 */
+        margin-bottom: 40px;
+      }
+      @media (min-width: 768px) {
+        .tab-indicators {
+          flex-direction: row;
+          justify-content: center;
+          background: rgba(255, 255, 255, 0.5);
+          backdrop-filter: blur(10px);
+          border-radius: 100px;
+          padding: 6px;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+        }
+      }
+      .tab-btn {
+        flex: 1;
+        background: transparent;
+        border: none;
+        padding: 16px 24px;
+        border-radius: 100px;
+        cursor: pointer;
+        text-align: center;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        color: #64748b;
+      }
+      .tab-btn:hover {
+        background: rgba(255, 255, 255, 0.7);
+        color: #2c3e50;
+      }
+      .tab-btn.active {
+        background: #ffffff;
+        color: #2c3e50;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      }
+      .tab-btn .step {
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: #a67c52;
+      }
+      .tab-btn .slogan {
+        font-size: 1.05rem;
+        font-weight: 600;
+      }
+
+      .tab-panels {
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        border-radius: 24px;
+        padding: 40px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+        min-height: 400px; 
+      }
+      .tab-panel {
+        display: none;
+        animation: fadeIn 0.5s ease forwards;
+      }
+      .tab-panel.active {
+        display: block;
+      }
+      .tab-desc {
+        font-size: 1.15rem;
+        line-height: 1.8;
+        color: #4b5563;
+        margin-bottom: 30px;
+        text-align: center;
+        max-width: 800px;
+        margin-inline: auto;
+      }
+      .tab-image-wrapper {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+      }
+      .tab-image-wrapper img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      }
+      .tab-image-wrapper.dual img {
+        width: 45%;
+      }
+      
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="premium-water-bg">
+      <svg class="premium-waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+          <linearGradient id="wave-grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="rgba(142, 164, 178, 0.15)" />
+            <stop offset="100%" stop-color="rgba(168, 184, 193, 0.35)" />
+          </linearGradient>
+          <linearGradient id="wave-grad2" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="rgba(202, 212, 217, 0.3)" />
+            <stop offset="100%" stop-color="rgba(224, 230, 233, 0.55)" />
+          </linearGradient>
+          <linearGradient id="wave-grad3" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="rgba(235, 240, 243, 0.65)" />
+            <stop offset="100%" stop-color="rgba(245, 248, 250, 0.85)" />
+          </linearGradient>
+          <linearGradient id="wave-grad4" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="rgba(250, 252, 255, 0.9)" />
+            <stop offset="100%" stop-color="#ffffff" />
+          </linearGradient>
+        </defs>
+        <g class="wave-parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+
+    <div class="page-shell">
+      <header class="hero" id="top">
+        <nav class="topbar">
+          <a class="brand" href="#top">
+            <span class="brand-code">C290</span>
+            <span class="brand-name">洗禮論</span>
+          </a>
+          <a
+            class="top-link"
+            href="https://www.pbooks.com.tw/products/c290"
+            target="_blank"
+            rel="noreferrer"
+          >
+            前往購買
+          </a>
+        </nav>
+
+        <div class="hero-grid">
+          <section class="hero-copy reveal">
+            <p class="eyebrow">Baptism Theology</p>
+            <h1>洗禮與得救密切有關</h1>
+            <p class="hero-subtitle">這是神在救恩歷史中，為信徒親自安放的恩典印記。</p>
+            <p class="hero-lead">
+              《洗禮論》不是把熟悉的教義再說一遍，而是從舊約的影兒、福音書中的主耶穌、
+              《使徒行傳》的實踐，到新約書信的神學整理，一步步回答一個核心問題：
+              我們今天所領受的洗禮，究竟在神的救恩計畫中意味著什麼？
+            </p>
+
+            <div class="price-panel">
+              <div>
+                <span class="label">定價</span>
+                <strong>NT$350</strong>
+              </div>
+              <div>
+                <span class="label">加贈</span>
+                <strong>安息日論</strong>
+              </div>
+              <p>適合預備受洗者、陪談同工、家長與想重新釐清洗禮意義的信徒。</p>
+            </div>
+
+            <div class="hero-actions">
+              <a
+                class="button button-primary"
+                href="https://www.pbooks.com.tw/products/c290"
+                target="_blank"
+                rel="noreferrer"
+              >
+                購買《洗禮論》
+              </a>
+              <a class="button button-secondary" href="#why-read">為何要讀</a>
+            </div>
+          </section>
+
+          <section class="hero-visual reveal">
+            <div class="book-stage">
+              <div class="orb orb-a"></div>
+              <div class="orb orb-b"></div>
+              <div class="book-float">
+                <img src="./assets/book-3d.png" alt="洗禮論立體書封" />
+              </div>
+            </div>
+          </section>
+        </div>
+      </header>
+
+      <main>
+        <section class="reason-section" id="why-read">
+          <div class="section-heading reveal">
+            <p class="eyebrow">Why Read This Book</p>
+            <h2>為什麼值得讀《洗禮論》？</h2>
+          </div>
+
+          <div class="reason-grid">
+            <article class="reason-card reveal">
+              <span>01</span>
+              <h3>把洗禮放回整本聖經</h3>
+              <p>
+                本書不是只從單節經文談洗禮，而是從舊約潔淨、贖罪、割禮等脈絡出發，
+                讓讀者看見洗禮如何一路連到新約，成為神救恩歷史中的整體見證。
+              </p>
+            </article>
+
+            <article class="reason-card reveal">
+              <span>02</span>
+              <h3>處理真正困擾教會的問題</h3>
+              <p>
+                從施洗方式、洗禮與救恩、洗禮與聖靈，到全家受洗與兒女教養，
+                它面對的是教會現場一直會遇到的問題，而不是抽離實務的空談。
+              </p>
+            </article>
+
+            <article class="reason-card reveal">
+              <span>03</span>
+              <h3>讓受洗重新有分量</h3>
+              <p>
+                當洗禮被縮成外在儀式，人對恩典、赦罪、歸入基督與新生命的理解就會變薄。
+                這本書的價值，在於把那個重量重新帶回來。
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="quote-section reveal">
+          <div class="quote-card">
+            <p class="quote-kicker">主軸</p>
+            <blockquote>
+              這本書不是要讀者只知道「該受洗」，而是要明白
+              「為何洗禮始終與信主、赦罪、歸入基督和得救緊密相連」。
+            </blockquote>
+          </div>
+        </section>
+
+        <section class="contents-section">
+          <div class="section-heading reveal">
+            <p class="eyebrow">Comprehensive Structure</p>
+            <h2>從舊約到新約，完整梳理洗禮的屬靈脈絡</h2>
+          </div>
+
+          <div class="contents-layout">
+            <div class="contents-copy reveal">
+              <p>
+                本書架構嚴謹，引人入勝。前半部循著歷史軌跡，追溯舊約預表至初代教會的洗禮實踐；
+                後半部則深掘新約神學，針對「恩典、信心與全家受洗」等核心議題，
+                提供扎實的經文釋義與真理亮光，引領讀者建構整全的洗禮觀。
+              </p>
+              <ul class="chapter-list">
+                <li>第一章：洗禮在舊約中的影兒</li>
+                <li>第六章：使徒行傳中的洗禮</li>
+                <li>第七章：新約聖經論洗禮</li>
+                <li>第八章：洗禮、恩典和信心</li>
+                <li>第九章：全家受洗</li>
+                <li>經文釋義：回到文本本身重新閱讀</li>
+              </ul>
+            </div>
+
+            <figure class="page-frame reveal">
+              <img src="./assets/interior/page-004.jpg" alt="洗禮論目錄內頁" />
+            </figure>
+          </div>
+        </section>
+
+        <section class="insight-section">
+          <div class="section-heading reveal">
+            <p class="eyebrow">Three Reading Paths</p>
+            <h2>三條切入路徑，讀懂這本書的重要性</h2>
+          </div>
+
+          <div class="insight-tabs reveal">
+            <div class="tab-indicators">
+              <button class="tab-btn active" onclick="switchTab('path1')">
+                <span class="step">路徑一</span>
+                <span class="slogan">福音與洗禮不可分割</span>
+              </button>
+              <button class="tab-btn" onclick="switchTab('path2')">
+                <span class="step">路徑二</span>
+                <span class="slogan">新約神學與救恩關係</span>
+              </button>
+              <button class="tab-btn" onclick="switchTab('path3')">
+                <span class="step">路徑三</span>
+                <span class="slogan">梳理爭議與全家受洗</span>
+              </button>
+            </div>
+
+            <div class="tab-panels">
+              <div id="path1" class="tab-panel active">
+                <p class="tab-desc">
+                  書一開始就指出，主的吩咐、使徒的宣講與信徒的歸入教會，始終伴隨著洗禮。這不是附屬配件，而是福音實際進入人生命的關鍵節點。
+                </p>
+                <div class="tab-image-wrapper">
+                  <img src="./assets/interior/page-008.jpg" alt="洗禮論序論內頁" />
+                </div>
+              </div>
+
+              <div id="path2" class="tab-panel">
+                <p class="tab-desc">
+                  第七章直接處理 baptizo 的字義、屬靈特質與受洗者的新身分，不讓討論停在模糊印象，而是回到語詞、經文與整體神學脈絡。
+                </p>
+                <div class="tab-image-wrapper">
+                  <img src="./assets/interior/page-066.jpg" alt="洗禮論新約聖經論洗禮內頁" />
+                </div>
+              </div>
+
+              <div id="path3" class="tab-panel">
+                <p class="tab-desc">
+                  無論是「洗禮和救恩」或「全家受洗」，本書都不是用簡短口號回答，而是把救恩、約、家庭與教會的關係重新梳理，幫助讀者從根基思考。
+                </p>
+                <div class="tab-image-wrapper dual">
+                  <img src="./assets/interior/page-088.jpg" alt="洗禮論洗禮和救恩內頁" />
+                  <img src="./assets/interior/page-106.jpg" alt="洗禮論全家受洗內頁" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="audience-section">
+          <div class="section-heading reveal">
+            <p class="eyebrow">For Readers</p>
+            <h2>這本書特別適合誰？</h2>
+          </div>
+
+          <div class="audience-grid">
+            <article class="glass-card reveal">
+              <h3>預備受洗的人</h3>
+              <p>若你不想只知道流程，而想真正明白自己所領受的是什麼，這本書是很好的起點。</p>
+            </article>
+            <article class="glass-card reveal">
+              <h3>陪談與教導同工</h3>
+              <p>當你需要向人說明洗禮與救恩、恩典、信心之間的關係，這本書能提供扎實框架。</p>
+            </article>
+            <article class="glass-card reveal">
+              <h3>有孩子的家庭</h3>
+              <p>如果你曾經對全家受洗、兒女教養與約的延續有疑問，第九章會很值得細讀。</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="cta-section reveal">
+          <div class="cta-copy">
+            <p class="eyebrow">C290</p>
+            <h2>當洗禮重新被理解，信仰就不再只剩表面。</h2>
+            <p>
+              《洗禮論》定價 350 元，購買即贈《安息日論》。如果你想把洗禮這件事讀得更深、
+              講得更清楚、活得更有把握，這本書值得放進今年的閱讀清單。
+            </p>
+          </div>
+          <div class="cta-actions">
+            <a
+              class="button button-primary"
+              href="https://www.pbooks.com.tw/products/c290"
+              target="_blank"
+              rel="noreferrer"
+            >
+              立即購買
+            </a>
+            <a class="button button-secondary" href="https://news.pbooks.com.tw/" target="_blank" rel="noreferrer">
+              返回電子報
+            </a>
+          </div>
+        </section>
+      </main>
+
+      <a
+        class="floating-buy"
+        href="https://www.pbooks.com.tw/products/c290"
+        target="_blank"
+        rel="noreferrer"
+      >
+        購買《洗禮論》
+      </a>
+    </div>
+
+    <script>
+      function switchTab(tabId) {
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+          btn.classList.remove('active');
+        });
+        document.querySelectorAll('.tab-panel').forEach(panel => {
+          panel.classList.remove('active');
+        });
+        event.currentTarget.classList.add('active');
+        document.getElementById(tabId).classList.add('active');
+      }
+    </script>
+    <script src="./script.js"></script>
+  </body>
+</html>
