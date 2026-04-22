@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="../favicon-news.svg" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JD1JHF86H1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-JD1JHF86H1');
+  </script>
+  <script>
+    document.addEventListener('click', function(event) {
+      var link = event.target.closest('a[href]');
+      var href = link && link.getAttribute('href');
+      var text = link ? (link.textContent || '').trim() : '';
+      if (!href) return;
+      if (!/pbooks\.com\.tw\/(products\/|cart(?:\/|$))/i.test(href) && !/(购买|商品页|购物车)/.test(text)) return;
+      gtag('event', 'purchase_link_click', {
+        link_url: href,
+        link_text: text || '(empty)',
+        page_path: location.pathname
+      });
+    });
+  </script>
+  <title>腓利门电子报｜2026 四月号</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #eaddc5;
+      --paper-dark: #d4c1a0;
+      --ink: #2b2219;
+      --muted: #4a3e32;
+      --highlight: #7c2d23;
+      --line: #2b2219;
+      --card: rgba(255,255,255,0.9);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Noto Serif SC", serif;
+      color: var(--ink);
+      background-color: var(--paper);
+      background-image:
+        radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.05) 100%),
+        repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(43,34,25,0.03) 3px, rgba(43,34,25,0.03) 4px);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)"/></svg>');
+      opacity: 0.08;
+      pointer-events: none;
+      z-index: 100;
+      mix-blend-mode: multiply;
+    }
+    .page {
+      width: min(1200px, calc(100vw - 20px));
+      margin: 20px auto 60px;
+      padding: 32px clamp(18px, 4vw, 42px) 72px;
+      background: var(--paper);
+      border: 1px solid var(--paper-dark);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+    }
+    .lang-switcher {
+      display:flex;
+      justify-content:center;
+      gap:10px;
+      flex-wrap:wrap;
+      margin: 0 0 18px;
+    }
+    .lang-switcher a {
+      border: 1px solid var(--line);
+      padding: 6px 12px;
+      background: rgba(255,255,255,0.34);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .lang-switcher a.active {
+      background: var(--ink);
+      color: var(--paper);
+    }
+    header { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 0 4px; }
+    .logo img { height: 58px; width: auto; display: block; }
+    .brand { font-weight: 800; letter-spacing: 0.08em; font-size: 18px; }
+    .header-right { display:flex; align-items:center; gap:14px; }
+    nav { display: flex; gap: 16px; font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase; flex-wrap: wrap; }
+    nav a { padding: 6px 0; border-bottom: 1px solid transparent; }
+    nav a:hover { border-color: var(--ink); }
+    .hero { margin: 46px 0 38px; display: grid; gap: 12px; }
+    .hero h1 { margin: 0; font-size: clamp(44px, 7vw, 78px); line-height: 1.02; letter-spacing: 0.01em; }
+    .hero p { margin: 6px 0 16px; font-size: 18px; color: var(--muted); line-height: 1.6; }
+    .section { margin: 48px 0; }
+    .section h2 { margin: 0 0 12px; font-size: 24px; letter-spacing: 0.04em; }
+    .section small { color: var(--muted); }
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; align-items:center; }
+    .btn {
+      padding: 12px 18px;
+      border-radius: 10px;
+      border: 2px solid var(--ink);
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      transition: 0.15s ease;
+      background: #fff7ec;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.7), 2px 4px 0 rgba(43,34,25,0.16);
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.18); }
+    .buy-link { animation: buyFloat 2.6s ease-in-out infinite; }
+    .buy-link:hover { animation-play-state: paused; }
+    .card { border: 2px solid var(--line); background: rgba(255,255,255,0.9); padding: 18px; border-radius: 14px; box-shadow: 4px 6px 0 rgba(43,34,25,0.16); }
+    .card h3 { margin: 0 0 8px; font-size: 20px; }
+    .card p { margin: 0; color: var(--muted); line-height: 1.6; }
+    .product { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; align-items: center; }
+    .product img, .gallery img { width: 100%; border-radius: 18px; border: 1px solid var(--line); background: #f7f7f7; display: block; }
+    .list { margin: 10px 0 0; padding-left: 18px; color: var(--muted); line-height: 1.6; }
+    .pill, .note-pill {
+      display: inline-flex;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(124,45,35,0.12);
+      color: var(--highlight);
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+    }
+    .notebook-section {
+      border: 2px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.86);
+      box-shadow: 4px 6px 0 rgba(43,34,25,0.14);
+      padding: 22px;
+      margin-top: 14px;
+    }
+    .notebook-head {
+      display: grid;
+      grid-template-columns: minmax(280px, 420px) minmax(320px, 1fr);
+      gap: 22px;
+      align-items: start;
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
+    .video-card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; box-shadow: 0 12px 28px rgba(0,0,0,0.06); }
+    .video-card iframe { width: 100%; aspect-ratio: 16 / 9; border: none; display: block; }
+    .video-card .meta { padding: 12px 14px; font-weight: 700; }
+    .archive { border: 1px solid var(--line); padding: 16px; border-radius: 14px; background: var(--card); }
+    .row { display: flex; justify-content: space-between; gap: 12px; align-items: center; border-bottom: 1px solid var(--line); padding: 10px 0; flex-wrap: wrap; }
+    .row:last-child { border-bottom: none; }
+    .lang-row { display:flex; gap:8px; flex-wrap:wrap; }
+    .lang-row a {
+      border: 1px solid var(--line);
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      background: #fff;
+    }
+    footer { margin-top: 36px; color: var(--muted); text-align: center; }
+    @keyframes buyFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-3px); }
+    }
+    @media (max-width: 900px) {
+      .page { padding: 20px 14px 40px; }
+      header, .notebook-head { grid-template-columns: 1fr; display: grid; }
+      nav { gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="lang-switcher" aria-label="语言切换">
+      <a href="./">繁體中文</a>
+      <a class="active" href="./zh-cn.html">简体中文</a>
+      <a href="./en.html">English</a>
+    </div>
+    <header>
+      <a class="logo" href="https://www.pbooks.com.tw/" target="_blank" rel="noopener" aria-label="前往腓利门书房">
+        <img src="../LOGO.png" alt="PHILEMON LOGO" />
+      </a>
+      <div class="brand">PHILEMON NEWS · 2026 四月号</div>
+      <div class="header-right">
+        <nav class="main-nav">
+          <a href="https://news.pbooks.com.tw/">返回首页</a>
+          <a href="#product">保温瓶</a>
+          <a href="#notebook">公益笔记本</a>
+          <a href="#stationery">文具</a>
+          <a href="#video">影片</a>
+          <a href="#archive">Archive</a>
+        </nav>
+      </div>
+    </header>
+
+    <section class="hero">
+      <h1>有你的百年，那些纪念品</h1>
+      <p>让走过的日子，留在生活里惦记。这个月重点包括整修后的书房、公益笔记本、修正带、水滴钢珠笔与保温瓶；百年旅行箱预计于四月中下旬到货。</p>
+    </section>
+
+    <section id="stationery" class="section">
+      <h2>记录 × 修正 × 保温</h2>
+      <div class="product">
+        <div class="card">
+          <h3>暖色系按压式修正带</h3>
+          <p>书写难免笔误，就像日常偶有偏离。轻轻滑过，把错误化为留白。修正带给予的不是掩饰，而是重新下笔的机会。</p>
+          <div style="margin: 12px 0;">
+            <img src="./correction-tape-cover.jpg" alt="暖色系按压式修正带" />
+          </div>
+          <div class="actions">
+            <span class="pill">定价 NT$50</span>
+            <span class="pill">特价 NT$40</span>
+            <a class="btn buy-link" href="https://www.pbooks.com.tw/products/pg48" target="_blank" rel="noopener">点我购买</a>
+          </div>
+        </div>
+        <div class="card">
+          <h3>水滴钢珠笔</h3>
+          <p>一笔一划记录百年恩典，一字一句延续信仰使命。每一段亲手写下的笔迹，都铭刻着坚持与盼望。</p>
+          <div style="margin: 12px 0;">
+            <img src="./pen-cover.jpg" alt="水滴钢珠笔" />
+          </div>
+          <div class="actions">
+            <span class="pill">定价 NT$25</span>
+            <span class="pill">特价 NT$20</span>
+            <a class="btn buy-link" href="https://www.pbooks.com.tw/products/p5p6p7" target="_blank" rel="noopener">点我购买</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="product" class="section">
+      <h2>渐变保温瓶</h2>
+      <div class="card" style="margin-top:14px;">
+        <div class="product">
+          <img src="./cup-cover.jpg" alt="四色保温瓶" />
+          <div class="card" style="border:none; box-shadow:none; padding:0; background:transparent;">
+            <h3>渐层色弹盖保温瓶</h3>
+            <p>时间会让很多东西变淡，但信仰的核心，不该在日常中慢慢冷却。它提醒我们，被保守的，是那一开始愿意相信的心。</p>
+            <ul class="list">
+              <li>四色渐层：米白、冰蓝、草绿、玫粉</li>
+              <li>翻盖锁扣与防漏硅胶圈</li>
+              <li>轻便瓶身，适合通勤、聚会与露营</li>
+            </ul>
+            <div class="actions" style="margin-top:14px;">
+              <span class="pill">定价 NT$500</span>
+              <span class="pill">特价 NT$399</span>
+              <a class="btn buy-link" href="https://www.pbooks.com.tw/products/cup10" target="_blank" rel="noopener">点我购买</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="notebook" class="section">
+      <h2>全新公益系列笔记本</h2>
+      <small>腓利门书房发行 × 利河伯社会福利基金会主办</small>
+      <div class="notebook-section">
+        <div class="notebook-head">
+          <div>
+            <img src="./notebook-cover-01.jpg" alt="公益笔记本封面" />
+          </div>
+          <div>
+            <div class="actions" style="margin-bottom:12px;">
+              <span class="note-pill">了解利河伯</span>
+              <span class="note-pill">联名公益</span>
+              <span class="note-pill">支持社会福利</span>
+            </div>
+            <h3>买笔记本，也能一起做公益</h3>
+            <p>每买一本，书房就帮您奉献一小部分。扣除成本后的所得将捐赠基金会，让爱继续传递。</p>
+            <ul class="list">
+              <li>规格：A5（210mm × 148mm）</li>
+              <li>页数：48 页</li>
+              <li>内页：线条笔记本</li>
+              <li>封面：道林纸</li>
+              <li>共五种风格</li>
+            </ul>
+            <div class="gallery">
+              <div class="card"><strong>回甘绿</strong><br><span>简约线条</span></div>
+              <div class="card"><strong>鲜榨黄</strong><br><span>活泼插图</span></div>
+              <div class="card"><strong>浓缩棕</strong><br><span>沉稳质感</span></div>
+              <div class="card"><strong>圣灵运行</strong><br><span>在台湾</span></div>
+              <div class="card"><strong>人人传道</strong><br><span>热血推广</span></div>
+            </div>
+            <div class="actions" style="margin-top:16px;">
+              <span class="pill">特价 NT$25</span>
+              <a class="btn buy-link" href="https://www.pbooks.com.tw/products/s046f" target="_blank" rel="noopener">点我购买</a>
+            </div>
+          </div>
+        </div>
+        <div class="gallery">
+          <img src="./notebook-01.jpg" alt="笔记本细节 1" />
+          <img src="./notebook-02.jpg" alt="笔记本细节 2" />
+          <img src="./notebook-03.jpg" alt="笔记本细节 3" />
+        </div>
+      </div>
+    </section>
+
+    <section id="video" class="section">
+      <h2>书房整修 × 百年特辑</h2>
+      <small>欢迎亲临，影片先睹为快</small>
+      <div class="video-grid" style="margin-top:14px;">
+        <div class="video-card">
+          <iframe src="https://www.youtube.com/embed/q4xy4MRdrcs" allowfullscreen title="书房整修完成影片"></iframe>
+          <div class="meta">书房整修后影片</div>
+        </div>
+        <div class="video-card">
+          <iframe src="https://www.youtube.com/embed/0g5a9dgRZec" allowfullscreen title="书房沿革介绍"></iframe>
+          <div class="meta">书房沿革介绍</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>百年旅行箱专页</h2>
+      <small>同场连结：旅行箱，履行爱</small>
+      <div class="product" style="margin-top:14px;">
+        <div class="card">
+          <h3>旅行箱，履行爱</h3>
+          <p>真耶稣教会专属系列行李箱，五色三尺寸，专为服事旅程设计。</p>
+          <div class="actions" style="margin-top:12px;">
+            <a class="btn" href="../2026-luggage/" target="_blank" rel="noopener">查看专页</a>
+          </div>
+        </div>
+        <div class="card">
+          <h3>全新空间，欢迎来逛</h3>
+          <p>为纪念台湾传教百年，书房完成整修，提供更舒适的阅读与交流场域。</p>
+          <div class="actions" style="margin-top:12px;">
+            <a class="btn" href="../bookstore/" target="_blank" rel="noopener">前往书房</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="archive" class="section">
+      <h2>Archive</h2>
+      <div class="archive" style="margin-top:12px;">
+        <div class="row">
+          <div>2026 · 04 本期</div>
+          <div class="lang-row">
+            <a href="./">繁中</a>
+            <a href="./zh-cn.html">简中</a>
+            <a href="./en.html">EN</a>
+          </div>
+        </div>
+        <div class="row">
+          <div>2026 · 03 三月号</div>
+          <div class="lang-row">
+            <a href="../2026-03/">繁中</a>
+            <a href="../2026-03/zh-cn.html">简中</a>
+            <a href="../2026-03/en.html">EN</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer>
+      PHILEMON NEWS · 2026 年 4 月
+    </footer>
+  </div>
+</body>
+</html>

@@ -598,6 +598,56 @@
       color: var(--muted);
     }
 
+    .issue-links-panel {
+      display: grid;
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    .issue-links-row {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 14px;
+      align-items: center;
+      padding: 16px 18px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--white);
+    }
+
+    .issue-links-row strong {
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .issue-links-list {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .issue-links-list a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 60px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .issue-links-list a:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
     .arrow {
       align-self: flex-end;
       font-size: 1.2rem;
@@ -950,6 +1000,24 @@
           </div>
           <div class="arrow">→</div>
         </a>
+      </div>
+      <div class="issue-links-panel">
+        <div class="issue-links-row">
+          <strong>2026.04</strong>
+          <div class="issue-links-list" aria-label="2026 April language links">
+            <a href="./2026-04/">繁中</a>
+            <a href="./2026-04/zh-cn.html">简中</a>
+            <a href="./2026-04/en.html">EN</a>
+          </div>
+        </div>
+        <div class="issue-links-row">
+          <strong>2026.03</strong>
+          <div class="issue-links-list" aria-label="2026 March language links">
+            <a href="./2026-03/">繁中</a>
+            <a href="./2026-03/zh-cn.html">简中</a>
+            <a href="./2026-03/en.html">EN</a>
+          </div>
+        </div>
       </div>
     </section>
 

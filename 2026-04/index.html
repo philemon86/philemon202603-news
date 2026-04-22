@@ -72,6 +72,25 @@
       position: relative;
       z-index: 1;
     }
+    .lang-switcher {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 0 0 18px;
+    }
+    .lang-switcher a {
+      border: 1px solid var(--line);
+      padding: 6px 12px;
+      background: rgba(255,255,255,0.34);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .lang-switcher a.active {
+      background: var(--ink);
+      color: var(--paper);
+    }
     header { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 0 4px; }
     .logo img { height: 58px; width: auto; display: block; }
     .brand { font-weight: 800; letter-spacing: 0.08em; font-size: 18px; }
@@ -126,6 +145,14 @@
     .archive { border: 1px solid var(--line); padding: 16px; border-radius: 14px; background: var(--card); }
     .row { display: flex; justify-content: space-between; gap: 12px; align-items: center; border-bottom: 1px solid var(--line); padding: 10px 0; }
     .row:last-child { border-bottom: none; }
+    .lang-row { display:flex; gap:8px; flex-wrap:wrap; }
+    .lang-row a {
+      border: 1px solid var(--line);
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      background: #fff;
+    }
     .muted { color: var(--muted); }
     .notebook-section {
       border: 2px solid var(--line);
@@ -422,6 +449,11 @@
 </head>
 <body>
   <div class="page">
+    <div class="lang-switcher" aria-label="語言切換">
+      <a class="active" href="./">繁體中文</a>
+      <a href="./zh-cn.html">简体中文</a>
+      <a href="./en.html">English</a>
+    </div>
     <header>
       <a class="logo" href="https://www.pbooks.com.tw/" target="_blank" rel="noopener" aria-label="前往腓利門書房">
         <img src="../LOGO.png" alt="PHILEMON LOGO" />
@@ -617,11 +649,19 @@
       <div class="archive" style="margin-top:12px;">
         <div class="row">
           <div>2026 · 04 四月號</div>
-          <a class="btn" href="./">本期</a>
+          <div class="lang-row">
+            <a href="./">繁中</a>
+            <a href="./zh-cn.html">简中</a>
+            <a href="./en.html">EN</a>
+          </div>
         </div>
         <div class="row">
           <div>2026 · 03 三月號</div>
-          <a class="btn" href="../2026-03/">查看</a>
+          <div class="lang-row">
+            <a href="../2026-03/">繁中</a>
+            <a href="../2026-03/zh-cn.html">简中</a>
+            <a href="../2026-03/en.html">EN</a>
+          </div>
         </div>
       </div>
     </section>

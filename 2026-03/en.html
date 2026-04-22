@@ -1,5 +1,5 @@
-﻿﻿<!DOCTYPE html>
-<html lang="zh-Hant">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,7 +17,7 @@
       var href = link && link.getAttribute('href');
       var text = link ? (link.textContent || '').trim() : '';
       if (!href) return;
-      if (!/pbooks\.com\.tw\/(products\/|cart(?:\/|$))/i.test(href) && !/(購買|商品頁|購物車)/.test(text)) return;
+      if (!/pbooks\.com\.tw\/(products\/|cart(?:\/|$))/i.test(href) && !/(Buy|Product|Cart)/i.test(text)) return;
       gtag('event', 'purchase_link_click', {
         link_url: href,
         link_text: text || '(empty)',
@@ -25,10 +25,10 @@
       });
     });
   </script>
-  <title>腓利門時報 - 動態影像版</title>
+  <title>Philemon News - March 2026</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Serif:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
     :root {
       --paper: #eaddc5;
@@ -45,7 +45,7 @@
     body {
       margin: 0;
       color: var(--ink);
-      font-family: "Noto Serif TC", serif;
+      font-family: "Noto Serif", serif;
       background-color: var(--paper);
       background-image:
         radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.05) 100%),
@@ -78,6 +78,28 @@
       border: 1px solid var(--paper-dark);
     }
 
+    .lang-nav {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .lang-nav a {
+      border: 1px solid var(--line);
+      padding: 6px 10px;
+      background: rgba(255,255,255,0.35);
+    }
+
+    .lang-nav a.active {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
     .hero {
       text-align: center;
       border-bottom: 6px double var(--line);
@@ -101,7 +123,7 @@
     }
 
     .eyebrow {
-      font-family: "Noto Serif TC", serif;
+      font-family: "Noto Serif", serif;
       font-size: 16px;
       letter-spacing: 0.16em;
       margin-bottom: 10px;
@@ -113,7 +135,7 @@
 
     .title {
       margin: 10px 0;
-      font-family: "Noto Serif TC", serif;
+      font-family: "Cinzel", serif;
       font-size: clamp(50px, 9vw, 110px);
       line-height: 0.9;
       letter-spacing: 0.02em;
@@ -124,7 +146,7 @@
     .subtitle {
       font-size: clamp(20px, 4vw, 32px);
       font-weight: 900;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
       margin-bottom: 15px;
     }
 
@@ -152,7 +174,7 @@
       float: left;
       line-height: 0.8;
       padding-right: 8px;
-      font-family: "Noto Serif TC", serif;
+      font-family: "Cinzel", serif;
       color: var(--highlight);
     }
 
@@ -180,7 +202,7 @@
     .marquee span { display: inline-block; padding-left: 100%; animation: slideText 25s linear infinite; }
 
     .section-title {
-      font-family: "Noto Serif TC", serif;
+      font-family: "Noto Serif", serif;
       font-size: 36px;
       text-align: center;
       border-top: 2px solid var(--line);
@@ -226,7 +248,7 @@
     }
 
     .tool-no {
-      font-family: "Noto Serif TC", serif;
+      font-family: "Noto Serif", serif;
       font-size: 14px;
       font-weight: bold;
       border-bottom: 1px solid var(--line);
@@ -330,7 +352,7 @@
       font-size: clamp(40px, 6vw, 60px);
       margin: 0 0 10px;
       line-height: 1;
-      font-family: "Noto Serif TC", serif;
+      font-family: "Cinzel", serif;
     }
     .travel-copy { font-size: 16px; line-height: 1.8; text-align: justify; }
 
@@ -358,7 +380,7 @@
     }
 
     .floating-ticket strong {
-      font-family: "Noto Serif TC", serif;
+      font-family: "Cinzel", serif;
       font-size: 34px;
       letter-spacing: 0.08em;
       margin-bottom: 8px;
@@ -435,7 +457,7 @@
       top: 44%;
       transform: translate(-50%, -50%);
       color: #f3e7d1;
-      font-family: "Noto Serif TC", serif;
+      font-family: "Cinzel", serif;
       font-size: 18px;
       letter-spacing: 0.16em;
       text-align: center;
@@ -457,7 +479,7 @@
       background: transparent;
       color: var(--ink);
       font-weight: bold;
-      font-family: "Noto Serif TC", serif;
+      font-family: "Noto Serif", serif;
       text-transform: uppercase;
       letter-spacing: 2px;
       cursor: pointer;
@@ -592,28 +614,6 @@
       transform: rotate(8deg);
       animation: paperFloat3 6.2s ease-in-out infinite;
       z-index: 3;
-    }
-
-    .lang-switcher {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin: 0 0 18px;
-    }
-
-    .lang-switcher a {
-      border: 1px solid var(--line);
-      padding: 6px 12px;
-      background: rgba(255,255,255,0.34);
-      font-size: 12px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .lang-switcher a.active {
-      background: var(--ink);
-      color: var(--paper);
     }
 
     .lightbox {
@@ -777,87 +777,87 @@
 </head>
 <body>
   <div class="wrap">
-    <div class="lang-switcher" aria-label="語言切換">
-      <a class="active" href="./">繁體中文</a>
-      <a href="./zh-cn.html">简体中文</a>
-      <a href="./en.html">English</a>
-    </div>
+    <nav class="lang-nav" aria-label="Language switcher">
+      <a href="./">Traditional Chinese</a>
+      <a href="./zh-cn.html">Simplified Chinese</a>
+      <a class="active" href="./en.html">English</a>
+    </nav>
 
     <header class="hero">
-      <a class="hero-logo" href="https://www.pbooks.com.tw/" target="_blank" rel="noopener noreferrer" aria-label="前往腓利門書房網站">
-        <img src="https://raw.githubusercontent.com/philemon86/philemon202603-news/master/LOGO.png" alt="腓利門書房 LOGO" />
+      <a class="hero-logo" href="https://www.pbooks.com.tw/" target="_blank" rel="noopener noreferrer" aria-label="Visit Philemon Bookstore">
+        <img src="https://raw.githubusercontent.com/philemon86/philemon202603-news/master/LOGO.png" alt="Philemon Bookstore logo" />
       </a>
-      <div class="eyebrow">PHILEMON NEWS · 2026 三月號</div>
-      <div class="subtitle">百年書房整修特輯｜行李箱預購</div>
+      <div class="eyebrow">PHILEMON NEWS · MARCH 2026</div>
+      <div class="subtitle">Centennial Bookstore Renovation Feature | Carry Love Luggage Pre-order</div>
       <div class="director">
-        <p>二月國際書展落幕後，為提供弟兄姊妹更流暢、直覺的數位體驗，書房近期於網站陸續解鎖多項實用的新功能，並於本期電子報正式發布最新贈書回饋與年度預購資訊。</p>
-        <p>在出版品推廣部分，本月祭出兩大重磅贈書活動：凡購買任一主打書籍，即免費獲贈《主禱文》一書；此外，即日起至三月底止，購買《洗禮論》將加碼贈送《安息日論》，期盼透過文字的餽贈，帶給信徒豐盛的閱讀祝福。</p>
-        <p>針對年度重量級商品「行李箱」，官方宣布預購期限將延長至三月底截止，預計於四至五月間發貨。書房也特別提醒各地書報組，協助信徒把握最後期限完成預購手續。</p>
-        <p>在數位服務方面，網站針對實際需求推出三項全新升級：第一是具備即刻成像功能的「木匾預覽器」，讓客製化視覺效果在下單前即可精準呈現；第二是宛如屬靈地圖的「經卷元素表」，大幅提升信徒梳理與比對各卷出版品的效率；第三則是全新上線的「樂譜搜尋試聽」系統，協助詩班與司琴在彈指間快速鎖定並試聽所需曲目。</p>
-        <p>本期電子報已將本月精選好物悉數彙整，書房誠摯邀請弟兄姊妹詳加閱讀，並將相關實用資訊轉發分享給身邊有需要的人。</p>
+        <p>After the Taipei International Book Exhibition wrapped up in February, the bookstore rolled out several practical website upgrades to make the digital experience smoother and more intuitive. This issue also announces the latest book-gift promotions and annual pre-order news.</p>
+        <p>This month features two major gift-book campaigns. Purchase any featured title and receive <em>The Lord's Prayer</em> for free. In addition, through March 31, every purchase of <em>On Baptism</em> also includes <em>On the Sabbath</em>, with the hope that these books will bring richer reading and encouragement to believers.</p>
+        <p>For this year's flagship product, the Carry Love luggage series, the official pre-order window has been extended through the end of March, with shipping expected between April and May. The bookstore also asks local church book-service teams to help members complete their orders before the final deadline.</p>
+        <p>On the digital side, three new tools are now live. The first is a Wooden Plaque Previewer for instant custom-text mockups. The second is a Bible Books Index that helps readers quickly check what has already been published for each biblical book. The third is a new Music Search and Preview tool that lets choir members and accompanists find and audition pieces more efficiently.</p>
+        <p>This issue gathers the month's featured products in one place. We sincerely invite you to read through it and share the practical information with anyone who may need it.</p>
       </div>
     </header>
 
     <div class="news-strip">
-      <strong>號外快報</strong>
+      <strong>Bulletin</strong>
       <div class="marquee">
-        <span>旅行箱「履行愛」預購進行中 ✦ 只見耶穌聯名包多角度展示 ✦ 百繪教堂明信片新增三款 ✦ 木匾預覽、經卷元素表、樂譜搜尋全面上線</span>
+        <span>Carry Love luggage pre-order continues ✦ Jesus-Only collaboration bag in multiple angles ✦ Three new church art postcards added ✦ Wooden plaque preview, Bible books index, and music search now online</span>
       </div>
     </div>
 
     <section>
-      <div class="section-title">書房最新線上小幫手上線</div>
+      <div class="section-title">New Online Helpers from the Bookstore</div>
       <div class="tool-grid">
         <div class="tool-card">
           <div class="tool-no">Feature 01</div>
-          <h3>木匾成像預覽器</h3>
-          <p>想先看看文字做在木匾上的感覺，可以直接輸入內容預覽。黑漆與金漆的視覺差異、尺寸與價格都能立即查看，較容易先溝通再決定。</p>
+          <h3>Wooden Plaque Previewer</h3>
+          <p>If you want to see how your wording will look on a plaque before ordering, you can type the text directly into the preview. Differences between black and gold finishes, along with size and pricing, are shown right away to make decisions easier.</p>
           <ul>
-            <li>客製文字即刻預覽</li>
-            <li>尺寸與價格同步查看</li>
+            <li>Instant preview for custom text</li>
+            <li>See size and price together</li>
           </ul>
-          <a class="btn" href="https://www.pbooks.com.tw/pages/%E6%9C%A8%E5%8C%BE%E6%A8%A1%E6%93%AC%E5%99%A8" target="_blank" rel="noopener noreferrer">啟動預覽器</a>
+          <a class="btn" href="https://www.pbooks.com.tw/pages/%E6%9C%A8%E5%8C%BE%E6%A8%A1%E6%93%AC%E5%99%A8" target="_blank" rel="noopener noreferrer">Launch previewer</a>
         </div>
 
         <div class="tool-card">
           <div class="tool-no">Feature 02</div>
-          <h3>經卷元素表</h3>
-          <p>若想快速知道某一卷聖經目前有沒有相關出版，現在可以直接透過經卷元素表查找。從舊約到新約排列清楚，點一下就能看到已出版內容。</p>
+          <h3>Bible Books Index</h3>
+          <p>If you want to know whether a specific book of the Bible already has related publications, you can now check it directly through the Bible Books Index. The Old and New Testaments are organized clearly, and one click shows what has been published.</p>
           <ul>
-            <li>舊新約分類清晰</li>
-            <li>一鍵查閱該卷出版狀況</li>
+            <li>Clear Old and New Testament grouping</li>
+            <li>One-click publication lookup by book</li>
           </ul>
-          <a class="btn" href="https://www.pbooks.com.tw/pages/philemonbible" target="_blank" rel="noopener noreferrer">展開元素表</a>
+          <a class="btn" href="https://www.pbooks.com.tw/pages/philemonbible" target="_blank" rel="noopener noreferrer">Open the index</a>
         </div>
 
         <div class="tool-card">
           <div class="tool-no">Feature 03</div>
-          <h3>樂譜搜尋試聽</h3>
-          <p>詩班、司琴或聚會預備時，若想快速找尋樂譜，現在只需輸入代碼、名稱或作者名，系統便可先提供試聽片段，幫助更快找到合適曲目。</p>
+          <h3>Music Search and Preview</h3>
+          <p>Choir members, accompanists, and service planners can now search by code, song title, or composer and listen to a short preview clip before buying, making it much faster to find the right piece.</p>
           <ul>
-            <li>快速準確的搜尋</li>
-            <li>購買前可先試聽片段</li>
+            <li>Fast and accurate search</li>
+            <li>Preview audio before purchase</li>
           </ul>
-          <a class="btn" href="https://www.pbooks.com.tw/pages/music" target="_blank" rel="noopener noreferrer">開啟搜尋儀</a>
+          <a class="btn" href="https://www.pbooks.com.tw/pages/music" target="_blank" rel="noopener noreferrer">Open search</a>
         </div>
       </div>
     </section>
 
     <section>
-      <div class="section-title">頭版焦點報導</div>
+      <div class="section-title">Front-Page Feature</div>
       <div class="travel-showcase">
         <div class="travel-art">
-          <h3 style="font-family: 'Cinzel', serif;">旅行箱<br>履行愛</h3>
+          <h3 style="font-family: 'Cinzel', serif;">Carry Love<br>Luggage</h3>
           <div class="travel-copy">
-            <p><strong>真耶穌教會專屬系列行李箱，從短程三日遊到長程出國皆有合適尺寸。</strong></p>
-            <p>前開快取、外接供電、側邊杯架模組與前開筆電區等設計，讓行李不只是收納工具，也成為移動中的實用助手。</p>
+            <p><strong>An exclusive luggage line for the True Jesus Church, with suitable sizes for short three-day trips and longer overseas travel alike.</strong></p>
+            <p>With front-open access, external charging support, a side cup-holder module, and a front laptop compartment, this luggage is more than storage. It is a practical companion for travel and service.</p>
             <ul style="padding-left: 20px;">
-              <li>20 吋：三日遊、學靈會首選</li>
-              <li>24 吋：短程出國、五日教會活動</li>
-              <li>26 吋：長程出國、教講與神訓班推薦</li>
+              <li>20-inch: ideal for 3-day trips and spiritual retreats</li>
+              <li>24-inch: short overseas trips and 5-day church events</li>
+              <li>26-inch: longer travel, preaching trips, and training classes</li>
             </ul>
-            <p style="font-style: italic; font-weight: bold;">※ 預購期限至 2026.03.31 止。</p>
-            <a class="btn" href="https://www.pbooks.com.tw/pages/carrylove" target="_blank" rel="noopener noreferrer">查看行李箱形象專頁</a>
+            <p style="font-style: italic; font-weight: bold;">Pre-order ends on March 31, 2026.</p>
+            <a class="btn" href="https://www.pbooks.com.tw/pages/carrylove" target="_blank" rel="noopener noreferrer">View luggage page</a>
           </div>
         </div>
         <div style="display: flex; align-items: center; justify-content: center;">
@@ -871,7 +871,7 @@
                 <div class="suitcase-wheel right"></div>
               </div>
               <strong>CARRY LOVE</strong>
-              <p>五色系列<br>20 / 24 / 26 吋<br>前開快取・靜音輪組・筆電區</p>
+              <p>Five colors<br>20 / 24 / 26 inches<br>Front access · Silent wheels · Laptop compartment</p>
             </div>
             <div style="text-align:center; font-family:'Cinzel'; margin-top:8px; font-weight:bold;">Fig 1. Cover Story</div>
           </div>
@@ -881,68 +881,68 @@
 
     <section style="margin-top: 40px; text-align: center;">
       <div style="border: 3px double var(--ink); padding: 20px; background: rgba(0,0,0,0.02);">
-        <h2 style="margin: 0 0 15px; font-family: 'Cinzel', serif;">❖ 主禱文推廣佈告 ❖</h2>
-        <button class="photo-card ratio-wide" style="max-width: 800px; margin: 0 auto;" type="button" data-lightbox-src="01_prayer_promo.jpg" data-lightbox-title="主禱文推廣佈告">
-          <img src="01_prayer_promo.jpg" alt="主禱文推廣活動" />
+        <h2 style="margin: 0 0 15px; font-family: 'Cinzel', serif;">❖ The Lord's Prayer Promotion Poster ❖</h2>
+        <button class="photo-card ratio-wide" style="max-width: 800px; margin: 0 auto;" type="button" data-lightbox-src="01_prayer_promo.jpg" data-lightbox-title="The Lord's Prayer promotion poster">
+          <img src="01_prayer_promo.jpg" alt="The Lord's Prayer promotion" />
         </button>
-        <a class="btn" href="https://www.pbooks.com.tw/pages/c166" target="_blank" rel="noopener noreferrer">查看佈告下載區</a>
+        <a class="btn" href="https://www.pbooks.com.tw/pages/c166" target="_blank" rel="noopener noreferrer">Poster download area</a>
       </div>
     </section>
 
     <section>
-      <div class="section-title">本月精選目錄</div>
+      <div class="section-title">Selected Highlights This Month</div>
       <div class="newspaper-grid">
 
         <div class="col-main">
-          <h2 style="font-family: 'Cinzel', serif; border-bottom: 2px solid var(--ink); padding-bottom: 10px;">「只見耶穌」聯名款包</h2>
+          <h2 style="font-family: 'Cinzel', serif; border-bottom: 2px solid var(--ink); padding-bottom: 10px;">Jesus-Only Collaboration Bag</h2>
           <div style="font-size: 15px; line-height: 1.9; text-align: justify;">
-            <p>只見耶穌青年團契 Podcast 聯名款斜肩郵差包，結合實用機能與經典牛仔元素，打造日常與聚會都適合的百搭包款。</p>
-            <p>四色牛仔布設計，搭配穩固包底、兩側口袋與內附拉鍊口袋，讓隨身攜帶更有條理，也把「只見耶穌」的節目精神延伸到日常生活裡。</p>
+            <p>This messenger shoulder bag is a collaboration with the Jesus-Only Young Adult Fellowship podcast. It blends practical features with classic denim details, making it easy to carry both for everyday life and church gatherings.</p>
+            <p>Available in four denim colors, with a reinforced base, side pockets, and a zippered inner pocket, it keeps daily essentials organized while extending the spirit of the Jesus-Only program into ordinary life.</p>
           </div>
           <div style="margin-top: 15px;">
-            <button class="photo-card ratio-square" type="button" data-lightbox-src="02_bag_main.jpeg" data-lightbox-title="只見耶穌包｜主視覺">
-              <img src="02_bag_main.jpeg" alt="只見耶穌包包 主視覺" />
+            <button class="photo-card ratio-square" type="button" data-lightbox-src="02_bag_main.jpeg" data-lightbox-title="Jesus-Only bag | Main visual">
+              <img src="02_bag_main.jpeg" alt="Jesus-Only bag main visual" />
             </button>
           </div>
           <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px;">
             <button class="photo-card ratio-square" type="button" data-lightbox-src="03_bag_scene_1.jpeg">
-              <img src="03_bag_scene_1.jpeg" alt="情境照1" />
+              <img src="03_bag_scene_1.jpeg" alt="Lifestyle shot 1" />
             </button>
             <button class="photo-card ratio-square" type="button" data-lightbox-src="04_bag_scene_2.jpeg">
-              <img src="04_bag_scene_2.jpeg" alt="情境照2" />
+              <img src="04_bag_scene_2.jpeg" alt="Lifestyle shot 2" />
             </button>
             <button class="photo-card ratio-square" type="button" data-lightbox-src="05_bag_scene_3.jpeg">
-              <img src="05_bag_scene_3.jpeg" alt="情境照3" />
+              <img src="05_bag_scene_3.jpeg" alt="Lifestyle shot 3" />
             </button>
             <button class="photo-card ratio-square" type="button" data-lightbox-src="06_bag_scene_4.jpeg">
-              <img src="06_bag_scene_4.jpeg" alt="情境照4" />
+              <img src="06_bag_scene_4.jpeg" alt="Lifestyle shot 4" />
             </button>
           </div>
           <div style="display:grid; grid-template-columns: 120px 1fr; gap:14px; align-items:center; margin-top:15px; border:2px solid var(--ink); padding:12px; background:rgba(255,255,255,0.18);">
-            <img src="https://image.firstory-cdn.me/Avatar/cm3mco3z1000301xe0sy00zob/1731893493319.jpg" alt="只見耶穌 Podcast 封面" style="width:100%; aspect-ratio:1/1; object-fit:cover; border:2px solid var(--ink);" />
+            <img src="https://image.firstory-cdn.me/Avatar/cm3mco3z1000301xe0sy00zob/1731893493319.jpg" alt="Jesus-Only Podcast cover" style="width:100%; aspect-ratio:1/1; object-fit:cover; border:2px solid var(--ink);" />
             <div>
-              <div style="font-weight:900; margin-bottom:6px;">聯名單位：只見耶穌 Podcast</div>
-              <div style="font-size:14px; line-height:1.7;">如果你想先認識這個聯名系列，也可以直接前往 Podcast 節目頁面。</div>
+              <div style="font-weight:900; margin-bottom:6px;">Partner: Jesus-Only Podcast</div>
+              <div style="font-size:14px; line-height:1.7;">If you want to know more about this collaboration first, you can visit the podcast page directly.</div>
               <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
-                <a class="btn" href="https://www.pbooks.com.tw/products/pb44" target="_blank" rel="noopener noreferrer">前往商品頁</a>
-                <a class="btn" href="https://open.firstory.me/user/tjc-jesus/episodes" target="_blank" rel="noopener noreferrer">前往 Podcast</a>
+                <a class="btn" href="https://www.pbooks.com.tw/products/pb44" target="_blank" rel="noopener noreferrer">Product page</a>
+                <a class="btn" href="https://open.firstory.me/user/tjc-jesus/episodes" target="_blank" rel="noopener noreferrer">Podcast</a>
               </div>
             </div>
           </div>
 
-          <h2 style="font-family: 'Cinzel', serif; border-bottom: 2px solid var(--ink); padding-bottom: 10px; margin-top: 40px;">百繪教堂明信片新增三款</h2>
+          <h2 style="font-family: 'Cinzel', serif; border-bottom: 2px solid var(--ink); padding-bottom: 10px; margin-top: 40px;">Three New Church Illustration Postcards</h2>
           <div class="postcard-stack" id="postcardStack">
             <button class="photo-card ratio-square paper-card card-1" type="button" data-lightbox-src="07_postcard_shengang.jpeg">
-              <img src="07_postcard_shengang.jpeg" alt="伸港教會" />
-              <div class="photo-caption">伸港教會</div>
+              <img src="07_postcard_shengang.jpeg" alt="Shengang Church" />
+              <div class="photo-caption">Shengang Church</div>
             </button>
             <button class="photo-card ratio-square paper-card card-2" type="button" data-lightbox-src="08_postcard_qingshui.jpeg">
-              <img src="08_postcard_qingshui.jpeg" alt="清水教會" />
-              <div class="photo-caption">清水教會</div>
+              <img src="08_postcard_qingshui.jpeg" alt="Qingshui Church" />
+              <div class="photo-caption">Qingshui Church</div>
             </button>
             <button class="photo-card ratio-square paper-card card-3" type="button" data-lightbox-src="09_postcard_taichung.jpeg">
-              <img src="09_postcard_taichung.jpeg" alt="台中教會" />
-              <div class="photo-caption">台中教會</div>
+              <img src="09_postcard_taichung.jpeg" alt="Taichung Church" />
+              <div class="photo-caption">Taichung Church</div>
             </button>
           </div>
         </div>
@@ -950,11 +950,11 @@
         <div class="col-side">
 
           <div style="border: 2px solid var(--ink); padding: 15px; background: rgba(0,0,0,0.02);">
-            <h3 style="margin-top: 0; font-family: 'Cinzel';">百年紀念衫 <span style="font-size: 13px; color: var(--highlight); letter-spacing: 0.06em;">已接近售完，要買要快</span></h3>
+            <h3 style="margin-top: 0; font-family: 'Cinzel';">Centennial T-Shirt <span style="font-size: 13px; color: var(--highlight); letter-spacing: 0.06em;">Almost sold out</span></h3>
             <button class="photo-card ratio-square" style="margin-bottom: 10px;" type="button" data-lightbox-src="10_centenary_shirt.avif">
-              <img src="10_centenary_shirt.avif" alt="百年紀念衫" />
+              <img src="10_centenary_shirt.avif" alt="Centennial T-shirt" />
             </button>
-            <p style="font-size: 14px; margin: 0 0 10px;">總生產量：15,000 件<br>已售：<strong data-count="14282" style="font-size: 18px; color: var(--highlight);">0</strong> 件｜剩餘：<strong data-count="718" style="font-size: 18px; color: var(--highlight);">0</strong> 件</p>
+            <p style="font-size: 14px; margin: 0 0 10px;">Total production: 15,000 pcs<br>Sold: <strong data-count="14282" style="font-size: 18px; color: var(--highlight);">0</strong> pcs | Remaining: <strong data-count="718" style="font-size: 18px; color: var(--highlight);">0</strong> pcs</p>
             <div class="progress-meter"><div class="progress-fill" data-width="95.21"></div></div>
             <div class="stock-table">
               <div class="stock-row"><span class="stock-label">120CM</span><div class="stock-bar"><div class="stock-bar-fill" data-width="9.29"></div></div><span data-count="25">0</span></div>
@@ -964,25 +964,25 @@
               <div class="stock-row"><span class="stock-label">2XL</span><div class="stock-bar"><div class="stock-bar-fill" data-width="73.98"></div></div><span data-count="199">0</span></div>
               <div class="stock-row"><span class="stock-label">L</span><div class="stock-bar"><div class="stock-bar-fill" data-width="100"></div></div><span data-count="269">0</span></div>
             </div>
-            <a class="btn" style="width: 100%;" href="https://www.pbooks.com.tw/products/pg36" target="_blank" rel="noopener noreferrer">查看商品頁</a>
+            <a class="btn" style="width: 100%;" href="https://www.pbooks.com.tw/products/pg36" target="_blank" rel="noopener noreferrer">View product</a>
           </div>
 
           <div style="border: 2px solid var(--ink); padding: 15px; background: rgba(0,0,0,0.02);">
-            <h3 style="margin-top: 0; font-family: 'Cinzel';">展開式 A4 樂譜夾</h3>
+            <h3 style="margin-top: 0; font-family: 'Cinzel';">Expandable A4 Music Folder</h3>
             <button class="photo-card ratio-square" style="margin-bottom: 10px;" type="button" data-lightbox-src="11_music_folder.avif">
-              <img src="11_music_folder.avif" alt="樂譜夾" />
+              <img src="11_music_folder.avif" alt="Music folder" />
             </button>
-            <p style="font-size: 14px;">黑白雙色，造型乾淨俐落，可妥善收納樂譜，是詩班與司琴實用的整理工具。</p>
-            <a class="btn" style="width: 100%; font-size: 12px;" href="https://www.pbooks.com.tw/products/pg42" target="_blank" rel="noopener noreferrer">查看商品規格</a>
+            <p style="font-size: 14px;">Available in black and white with a clean, practical design. It keeps sheet music organized and works especially well for choir members and accompanists.</p>
+            <a class="btn" style="width: 100%; font-size: 12px;" href="https://www.pbooks.com.tw/products/pg42" target="_blank" rel="noopener noreferrer">View specs</a>
           </div>
 
           <div style="border: 2px solid var(--ink); padding: 15px; background: rgba(0,0,0,0.02);">
-            <h3 style="margin-top: 0; font-family: 'Cinzel';">洗禮論贈書活動</h3>
+            <h3 style="margin-top: 0; font-family: 'Cinzel';">Baptism Book Gift Offer</h3>
             <button class="photo-card ratio-square" style="margin-bottom: 10px;" type="button" data-lightbox-src="12_baptism_gift.avif">
-              <img src="12_baptism_gift.avif" alt="活動" />
+              <img src="12_baptism_gift.avif" alt="Promotion" />
             </button>
-            <p style="font-size: 14px;">即日起至 2026 年 3 月 31 日，購買《洗禮論》即贈送《安息日論》，單本售價 277 元。</p>
-            <a class="btn" style="width: 100%;" href="https://www.pbooks.com.tw/products/c290" target="_blank" rel="noopener noreferrer">查看活動商品</a>
+            <p style="font-size: 14px;">Through March 31, 2026, purchase <em>On Baptism</em> and receive <em>On the Sabbath</em> as a gift. Single-copy price: NT$277.</p>
+            <a class="btn" style="width: 100%;" href="https://www.pbooks.com.tw/products/c290" target="_blank" rel="noopener noreferrer">View offer</a>
           </div>
 
         </div>
@@ -994,18 +994,18 @@
   <div class="lightbox" id="lightbox" aria-hidden="true">
     <div class="lightbox-inner">
       <div class="lightbox-bar">
-        <div id="lightboxTitle">影像檢視中...</div>
+        <div id="lightboxTitle">Viewing image...</div>
         <button class="close-btn" type="button" id="lightboxClose">✖</button>
       </div>
-      <img id="lightboxImage" alt="圖片預覽" style="border: 2px solid var(--ink);" />
+      <img id="lightboxImage" alt="Image preview" style="border: 2px solid var(--ink);" />
     </div>
   </div>
 
-    <section class="home-return">
-      <h2>返回首頁</h2>
-      <p>回到腓利門電子報首頁，查看最新一期與其他入口。</p>
-      <a class="btn" href="https://news.pbooks.com.tw/">返回首頁</a>
-    </section>
+  <section class="home-return">
+    <h2>Back to Home</h2>
+    <p>Return to the Philemon newsletter homepage to view the latest issue and other entry points.</p>
+    <a class="btn" href="https://news.pbooks.com.tw/">Back to homepage</a>
+  </section>
   <script>
     const lightbox = document.getElementById("lightbox");
     const lightboxImage = document.getElementById("lightboxImage");
@@ -1015,7 +1015,7 @@
     document.querySelectorAll("[data-lightbox-src]").forEach((button) => {
       button.addEventListener("click", () => {
         lightboxImage.src = button.getAttribute("data-lightbox-src");
-        lightboxTitle.textContent = button.getAttribute("data-lightbox-title") || "影像檢視中...";
+        lightboxTitle.textContent = button.getAttribute("data-lightbox-title") || "Viewing image...";
         lightbox.classList.add("open");
         lightbox.setAttribute("aria-hidden", "false");
       });
@@ -1062,7 +1062,7 @@
         function step(now) {
           const progress = Math.min((now - start) / duration, 1);
           const easeOut = 1 - Math.pow(1 - progress, 3);
-          el.textContent = Math.round(target * easeOut).toLocaleString("zh-Hant");
+          el.textContent = Math.round(target * easeOut).toLocaleString("en-US");
           if (progress < 1) requestAnimationFrame(step);
         }
 
