@@ -261,6 +261,20 @@
       align-items: start;
     }
 
+    .notebook-cover-frame {
+      border: 2px solid var(--line);
+      border-radius: 18px;
+      overflow: hidden;
+      background: #f7f7f7;
+      box-shadow: 4px 6px 0 rgba(43,34,25,0.12);
+    }
+
+    .notebook-cover-frame img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
     .gallery {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -434,7 +448,7 @@
       <small>Published by Philemon Bookstore x Hosted by Rehoboth Social Welfare Foundation</small>
       <div class="notebook-section">
         <div class="notebook-head">
-          <div>
+          <div class="notebook-cover-frame">
             <img src="./notebook-cover-01.jpg" alt="Charity notebook cover" />
           </div>
           <div>
