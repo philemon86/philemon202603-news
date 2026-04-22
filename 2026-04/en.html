@@ -39,7 +39,9 @@
       --line: #2b2219;
       --card: rgba(255,255,255,0.9);
     }
+
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
       font-family: "Noto Serif", serif;
@@ -51,7 +53,9 @@
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
+
     a { color: inherit; text-decoration: none; }
+
     body::before {
       content: "";
       position: fixed;
@@ -62,6 +66,7 @@
       z-index: 100;
       mix-blend-mode: multiply;
     }
+
     .page {
       width: min(1200px, calc(100vw - 20px));
       margin: 20px auto 60px;
@@ -72,13 +77,15 @@
       position: relative;
       z-index: 1;
     }
+
     .lang-switcher {
-      display:flex;
-      justify-content:center;
-      gap:10px;
-      flex-wrap:wrap;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
       margin: 0 0 18px;
     }
+
     .lang-switcher a {
       border: 1px solid var(--line);
       padding: 6px 12px;
@@ -87,25 +94,94 @@
       letter-spacing: 0.08em;
       text-transform: uppercase;
     }
+
     .lang-switcher a.active {
       background: var(--ink);
       color: var(--paper);
     }
-    header { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 0 4px; }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0 4px;
+      flex-wrap: wrap;
+    }
+
+    .logo { flex: 0 0 auto; }
     .logo img { height: 58px; width: auto; display: block; }
-    .brand { font-weight: 800; letter-spacing: 0.08em; font-size: 18px; }
-    .header-right { display:flex; align-items:center; gap:14px; }
-    nav { display: flex; gap: 16px; font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase; flex-wrap: wrap; }
-    nav a { padding: 6px 0; border-bottom: 1px solid transparent; }
+    .brand {
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      font-size: 18px;
+      flex: 1 1 240px;
+      min-width: 0;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex: 1 1 420px;
+      justify-content: flex-end;
+      min-width: 0;
+    }
+
+    nav {
+      display: flex;
+      gap: 16px;
+      font-size: 14px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    nav a {
+      padding: 6px 0;
+      border-bottom: 1px solid transparent;
+    }
+
     nav a:hover { border-color: var(--ink); }
-    .hero { margin: 46px 0 38px; display: grid; gap: 12px; }
-    .hero h1 { margin: 0; font-size: clamp(44px, 7vw, 78px); line-height: 1.02; letter-spacing: 0.01em; font-family: "Cinzel", serif; }
-    .hero p { margin: 6px 0 16px; font-size: 18px; color: var(--muted); line-height: 1.6; }
+
+    .hero {
+      margin: 46px 0 38px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(44px, 7vw, 78px);
+      line-height: 1.02;
+      letter-spacing: 0.01em;
+      font-family: "Cinzel", serif;
+    }
+
+    .hero p {
+      margin: 6px 0 16px;
+      font-size: 18px;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 900px;
+    }
+
     .section { margin: 48px 0; }
     .section h2 { margin: 0 0 12px; font-size: 24px; letter-spacing: 0.04em; }
     .section small { color: var(--muted); }
-    .actions { display: flex; gap: 12px; flex-wrap: wrap; align-items:center; }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
     .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       padding: 12px 18px;
       border-radius: 10px;
       border: 2px solid var(--ink);
@@ -114,17 +190,51 @@
       transition: 0.15s ease;
       background: #fff7ec;
       box-shadow: inset 0 0 0 1px rgba(255,255,255,0.7), 2px 4px 0 rgba(43,34,25,0.16);
+      text-align: center;
     }
+
     .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.18); }
+
     .buy-link { animation: buyFloat 2.6s ease-in-out infinite; }
     .buy-link:hover { animation-play-state: paused; }
-    .card { border: 2px solid var(--line); background: rgba(255,255,255,0.9); padding: 18px; border-radius: 14px; box-shadow: 4px 6px 0 rgba(43,34,25,0.16); }
+
+    .card {
+      border: 2px solid var(--line);
+      background: rgba(255,255,255,0.9);
+      padding: 18px;
+      border-radius: 14px;
+      box-shadow: 4px 6px 0 rgba(43,34,25,0.16);
+      min-width: 0;
+    }
+
     .card h3 { margin: 0 0 8px; font-size: 20px; }
     .card p { margin: 0; color: var(--muted); line-height: 1.6; }
-    .product { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; align-items: center; }
-    .product img, .gallery img { width: 100%; border-radius: 18px; border: 1px solid var(--line); background: #f7f7f7; display: block; }
-    .list { margin: 10px 0 0; padding-left: 18px; color: var(--muted); line-height: 1.6; }
-    .pill, .note-pill {
+
+    .product {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+      align-items: start;
+    }
+
+    .product img,
+    .gallery img {
+      width: 100%;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: #f7f7f7;
+      display: block;
+    }
+
+    .list {
+      margin: 10px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .pill,
+    .note-pill {
       display: inline-flex;
       padding: 6px 10px;
       border-radius: 999px;
@@ -134,6 +244,7 @@
       font-size: 13px;
       letter-spacing: 0.08em;
     }
+
     .notebook-section {
       border: 2px solid var(--line);
       border-radius: 18px;
@@ -142,26 +253,69 @@
       padding: 22px;
       margin-top: 14px;
     }
+
     .notebook-head {
       display: grid;
       grid-template-columns: minmax(280px, 420px) minmax(320px, 1fr);
       gap: 22px;
       align-items: start;
     }
+
     .gallery {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 12px;
       margin-top: 18px;
     }
-    .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
-    .video-card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; box-shadow: 0 12px 28px rgba(0,0,0,0.06); }
-    .video-card iframe { width: 100%; aspect-ratio: 16 / 9; border: none; display: block; }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 16px;
+    }
+
+    .video-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.06);
+    }
+
+    .video-card iframe {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: none;
+      display: block;
+    }
+
     .video-card .meta { padding: 12px 14px; font-weight: 700; }
-    .archive { border: 1px solid var(--line); padding: 16px; border-radius: 14px; background: var(--card); }
-    .row { display: flex; justify-content: space-between; gap: 12px; align-items: center; border-bottom: 1px solid var(--line); padding: 10px 0; flex-wrap: wrap; }
+
+    .archive {
+      border: 1px solid var(--line);
+      padding: 16px;
+      border-radius: 14px;
+      background: var(--card);
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      border-bottom: 1px solid var(--line);
+      padding: 10px 0;
+      flex-wrap: wrap;
+    }
+
     .row:last-child { border-bottom: none; }
-    .lang-row { display:flex; gap:8px; flex-wrap:wrap; }
+
+    .lang-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
     .lang-row a {
       border: 1px solid var(--line);
       padding: 6px 10px;
@@ -169,15 +323,27 @@
       font-size: 12px;
       background: #fff;
     }
-    footer { margin-top: 36px; color: var(--muted); text-align: center; }
+
+    footer {
+      margin-top: 36px;
+      color: var(--muted);
+      text-align: center;
+    }
+
     @keyframes buyFloat {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-3px); }
     }
+
     @media (max-width: 900px) {
       .page { padding: 20px 14px 40px; }
-      header, .notebook-head { grid-template-columns: 1fr; display: grid; }
-      nav { gap: 10px; }
+      header,
+      .notebook-head {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+      .header-right { justify-content: flex-start; }
+      nav { gap: 10px; justify-content: flex-start; }
     }
   </style>
 </head>
@@ -192,7 +358,7 @@
       <a class="logo" href="https://www.pbooks.com.tw/" target="_blank" rel="noopener" aria-label="Visit Philemon Bookstore">
         <img src="../LOGO.png" alt="PHILEMON LOGO" />
       </a>
-      <div class="brand">PHILEMON NEWS · APRIL 2026</div>
+      <div class="brand">PHILEMON NEWS | APRIL 2026</div>
       <div class="header-right">
         <nav class="main-nav">
           <a href="https://news.pbooks.com.tw/">Home</a>
@@ -207,11 +373,11 @@
 
     <section class="hero">
       <h1>A Centennial with You</h1>
-      <p>Let the days we have walked through stay close in daily life. This issue highlights the newly renovated bookstore, charity notebooks, correction tape, pens, and insulated bottles. The centennial luggage series is expected to arrive in mid to late April.</p>
+      <p>Let the days we have walked through stay close in daily life. This issue highlights the renovated bookstore, the charity notebook series, correction tape, waterdrop pens, and insulated bottles. The centennial luggage series is expected to arrive in mid to late April.</p>
     </section>
 
     <section id="stationery" class="section">
-      <h2>Record × Correct × Keep Warm</h2>
+      <h2>Record / Correct / Keep Warm</h2>
       <div class="product">
         <div class="card">
           <h3>Warm-Tone Correction Tape</h3>
@@ -265,7 +431,7 @@
 
     <section id="notebook" class="section">
       <h2>New Charity Notebook Series</h2>
-      <small>Published by Philemon Bookstore × Hosted by Rehoboth Social Welfare Foundation</small>
+      <small>Published by Philemon Bookstore x Hosted by Rehoboth Social Welfare Foundation</small>
       <div class="notebook-section">
         <div class="notebook-head">
           <div>
@@ -280,7 +446,7 @@
             <h3>Buy a Notebook, Support a Good Cause</h3>
             <p>For every notebook purchased, the bookstore sets aside a small portion as an offering. After costs are deducted, proceeds are donated to the foundation so that love can keep moving forward.</p>
             <ul class="list">
-              <li>Size: A5 (210mm × 148mm)</li>
+              <li>Size: A5 (210mm x 148mm)</li>
               <li>48 pages</li>
               <li>Lined inner pages</li>
               <li>Dowling paper cover</li>
@@ -308,7 +474,7 @@
     </section>
 
     <section id="video" class="section">
-      <h2>Renovated Bookstore × Centennial Feature</h2>
+      <h2>Renovated Bookstore / Centennial Feature</h2>
       <small>Welcome to visit in person. Preview the space below.</small>
       <div class="video-grid" style="margin-top:14px;">
         <div class="video-card">
@@ -347,25 +513,25 @@
       <h2>Archive</h2>
       <div class="archive" style="margin-top:12px;">
         <div class="row">
-          <div>2026 · 04 Current Issue</div>
+          <div>2026 | 04 Current Issue</div>
           <div class="lang-row">
-            <a href="./">繁中</a>
-            <a href="./zh-cn.html">简中</a>
+            <a href="./">TC</a>
+            <a href="./zh-cn.html">SC</a>
             <a href="./en.html">EN</a>
           </div>
         </div>
         <div class="row">
-          <div>2026 · 03 March Issue</div>
+          <div>2026 | 03 March Issue</div>
           <div class="lang-row">
-            <a href="../2026-03/">繁中</a>
-            <a href="../2026-03/zh-cn.html">简中</a>
+            <a href="../2026-03/">TC</a>
+            <a href="../2026-03/zh-cn.html">SC</a>
             <a href="../2026-03/en.html">EN</a>
           </div>
         </div>
       </div>
     </section>
     <footer>
-      PHILEMON NEWS · APRIL 2026
+      PHILEMON NEWS | APRIL 2026
     </footer>
   </div>
 </body>
