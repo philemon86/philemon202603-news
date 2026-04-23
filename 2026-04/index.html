@@ -8,8 +8,11 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
+    const pageLanguage = document.documentElement.lang || 'und';
     gtag('js', new Date());
-    gtag('config', 'G-JD1JHF86H1');
+    gtag('config', 'G-JD1JHF86H1', {
+      page_language: pageLanguage
+    });
   </script>
   <script>
     document.addEventListener('click', function(event) {
@@ -21,7 +24,8 @@
       gtag('event', 'purchase_link_click', {
         link_url: href,
         link_text: text || '(empty)',
-        page_path: location.pathname
+        page_path: location.pathname,
+        page_language: pageLanguage
       });
     });
   </script>
@@ -742,3 +746,4 @@
   </script>
 </body>
 </html>
+
