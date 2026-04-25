@@ -1,1 +1,509 @@
-﻿<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8" /><meta http-equiv="refresh" content="0; url=./" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Redirecting...</title></head><body><p><a href="./">Redirecting to the May newsletter...</a></p></body></html>
+﻿<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="../favicon-news.svg" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JD1JHF86H1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    const pageLanguage = document.documentElement.lang || "und";
+    gtag("js", new Date());
+    gtag("config", "G-JD1JHF86H1", { page_language: pageLanguage });
+  </script>
+  <script>
+    document.addEventListener("click", function(event) {
+      var link = event.target.closest("a[href]");
+      var href = link && link.getAttribute("href");
+      var text = link ? (link.textContent || "").trim() : "";
+      if (!href) return;
+      if (!/pbooks\.com\.tw\/(products\/|collections\/|cart(?:\/|$))/i.test(href) && !/(購買|購買連結|購物車|查看更多)/.test(text)) return;
+      gtag("event", "purchase_link_click", {
+        link_url: href,
+        link_text: text || "(empty)",
+        page_path: location.pathname,
+        page_language: pageLanguage
+      });
+    });
+  </script>
+  <title>腓利门电子报｜2026 五月号</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: rgba(255, 251, 250, 0.92);
+      --paper-strong: #fffdfb;
+      --rose-deep: #b55769;
+      --berry: #8c3c4f;
+      --ink: #54363c;
+      --muted: #7a5c63;
+      --line: rgba(140, 60, 79, 0.2);
+      --shadow: 0 24px 60px rgba(181, 87, 105, 0.18);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Outfit", "Noto Serif TC", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(255, 211, 220, 0.9), transparent 32%),
+        radial-gradient(circle at top right, rgba(250, 226, 232, 0.9), transparent 28%),
+        linear-gradient(180deg, #fff9f8 0%, #fff1f2 42%, #fde8eb 100%);
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.24) 0%, transparent 38%),
+        radial-gradient(circle at 20% 15%, rgba(255,255,255,0.55), transparent 18%);
+      pointer-events: none;
+      opacity: 0.7;
+    }
+    a { color: inherit; text-decoration: none; }
+        .media-shell {
+      display: block;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border-radius: 30px;
+      background: rgba(255,255,255,0.96);
+      border: 1px solid rgba(181, 87, 105, 0.14);
+      box-shadow: 0 24px 50px rgba(181, 87, 105, 0.12), inset 0 0 0 1px rgba(255,255,255,0.5);
+    }    
+    .media-shell picture { display: block; width: 100%; height: 100%; }
+    .media-shell img { width: 100%; height: 100%; object-fit: contain; }
+    .page {
+      position: relative;
+      z-index: 1;
+      width: min(1180px, calc(100vw - 20px));
+      margin: 18px auto 48px;
+      padding: 28px clamp(18px, 4vw, 42px) 64px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,250,250,0.84));
+      border: 1px solid rgba(181, 87, 105, 0.18);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+    .lang-switcher {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+    .lang-switcher a {
+      border: 1px solid var(--line);
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.72);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .lang-switcher a.active {
+      background: var(--berry);
+      color: #fff;
+      border-color: transparent;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      padding-top: 10px;
+    }
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+    .logo img {
+      width: 64px;
+      height: 64px;
+      object-fit: contain;
+    }
+    .brand {
+      font-family: "Noto Serif TC", serif;
+      font-size: clamp(18px, 2vw, 24px);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+    .brand small {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-family: "Outfit", sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 14px;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    nav a {
+      padding-bottom: 4px;
+      border-bottom: 1px solid transparent;
+      color: var(--muted);
+    }
+    nav a:hover { color: var(--berry); border-color: currentColor; }
+    .hero {
+      margin: 34px 0 40px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+      gap: 28px;
+      align-items: center;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(217, 137, 150, 0.16);
+      color: var(--rose-deep);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .hero h1 {
+      margin: 18px 0 14px;
+      font-family: "Noto Serif TC", serif;
+      font-size: clamp(38px, 6vw, 68px);
+      line-height: 1.08;
+      letter-spacing: 0.01em;
+    }
+    .hero p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.8;
+    }
+    .hero-note {
+      margin-top: 18px;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+    .hero-note li + li { margin-top: 6px; }
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(140, 60, 79, 0.26);
+      background: rgba(255,255,255,0.84);
+      color: var(--ink);
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      box-shadow: 0 10px 30px rgba(181, 87, 105, 0.1);
+      transition: transform 0.16s ease, box-shadow 0.16s ease;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 30px rgba(181, 87, 105, 0.16);
+    }
+    .btn.primary {
+      background: linear-gradient(135deg, var(--rose-deep), var(--berry));
+      color: #fff;
+      border-color: transparent;
+    }
+    .hero-art {
+      padding: 18px;
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,245,247,0.8));
+      border: 1px solid rgba(181, 87, 105, 0.16);
+      box-shadow: var(--shadow);
+    }
+    
+    .section {
+      margin-top: 56px;
+      scroll-margin-top: 32px;
+    }
+    .section h2 {
+      margin: 0 0 10px;
+      font-family: "Noto Serif TC", serif;
+      font-size: clamp(28px, 4vw, 40px);
+      line-height: 1.18;
+    }
+    .section p.section-lead {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 70ch;
+    }
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 22px;
+    }
+    .summary-card,
+    .feature,
+    .book-highlight,
+    .archive {
+      border: 1px solid rgba(181, 87, 105, 0.16);
+      box-shadow: 0 18px 38px rgba(181, 87, 105, 0.08);
+    }
+    .summary-card {
+      padding: 22px 20px;
+      border-radius: 22px;
+      background: var(--paper);
+    }
+    .summary-card .tag,
+    .feature-copy .kicker {
+      display: inline-flex;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(217, 137, 150, 0.14);
+      color: var(--rose-deep);
+    }
+    .summary-card h3 {
+      margin: 16px 0 10px;
+      font-size: 22px;
+      font-family: "Noto Serif TC", serif;
+    }
+    .summary-card p,
+    .feature-copy p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+    .feature-list { margin-top: 22px; display: grid; gap: 28px; }
+    .feature { display: block; padding: 0; border: none; border-radius: 0; background: transparent; box-shadow: none; }
+    .feature:nth-child(even) { grid-template-columns: 1fr; }
+    .feature:nth-child(even) .feature-copy { order: initial; }
+    .feature-copy h3 {
+      margin: 14px 0 10px;
+      font-family: "Noto Serif TC", serif;
+      font-size: clamp(26px, 3.4vw, 36px);
+      line-height: 1.2;
+    }
+    .feature-copy p {
+      margin-bottom: 14px;
+      font-size: 16px;
+      line-height: 1.8;
+    }
+    .meta-list {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+    .meta-list li + li { margin-top: 5px; }
+    .price-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+    .price-pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 42px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(217, 137, 150, 0.12);
+      color: var(--berry);
+      font-weight: 700;
+    }
+    .price-pill.sale {
+      background: linear-gradient(135deg, var(--rose-deep), var(--berry));
+      color: #fff;
+    }
+    .price-pill.link {
+      background: rgba(255,255,255,0.95);
+      border: 1px solid rgba(181, 87, 105, 0.18);
+      animation: floatButton 2.8s ease-in-out infinite;
+    }
+    .price-pill.link:hover { animation-play-state: paused; }
+    .book-highlight { margin-top: 28px; padding: 0; border: none; border-radius: 0; background: transparent; box-shadow: none; }
+    .book-highlight .feature { padding: 0; border: none; box-shadow: none; background: transparent; }
+    .archive {
+      margin-top: 18px;
+      padding: 18px 22px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.78);
+    }
+    .archive-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(181, 87, 105, 0.14);
+    }
+    .archive-row:last-child { border-bottom: none; }
+    .archive-row strong { font-family: "Noto Serif TC", serif; }
+    footer {
+      margin-top: 56px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: 0.06em;
+    }
+    @keyframes floatButton {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+    @media (max-width: 960px) {
+      .hero,
+      .feature,
+      .feature:nth-child(even) { grid-template-columns: 1fr; }
+      .feature:nth-child(even) .feature-copy { order: initial; }
+      .summary-grid { grid-template-columns: 1fr; }
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      nav { justify-content: flex-start; }
+    }
+    @media (max-width: 720px) {
+      .media-shell { aspect-ratio: 9 / 16; }
+      .page {
+        width: min(100vw - 10px, 100%);
+        margin: 5px auto 24px;
+        padding: 18px 14px 40px;
+        border-radius: 18px;
+      }
+      .logo img {
+        width: 54px;
+        height: 54px;
+      }
+      .hero h1 { font-size: clamp(34px, 12vw, 48px); }
+      .hero p,
+      .feature-copy p,
+      .section p.section-lead { font-size: 15px; }
+      .feature,
+      .book-highlight { margin-top: 28px; padding: 0; border: none; border-radius: 0; background: transparent; box-shadow: none; }
+      
+      .archive-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .btn,
+      .price-pill {
+        width: 100%;
+        justify-content: center;
+      }
+      .price-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="lang-switcher" aria-label="語言切換">
+      <a href="./">繁體中文</a>
+      <a class="active" href="./zh-cn.html">简体中文</a>
+      <a href="./en.html">English</a>
+    </div>
+    <header>
+      <div class="brand-wrap">
+        <a class="logo" href="https://www.pbooks.com.tw/" target="_blank" rel="noopener" aria-label="前往腓利門書房">
+          <img src="../LOGO.png" alt="腓利門書房" />
+        </a>
+        <div class="brand">
+          PHILEMON NEWS · 2026 五月號
+          <small>Mother's Day Selection</small>
+        </div>
+      </div>
+      <nav>
+        <a href="https://news.pbooks.com.tw/">返回首页</a>
+        <a href="#gifts">母亲节好礼</a>
+        <a href="#books">好书活动</a>
+        <a href="#archive">Archive</a>
+      </nav>
+    </header>
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">2026 Mother's Day</span>
+        <h1>把感谢，化成一份实际的祝福</h1>
+        <p>当耶稣被钉在十字架上，看见母亲和祂所爱的门徒站在旁边，就对母亲说：「母亲，看你的儿子！」又对那门徒说：「看你的母亲！」在最痛苦的时刻，耶稣仍记念母亲，也把爱与照顾托付出去。母亲节提醒我们，感谢不该只停留在心里，也可以化成一份实际的祝福。</p>
+        <p>今年 2026 年母親節，腓利門書房推出多款母亲节好礼優惠，盼望大家把心意帶回家。願每一份禮物，都成為一句真誠的祝福。</p>
+        <div class="actions">
+          <a class="btn primary" href="#gifts">查看母亲节商品</a>
+          <a class="btn" href="#books">查看好书活动</a>
+        </div>
+        <ul class="hero-note">
+          <li>四色杯袋特价 NT$149，颜色有米黄、薄荷、焦糖、墨绿。</li>
+          <li>百年纪念保温瓶 450ml 特价 NT$350，500ml 渐层色保温瓶特价 NT$399。</li>
+          <li>「爱满溢红包袋」一套五份特价 NT$99；本版书买一送一至 2026 年 6 月 30 日。</li>
+        </ul>
+      </div>
+      <div class="hero-art">
+        <div class="message-board">
+          <article class="message-card">
+            <span class="message-label">For Mom</span>
+            <p>妈妈，我爱你。谢谢你在平凡的日子里，一直把爱留给我们。</p>
+          </article>
+          <article class="message-card">
+            <span class="message-label">Remember</span>
+            <p>每逢想念你，就感谢我的神。那些被照顾的时刻，我都记得。</p>
+          </article>
+          <article class="message-card">
+            <span class="message-label">John 19</span>
+            <p>「看你的母亲。」愿我们在感谢里，也把爱化成实际的陪伴。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+    <section id="gifts" class="section">
+  <h2>母亲节好礼</h2>
+  <p class="section-lead">直接点图片前往购买。</p>
+  <div class="feature-list">
+    <article class="feature"><a class="media-shell" href="https://www.pbooks.com.tw/products/pb45" target="_blank" rel="noopener"><picture><source media="(max-width: 720px)" srcset="./四色杯袋916.jpg" /><source media="(min-width: 721px)" srcset="./四色杯袋169.jpg" /><img src="./四色杯袋11.jpg" alt="四色杯袋" /></picture></a></article>
+    <article class="feature"><a class="media-shell" href="https://www.pbooks.com.tw/products/cup09" target="_blank" rel="noopener"><picture><source media="(max-width: 720px)" srcset="./五色保溫瓶916.jpg" /><source media="(min-width: 721px)" srcset="./五色保溫瓶169.jpg" /><img src="./五色保溫瓶11.jpg" alt="五色保溫瓶" /></picture></a></article>
+    <article class="feature"><a class="media-shell" href="https://www.pbooks.com.tw/products/cup10" target="_blank" rel="noopener"><picture><source media="(max-width: 720px)" srcset="./漸層保溫瓶916.jpg" /><source media="(min-width: 721px)" srcset="./漸層保溫瓶169.jpg" /><img src="./漸層保溫瓶11.jpg" alt="四色漸層保溫瓶" /></picture></a></article>
+    <article class="feature"><a class="media-shell" href="https://www.pbooks.com.tw/products/pg25" target="_blank" rel="noopener"><picture><source media="(max-width: 720px)" srcset="./紅包916.jpg" /><source media="(min-width: 721px)" srcset="./紅包169.jpg" /><img src="./紅包11.jpg" alt="愛滿溢紅包袋" /></picture></a></article>
+    <article class="feature"><a class="media-shell" href="https://www.pbooks.com.tw/products/pb31-pb32" target="_blank" rel="noopener"><picture><source media="(max-width: 720px)" srcset="./後背包916.jpg" /><source media="(min-width: 721px)" srcset="./後背包169.jpg" /><img src="./後背包11.jpg" alt="後背包買一送一" /></picture></a></article>
+  </div>
+</section>
+    <section id="books" class="section">
+  <h2>好书活动</h2>
+  <p class="section-lead">直接点图片前往活动与购买页。</p>
+  <div class="feature-list">
+    <article class="feature"><a class="media-shell" href="https://www.pbooks.com.tw/collections/%E8%85%93%E5%88%A9%E9%96%80%E6%9C%AC%E7%89%88%E6%9B%B8" target="_blank" rel="noopener"><picture><source media="(max-width: 720px)" srcset="./買一送一活動916.jpg" /><source media="(min-width: 721px)" srcset="./買一送一活動169.jpg" /><img src="./買一送一活動11.jpg" alt="本版書買一送一活動" /></picture></a></article>
+    <article class="feature"><a class="media-shell" href="https://www.pbooks.com.tw/products/c291" target="_blank" rel="noopener"><picture><source media="(max-width: 720px)" srcset="./路得記916.jpg" /><source media="(min-width: 721px)" srcset="./路得記169.jpg" /><img src="./路得記11.jpg" alt="路得記講壇 倫理篇 家庭的復興" /></picture></a></article>
+  </div>
+</section>
+    <section id="archive" class="section">
+      <h2>Archive</h2>
+      <p class="section-lead">五月号上线后，入口也同步更新。若需要回看前一期，可从这里快速切换。</p>
+      <div class="archive"><div class="archive-row"><div><div>2026 · 05</div><strong>母亲节好礼推薦</strong></div><a class="btn primary" href="./">当前页面</a></div><div class="archive-row"><div><div>2026 · 04</div><strong>四月号电子报</strong></div><a class="btn" href="../2026-04/">前往四月号</a></div></div>
+    </section>
+    <footer>PHILEMON NEWS · 2026 年 5 月 · Mother's Day Selection</footer>
+  </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
