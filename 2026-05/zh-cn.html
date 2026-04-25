@@ -228,11 +228,88 @@
       border-color: transparent;
     }
     .hero-art {
-      padding: 18px;
+      padding: 22px;
       border-radius: 28px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,245,247,0.8));
+      background: linear-gradient(180deg, rgba(255,248,250,0.95), rgba(255,240,245,0.92));
       border: 1px solid rgba(181, 87, 105, 0.16);
       box-shadow: var(--shadow);
+    }
+    .message-board {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+    .message-card {
+      position: relative;
+      max-width: 88%;
+      padding: 16px 18px;
+      border-radius: 20px;
+      border: 1px solid rgba(181, 87, 105, 0.14);
+      background: #ffffff;
+      box-shadow: 0 14px 30px rgba(181, 87, 105, 0.08);
+      opacity: 0;
+      transform: translateY(16px) scale(0.96);
+      animation: chatPop 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    .message-card:nth-child(1) {
+      justify-self: start;
+      border-bottom-left-radius: 8px;
+      animation-delay: 0.15s;
+    }
+    .message-card:nth-child(2) {
+      justify-self: end;
+      background: linear-gradient(135deg, #ffe3ea, #ffd7e2);
+      border-bottom-right-radius: 8px;
+      animation-delay: 0.55s;
+    }
+    .message-card:nth-child(3) {
+      justify-self: start;
+      border-bottom-left-radius: 8px;
+      animation-delay: 0.95s;
+    }
+    .message-card::after {
+      content: "";
+      position: absolute;
+      bottom: 10px;
+      width: 14px;
+      height: 14px;
+      background: inherit;
+      border-bottom: 1px solid rgba(181, 87, 105, 0.14);
+      transform: rotate(45deg);
+    }
+    .message-card:nth-child(odd)::after {
+      left: -6px;
+      border-left: 1px solid rgba(181, 87, 105, 0.14);
+    }
+    .message-card:nth-child(even)::after {
+      right: -6px;
+      border-right: 1px solid rgba(181, 87, 105, 0.14);
+    }
+    .message-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+      color: var(--rose-deep);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .message-label::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: currentColor;
+      opacity: 0.75;
+    }
+    .message-card p {
+      margin: 0;
+      font-family: "Noto Serif TC", serif;
+      font-size: clamp(18px, 2vw, 24px);
+      line-height: 1.6;
+      color: var(--ink);
     }
     
     .section {
@@ -370,6 +447,7 @@
       50% { transform: translateY(-4px); }
     }
     @media (max-width: 960px) {
+      .message-card { max-width: 100%; }
       .hero,
       .feature,
       .feature:nth-child(even) { grid-template-columns: 1fr; }
@@ -382,6 +460,8 @@
       nav { justify-content: flex-start; }
     }
     @media (max-width: 720px) {
+      .message-card p { font-size: 18px; }
+      .message-card { padding: 14px 16px; }
       .media-shell { aspect-ratio: 9 / 16; }
       .page {
         width: min(100vw - 10px, 100%);
@@ -498,6 +578,7 @@
   </div>
 </body>
 </html>
+
 
 
 
