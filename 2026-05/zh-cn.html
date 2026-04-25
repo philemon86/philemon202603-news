@@ -262,6 +262,12 @@
       color: var(--muted);
       line-height: 1.8;
     }
+    .section-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
     .feature-list {
       margin-top: 22px;
       display: grid;
@@ -445,9 +451,12 @@
     </section>
     <section id="books" class="section">
       <h2>好书活动</h2>
-      <p class="section-lead">直接点图片前往活动与购买页。</p>
+      <div class="section-actions">
+        <a class="btn primary" href="https://news.pbooks.com.tw/2026-05/book">了解赠书</a>
+        <a class="btn" href="https://www.pbooks.com.tw/collections/%E8%85%93%E5%88%A9%E9%96%80%E6%9C%AC%E7%89%88%E6%9B%B8" target="_blank" rel="noopener">挑选本版书</a>
+      </div>
       <div class="feature-list">
-        <a class="media-shell promo-card" data-deadline="2026-06-30T23:59:59+08:00" data-prefix="买一送一倒数" data-ended="活动已结束" href="https://www.pbooks.com.tw/collections/%E8%85%93%E5%88%A9%E9%96%80%E6%9C%AC%E7%89%88%E6%9B%B8" target="_blank" rel="noopener"><picture><source media="(max-width: 720px)" srcset="./買一送一活動916.jpg" /><source media="(min-width: 721px)" srcset="./買一送一活動169.jpg" /><img loading="lazy" decoding="async" src="./買一送一活動11.jpg" alt="本版书买一送一活动" /></picture><span class="promo-overlay"><span class="promo-badge">6/30 截止</span><span class="promo-timer"><span class="promo-prefix">买一送一倒数</span> <strong data-countdown-value>--</strong></span></span></a>
+        <a class="media-shell promo-card" data-deadline="2026-06-30T23:59:59+08:00" data-prefix="赠书活动倒数" data-ended="活动已结束" href="https://news.pbooks.com.tw/2026-05/book" target="_blank" rel="noopener"><picture><source media="(max-width: 720px)" srcset="./買一送一活動916.jpg" /><source media="(min-width: 721px)" srcset="./買一送一活動169.jpg" /><img loading="lazy" decoding="async" src="./買一送一活動11.jpg" alt="本版书赠书活动" /></picture><span class="promo-overlay"><span class="promo-badge">6/30 截止</span><span class="promo-timer"><span class="promo-prefix">赠书活动倒数</span> <strong data-countdown-value>--</strong></span></span></a>
         <a class="media-shell promo-card" data-deadline="2026-05-31T23:59:59+08:00" data-prefix="特价优惠倒数" data-ended="优惠已结束" href="https://www.pbooks.com.tw/products/c291" target="_blank" rel="noopener"><picture><source media="(max-width: 720px)" srcset="./路得記916.jpg" /><source media="(min-width: 721px)" srcset="./路得記169.jpg" /><img loading="lazy" decoding="async" src="./路得記11.jpg" alt="路得记讲坛" /></picture><span class="promo-overlay"><span class="promo-badge">5/31 截止</span><span class="promo-timer"><span class="promo-prefix">特价优惠倒数</span> <strong data-countdown-value>--</strong></span></span></a>
       </div>
     </section>
