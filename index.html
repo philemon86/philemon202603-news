@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PHILEMON NEWS | 腓利門電子報</title>
   <link rel="icon" type="image/svg+xml" href="./favicon-news.svg" />
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-JD1JHF86H1"></script>
   <script>
@@ -17,7 +18,7 @@
       var href = link && link.getAttribute('href');
       var text = link ? (link.textContent || '').trim() : '';
       if (!href) return;
-      if (!/pbooks\.com\.tw\/(products\/|cart(?:\/|$))/i.test(href) && !/(購買|商品頁|購物車)/.test(text)) return;
+      if (!/pbooks\.com\.tw\/(products\/|cart(?:\/|$))/i.test(href) && !/(購買|商品頁|購物車|Buy|Product|Cart)/i.test(text)) return;
       gtag('event', 'purchase_link_click', {
         link_url: href,
         link_text: text || '(empty)',
@@ -25,31 +26,33 @@
       });
     });
   </script>
-  <title>PHILEMON NEWS | 腓利門電子報</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Noto+Serif+TC:wght@600;900&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #f2eadf;
+      --paper: rgba(255, 255, 255, 0.84);
+      --paper-strong: #fffdfa;
       --ink: #1f1a17;
       --muted: #6b5e54;
       --accent: #8c2f24;
-      --white: rgba(255, 255, 255, 0.86);
       --border: rgba(31, 26, 23, 0.1);
-      --radius-arch: 160px 160px 20px 20px;
+      --radius-hero: 160px 160px 24px 24px;
+      --radius-card: 24px;
+      --shadow: 0 24px 60px rgba(32, 23, 17, 0.08);
     }
 
-    * {
-      box-sizing: border-box;
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
-      font-family: "Space Grotesk", "Noto Serif TC", serif;
+      font-family: "Space Grotesk", "Noto Serif TC", "Source Han Serif TC", "PMingLiU", serif;
       color: var(--ink);
-      background: var(--bg);
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.6), transparent 32%),
+        linear-gradient(180deg, #f4ede4 0%, #efe3d2 100%);
       line-height: 1.6;
       overflow-x: hidden;
     }
@@ -59,93 +62,38 @@
       text-decoration: none;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
-
     header {
-      position: fixed;
+      position: sticky;
       top: 0;
-      width: 100%;
+      z-index: 20;
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      padding: 30px 5%;
-      z-index: 100;
-      backdrop-filter: blur(10px);
-      background: rgba(242, 234, 223, 0.72);
+      gap: 20px;
+      padding: 20px 5%;
+      background: rgba(242, 234, 223, 0.78);
       border-bottom: 1px solid rgba(31, 26, 23, 0.06);
+      backdrop-filter: blur(12px);
     }
 
     .brand {
+      font-size: 1.15rem;
       font-weight: 700;
       letter-spacing: 0.2em;
-      font-size: 1.2rem;
       text-transform: uppercase;
-    }
-
-    .menu-toggle {
-      display: none;
-      appearance: none;
-      align-items: center;
-      justify-content: center;
-      width: 48px;
-      height: 48px;
-      padding: 0;
-      border-radius: 999px;
-      border: 1px solid rgba(31, 26, 23, 0.12);
-      background: rgba(255, 255, 255, 0.66);
-      color: var(--ink);
-      cursor: pointer;
-      backdrop-filter: blur(10px);
-    }
-
-    .menu-toggle span,
-    .menu-toggle::before,
-    .menu-toggle::after {
-      content: "";
-      display: block;
-      width: 18px;
-      height: 2px;
-      border-radius: 999px;
-      background: currentColor;
-      transition: transform 0.28s ease, opacity 0.28s ease;
-    }
-
-    .menu-toggle span {
-      position: relative;
-    }
-
-    .menu-toggle::before {
-      position: absolute;
-      transform: translateY(-6px);
-    }
-
-    .menu-toggle::after {
-      position: absolute;
-      transform: translateY(6px);
-    }
-
-    header.nav-open .menu-toggle span {
-      opacity: 0;
-    }
-
-    header.nav-open .menu-toggle::before {
-      transform: rotate(45deg);
-    }
-
-    header.nav-open .menu-toggle::after {
-      transform: rotate(-45deg);
     }
 
     nav {
       display: flex;
-      gap: 30px;
+      flex-wrap: wrap;
+      gap: 22px;
       font-size: 13px;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
     nav a {
-      opacity: 0.6;
+      opacity: 0.72;
     }
 
     nav a:hover {
@@ -154,324 +102,230 @@
     }
 
     .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 140px 5% 70px;
-      margin-bottom: 40px;
+      padding: 72px 5% 48px;
     }
 
-    .hero-stage {
-      width: 100%;
+    .hero-shell {
       max-width: 1280px;
+      margin: 0 auto;
     }
 
     .hero-switch {
       display: flex;
-      gap: 12px;
       flex-wrap: wrap;
-      margin-bottom: 26px;
+      gap: 12px;
+      margin-bottom: 24px;
     }
 
     .hero-toggle {
       appearance: none;
-      border: 1px solid rgba(31, 26, 23, 0.12);
-      background: rgba(255, 255, 255, 0.66);
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.72);
       color: var(--muted);
       border-radius: 999px;
       padding: 12px 22px;
       font: inherit;
       font-size: 13px;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       cursor: pointer;
-      backdrop-filter: blur(10px);
     }
 
     .hero-toggle.active {
       background: var(--ink);
       border-color: var(--ink);
       color: #fff;
-      box-shadow: 0 18px 40px rgba(31, 26, 23, 0.16);
+      box-shadow: 0 16px 40px rgba(31, 26, 23, 0.12);
     }
 
-    .hero-panels {
-      position: relative;
-    }
+    .hero-panel { display: none; }
+    .hero-panel.active { display: block; }
 
-    .hero-panel {
-      display: none;
-    }
-
-    .hero-panel.active {
-      display: block;
-      animation: fadeSlideIn 0.55s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .hero-image {
-      width: 100%;
-      height: min(78vh, 820px);
-      background: linear-gradient(rgba(255,255,255,0.04), rgba(255,255,255,0.04)), url('./PA017341.jpg') center/cover no-repeat;
-      border-radius: var(--radius-arch);
-      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.15);
-    }
-
-    .hero-content {
-      width: 100%;
-      max-width: 1200px;
+    .hero-news,
+    .hero-books {
       display: grid;
-      grid-template-columns: minmax(340px, 560px) minmax(320px, 440px);
-      align-items: center;
-      gap: 56px;
-      justify-content: space-between;
-    }
-
-    .hero-copy-block {
-      justify-self: start;
-      max-width: 430px;
-    }
-
-    .hero-kicker {
-      display: inline-block;
-      margin-bottom: 18px;
-      font-size: 0.85rem;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .hero h1 {
-      font-size: clamp(3rem, 8vw, 6rem);
-      margin: 0;
-      font-weight: 900;
-      line-height: 1.05;
-      max-width: 14ch;
-    }
-
-    .hero-copy {
-      margin-top: 18px;
-      color: var(--muted);
-      font-size: 1rem;
-      max-width: 36ch;
-    }
-
-    .hero-cta {
-      margin-top: 40px;
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-
-    .hero-book-stage {
-      display: grid;
-      grid-template-columns: minmax(0, 1.12fr) minmax(320px, 0.72fr);
-      gap: 34px;
+      gap: 32px;
+      grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.78fr);
       align-items: stretch;
     }
 
-    .hero-book-image {
-      position: relative;
-      min-height: min(78vh, 820px);
-      border-radius: var(--radius-arch);
+    .hero-image,
+    .hero-book-visual {
+      min-height: 620px;
+      border-radius: var(--radius-hero);
       overflow: hidden;
-      background:
-        linear-gradient(180deg, rgba(16, 11, 8, 0.08), rgba(16, 11, 8, 0.1)),
-        url('./PA017358.jpg') center/cover no-repeat;
-      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.15);
+      position: relative;
+      box-shadow: var(--shadow);
+      background-color: #d8cdc0;
+      background-size: cover;
+      background-position: center;
     }
 
-    .hero-book-image::before {
+    .hero-image {
+      background-image:
+        linear-gradient(180deg, rgba(22, 16, 12, 0.06), rgba(22, 16, 12, 0.14)),
+        url('./PA017341.jpg');
+    }
+
+    .hero-book-visual {
+      background-image:
+        linear-gradient(180deg, rgba(20, 14, 11, 0.08), rgba(20, 14, 11, 0.2)),
+        url('./PA017358.jpg');
+    }
+
+    .hero-copy-card,
+    .hero-book-list {
+      background: linear-gradient(180deg, rgba(255,255,255,0.78), rgba(255,255,255,0.92));
+      border: 1px solid var(--border);
+      border-radius: 34px;
+      padding: 34px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .kicker {
+      display: inline-block;
+      margin-bottom: 12px;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: "Noto Serif TC", "Source Han Serif TC", "PMingLiU", serif;
+    }
+
+    .hero-copy-card h1,
+    .hero-book-overlay h1 {
+      margin: 0;
+      font-size: clamp(3rem, 7vw, 5.4rem);
+      line-height: 1.04;
+    }
+
+    .hero-copy-card p,
+    .hero-book-overlay p,
+    .hero-book-heading p {
+      margin: 14px 0 0;
+      color: var(--muted);
+      max-width: 30ch;
+    }
+
+    .hero-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 0 24px;
+      border-radius: 999px;
+      border: 1px solid var(--ink);
+      background: transparent;
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .btn.primary {
+      background: var(--ink);
+      color: #fff;
+    }
+
+    .btn:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .hero-book-visual::before {
       content: "";
       position: absolute;
       inset: 0;
-      background:
-        linear-gradient(180deg, rgba(17, 14, 11, 0.02) 0%, rgba(17, 14, 11, 0.14) 100%),
-        linear-gradient(90deg, rgba(17, 14, 11, 0.32) 0%, rgba(17, 14, 11, 0.08) 42%, rgba(17, 14, 11, 0.02) 100%);
+      background: linear-gradient(90deg, rgba(0,0,0,0.42), rgba(0,0,0,0.08) 55%, rgba(0,0,0,0.03));
     }
 
     .hero-book-overlay {
       position: absolute;
-      left: 42px;
-      bottom: 40px;
+      left: 36px;
+      bottom: 36px;
       z-index: 1;
-      max-width: 360px;
-      color: #fffaf3;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
+      color: #fffaf2;
+      max-width: 280px;
     }
 
-    .hero-book-overlay .hero-kicker {
-      color: rgba(255, 244, 228, 0.82);
-      margin-bottom: 16px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(29, 21, 16, 0.18);
-      border: 1px solid rgba(255, 244, 228, 0.14);
-      backdrop-filter: blur(10px);
-      font-size: 0.72rem;
-      letter-spacing: 0.2em;
-    }
-
-    .hero-book-overlay h1 {
-      margin: 0;
-      font-size: clamp(3rem, 7vw, 5.3rem);
-      line-height: 1.02;
-      max-width: 5ch;
-      font-family: "Noto Serif TC", serif;
-      text-shadow: 0 14px 34px rgba(0, 0, 0, 0.22);
-    }
-
-    .hero-book-overlay .hero-copy {
-      margin-top: 12px;
-      color: rgba(255, 244, 228, 0.9);
-      font-size: 1.02rem;
-      max-width: 16ch;
-      text-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
-    }
-
-    .hero-book-list {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 34px;
-      border-radius: 34px;
-      background:
-        linear-gradient(180deg, rgba(255, 252, 247, 0.72), rgba(255, 250, 245, 0.88)),
-        linear-gradient(135deg, rgba(188, 132, 72, 0.14), rgba(255, 255, 255, 0.16));
-      border: 1px solid rgba(31, 26, 23, 0.08);
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.08);
-      backdrop-filter: blur(12px);
-    }
-
-    .hero-book-heading {
-      margin-bottom: 28px;
-    }
-
-    .hero-book-heading .hero-kicker {
-      margin-bottom: 12px;
+    .hero-book-overlay .kicker,
+    .hero-book-overlay p {
+      color: rgba(255, 246, 236, 0.88);
     }
 
     .hero-book-heading h2 {
       margin: 0;
       font-size: clamp(2rem, 4vw, 3rem);
-      line-height: 1.08;
-      font-family: "Noto Serif TC", serif;
-    }
-
-    .hero-book-heading p {
-      margin: 12px 0 0;
-      color: var(--muted);
-      font-size: 0.98rem;
-      max-width: 30ch;
+      line-height: 1.1;
     }
 
     .book-sequence {
       display: grid;
       gap: 14px;
-      position: relative;
-      padding-right: 20px;
-    }
-
-    .book-sequence::after {
-      content: "";
-      position: absolute;
-      top: 10px;
-      right: 2px;
-      width: 2px;
-      height: calc(100% - 20px);
-      border-radius: 999px;
-      background: linear-gradient(180deg, rgba(140, 47, 36, 0.18), rgba(140, 47, 36, 0.04));
+      margin-top: 28px;
     }
 
     .book-card {
       display: grid;
-      grid-template-columns: 94px minmax(0, 1fr);
-      gap: 18px;
+      grid-template-columns: 92px minmax(0, 1fr);
+      gap: 16px;
       align-items: center;
-      padding: 18px;
-      border-radius: 28px;
-      background: rgba(255, 255, 255, 0.72);
-      border: 1px solid rgba(31, 26, 23, 0.08);
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.06);
-    }
-
-    .book-card.is-active {
-      background: rgba(255, 255, 255, 0.84);
+      padding: 16px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(31,26,23,0.08);
     }
 
     .book-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(140, 47, 36, 0.24);
-      box-shadow: 0 26px 54px rgba(0, 0, 0, 0.08);
-    }
-
-    .book-cover {
-      width: 94px;
-      aspect-ratio: 3 / 4;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 18px 32px rgba(67, 41, 28, 0.16);
-      background: url('./c291/assets/cover-front.jpg') center/cover no-repeat;
-    }
-
-    .book-cover.cover-c290 {
-      background-image: url('./c290/assets/cover-front.jpg');
+      transform: translateY(-4px);
+      box-shadow: 0 18px 36px rgba(31, 26, 23, 0.08);
     }
 
     .book-card.is-coming {
-      background: rgba(255, 255, 255, 0.42);
+      opacity: 0.76;
       border-style: dashed;
-      border-color: rgba(31, 26, 23, 0.1);
       box-shadow: none;
-      opacity: 0.82;
       cursor: default;
-      pointer-events: none;
     }
 
-    .book-card.is-coming:hover {
-      transform: none;
-      border-color: rgba(31, 26, 23, 0.1);
-      box-shadow: none;
+    .book-cover {
+      width: 92px;
+      aspect-ratio: 3 / 4;
+      border-radius: 18px;
+      background: center / cover no-repeat;
+      box-shadow: 0 14px 28px rgba(31, 26, 23, 0.12);
     }
 
-    .book-card.is-coming .book-cover {
-      position: relative;
+    .book-cover.cover-c291 { background-image: url('./c291/assets/cover-front.jpg'); }
+    .book-cover.cover-c290 { background-image: url('./c290/assets/cover-front.jpg'); }
+    .book-cover.cover-coming {
       background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.36), rgba(255, 255, 255, 0.18)),
-        linear-gradient(135deg, rgba(113, 95, 84, 0.22), rgba(208, 195, 182, 0.4));
-      box-shadow: none;
-      opacity: 0.52;
-    }
-
-    .book-card.is-coming .book-cover::after {
-      content: "Coming\A soon";
-      position: absolute;
-      inset: 0;
+        linear-gradient(180deg, rgba(255,255,255,0.28), rgba(255,255,255,0.08)),
+        linear-gradient(135deg, rgba(113, 95, 84, 0.22), rgba(208, 195, 182, 0.42));
       display: grid;
       place-items: center;
-      white-space: pre;
-      text-align: center;
-      color: rgba(31, 26, 23, 0.58);
+      color: rgba(31, 26, 23, 0.52);
       font-size: 12px;
       font-weight: 700;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      line-height: 1.4;
-    }
-
-    .book-card.is-coming .book-order {
-      background: rgba(107, 94, 84, 0.08);
-      color: rgba(107, 94, 84, 0.88);
-    }
-
-    .book-card.is-coming .book-meta h3 {
-      color: rgba(31, 26, 23, 0.42);
-    }
-
-    .book-meta {
-      min-width: 0;
+      text-align: center;
+      white-space: pre-line;
+      box-shadow: none;
     }
 
     .book-order {
@@ -486,133 +340,110 @@
       color: var(--accent);
       font-size: 12px;
       font-weight: 700;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
     }
 
     .book-meta h3 {
-      margin: 12px 0 0;
-      font-size: 1.3rem;
-      line-height: 1.25;
-      font-family: "Noto Serif TC", serif;
-    }
-
-    .btn {
-      padding: 16px 32px;
-      border-radius: 50px;
-      border: 1px solid var(--ink);
-      font-weight: 500;
-      font-size: 14px;
-      cursor: pointer;
-      display: inline-block;
-      background: transparent;
-      color: var(--ink);
-    }
-
-    .btn.primary {
-      background: var(--ink);
-      color: #fff;
-    }
-
-    .btn:hover {
-      transform: scale(1.05);
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
+      margin: 10px 0 0;
+      font-size: 1.28rem;
+      line-height: 1.3;
     }
 
     .container {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 5% 100px;
+      padding: 0 5% 96px;
     }
 
-    #newsletter,
-    #portal,
-    #archive {
-      scroll-margin-top: 120px;
+    section {
+      scroll-margin-top: 110px;
     }
 
     .section-title {
-      font-size: 0.8rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 40px;
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 18px;
+      margin: 0 0 32px;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
     }
 
     .section-title::after {
       content: "";
       height: 1px;
-      flex-grow: 1;
+      flex: 1;
       background: var(--border);
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 30px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
     }
 
     .card {
-      background: var(--white);
-      padding: 40px;
-      border-radius: 20px;
-      border: 1px solid var(--border);
-      color: inherit;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       min-height: 220px;
+      padding: 32px;
+      border-radius: var(--radius-card);
+      border: 1px solid var(--border);
+      background: var(--paper);
+      box-shadow: var(--shadow);
     }
 
     .card:hover {
-      background: #fff;
-      transform: translateY(-10px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
-      border-color: var(--accent);
+      transform: translateY(-6px);
+      background: var(--paper-strong);
     }
 
-    .card .date {
-      font-size: 12px;
+    .date {
+      margin-bottom: 12px;
       color: var(--accent);
+      font-size: 12px;
       font-weight: 700;
-      margin-bottom: 10px;
       letter-spacing: 0.08em;
       text-transform: uppercase;
     }
 
     .card h3 {
       margin: 0;
-      font-size: 1.5rem;
-      font-weight: 600;
-      line-height: 1.3;
+      font-size: 1.48rem;
+      line-height: 1.25;
     }
 
     .card p {
       margin: 14px 0 0;
-      font-size: 14px;
       color: var(--muted);
+      font-size: 14px;
+    }
+
+    .arrow {
+      align-self: flex-end;
+      margin-top: 18px;
+      font-size: 1.25rem;
     }
 
     .issue-links-panel {
       display: grid;
-      gap: 16px;
-      margin-top: 28px;
+      gap: 14px;
+      margin-top: 24px;
     }
 
     .issue-links-row {
       display: grid;
       grid-template-columns: 110px 1fr;
-      gap: 14px;
+      gap: 16px;
       align-items: center;
       padding: 16px 18px;
+      border-radius: 18px;
+      background: var(--paper);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      background: var(--white);
+      box-shadow: var(--shadow);
     }
 
     .issue-links-row strong {
@@ -623,8 +454,8 @@
 
     .issue-links-list {
       display: flex;
-      gap: 8px;
       flex-wrap: wrap;
+      gap: 8px;
     }
 
     .issue-links-list a {
@@ -634,13 +465,12 @@
       min-width: 60px;
       padding: 8px 12px;
       border-radius: 999px;
-      border: 1px solid var(--border);
       background: #fff;
+      border: 1px solid var(--border);
       color: var(--muted);
       font-size: 12px;
       font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
 
     .issue-links-list a:hover {
@@ -648,250 +478,87 @@
       border-color: var(--accent);
     }
 
-    .arrow {
-      align-self: flex-end;
-      font-size: 1.2rem;
-    }
-
     .archive-list {
-      margin-top: 40px;
+      margin-top: 20px;
     }
 
     .archive-item {
       display: grid;
       grid-template-columns: 100px 1fr auto;
-      align-items: center;
       gap: 20px;
-      padding: 25px 0;
+      align-items: center;
+      padding: 24px 0;
       border-bottom: 1px solid var(--border);
     }
 
-    .archive-item:hover {
-      padding-left: 20px;
-      color: var(--accent);
+    .archive-item--muted {
+      opacity: 0.55;
     }
 
     footer {
-      padding: 50px 5%;
+      padding: 44px 5%;
       text-align: center;
-      font-size: 12px;
       color: var(--muted);
+      font-size: 12px;
       letter-spacing: 0.1em;
     }
 
-    @keyframes fadeSlideIn {
-      from {
-        opacity: 0;
-        transform: translateY(12px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @media (max-width: 1100px) {
-      .hero {
-        min-height: auto;
-        padding-top: 120px;
-      }
-
-      .hero-content {
-        grid-template-columns: 1fr;
-        gap: 32px;
-      }
-
-      .hero-book-stage {
+    @media (max-width: 980px) {
+      .hero-news,
+      .hero-books {
         grid-template-columns: 1fr;
       }
 
-      .hero-image {
-        width: min(100%, 620px);
-        height: 58vh;
-        min-height: 420px;
-        margin: 0 auto;
-      }
-
-      .hero-book-image {
-        min-height: 62vh;
-      }
-
-      .hero-copy-block {
-        justify-self: center;
-        max-width: 640px;
-      }
-
-      .hero-book-list {
-        max-width: 720px;
-        margin: 0 auto;
-      }
-
-      .hero h1 {
-        text-align: center;
-      }
-
-      .hero h1,
-      .hero-copy {
-        max-width: none;
-      }
-
-      .hero-copy,
-      .hero-cta {
-        text-align: center;
-        justify-content: center;
-      }
-
-      .hero-switch {
-        justify-content: center;
+      .hero-image,
+      .hero-book-visual {
+        min-height: 460px;
       }
     }
 
-    @media (max-width: 640px) {
+    @media (max-width: 720px) {
       header {
-        align-items: center;
-        padding: 18px 5%;
+        flex-direction: column;
+        align-items: flex-start;
       }
 
       nav {
-        display: none;
-        position: absolute;
-        top: calc(100% + 10px);
-        right: 5%;
-        left: 5%;
-        flex-direction: column;
-        gap: 0;
-        padding: 14px 0;
-        border-radius: 24px;
-        background: rgba(255, 251, 245, 0.96);
-        border: 1px solid rgba(31, 26, 23, 0.08);
-        box-shadow: 0 20px 42px rgba(0, 0, 0, 0.08);
-        backdrop-filter: blur(14px);
-      }
-
-      header.nav-open nav {
-        display: flex;
-      }
-
-      nav a {
-        padding: 12px 20px;
-        opacity: 0.84;
-      }
-
-      nav a:last-child {
-        margin-top: 4px;
-      }
-
-      .menu-toggle {
-        display: inline-flex;
-        position: relative;
-        flex: 0 0 auto;
+        gap: 14px;
       }
 
       .hero {
-        padding-top: 120px;
+        padding-top: 48px;
       }
 
-      .hero-image {
-        width: 100%;
-        height: 48vh;
-        min-height: 320px;
-        border-radius: 120px 120px 18px 18px;
+      .hero-image,
+      .hero-book-visual {
+        min-height: 360px;
+        border-radius: 110px 110px 18px 18px;
       }
 
-      .hero-book-image {
-        min-height: 52vh;
-        border-radius: 120px 120px 18px 18px;
-      }
-
-      .hero-book-image::before {
-        background:
-          linear-gradient(180deg, rgba(17, 14, 11, 0.05) 0%, rgba(17, 14, 11, 0.28) 100%),
-          linear-gradient(90deg, rgba(17, 14, 11, 0.46) 0%, rgba(17, 14, 11, 0.18) 48%, rgba(17, 14, 11, 0.06) 100%);
+      .hero-copy-card,
+      .hero-book-list {
+        padding: 24px;
+        border-radius: 24px;
       }
 
       .hero-book-overlay {
         left: 24px;
-        right: auto;
-        bottom: 26px;
-        max-width: 210px;
-        padding: 0;
-        border-radius: 0;
-        background: none;
-        border: 0;
-        box-shadow: none;
-        backdrop-filter: none;
-      }
-
-      .hero-book-overlay h1 {
-        font-size: clamp(2.55rem, 11vw, 3.2rem);
-        line-height: 0.98;
-        max-width: none;
-        white-space: nowrap;
-        word-break: keep-all;
-      }
-
-      .hero-book-overlay .hero-kicker {
-        margin-bottom: 12px;
-        padding: 0;
-        background: none;
-        border: 0;
-        font-size: 0.66rem;
-        letter-spacing: 0.2em;
-      }
-
-      .hero-book-overlay .hero-copy {
-        margin-top: 10px;
-        max-width: none;
-        font-size: 0.94rem;
-      }
-
-      .hero-copy {
-        font-size: 0.98rem;
+        bottom: 24px;
+        max-width: 220px;
       }
 
       .hero-cta {
         flex-direction: column;
-        align-items: center;
+        align-items: stretch;
       }
 
       .hero-cta .btn {
-        width: min(100%, 280px);
-        text-align: center;
+        width: 100%;
       }
 
-      .hero-toggle {
-        width: calc(50% - 6px);
-        justify-content: center;
-      }
-
-      .hero-book-list {
-        padding: 24px;
-        border-radius: 26px;
-      }
-
-      .book-card {
-        grid-template-columns: 76px minmax(0, 1fr);
-        gap: 14px;
-        padding: 14px;
-      }
-
-      .book-cover {
-        width: 76px;
-        border-radius: 16px;
-      }
-
-      .hero-book-heading h2 {
-        font-size: clamp(1.8rem, 9vw, 2.4rem);
-      }
-
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
+      .issue-links-row,
       .archive-item {
         grid-template-columns: 1fr;
-        align-items: flex-start;
       }
     }
   </style>
@@ -899,24 +566,22 @@
 <body>
   <header>
     <a class="brand" href="https://www.pbooks.com.tw/" target="_blank" rel="noopener">PHILEMON</a>
-    <button class="menu-toggle" type="button" aria-label="開啟選單" aria-expanded="false">
-      <span></span>
-    </button>
     <nav>
-      <a href="#newsletter">NEWSLETTER</a>
-      <a href="#portal">PORTAL</a>
-      <a href="#archive">ARCHIVE</a>
-      <a href="/first" target="_blank" style="color:#e36b2c; font-weight:600;">FIRST-TIME ORDER?</a>
+      <a href="#newsletter">Newsletter</a>
+      <a href="#portal">Portal</a>
+      <a href="#archive">Archive</a>
+      <a href="/first" target="_blank" rel="noopener" style="color:#e36b2c; font-weight:700;">First-Time Order?</a>
     </nav>
   </header>
 
   <section class="hero">
-    <div class="hero-stage">
-      <div class="hero-switch" aria-label="首頁主視覺切換">
-        <button class="hero-toggle active" type="button" data-hero-target="hero-news">腓利門有新事</button>
-        <button class="hero-toggle" type="button" data-hero-target="hero-books">腓利門有新書</button>
+    <div class="hero-shell">
+      <div class="hero-switch" aria-label="切換首頁主題">
+        <button class="hero-toggle active" type="button" data-hero-target="hero-news">腓利門電子報</button>
+        <button class="hero-toggle" type="button" data-hero-target="hero-books">腓利門出版品</button>
       </div>
 
+<<<<<<< HEAD
       <div class="hero-panels">
         <div class="hero-panel active" id="hero-news">
           <div class="hero-content">
@@ -929,48 +594,63 @@
                 <a href="./2026-05/" class="btn primary">最新一期</a>
                 <a href="#portal" class="btn">Explore Space</a>
               </div>
+=======
+      <div class="hero-panel active" id="hero-news">
+        <div class="hero-news">
+          <div class="hero-image" aria-hidden="true"></div>
+          <div class="hero-copy-card">
+            <div class="kicker">PHILEMON NEWS</div>
+            <h1>腓利門<br>電子報</h1>
+            <p>每月整理腓利門書房最新消息，快速掌握新刊、活動與專題內容。</p>
+            <div class="hero-cta">
+              <a href="./2026-04/" class="btn primary">閱讀本期</a>
+              <a href="#portal" class="btn">Explore Space</a>
+>>>>>>> fe5228b (Fix homepage text encoding and archive labels)
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="hero-panel" id="hero-books">
-          <div class="hero-book-stage">
-            <div class="hero-book-image" aria-hidden="true">
-              <div class="hero-book-overlay">
-                <div class="hero-kicker">PHILEMON BOOKS</div>
-                <h1>腓利門<br>有新書</h1>
-                <p class="hero-copy">點亮閱讀的光</p>
-              </div>
+      <div class="hero-panel" id="hero-books">
+        <div class="hero-books">
+          <div class="hero-book-visual" aria-hidden="true">
+            <div class="hero-book-overlay">
+              <div class="kicker">PHILEMON BOOKS</div>
+              <h1>腓利門<br>出版品</h1>
+              <p>最新出版與精選推薦</p>
+            </div>
+          </div>
+
+          <div class="hero-book-list">
+            <div class="hero-book-heading">
+              <div class="kicker">NEW RELEASES</div>
+              <h2>最新出版</h2>
+              <p>從新書上架到主題選書，集中整理近期推薦。</p>
             </div>
 
-            <div class="hero-book-list">
-              <div class="hero-book-heading">
-                <div class="hero-kicker">NEW RELEASES</div>
-                <h2>打開眼界</h2>
-                <p>認識書房每一本新書</p>
-              </div>
+            <div class="book-sequence">
+              <a class="book-card" href="./c291/">
+                <div class="book-cover cover-c291" aria-hidden="true"></div>
+                <div class="book-meta">
+                  <span class="book-order">01</span>
+                  <h3>C291 藏在心底的話語</h3>
+                </div>
+              </a>
 
-              <div class="book-sequence">
-                <a class="book-card is-active" href="./c291/">
-                  <div class="book-cover" aria-hidden="true"></div>
-                  <div class="book-meta">
-                    <span class="book-order">01</span>
-                    <h3>C291《路得記講壇》</h3>
-                  </div>
-                </a>
-                <a class="book-card" href="./c290/">
-                  <div class="book-cover cover-c290" aria-hidden="true"></div>
-                  <div class="book-meta">
-                    <span class="book-order">02</span>
-                    <h3>C290《洗禮論》</h3>
-                  </div>
-                </a>
-                <div class="book-card is-coming" aria-hidden="true">
-                  <div class="book-cover"></div>
-                  <div class="book-meta">
-                    <span class="book-order">03</span>
-                    <h3>Coming soon</h3>
-                  </div>
+              <a class="book-card" href="./c290/">
+                <div class="book-cover cover-c290" aria-hidden="true"></div>
+                <div class="book-meta">
+                  <span class="book-order">02</span>
+                  <h3>C290 洗禮論</h3>
+                </div>
+              </a>
+
+              <div class="book-card is-coming" aria-hidden="true">
+                <div class="book-cover cover-coming">Coming
+Soon</div>
+                <div class="book-meta">
+                  <span class="book-order">03</span>
+                  <h3>Coming Soon</h3>
                 </div>
               </div>
             </div>
@@ -994,20 +674,22 @@
         </a>        <a href="./2026-04/" class="card">
           <div>
             <div class="date">2026 / 04</div>
-            <h3>四月電子報：<br>春日閱讀清單</h3>
-            <p>本期收錄四月主題內容、書房近況與百年紀念商品頁面入口。</p>
+            <h3>四月號電子報<br>本月精選與最新消息</h3>
+            <p>收錄本月推薦商品、影音內容與書房動態，快速瀏覽最新內容。</p>
           </div>
           <div class="arrow">→</div>
         </a>
+
         <a href="./2026-03/" class="card">
           <div>
             <div class="date" style="color:var(--muted)">2026 / 03</div>
-            <h3>三月電子報：<br>新書新品、行李箱、紀念衫</h3>
-            <p>以百年主題串聯傳單、書籍與活動，推動福音被閱讀、被拿走、被實際傳出去。。</p>
+            <h3>三月號電子報<br>百年旅程與主題企劃</h3>
+            <p>整理三月號重點內容，包含專題、商品與延伸連結。</p>
           </div>
           <div class="arrow">→</div>
         </a>
       </div>
+
       <div class="issue-links-panel">
                 <div class="issue-links-row">
           <strong>2026.05</strong>
@@ -1024,6 +706,7 @@
             <a href="./2026-04/en.html">EN</a>
           </div>
         </div>
+
         <div class="issue-links-row">
           <strong>2026.03</strong>
           <div class="issue-links-list" aria-label="2026 March language links">
@@ -1040,24 +723,26 @@
       <div class="grid">
         <a href="./bookstore/" class="card">
           <div>
-            <div class="date">SPACE</div>
-            <h3>走進書房</h3>
+            <div class="date">Space</div>
+            <h3>書房空間</h3>
           </div>
-          <p>從木作拱門、展示書桌到閱讀動線，進入腓利門書房的實體空間。</p>
+          <p>走進整修後的新書房，看看腓利門書房目前的空間與展陳樣貌。</p>
         </a>
+
         <a href="./cup/" class="card">
           <div>
-            <div class="date">CRAFT</div>
-            <h3>杯子展示</h3>
+            <div class="date">Craft</div>
+            <h3>杯子設計</h3>
           </div>
-          <p>收看杯款與實拍展示，延伸書房選物的日常使用感。</p>
+          <p>瀏覽杯款與視覺設計，延伸看看腓利門書房的周邊企劃。</p>
         </a>
+
         <a href="./2026-luggage/" class="card">
           <div>
-            <div class="date">JOURNEY</div>
-            <h3>2026 行李箱</h3>
+            <div class="date">Journey</div>
+            <h3>2026 百年旅行箱</h3>
           </div>
-          <p>查看旅行箱專頁，延伸百年紀念主題與移動中的使用場景。</p>
+          <p>查看旅行箱專頁，延伸認識百年企劃與相關內容。</p>
         </a>
       </div>
     </section>
@@ -1074,63 +759,39 @@
           <strong>四月號電子報</strong>
           <a href="./2026-04/" class="btn">Open</a>
         </div>
+
         <div class="archive-item">
           <span>2026.03</span>
           <strong>三月號電子報</strong>
           <a href="./2026-03/" class="btn">Open</a>
         </div>
-        <div class="archive-item" style="opacity: 0.45;">
-          <span>2026.06</span>`r`n          <strong>Coming Soon</strong>`r`n          <span>敬請期待</span>
+        <div class="archive-item archive-item--muted">
+          <span>2026.06</span>
+          <strong>Coming Soon</strong>
+          <span>敬請期待</span>
         </div>
       </div>
     </section>
   </div>
 
-  <footer>
-    PHILEMON NEWS © 2026
-  </footer>
+  <footer>PHILEMON NEWS · 2026</footer>
 
   <script>
-    const siteHeader = document.querySelector("header");
-    const menuToggle = document.querySelector(".menu-toggle");
-    const navLinks = document.querySelectorAll("nav a");
-    const heroToggles = document.querySelectorAll(".hero-toggle");
-    const heroPanels = document.querySelectorAll(".hero-panel");
-
-    function closeMenu() {
-      if (!siteHeader || !menuToggle) return;
-      siteHeader.classList.remove("nav-open");
-      menuToggle.setAttribute("aria-expanded", "false");
-    }
-
-    if (menuToggle && siteHeader) {
-      menuToggle.addEventListener("click", () => {
-        const isOpen = siteHeader.classList.toggle("nav-open");
-        menuToggle.setAttribute("aria-expanded", String(isOpen));
-      });
-
-      navLinks.forEach((link) => {
-        link.addEventListener("click", closeMenu);
-      });
-
-      document.addEventListener("click", (event) => {
-        if (window.innerWidth > 640) return;
-        if (!siteHeader.contains(event.target)) closeMenu();
-      });
-    }
+    const heroToggles = document.querySelectorAll('.hero-toggle');
+    const heroPanels = document.querySelectorAll('.hero-panel');
 
     function setHeroPanel(targetId) {
       heroToggles.forEach((toggle) => {
-        toggle.classList.toggle("active", toggle.dataset.heroTarget === targetId);
+        toggle.classList.toggle('active', toggle.dataset.heroTarget === targetId);
       });
 
       heroPanels.forEach((panel) => {
-        panel.classList.toggle("active", panel.id === targetId);
+        panel.classList.toggle('active', panel.id === targetId);
       });
     }
 
     heroToggles.forEach((toggle) => {
-      toggle.addEventListener("click", () => setHeroPanel(toggle.dataset.heroTarget));
+      toggle.addEventListener('click', () => setHeroPanel(toggle.dataset.heroTarget));
     });
   </script>
 </body>
