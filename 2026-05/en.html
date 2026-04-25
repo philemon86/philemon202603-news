@@ -268,6 +268,7 @@
       gap: 28px;
     }
     .media-shell {
+      position: relative;
       display: block;
       aspect-ratio: 16 / 9;
       overflow: hidden;
@@ -283,6 +284,51 @@
       display: block;
     }
     .media-shell img { object-fit: contain; }
+    .promo-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(85,54,61,0.06), rgba(85,54,61,0.22));
+      pointer-events: none;
+      z-index: 1;
+    }
+    .promo-overlay {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      z-index: 2;
+      display: grid;
+      gap: 8px;
+      pointer-events: none;
+    }
+    .promo-badge,
+    .promo-timer {
+      width: fit-content;
+      max-width: 100%;
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: #fff;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 24px rgba(85,54,61,0.16);
+    }
+    .promo-badge {
+      background: linear-gradient(135deg, rgba(181,87,105,0.96), rgba(140,60,79,0.96));
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .promo-timer {
+      background: rgba(85,54,61,0.86);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+    .promo-timer strong {
+      font-size: 15px;
+      font-weight: 800;
+    }
     .archive {
       margin-top: 18px;
       padding: 18px 22px;
@@ -398,19 +444,19 @@
       <h2>Mother's Day Gifts</h2>
       <p class="section-lead">Tap an image to go directly to the product page.</p>
       <div class="feature-list">
+        <a class="media-shell promo-card" data-deadline="2026-05-31T23:59:59+08:00" data-prefix="Offer ends in" data-ended="Offer ended" href="https://www.pbooks.com.tw/products/pb31-pb32" target="_blank" rel="noopener"><picture><source media="(max-width: 720px)" srcset="./後背包916.jpg" /><source media="(min-width: 721px)" srcset="./後背包169.jpg" /><img src="./後背包11.jpg" alt="Backpack buy-one-get-one" /></picture><span class="promo-overlay"><span class="promo-badge">Ends 5/31</span><span class="promo-timer"><span class="promo-prefix">Offer ends in</span> <strong data-countdown-value>--</strong></span></span></a>
         <a class="media-shell" href="https://www.pbooks.com.tw/products/pb45" target="_blank" rel="noopener"><picture><source media="(max-width: 720px)" srcset="./四色杯袋916.jpg" /><source media="(min-width: 721px)" srcset="./四色杯袋169.jpg" /><img src="./四色杯袋11.jpg" alt="四色杯袋" /></picture></a>
         <a class="media-shell" href="https://www.pbooks.com.tw/products/cup09" target="_blank" rel="noopener"><picture><source media="(max-width: 720px)" srcset="./五色保溫瓶916.jpg" /><source media="(min-width: 721px)" srcset="./五色保溫瓶169.jpg" /><img src="./五色保溫瓶11.jpg" alt="五色保溫瓶" /></picture></a>
         <a class="media-shell" href="https://www.pbooks.com.tw/products/cup10" target="_blank" rel="noopener"><picture><source media="(max-width: 720px)" srcset="./漸層保溫瓶916.jpg" /><source media="(min-width: 721px)" srcset="./漸層保溫瓶169.jpg" /><img src="./漸層保溫瓶11.jpg" alt="漸層保溫瓶" /></picture></a>
         <a class="media-shell" href="https://www.pbooks.com.tw/products/pg25" target="_blank" rel="noopener"><picture><source media="(max-width: 720px)" srcset="./紅包916.jpg" /><source media="(min-width: 721px)" srcset="./紅包169.jpg" /><img src="./紅包11.jpg" alt="愛滿溢紅包袋" /></picture></a>
-        <a class="media-shell" href="https://www.pbooks.com.tw/products/pb31-pb32" target="_blank" rel="noopener"><picture><source media="(max-width: 720px)" srcset="./後背包916.jpg" /><source media="(min-width: 721px)" srcset="./後背包169.jpg" /><img src="./後背包11.jpg" alt="後背包買一送一" /></picture></a>
       </div>
     </section>
     <section id="books" class="section">
       <h2>Book Offers</h2>
       <p class="section-lead">Tap an image to go directly to the offer or product page.</p>
       <div class="feature-list">
-        <a class="media-shell" href="https://www.pbooks.com.tw/collections/%E8%85%93%E5%88%A9%E9%96%80%E6%9C%AC%E7%89%88%E6%9B%B8" target="_blank" rel="noopener"><picture><source media="(max-width: 720px)" srcset="./買一送一活動916.jpg" /><source media="(min-width: 721px)" srcset="./買一送一活動169.jpg" /><img src="./買一送一活動11.jpg" alt="本版書買一送一活動" /></picture></a>
-        <a class="media-shell" href="https://www.pbooks.com.tw/products/c291" target="_blank" rel="noopener"><picture><source media="(max-width: 720px)" srcset="./路得記916.jpg" /><source media="(min-width: 721px)" srcset="./路得記169.jpg" /><img src="./路得記11.jpg" alt="路得記講壇" /></picture></a>
+        <a class="media-shell promo-card" data-deadline="2026-06-30T23:59:59+08:00" data-prefix="BOGO ends in" data-ended="Offer ended" href="https://www.pbooks.com.tw/collections/%E8%85%93%E5%88%A9%E9%96%80%E6%9C%AC%E7%89%88%E6%9B%B8" target="_blank" rel="noopener"><picture><source media="(max-width: 720px)" srcset="./買一送一活動916.jpg" /><source media="(min-width: 721px)" srcset="./買一送一活動169.jpg" /><img src="./買一送一活動11.jpg" alt="Philemon books buy-one-get-one" /></picture><span class="promo-overlay"><span class="promo-badge">Ends 6/30</span><span class="promo-timer"><span class="promo-prefix">BOGO ends in</span> <strong data-countdown-value>--</strong></span></span></a>
+        <a class="media-shell promo-card" data-deadline="2026-05-31T23:59:59+08:00" data-prefix="Offer ends in" data-ended="Offer ended" href="https://www.pbooks.com.tw/products/c291" target="_blank" rel="noopener"><picture><source media="(max-width: 720px)" srcset="./路得記916.jpg" /><source media="(min-width: 721px)" srcset="./路得記169.jpg" /><img src="./路得記11.jpg" alt="Sermons on Ruth" /></picture><span class="promo-overlay"><span class="promo-badge">Ends 5/31</span><span class="promo-timer"><span class="promo-prefix">Offer ends in</span> <strong data-countdown-value>--</strong></span></span></a>
       </div>
     </section>
             <section id="archive" class="section">
@@ -433,6 +479,40 @@
     </section>
     <footer>PHILEMON NEWS · May 2026 · Mother's Day Selection</footer>
   </div>
+  <script>
+    (function() {
+      const promoCards = document.querySelectorAll(".promo-card[data-deadline]");
+      if (!promoCards.length) return;
+
+      function formatRemaining(ms) {
+        const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+        const days = Math.floor(totalSeconds / 86400);
+        const hours = Math.floor((totalSeconds % 86400) / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        return days + "d " + hours + "h " + minutes + "m";
+      }
+
+      function updateCountdowns() {
+        const now = Date.now();
+        promoCards.forEach((card) => {
+          const target = new Date(card.dataset.deadline).getTime();
+          const valueEl = card.querySelector("[data-countdown-value]");
+          const prefixEl = card.querySelector(".promo-prefix");
+          if (!valueEl || !prefixEl || Number.isNaN(target)) return;
+          if (now >= target) {
+            prefixEl.textContent = card.dataset.ended || "Offer ended";
+            valueEl.textContent = "";
+          } else {
+            prefixEl.textContent = card.dataset.prefix || "Offer ends in";
+            valueEl.textContent = formatRemaining(target - now);
+          }
+        });
+      }
+
+      updateCountdowns();
+      window.setInterval(updateCountdowns, 60000);
+    })();
+  </script>
 </body>
 </html>
 
