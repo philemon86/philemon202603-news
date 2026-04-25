@@ -16,12 +16,11 @@
     document.addEventListener("click", function(event) {
       var link = event.target.closest("a[href]");
       var href = link && link.getAttribute("href");
-      var text = link ? (link.textContent || "").trim() : "";
       if (!href) return;
-      if (!/pbooks\.com\.tw\/(products\/|collections\/|cart(?:\/|$))/i.test(href) && !/(購買|購買連結|購物車|查看更多)/.test(text)) return;
+      if (!/pbooks\.com\.tw\/(products\/|collections\/|cart(?:\/|$))/i.test(href)) return;
       gtag("event", "purchase_link_click", {
         link_url: href,
-        link_text: text || "(empty)",
+        link_text: (link.textContent || "").trim() || "(image)",
         page_path: location.pathname,
         page_language: pageLanguage
       });
@@ -33,13 +32,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --paper: rgba(255, 251, 250, 0.92);
-      --paper-strong: #fffdfb;
-      --rose-deep: #b55769;
       --berry: #8c3c4f;
-      --ink: #54363c;
-      --muted: #7a5c63;
-      --line: rgba(140, 60, 79, 0.2);
+      --rose: #b55769;
+      --ink: #55363d;
+      --muted: #7a5d63;
+      --line: rgba(140, 60, 79, 0.16);
       --shadow: 0 24px 60px rgba(181, 87, 105, 0.18);
     }
     * { box-sizing: border-box; }
@@ -49,57 +46,33 @@
       color: var(--ink);
       font-family: "Outfit", "Noto Serif TC", sans-serif;
       background:
-        radial-gradient(circle at top left, rgba(255, 211, 220, 0.9), transparent 32%),
-        radial-gradient(circle at top right, rgba(250, 226, 232, 0.9), transparent 28%),
-        linear-gradient(180deg, #fff9f8 0%, #fff1f2 42%, #fde8eb 100%);
-      overflow-x: hidden;
-    }
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background:
-        linear-gradient(135deg, rgba(255,255,255,0.24) 0%, transparent 38%),
-        radial-gradient(circle at 20% 15%, rgba(255,255,255,0.55), transparent 18%);
-      pointer-events: none;
-      opacity: 0.7;
+        radial-gradient(circle at top left, rgba(255, 220, 228, 0.9), transparent 30%),
+        radial-gradient(circle at top right, rgba(255, 235, 239, 0.85), transparent 26%),
+        linear-gradient(180deg, #fff9f9 0%, #fff2f4 45%, #fdebed 100%);
     }
     a { color: inherit; text-decoration: none; }
-        .media-shell {
-      display: block;
-      aspect-ratio: 16 / 9;
-      overflow: hidden;
-      border-radius: 30px;
-      background: rgba(255,255,255,0.96);
-      border: 1px solid rgba(181, 87, 105, 0.14);
-      box-shadow: 0 24px 50px rgba(181, 87, 105, 0.12), inset 0 0 0 1px rgba(255,255,255,0.5);
-    }    
-    .media-shell picture { display: block; width: 100%; height: 100%; }
-    .media-shell img { width: 100%; height: 100%; object-fit: contain; }
+    img { display: block; width: 100%; }
     .page {
-      position: relative;
-      z-index: 1;
-      width: min(1180px, calc(100vw - 20px));
-      margin: 18px auto 48px;
-      padding: 28px clamp(18px, 4vw, 42px) 64px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,250,250,0.84));
-      border: 1px solid rgba(181, 87, 105, 0.18);
+      width: min(1180px, calc(100vw - 24px));
+      margin: 18px auto 42px;
+      padding: 28px clamp(18px, 4vw, 42px) 54px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,250,251,0.9));
+      border: 1px solid var(--line);
       border-radius: 28px;
       box-shadow: var(--shadow);
-      backdrop-filter: blur(14px);
     }
     .lang-switcher {
       display: flex;
       justify-content: center;
-      gap: 10px;
       flex-wrap: wrap;
+      gap: 10px;
       margin-bottom: 18px;
     }
     .lang-switcher a {
-      border: 1px solid var(--line);
       padding: 7px 14px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.72);
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.8);
       font-size: 12px;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -114,30 +87,26 @@
       justify-content: space-between;
       align-items: center;
       gap: 18px;
-      padding-top: 10px;
     }
     .brand-wrap {
       display: flex;
       align-items: center;
       gap: 14px;
-      min-width: 0;
     }
     .logo img {
-      width: 64px;
-      height: 64px;
+      width: 60px;
+      height: 60px;
       object-fit: contain;
     }
     .brand {
       font-family: "Noto Serif TC", serif;
       font-size: clamp(18px, 2vw, 24px);
       font-weight: 700;
-      letter-spacing: 0.04em;
     }
     .brand small {
       display: block;
       margin-top: 4px;
       color: var(--muted);
-      font-family: "Outfit", sans-serif;
       font-size: 12px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
@@ -151,27 +120,20 @@
       letter-spacing: 0.08em;
       text-transform: uppercase;
     }
-    nav a {
-      padding-bottom: 4px;
-      border-bottom: 1px solid transparent;
-      color: var(--muted);
-    }
-    nav a:hover { color: var(--berry); border-color: currentColor; }
+    nav a { color: var(--muted); }
     .hero {
-      margin: 34px 0 40px;
+      margin: 32px 0 40px;
       display: grid;
-      grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
-      gap: 28px;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+      gap: 26px;
       align-items: center;
     }
     .eyebrow {
       display: inline-flex;
-      align-items: center;
-      gap: 8px;
       padding: 8px 14px;
       border-radius: 999px;
-      background: rgba(217, 137, 150, 0.16);
-      color: var(--rose-deep);
+      background: rgba(181,87,105,0.12);
+      color: var(--rose);
       font-size: 12px;
       font-weight: 700;
       letter-spacing: 0.12em;
@@ -180,28 +142,20 @@
     .hero h1 {
       margin: 18px 0 14px;
       font-family: "Noto Serif TC", serif;
-      font-size: clamp(38px, 6vw, 68px);
+      font-size: clamp(38px, 6vw, 66px);
       line-height: 1.08;
-      letter-spacing: 0.01em;
     }
     .hero p {
-      margin: 0 0 18px;
+      margin: 0 0 16px;
       color: var(--muted);
       font-size: 17px;
       line-height: 1.8;
     }
-    .hero-note {
-      margin-top: 18px;
-      padding-left: 18px;
-      color: var(--muted);
-      line-height: 1.75;
-    }
-    .hero-note li + li { margin-top: 6px; }
     .actions {
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
-      margin-top: 24px;
+      margin-top: 20px;
     }
     .btn {
       display: inline-flex;
@@ -210,63 +164,48 @@
       min-height: 48px;
       padding: 12px 18px;
       border-radius: 999px;
-      border: 1px solid rgba(140, 60, 79, 0.26);
-      background: rgba(255,255,255,0.84);
-      color: var(--ink);
+      border: 1px solid rgba(140,60,79,0.24);
+      background: rgba(255,255,255,0.9);
       font-weight: 700;
-      letter-spacing: 0.03em;
-      box-shadow: 0 10px 30px rgba(181, 87, 105, 0.1);
-      transition: transform 0.16s ease, box-shadow 0.16s ease;
-    }
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 16px 30px rgba(181, 87, 105, 0.16);
+      box-shadow: 0 10px 28px rgba(181,87,105,0.12);
     }
     .btn.primary {
-      background: linear-gradient(135deg, var(--rose-deep), var(--berry));
+      background: linear-gradient(135deg, var(--rose), var(--berry));
       color: #fff;
       border-color: transparent;
+    }
+    .hero-note {
+      margin-top: 18px;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.75;
     }
     .hero-art {
       padding: 22px;
       border-radius: 28px;
-      background: linear-gradient(180deg, rgba(255,248,250,0.95), rgba(255,240,245,0.92));
-      border: 1px solid rgba(181, 87, 105, 0.16);
+      background: linear-gradient(180deg, rgba(255,248,250,0.96), rgba(255,240,245,0.92));
+      border: 1px solid var(--line);
       box-shadow: var(--shadow);
     }
     .message-board {
       display: grid;
       gap: 14px;
-      align-content: start;
     }
     .message-card {
       position: relative;
       max-width: 88%;
       padding: 16px 18px;
       border-radius: 20px;
-      border: 1px solid rgba(181, 87, 105, 0.14);
-      background: #ffffff;
-      box-shadow: 0 14px 30px rgba(181, 87, 105, 0.08);
+      border: 1px solid var(--line);
+      background: #fff;
+      box-shadow: 0 12px 24px rgba(181, 87, 105, 0.08);
       opacity: 0;
       transform: translateY(16px) scale(0.96);
       animation: chatPop 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
-    .message-card:nth-child(1) {
-      justify-self: start;
-      border-bottom-left-radius: 8px;
-      animation-delay: 0.15s;
-    }
-    .message-card:nth-child(2) {
-      justify-self: end;
-      background: linear-gradient(135deg, #ffe3ea, #ffd7e2);
-      border-bottom-right-radius: 8px;
-      animation-delay: 0.55s;
-    }
-    .message-card:nth-child(3) {
-      justify-self: start;
-      border-bottom-left-radius: 8px;
-      animation-delay: 0.95s;
-    }
+    .message-card:nth-child(1) { justify-self: start; border-bottom-left-radius: 8px; animation-delay: 0.15s; }
+    .message-card:nth-child(2) { justify-self: end; border-bottom-right-radius: 8px; background: linear-gradient(135deg, #ffe7ee, #ffdce6); animation-delay: 0.55s; }
+    .message-card:nth-child(3) { justify-self: start; border-bottom-left-radius: 8px; animation-delay: 0.95s; }
     .message-card::after {
       content: "";
       position: absolute;
@@ -274,23 +213,24 @@
       width: 14px;
       height: 14px;
       background: inherit;
-      border-bottom: 1px solid rgba(181, 87, 105, 0.14);
       transform: rotate(45deg);
     }
     .message-card:nth-child(odd)::after {
       left: -6px;
-      border-left: 1px solid rgba(181, 87, 105, 0.14);
+      border-left: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
     }
     .message-card:nth-child(even)::after {
       right: -6px;
-      border-right: 1px solid rgba(181, 87, 105, 0.14);
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
     }
     .message-label {
       display: inline-flex;
       align-items: center;
       gap: 6px;
       margin-bottom: 8px;
-      color: var(--rose-deep);
+      color: var(--rose);
       font-size: 12px;
       font-weight: 700;
       letter-spacing: 0.08em;
@@ -302,7 +242,7 @@
       height: 8px;
       border-radius: 999px;
       background: currentColor;
-      opacity: 0.75;
+      opacity: 0.8;
     }
     .message-card p {
       margin: 0;
@@ -311,119 +251,44 @@
       line-height: 1.6;
       color: var(--ink);
     }
-    
-    .section {
-      margin-top: 56px;
-      scroll-margin-top: 32px;
-    }
+    .section { margin-top: 54px; scroll-margin-top: 32px; }
     .section h2 {
       margin: 0 0 10px;
       font-family: "Noto Serif TC", serif;
       font-size: clamp(28px, 4vw, 40px);
-      line-height: 1.18;
     }
-    .section p.section-lead {
+    .section-lead {
       margin: 0;
       color: var(--muted);
       line-height: 1.8;
-      max-width: 70ch;
     }
-    .summary-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
+    .feature-list {
       margin-top: 22px;
+      display: grid;
+      gap: 28px;
     }
-    .summary-card,
-    .feature,
-    .book-highlight,
-    .archive {
-      border: 1px solid rgba(181, 87, 105, 0.16);
-      box-shadow: 0 18px 38px rgba(181, 87, 105, 0.08);
+    .media-shell {
+      display: block;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border-radius: 30px;
+      background: rgba(255,255,255,0.96);
+      border: 1px solid var(--line);
+      box-shadow: 0 24px 50px rgba(181, 87, 105, 0.12);
     }
-    .summary-card {
-      padding: 22px 20px;
-      border-radius: 22px;
-      background: var(--paper);
+    .media-shell picture,
+    .media-shell img {
+      width: 100%;
+      height: 100%;
+      display: block;
     }
-    .summary-card .tag,
-    .feature-copy .kicker {
-      display: inline-flex;
-      padding: 6px 12px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      background: rgba(217, 137, 150, 0.14);
-      color: var(--rose-deep);
-    }
-    .summary-card h3 {
-      margin: 16px 0 10px;
-      font-size: 22px;
-      font-family: "Noto Serif TC", serif;
-    }
-    .summary-card p,
-    .feature-copy p {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.75;
-    }
-    .feature-list { margin-top: 22px; display: grid; gap: 28px; }
-    .feature { display: block; padding: 0; border: none; border-radius: 0; background: transparent; box-shadow: none; }
-    .feature:nth-child(even) { grid-template-columns: 1fr; }
-    .feature:nth-child(even) .feature-copy { order: initial; }
-    .feature-copy h3 {
-      margin: 14px 0 10px;
-      font-family: "Noto Serif TC", serif;
-      font-size: clamp(26px, 3.4vw, 36px);
-      line-height: 1.2;
-    }
-    .feature-copy p {
-      margin-bottom: 14px;
-      font-size: 16px;
-      line-height: 1.8;
-    }
-    .meta-list {
-      margin: 0;
-      padding-left: 18px;
-      color: var(--muted);
-      line-height: 1.75;
-    }
-    .meta-list li + li { margin-top: 5px; }
-    .price-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 18px;
-    }
-    .price-pill {
-      display: inline-flex;
-      align-items: center;
-      min-height: 42px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: rgba(217, 137, 150, 0.12);
-      color: var(--berry);
-      font-weight: 700;
-    }
-    .price-pill.sale {
-      background: linear-gradient(135deg, var(--rose-deep), var(--berry));
-      color: #fff;
-    }
-    .price-pill.link {
-      background: rgba(255,255,255,0.95);
-      border: 1px solid rgba(181, 87, 105, 0.18);
-      animation: floatButton 2.8s ease-in-out infinite;
-    }
-    .price-pill.link:hover { animation-play-state: paused; }
-    .book-highlight { margin-top: 28px; padding: 0; border: none; border-radius: 0; background: transparent; box-shadow: none; }
-    .book-highlight .feature { padding: 0; border: none; box-shadow: none; background: transparent; }
+    .media-shell img { object-fit: contain; }
     .archive {
       margin-top: 18px;
       padding: 18px 22px;
       border-radius: 22px;
-      background: rgba(255,255,255,0.78);
+      background: rgba(255,255,255,0.8);
+      border: 1px solid var(--line);
     }
     .archive-row {
       display: flex;
@@ -431,10 +296,9 @@
       align-items: center;
       gap: 16px;
       padding: 12px 0;
-      border-bottom: 1px solid rgba(181, 87, 105, 0.14);
+      border-bottom: 1px solid var(--line);
     }
     .archive-row:last-child { border-bottom: none; }
-    .archive-row strong { font-family: "Noto Serif TC", serif; }
     footer {
       margin-top: 56px;
       text-align: center;
@@ -442,17 +306,13 @@
       font-size: 13px;
       letter-spacing: 0.06em;
     }
-    @keyframes floatButton {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-4px); }
+    @keyframes chatPop {
+      0% { opacity: 0; transform: translateY(16px) scale(0.96); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
     }
     @media (max-width: 960px) {
+      .hero { grid-template-columns: 1fr; }
       .message-card { max-width: 100%; }
-      .hero,
-      .feature,
-      .feature:nth-child(even) { grid-template-columns: 1fr; }
-      .feature:nth-child(even) .feature-copy { order: initial; }
-      .summary-grid { grid-template-columns: 1fr; }
       header {
         flex-direction: column;
         align-items: flex-start;
@@ -460,53 +320,40 @@
       nav { justify-content: flex-start; }
     }
     @media (max-width: 720px) {
-      .message-card p { font-size: 18px; }
-      .message-card { padding: 14px 16px; }
-      .media-shell { aspect-ratio: 9 / 16; }
       .page {
         width: min(100vw - 10px, 100%);
         margin: 5px auto 24px;
         padding: 18px 14px 40px;
         border-radius: 18px;
       }
-      .logo img {
-        width: 54px;
-        height: 54px;
-      }
+      .logo img { width: 54px; height: 54px; }
       .hero h1 { font-size: clamp(34px, 12vw, 48px); }
-      .hero p,
-      .feature-copy p,
-      .section p.section-lead { font-size: 15px; }
-      .feature,
-      .book-highlight { margin-top: 28px; padding: 0; border: none; border-radius: 0; background: transparent; box-shadow: none; }
-      
+      .hero p, .section-lead { font-size: 15px; }
+      .message-card { padding: 14px 16px; }
+      .message-card p { font-size: 18px; }
+      .media-shell { aspect-ratio: 9 / 16; }
       .archive-row {
         flex-direction: column;
         align-items: flex-start;
       }
-      .btn,
-      .price-pill {
-        width: 100%;
-        justify-content: center;
-      }
-      .price-row { flex-direction: column; }
+      .btn { width: 100%; }
     }
   </style>
 </head>
 <body>
   <div class="page">
-    <div class="lang-switcher" aria-label="語言切換">
-      <a href="./">繁體中文</a>
+    <div class="lang-switcher" aria-label="Language Switcher">
+      <a class="" href="./">繁體中文</a>
       <a class="active" href="./zh-cn.html">简体中文</a>
-      <a href="./en.html">English</a>
+      <a class="" href="./en.html">English</a>
     </div>
     <header>
       <div class="brand-wrap">
-        <a class="logo" href="https://www.pbooks.com.tw/" target="_blank" rel="noopener" aria-label="前往腓利門書房">
-          <img src="../LOGO.png" alt="腓利門書房" />
+        <a class="logo" href="https://www.pbooks.com.tw/" target="_blank" rel="noopener" aria-label="Philemon Bookstore">
+          <img src="../LOGO.png" alt="Philemon" />
         </a>
         <div class="brand">
-          PHILEMON NEWS · 2026 五月號
+          PHILEMON NEWS · 2026 MAY
           <small>Mother's Day Selection</small>
         </div>
       </div>
@@ -522,7 +369,7 @@
         <span class="eyebrow">2026 Mother's Day</span>
         <h1>把感谢，化成一份实际的祝福</h1>
         <p>当耶稣被钉在十字架上，看见母亲和祂所爱的门徒站在旁边，就对母亲说：「母亲，看你的儿子！」又对那门徒说：「看你的母亲！」在最痛苦的时刻，耶稣仍记念母亲，也把爱与照顾托付出去。母亲节提醒我们，感谢不该只停留在心里，也可以化成一份实际的祝福。</p>
-        <p>今年 2026 年母親節，腓利門書房推出多款母亲节好礼優惠，盼望大家把心意帶回家。願每一份禮物，都成為一句真誠的祝福。</p>
+        <p>今年 2026 年母亲节，腓利门书房推出多款母亲节好礼优惠，盼望大家把心意带回家。愿每一份礼物，都成为一句真诚的祝福。</p>
         <div class="actions">
           <a class="btn primary" href="#gifts">查看母亲节商品</a>
           <a class="btn" href="#books">查看好书活动</a>
@@ -551,40 +398,39 @@
       </div>
     </section>
     <section id="gifts" class="section">
-  <h2>母亲节好礼</h2>
-  <p class="section-lead">直接点图片前往购买。</p>
-  <div class="feature-list">
-    <article class="feature"><a class="media-shell" href="https://www.pbooks.com.tw/products/pb45" target="_blank" rel="noopener"><picture><source media="(max-width: 720px)" srcset="./四色杯袋916.jpg" /><source media="(min-width: 721px)" srcset="./四色杯袋169.jpg" /><img src="./四色杯袋11.jpg" alt="四色杯袋" /></picture></a></article>
-    <article class="feature"><a class="media-shell" href="https://www.pbooks.com.tw/products/cup09" target="_blank" rel="noopener"><picture><source media="(max-width: 720px)" srcset="./五色保溫瓶916.jpg" /><source media="(min-width: 721px)" srcset="./五色保溫瓶169.jpg" /><img src="./五色保溫瓶11.jpg" alt="五色保溫瓶" /></picture></a></article>
-    <article class="feature"><a class="media-shell" href="https://www.pbooks.com.tw/products/cup10" target="_blank" rel="noopener"><picture><source media="(max-width: 720px)" srcset="./漸層保溫瓶916.jpg" /><source media="(min-width: 721px)" srcset="./漸層保溫瓶169.jpg" /><img src="./漸層保溫瓶11.jpg" alt="四色漸層保溫瓶" /></picture></a></article>
-    <article class="feature"><a class="media-shell" href="https://www.pbooks.com.tw/products/pg25" target="_blank" rel="noopener"><picture><source media="(max-width: 720px)" srcset="./紅包916.jpg" /><source media="(min-width: 721px)" srcset="./紅包169.jpg" /><img src="./紅包11.jpg" alt="愛滿溢紅包袋" /></picture></a></article>
-    <article class="feature"><a class="media-shell" href="https://www.pbooks.com.tw/products/pb31-pb32" target="_blank" rel="noopener"><picture><source media="(max-width: 720px)" srcset="./後背包916.jpg" /><source media="(min-width: 721px)" srcset="./後背包169.jpg" /><img src="./後背包11.jpg" alt="後背包買一送一" /></picture></a></article>
-  </div>
-</section>
+      <h2>母亲节好礼</h2>
+      <p class="section-lead">直接点图片前往购买。</p>
+      <div class="feature-list">
+        <a class="media-shell" href="https://www.pbooks.com.tw/products/pb45" target="_blank" rel="noopener"><picture><source media="(max-width: 720px)" srcset="./四色杯袋916.jpg" /><source media="(min-width: 721px)" srcset="./四色杯袋169.jpg" /><img src="./四色杯袋11.jpg" alt="四色杯袋" /></picture></a>
+        <a class="media-shell" href="https://www.pbooks.com.tw/products/cup09" target="_blank" rel="noopener"><picture><source media="(max-width: 720px)" srcset="./五色保溫瓶916.jpg" /><source media="(min-width: 721px)" srcset="./五色保溫瓶169.jpg" /><img src="./五色保溫瓶11.jpg" alt="五色保溫瓶" /></picture></a>
+        <a class="media-shell" href="https://www.pbooks.com.tw/products/cup10" target="_blank" rel="noopener"><picture><source media="(max-width: 720px)" srcset="./漸層保溫瓶916.jpg" /><source media="(min-width: 721px)" srcset="./漸層保溫瓶169.jpg" /><img src="./漸層保溫瓶11.jpg" alt="漸層保溫瓶" /></picture></a>
+        <a class="media-shell" href="https://www.pbooks.com.tw/products/pg25" target="_blank" rel="noopener"><picture><source media="(max-width: 720px)" srcset="./紅包916.jpg" /><source media="(min-width: 721px)" srcset="./紅包169.jpg" /><img src="./紅包11.jpg" alt="愛滿溢紅包袋" /></picture></a>
+        <a class="media-shell" href="https://www.pbooks.com.tw/products/pb31-pb32" target="_blank" rel="noopener"><picture><source media="(max-width: 720px)" srcset="./後背包916.jpg" /><source media="(min-width: 721px)" srcset="./後背包169.jpg" /><img src="./後背包11.jpg" alt="後背包買一送一" /></picture></a>
+      </div>
+    </section>
     <section id="books" class="section">
-  <h2>好书活动</h2>
-  <p class="section-lead">直接点图片前往活动与购买页。</p>
-  <div class="feature-list">
-    <article class="feature"><a class="media-shell" href="https://www.pbooks.com.tw/collections/%E8%85%93%E5%88%A9%E9%96%80%E6%9C%AC%E7%89%88%E6%9B%B8" target="_blank" rel="noopener"><picture><source media="(max-width: 720px)" srcset="./買一送一活動916.jpg" /><source media="(min-width: 721px)" srcset="./買一送一活動169.jpg" /><img src="./買一送一活動11.jpg" alt="本版書買一送一活動" /></picture></a></article>
-    <article class="feature"><a class="media-shell" href="https://www.pbooks.com.tw/products/c291" target="_blank" rel="noopener"><picture><source media="(max-width: 720px)" srcset="./路得記916.jpg" /><source media="(min-width: 721px)" srcset="./路得記169.jpg" /><img src="./路得記11.jpg" alt="路得記講壇 倫理篇 家庭的復興" /></picture></a></article>
-  </div>
-</section>
+      <h2>好书活动</h2>
+      <p class="section-lead">直接点图片前往活动与购买页。</p>
+      <div class="feature-list">
+        <a class="media-shell" href="https://www.pbooks.com.tw/collections/%E8%85%93%E5%88%A9%E9%96%80%E6%9C%AC%E7%89%88%E6%9B%B8" target="_blank" rel="noopener"><picture><source media="(max-width: 720px)" srcset="./買一送一活動916.jpg" /><source media="(min-width: 721px)" srcset="./買一送一活動169.jpg" /><img src="./買一送一活動11.jpg" alt="本版書買一送一活動" /></picture></a>
+        <a class="media-shell" href="https://www.pbooks.com.tw/products/c291" target="_blank" rel="noopener"><picture><source media="(max-width: 720px)" srcset="./路得記916.jpg" /><source media="(min-width: 721px)" srcset="./路得記169.jpg" /><img src="./路得記11.jpg" alt="路得記講壇" /></picture></a>
+      </div>
+    </section>
     <section id="archive" class="section">
       <h2>Archive</h2>
       <p class="section-lead">五月号上线后，入口也同步更新。若需要回看前一期，可从这里快速切换。</p>
-      <div class="archive"><div class="archive-row"><div><div>2026 · 05</div><strong>母亲节好礼推薦</strong></div><a class="btn primary" href="./">当前页面</a></div><div class="archive-row"><div><div>2026 · 04</div><strong>四月号电子报</strong></div><a class="btn" href="../2026-04/">前往四月号</a></div></div>
+      <div class="archive">
+        <div class="archive-row">
+          <div><strong>2026 · 05</strong></div>
+          <a class="btn primary" href="./">当前页面</a>
+        </div>
+        <div class="archive-row">
+          <div><strong>2026 · 04 四月号电子报</strong></div>
+          <a class="btn" href="../2026-04/">前往四月号</a>
+        </div>
+      </div>
     </section>
     <footer>PHILEMON NEWS · 2026 年 5 月 · Mother's Day Selection</footer>
   </div>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
