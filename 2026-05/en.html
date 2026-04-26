@@ -311,15 +311,12 @@
       opacity: 0;
       transform: translateY(16px) scale(0.96);
     }
-    body.splash-complete .message-card {
-      animation: chatPop 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    .message-card.is-visible {
+      animation: chatPop 0.42s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
     .message-card:nth-child(1) { justify-self: start; border-bottom-left-radius: 10px; }
-    body.splash-complete .message-card:nth-child(1) { animation-delay: 0s; }
     .message-card:nth-child(2) { justify-self: end; margin-top: 6px; border-bottom-right-radius: 10px; background: linear-gradient(135deg, rgba(255, 239, 243, 0.96), rgba(255, 232, 238, 0.96)); }
-    body.splash-complete .message-card:nth-child(2) { animation-delay: 2.4s; }
     .message-card:nth-child(3) { justify-self: start; margin-top: 4px; border-bottom-left-radius: 10px; }
-    body.splash-complete .message-card:nth-child(3) { animation-delay: 4.8s; }
     .message-card::after {
       content: "";
       position: absolute;
@@ -656,13 +653,26 @@
       if (!splash) return;
       const splashImage = splash.querySelector("img");
 
+      const messageCards = Array.from(document.querySelectorAll(".message-card"));
+      const messageRevealGap = 700;
       let hidden = false;
       let timerStarted = false;
+      let messagesRevealed = false;
+      function revealMessages() {
+        if (messagesRevealed) return;
+        messagesRevealed = true;
+        messageCards.forEach(function(card, index) {
+          window.setTimeout(function() {
+            card.classList.add("is-visible");
+          }, index * messageRevealGap);
+        });
+      }
       function finalizeSplash() {
         splash.classList.add("is-hidden");
         splash.style.display = "none";
         document.body.classList.remove("is-splash-active");
         document.body.classList.add("splash-complete");
+        revealMessages();
       }
       function hideSplash() {
         if (hidden) return;
@@ -673,7 +683,7 @@
       function startSplashTimer() {
         if (timerStarted) return;
         timerStarted = true;
-        window.setTimeout(hideSplash, 2000);
+        window.setTimeout(hideSplash, 1500);
       }
 
       window.__hideWelcomeSplash = function(immediate) {
@@ -690,7 +700,7 @@
         splashImage.addEventListener("load", startSplashTimer, { once: true });
         splashImage.addEventListener("error", startSplashTimer, { once: true });
         window.addEventListener("load", startSplashTimer, { once: true });
-        window.setTimeout(startSplashTimer, 1800);
+        window.setTimeout(startSplashTimer, 1200);
       }
       splash.addEventListener("click", function() {
         window.__hideWelcomeSplash(true);
