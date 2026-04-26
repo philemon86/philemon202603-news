@@ -656,10 +656,13 @@
       const splashImage = splash.querySelector("img");
 
       const messageCards = Array.from(document.querySelectorAll(".message-card"));
-      const messageRevealGap = 700;
+      const isMobileLayout = window.matchMedia("(max-width: 720px)").matches;
+      const messageRevealGap = isMobileLayout ? 420 : 700;
       let hidden = false;
       let timerStarted = false;
       let messagesRevealed = false;
+      let mobileRevealStarted = false;
+      let mobileRevealObserver = null;
       function revealMessages() {
         if (messagesRevealed) return;
         messagesRevealed = true;
@@ -669,12 +672,48 @@
           }, index * messageRevealGap);
         });
       }
+      function startMobileReveal() {
+        if (mobileRevealStarted) return;
+        mobileRevealStarted = true;
+        window.setTimeout(function() {
+          revealMessages();
+        }, 120);
+      }
+      function setupMobileReveal() {
+        const messageBoard = document.querySelector(".message-board");
+        if (!messageBoard) return;
+        if (mobileRevealObserver || mobileRevealStarted) return;
+        if (!("IntersectionObserver" in window)) {
+          window.addEventListener("scroll", function handleScroll() {
+            const rect = messageBoard.getBoundingClientRect();
+            if (rect.top < window.innerHeight * 0.78) {
+              window.removeEventListener("scroll", handleScroll);
+              startMobileReveal();
+            }
+          }, { passive: true });
+          return;
+        }
+        mobileRevealObserver = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              mobileRevealObserver.disconnect();
+              mobileRevealObserver = null;
+              startMobileReveal();
+            }
+          });
+        }, { threshold: 0.28 });
+        mobileRevealObserver.observe(messageBoard);
+      }
       function finalizeSplash() {
         splash.classList.add("is-hidden");
         splash.style.display = "none";
         document.body.classList.remove("is-splash-active");
         document.body.classList.add("splash-complete");
-        window.setTimeout(revealMessages, 1000);
+        if (isMobileLayout) {
+          setupMobileReveal();
+        } else {
+          window.setTimeout(revealMessages, 1000);
+        }
       }
       function hideSplash() {
         if (hidden) return;
