@@ -75,8 +75,7 @@
       position: fixed;
       inset: 0;
       z-index: 9999;
-      display: grid;
-      place-items: center;
+      display: block;
       overflow: hidden;
       background:
         radial-gradient(circle at center, rgba(255, 255, 255, 0.82), transparent 34%),
@@ -159,20 +158,20 @@
       min-height: 44px;
       padding: 10px 16px;
       border-radius: 999px;
-      border: 1px solid rgba(140,60,79,0.16);
-      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(255,255,255,0.42);
+      background: rgba(255,255,255,0.46);
       color: var(--ink);
       font: inherit;
       font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       backdrop-filter: blur(12px);
-      box-shadow: 0 10px 28px rgba(0,0,0,0.18);
+      box-shadow: 0 10px 28px rgba(140, 60, 79, 0.10);
       transition: opacity 0.35s ease, transform 0.35s ease, background 0.35s ease;
       cursor: pointer;
     }
     .welcome-skip:hover {
-      background: rgba(255,255,255,0.94);
+      background: rgba(255,255,255,0.62);
     }
     .lang-switcher a {
       padding: 7px 14px;
@@ -508,7 +507,7 @@
       nav { justify-content: flex-start; }
     }
     @media (max-width: 720px) {
-      .welcome-shell img { object-fit: contain; }
+      .welcome-shell img { object-fit: cover; }
       .welcome-skip {
         top: 14px;
         right: 14px;
@@ -667,7 +666,7 @@
       function startSplashTimer() {
         if (timerStarted) return;
         timerStarted = true;
-        window.setTimeout(hideSplash, 3400);
+        window.setTimeout(hideSplash, 2000);
       }
 
       window.__hideWelcomeSplash = function(immediate) {
