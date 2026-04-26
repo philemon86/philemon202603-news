@@ -670,7 +670,7 @@
         splash.style.display = "none";
         document.body.classList.remove("is-splash-active");
         document.body.classList.add("splash-complete");
-        revealMessages();
+        window.setTimeout(revealMessages, 1000);
       }
       function hideSplash() {
         if (hidden) return;
