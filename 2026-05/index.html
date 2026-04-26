@@ -507,7 +507,10 @@
       nav { justify-content: flex-start; }
     }
     @media (max-width: 720px) {
-      .welcome-shell img { object-fit: cover; }
+      .welcome-shell img {
+        object-fit: contain;
+        transform: scale(0.93);
+      }
       .welcome-skip {
         top: 14px;
         right: 14px;
