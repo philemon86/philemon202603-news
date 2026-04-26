@@ -50,6 +50,9 @@
         radial-gradient(circle at top right, rgba(255, 235, 239, 0.85), transparent 26%),
         linear-gradient(180deg, #fff9f9 0%, #fff2f4 45%, #fdebed 100%);
     }
+    body.is-splash-active {
+      overflow: hidden;
+    }
     a { color: inherit; text-decoration: none; }
     img { display: block; width: 100%; }
     .page {
@@ -174,82 +177,17 @@
       color: #fff;
       border-color: transparent;
     }
-    .hero-note {
+    .hero-hint {
       margin-top: 18px;
-      padding-left: 18px;
       color: var(--muted);
-      line-height: 1.75;
-    }
-    .hero-art {
-      padding: 22px;
-      border-radius: 28px;
-      background: linear-gradient(180deg, rgba(255,248,250,0.96), rgba(255,240,245,0.92));
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-    }
-    .message-board {
-      display: grid;
-      gap: 14px;
-    }
-    .message-card {
-      position: relative;
-      max-width: 88%;
-      padding: 16px 18px;
-      border-radius: 20px;
-      border: 1px solid var(--line);
-      background: #fff;
-      box-shadow: 0 12px 24px rgba(181, 87, 105, 0.08);
-      opacity: 0;
-      transform: translateY(16px) scale(0.96);
-      animation: chatPop 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    }
-    .message-card:nth-child(1) { justify-self: start; border-bottom-left-radius: 8px; animation-delay: 0s; }
-    .message-card:nth-child(2) { justify-self: end; border-bottom-right-radius: 8px; background: linear-gradient(135deg, #ffe7ee, #ffdce6); animation-delay: 2.4s; }
-    .message-card:nth-child(3) { justify-self: start; border-bottom-left-radius: 8px; animation-delay: 4.8s; }
-    .message-card::after {
-      content: "";
-      position: absolute;
-      bottom: 10px;
-      width: 14px;
-      height: 14px;
-      background: inherit;
-      transform: rotate(45deg);
-    }
-    .message-card:nth-child(odd)::after {
-      left: -6px;
-      border-left: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-    }
-    .message-card:nth-child(even)::after {
-      right: -6px;
-      border-right: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-    }
-    .message-label {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin-bottom: 8px;
-      color: var(--rose);
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 700;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
     }
-    .message-label::before {
-      content: "";
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: currentColor;
-      opacity: 0.8;
-    }
-    .message-card p {
-      margin: 0;
-      font-family: "Noto Serif TC", serif;
-      font-size: clamp(18px, 2vw, 24px);
-      line-height: 1.6;
-      color: var(--ink);
+    .hero-art {
+      position: relative;
+      min-height: 100%;
     }
     .section { margin-top: 54px; scroll-margin-top: 32px; }
     .section h2 {
@@ -350,13 +288,20 @@
       font-size: 13px;
       letter-spacing: 0.06em;
     }
-    @keyframes chatPop {
-      0% { opacity: 0; transform: translateY(16px) scale(0.96); }
-      100% { opacity: 1; transform: translateY(0) scale(1); }
+    @keyframes heroFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    @keyframes heroImageIn {
+      0% { opacity: 0; transform: scale(1.08); }
+      100% { opacity: 1; transform: scale(1.02); }
+    }
+    @keyframes panelRise {
+      0% { opacity: 0; transform: translateY(18px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
     @media (max-width: 960px) {
       .hero { grid-template-columns: 1fr; }
-      .message-card { max-width: 100%; }
       header {
         flex-direction: column;
         align-items: flex-start;
@@ -364,7 +309,15 @@
       nav { justify-content: flex-start; }
     }
     @media (max-width: 720px) {
-      .page {
+      .welcome-shell img { object-fit: contain; }
+      .welcome-skip {
+        top: 14px;
+        right: 14px;
+        min-width: 86px;
+        min-height: 40px;
+        padding: 8px 14px;
+        font-size: 12px;
+      }      .page {
         width: min(100vw - 10px, 100%);
         margin: 5px auto 24px;
         padding: 18px 14px 40px;
@@ -372,10 +325,7 @@
       }
       .logo img { width: 54px; height: 54px; }
       .hero h1 { font-size: clamp(34px, 12vw, 48px); }
-      .hero p, .section-lead { font-size: 15px; }
-      .message-card { padding: 14px 16px; }
-      .message-card p { font-size: 18px; }
-      .media-shell { aspect-ratio: 9 / 16; }
+      .hero p, .section-lead { font-size: 15px; }.media-shell { aspect-ratio: 9 / 16; }
       .archive-row {
         flex-direction: column;
         align-items: flex-start;
@@ -385,7 +335,16 @@
   </style>
 </head>
 <body>
-  <div class="page">
+  <div class="welcome-splash" id="welcomeSplash" aria-label="Welcome">
+    <div class="welcome-shell">
+      <picture>
+        <source media="(max-width: 720px)" srcset="./hero-mother-mobile.jpg?v=20260426e" />
+        <source media="(min-width: 721px)" srcset="./hero-mother-desktop.jpg?v=20260426c" />
+        <img src="./hero-mother-desktop.jpg?v=20260426c" alt="Mother's Day special offers" />
+      </picture>
+      <button class="welcome-skip" type="button" id="welcomeSkip">Skip</button>
+    </div>
+  </div>  <div class="page">
     <div class="lang-switcher" aria-label="Language Switcher">
       <a class="" href="./">Traditional Chinese</a>
       <a class="" href="./zh-cn.html">Simplified Chinese</a>
@@ -411,30 +370,31 @@
     <section class="hero">
       <div class="hero-copy">
         <span class="eyebrow">2026 Mother's Day</span>
-        <h1>Turn gratitude into a gift of love</h1>
-        <p>When Jesus was on the cross, He saw His mother and the disciple He loved standing nearby. He said, “Woman, behold your son,” and to the disciple, “Behold your mother.” Even in suffering, Jesus remembered His mother and entrusted love and care to others. Mother's Day reminds us that gratitude can become a visible blessing.</p>
-        <p>For Mother's Day 2026, Philemon Bookstore has prepared a selection of gift offers to help you bring your love home. May every gift become a sincere blessing.</p>
+        <h1>Philemon Mother's Day Special Offers</h1>
+        <p>The refreshed May hero now places the Mother's Day campaign at the very top, so the page opens with the main visual and the offer instead of secondary content.</p>
+        <p>The mobile layout uses the 9:16 key visual and desktop uses the 16:9 version. Both were converted to lighter JPG files for faster loading and a cleaner first screen.</p>
         <div class="hero-hint">Scroll for more</div>
         <div class="actions">
-          <a class="btn primary" href="#gifts">See More</a>
-          <a class="btn" href="#books">View Book Offers</a>
+          <a class="btn primary" href="#gifts">See the offers</a>
+          <a class="btn" href="#books">View book campaigns</a>
         </div>
-        
       </div>
       <div class="hero-art">
-        <div class="message-board">
-          <article class="message-card">
-            <span class="message-label">For Mom</span>
-            <p>Mom, I love you. Thank you for filling ordinary days with lasting love.</p>
-          </article>
-          <article class="message-card">
-            <span class="message-label">Remember</span>
-            <p>Every time I think of you, I thank my God. I remember every moment of your care.</p>
-          </article>
-          <article class="message-card">
-            <span class="message-label">John 19</span>
-            <p>“Behold your mother.” May gratitude become real love and faithful care.</p>
-          </article>
+        <div class="hero-glow" aria-hidden="true"></div>
+        <div class="hero-visual">
+          <picture>
+            <source media="(max-width: 720px)" srcset="./hero-mother-mobile.jpg?v=20260426e" />
+            <source media="(min-width: 721px)" srcset="./hero-mother-desktop.jpg?v=20260426c" />
+            <img loading="eager" decoding="async" src="./hero-mother-desktop.jpg?v=20260426c" alt="Philemon Mother's Day special offers" />
+          </picture>
+          <div class="hero-panel">
+            <div class="hero-panel-top">
+              <span class="hero-badge">May Feature</span>
+              <span class="hero-stat">JPG Optimized</span>
+            </div>
+            <h2>May campaign key visual</h2>
+            <p>The updated hero uses a floating motion and a glass overlay panel to make the first screen feel more like a cover image for this month's campaign.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -479,7 +439,45 @@
       </div>
     </section>
     <footer>PHILEMON NEWS · May 2026 · Mother's Day Selection</footer>
-  </div>
+  </div>  <script>
+    (function() {
+      document.body.classList.add("is-splash-active");
+      const splash = document.getElementById("welcomeSplash");
+      const skip = document.getElementById("welcomeSkip");
+      if (!splash) return;
+      const splashImage = splash.querySelector("img");
+
+      let hidden = false;
+      let timerStarted = false;
+      function hideSplash() {
+        if (hidden) return;
+        hidden = true;
+        splash.classList.add("is-exiting");
+        window.setTimeout(function() {
+          splash.classList.add("is-hidden");
+          document.body.classList.remove("is-splash-active");
+          document.body.classList.add("splash-complete");
+        }, 920);
+      }
+      function startSplashTimer() {
+        if (timerStarted) return;
+        timerStarted = true;
+        window.setTimeout(hideSplash, 3400);
+      }
+
+      if (!splashImage || splashImage.complete) {
+        startSplashTimer();
+      } else {
+        splashImage.addEventListener("load", startSplashTimer, { once: true });
+        splashImage.addEventListener("error", startSplashTimer, { once: true });
+      }
+      splash.addEventListener("click", hideSplash);
+      if (skip) skip.addEventListener("click", hideSplash);
+      document.addEventListener("keydown", function(event) {
+        if (event.key === "Escape") hideSplash();
+      });
+    })();
+  </script>
   <script>
     (function() {
       const promoCards = document.querySelectorAll(".promo-card[data-deadline]");

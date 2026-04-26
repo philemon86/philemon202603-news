@@ -540,7 +540,7 @@
   <div class="welcome-splash" id="welcomeSplash" aria-label="Welcome">
     <div class="welcome-shell">
       <picture>
-        <source media="(max-width: 720px)" srcset="./hero-mother-mobile.jpg?v=20260426c" />
+        <source media="(max-width: 720px)" srcset="./hero-mother-mobile.jpg?v=20260426e" />
         <source media="(min-width: 721px)" srcset="./hero-mother-desktop.jpg?v=20260426c" />
         <img src="./hero-mother-desktop.jpg?v=20260426c" alt="好禮加在腓利門，母親節特惠優惠" />
       </picture>
@@ -647,8 +647,10 @@
       const splash = document.getElementById("welcomeSplash");
       const skip = document.getElementById("welcomeSkip");
       if (!splash) return;
+      const splashImage = splash.querySelector("img");
 
       let hidden = false;
+      let timerStarted = false;
       function hideSplash() {
         if (hidden) return;
         hidden = true;
@@ -659,8 +661,18 @@
           document.body.classList.add("splash-complete");
         }, 920);
       }
+      function startSplashTimer() {
+        if (timerStarted) return;
+        timerStarted = true;
+        window.setTimeout(hideSplash, 3400);
+      }
 
-      window.setTimeout(hideSplash, 3400);
+      if (!splashImage || splashImage.complete) {
+        startSplashTimer();
+      } else {
+        splashImage.addEventListener("load", startSplashTimer, { once: true });
+        splashImage.addEventListener("error", startSplashTimer, { once: true });
+      }
       splash.addEventListener("click", hideSplash);
       if (skip) skip.addEventListener("click", hideSplash);
       document.addEventListener("keydown", function(event) {

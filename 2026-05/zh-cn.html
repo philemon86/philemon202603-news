@@ -50,6 +50,9 @@
         radial-gradient(circle at top right, rgba(255, 235, 239, 0.85), transparent 26%),
         linear-gradient(180deg, #fff9f9 0%, #fff2f4 45%, #fdebed 100%);
     }
+    body.is-splash-active {
+      overflow: hidden;
+    }
     a { color: inherit; text-decoration: none; }
     img { display: block; width: 100%; }
     .page {
@@ -174,82 +177,17 @@
       color: #fff;
       border-color: transparent;
     }
-    .hero-note {
+    .hero-hint {
       margin-top: 18px;
-      padding-left: 18px;
       color: var(--muted);
-      line-height: 1.75;
-    }
-    .hero-art {
-      padding: 22px;
-      border-radius: 28px;
-      background: linear-gradient(180deg, rgba(255,248,250,0.96), rgba(255,240,245,0.92));
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-    }
-    .message-board {
-      display: grid;
-      gap: 14px;
-    }
-    .message-card {
-      position: relative;
-      max-width: 88%;
-      padding: 16px 18px;
-      border-radius: 20px;
-      border: 1px solid var(--line);
-      background: #fff;
-      box-shadow: 0 12px 24px rgba(181, 87, 105, 0.08);
-      opacity: 0;
-      transform: translateY(16px) scale(0.96);
-      animation: chatPop 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    }
-    .message-card:nth-child(1) { justify-self: start; border-bottom-left-radius: 8px; animation-delay: 0s; }
-    .message-card:nth-child(2) { justify-self: end; border-bottom-right-radius: 8px; background: linear-gradient(135deg, #ffe7ee, #ffdce6); animation-delay: 2.4s; }
-    .message-card:nth-child(3) { justify-self: start; border-bottom-left-radius: 8px; animation-delay: 4.8s; }
-    .message-card::after {
-      content: "";
-      position: absolute;
-      bottom: 10px;
-      width: 14px;
-      height: 14px;
-      background: inherit;
-      transform: rotate(45deg);
-    }
-    .message-card:nth-child(odd)::after {
-      left: -6px;
-      border-left: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-    }
-    .message-card:nth-child(even)::after {
-      right: -6px;
-      border-right: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-    }
-    .message-label {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin-bottom: 8px;
-      color: var(--rose);
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 700;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
     }
-    .message-label::before {
-      content: "";
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: currentColor;
-      opacity: 0.8;
-    }
-    .message-card p {
-      margin: 0;
-      font-family: "Noto Serif TC", serif;
-      font-size: clamp(18px, 2vw, 24px);
-      line-height: 1.6;
-      color: var(--ink);
+    .hero-art {
+      position: relative;
+      min-height: 100%;
     }
     .section { margin-top: 54px; scroll-margin-top: 32px; }
     .section h2 {
@@ -350,13 +288,20 @@
       font-size: 13px;
       letter-spacing: 0.06em;
     }
-    @keyframes chatPop {
-      0% { opacity: 0; transform: translateY(16px) scale(0.96); }
-      100% { opacity: 1; transform: translateY(0) scale(1); }
+    @keyframes heroFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    @keyframes heroImageIn {
+      0% { opacity: 0; transform: scale(1.08); }
+      100% { opacity: 1; transform: scale(1.02); }
+    }
+    @keyframes panelRise {
+      0% { opacity: 0; transform: translateY(18px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
     @media (max-width: 960px) {
       .hero { grid-template-columns: 1fr; }
-      .message-card { max-width: 100%; }
       header {
         flex-direction: column;
         align-items: flex-start;
@@ -364,7 +309,15 @@
       nav { justify-content: flex-start; }
     }
     @media (max-width: 720px) {
-      .page {
+      .welcome-shell img { object-fit: contain; }
+      .welcome-skip {
+        top: 14px;
+        right: 14px;
+        min-width: 86px;
+        min-height: 40px;
+        padding: 8px 14px;
+        font-size: 12px;
+      }      .page {
         width: min(100vw - 10px, 100%);
         margin: 5px auto 24px;
         padding: 18px 14px 40px;
@@ -372,10 +325,7 @@
       }
       .logo img { width: 54px; height: 54px; }
       .hero h1 { font-size: clamp(34px, 12vw, 48px); }
-      .hero p, .section-lead { font-size: 15px; }
-      .message-card { padding: 14px 16px; }
-      .message-card p { font-size: 18px; }
-      .media-shell { aspect-ratio: 9 / 16; }
+      .hero p, .section-lead { font-size: 15px; }.media-shell { aspect-ratio: 9 / 16; }
       .archive-row {
         flex-direction: column;
         align-items: flex-start;
@@ -385,7 +335,16 @@
   </style>
 </head>
 <body>
-  <div class="page">
+  <div class="welcome-splash" id="welcomeSplash" aria-label="Welcome">
+    <div class="welcome-shell">
+      <picture>
+        <source media="(max-width: 720px)" srcset="./hero-mother-mobile.jpg?v=20260426e" />
+        <source media="(min-width: 721px)" srcset="./hero-mother-desktop.jpg?v=20260426c" />
+        <img src="./hero-mother-desktop.jpg?v=20260426c" alt="好礼加在腓利门，母亲节特惠优惠" />
+      </picture>
+      <button class="welcome-skip" type="button" id="welcomeSkip">Skip</button>
+    </div>
+  </div>  <div class="page">
     <div class="lang-switcher" aria-label="Language Switcher">
       <a class="" href="./">繁體中文</a>
       <a class="active" href="./zh-cn.html">简体中文</a>
@@ -411,30 +370,31 @@
     <section class="hero">
       <div class="hero-copy">
         <span class="eyebrow">2026 Mother's Day</span>
-        <h1>把感谢，化成一份实际的祝福</h1>
-        <p>当耶稣被钉在十字架上，看见母亲和祂所爱的门徒站在旁边，就对母亲说：「母亲，看你的儿子！」又对那门徒说：「看你的母亲！」在最痛苦的时刻，耶稣仍记念母亲，也把爱与照顾托付出去。母亲节提醒我们，感谢不该只停留在心里，也可以化成一份实际的祝福。</p>
-        <p>今年 2026 年母亲节，腓利门书房推出多款母亲节好礼优惠，盼望大家把心意带回家。愿每一份礼物，都成为一句真诚的祝福。</p>
+        <h1>好礼加在腓利门，母亲节特惠优惠</h1>
+        <p>五月主视觉已经换成新版首图，把母亲节优惠直接放在页面最前面。让感谢不只停在心里，也能用一份礼物清楚表达出来。</p>
+        <p>手机版使用 9:16 主视觉，桌机版使用 16:9 主视觉；同时改成较轻量的 JPG，加载更快，首屏也更集中在主图与优惠信息本身。</p>
         <div class="hero-hint">下滑看更多</div>
         <div class="actions">
-          <a class="btn primary" href="#gifts">查看更多</a>
-          <a class="btn" href="#books">查看好书活动</a>
+          <a class="btn primary" href="#gifts">立即看优惠</a>
+          <a class="btn" href="#books">查看本版书活动</a>
         </div>
-        
       </div>
       <div class="hero-art">
-        <div class="message-board">
-          <article class="message-card">
-            <span class="message-label">For Mom</span>
-            <p>妈妈，我爱你。谢谢你在平凡的日子里，一直把爱留给我们。</p>
-          </article>
-          <article class="message-card">
-            <span class="message-label">Remember</span>
-            <p>每逢想念你，就感谢我的神。那些被照顾的时刻，我都记得。</p>
-          </article>
-          <article class="message-card">
-            <span class="message-label">John 19</span>
-            <p>「看你的母亲。」愿我们在感谢里，也把爱化成实际的陪伴。</p>
-          </article>
+        <div class="hero-glow" aria-hidden="true"></div>
+        <div class="hero-visual">
+          <picture>
+            <source media="(max-width: 720px)" srcset="./hero-mother-mobile.jpg?v=20260426e" />
+            <source media="(min-width: 721px)" srcset="./hero-mother-desktop.jpg?v=20260426c" />
+            <img loading="eager" decoding="async" src="./hero-mother-desktop.jpg?v=20260426c" alt="好礼加在腓利门，母亲节特惠优惠" />
+          </picture>
+          <div class="hero-panel">
+            <div class="hero-panel-top">
+              <span class="hero-badge">May Feature</span>
+              <span class="hero-stat">JPG Optimized</span>
+            </div>
+            <h2>五月主打优惠视觉</h2>
+            <p>用新版主视觉作为首要图，搭配柔和浮动与玻璃感信息板，让首屏更聚焦，也更像本月主题封面。</p>
+          </div>
         </div>
       </div>
     </section>
@@ -479,7 +439,45 @@
       </div>
     </section>
     <footer>PHILEMON NEWS · 2026 年 5 月 · Mother's Day Selection</footer>
-  </div>
+  </div>  <script>
+    (function() {
+      document.body.classList.add("is-splash-active");
+      const splash = document.getElementById("welcomeSplash");
+      const skip = document.getElementById("welcomeSkip");
+      if (!splash) return;
+      const splashImage = splash.querySelector("img");
+
+      let hidden = false;
+      let timerStarted = false;
+      function hideSplash() {
+        if (hidden) return;
+        hidden = true;
+        splash.classList.add("is-exiting");
+        window.setTimeout(function() {
+          splash.classList.add("is-hidden");
+          document.body.classList.remove("is-splash-active");
+          document.body.classList.add("splash-complete");
+        }, 920);
+      }
+      function startSplashTimer() {
+        if (timerStarted) return;
+        timerStarted = true;
+        window.setTimeout(hideSplash, 3400);
+      }
+
+      if (!splashImage || splashImage.complete) {
+        startSplashTimer();
+      } else {
+        splashImage.addEventListener("load", startSplashTimer, { once: true });
+        splashImage.addEventListener("error", startSplashTimer, { once: true });
+      }
+      splash.addEventListener("click", hideSplash);
+      if (skip) skip.addEventListener("click", hideSplash);
+      document.addEventListener("keydown", function(event) {
+        if (event.key === "Escape") hideSplash();
+      });
+    })();
+  </script>
   <script>
     (function() {
       const promoCards = document.querySelectorAll(".promo-card[data-deadline]");
