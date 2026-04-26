@@ -580,6 +580,17 @@
       color: var(--accent);
     }
 
+    @keyframes socialCardEnter {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     footer {
       padding: 44px 5%;
       text-align: center;
@@ -647,32 +658,49 @@
 
       .social-accordion {
         flex-direction: column;
-        min-height: 500px;
+        min-height: auto;
         padding: 14px;
         border-radius: 26px;
       }
 
       .social-card {
-        flex: 1;
-        min-height: 0;
+        flex: none;
+        min-height: 132px;
         padding: 22px;
+        justify-content: space-between;
+        animation: socialCardEnter 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
       }
 
       .social-card.active {
-        flex: 3;
         border-color: rgba(140, 47, 36, 0.3);
         box-shadow:
           0 24px 64px rgba(32, 23, 17, 0.12),
           0 0 28px rgba(164, 128, 112, 0.18);
       }
 
+      .social-card:nth-child(2) { animation-delay: 0.06s; }
+      .social-card:nth-child(3) { animation-delay: 0.12s; }
+      .social-card:nth-child(4) { animation-delay: 0.18s; }
+
+      .social-card:active {
+        transform: scale(0.985);
+        border-color: rgba(140, 47, 36, 0.34);
+      }
+
+      .social-card::before,
       .social-card.active::before,
       .social-card.active .social-card-body {
         opacity: 1;
       }
 
+      .social-card-body,
       .social-card.active .social-card-body {
+        opacity: 1;
         transform: translateY(0);
+      }
+
+      .social-card-body .arrow {
+        margin-top: 16px;
       }
     }
   </style>
@@ -914,6 +942,16 @@ Soon</div>
 
     heroToggles.forEach((toggle) => {
       toggle.addEventListener('click', () => setHeroPanel(toggle.dataset.heroTarget));
+    });
+
+    const socialCards = document.querySelectorAll('[data-social-accordion] .social-card');
+
+    socialCards.forEach((card) => {
+      card.addEventListener('pointerdown', () => {
+        if (!window.matchMedia('(max-width: 767px)').matches) return;
+        socialCards.forEach((item) => item.classList.remove('active'));
+        card.classList.add('active');
+      });
     });
   </script>
 </body>
