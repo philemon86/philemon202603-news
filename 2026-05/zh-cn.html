@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-Hans">
 <head>
   <meta charset="UTF-8" />
@@ -567,7 +567,7 @@
           <img src="../LOGO.png" alt="Philemon" />
         </a>
         <div class="brand">
-          PHILEMON NEWS 繚 2026 MAY
+          PHILEMON NEWS｜2026 MAY
           <small>母亲节好礼推荐</small>
         </div>
       </div>
@@ -634,20 +634,20 @@
       <p class="section-lead">最近几期电子报整理在这里，方便你直接回看最新月份的内容。</p>
       <div class="archive">
         <div class="archive-row">
-          <div><strong>2026 繚 05</strong></div>
-          <a class="btn primary" href="./">本期页面</a>
+          <div><strong>2026｜05</strong></div>
+          <a class="btn primary" href="./zh-cn.html">本期页面</a>
         </div>
         <div class="archive-row">
-          <div><strong>2026 繚 04 四月电子报</strong></div>
+          <div><strong>2026｜04 四月电子报</strong></div>
           <a class="btn" href="../2026-04/">前往四月</a>
         </div>
         <div class="archive-row">
-          <div><strong>2026 繚 03 三月电子报</strong></div>
+          <div><strong>2026｜03 三月电子报</strong></div>
           <a class="btn" href="../2026-03/">前往三月</a>
         </div>
       </div>
     </section>
-    <footer>PHILEMON NEWS 繚 2026 五月号 繚 母亲节好礼推荐</footer>
+    <footer>PHILEMON NEWS｜2026 五月号｜母亲节好礼推荐</footer>
   </div>  <script>
     (function() {
       document.body.classList.add("is-splash-active");
@@ -766,7 +766,7 @@
         const days = Math.floor(totalSeconds / 86400);
         const hours = Math.floor((totalSeconds % 86400) / 3600);
         const minutes = Math.floor((totalSeconds % 3600) / 60);
-        return days + "憭?" + hours + "??" + minutes + "??;
+        return days + "天 " + hours + "小时 " + minutes + "分钟";
       }
 
       function updateCountdowns() {
@@ -777,10 +777,10 @@
           const prefixEl = card.querySelector(".promo-prefix");
           if (!valueEl || !prefixEl || Number.isNaN(target)) return;
           if (now >= target) {
-            prefixEl.textContent = card.dataset.ended || "瘣餃撌脩???;
+            prefixEl.textContent = card.dataset.ended || "活动已结束";
             valueEl.textContent = "";
           } else {
-            prefixEl.textContent = card.dataset.prefix || "隡??";
+            prefixEl.textContent = card.dataset.prefix || "优惠倒数";
             valueEl.textContent = formatRemaining(target - now);
           }
         });
