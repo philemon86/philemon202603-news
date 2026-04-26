@@ -480,47 +480,104 @@
       border-color: var(--accent);
     }
 
-    .social-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+    .social-accordion {
+      display: flex;
+      flex-direction: row;
       gap: 16px;
+      min-height: 360px;
       margin-top: 20px;
+      padding: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.42);
+      border-radius: 32px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.34), rgba(255,255,255,0.12)),
+        linear-gradient(180deg, rgba(248,241,231,0.82), rgba(235,224,211,0.56));
+      box-shadow: 0 24px 70px rgba(32, 23, 17, 0.08);
     }
 
     .social-card {
-      min-height: 190px;
+      position: relative;
+      flex: 1;
+      min-width: 0;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      padding: 22px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-card);
-      background: var(--paper);
-      box-shadow: var(--shadow);
-      transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+      justify-content: flex-end;
+      overflow: hidden;
+      padding: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.48);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.6);
+      box-shadow: 0 18px 42px rgba(32, 23, 17, 0.07);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .social-card:hover {
-      transform: translateY(-5px);
-      background: var(--paper-strong);
-      border-color: rgba(140, 47, 36, 0.28);
+    .social-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      background:
+        linear-gradient(135deg, rgba(166, 133, 112, 0.12), transparent 52%),
+        radial-gradient(circle at 22% 18%, rgba(170, 141, 116, 0.16), transparent 35%);
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+
+    @media (min-width: 768px) {
+      .social-accordion:hover .social-card {
+        flex: 0.72;
+      }
+
+      .social-accordion .social-card:hover {
+        flex: 3.4;
+        border-color: rgba(140, 47, 36, 0.3);
+        box-shadow:
+          0 28px 76px rgba(32, 23, 17, 0.12),
+          0 0 34px rgba(164, 128, 112, 0.18);
+      }
+
+      .social-accordion .social-card:hover::before {
+        opacity: 1;
+      }
+
+      .social-accordion .social-card:hover .social-card-body {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .social-card-meta,
+    .social-card-body {
+      position: relative;
+      z-index: 1;
     }
 
     .social-card h3 {
       margin: 0;
-      font-size: 1.28rem;
+      font-size: 1.36rem;
       line-height: 1.2;
+      white-space: nowrap;
     }
 
-    .social-card p {
-      margin: 12px 0 0;
+    .social-card-body {
+      max-width: 360px;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .social-card-body p {
+      margin: 14px 0 0;
       color: var(--muted);
       font-size: 14px;
     }
 
-    .social-card .arrow {
-      align-self: flex-start;
-      margin-top: 18px;
+    .social-card-body .arrow {
+      margin-top: 26px;
+      font-size: 1.6rem;
+      color: var(--accent);
     }
 
     footer {
@@ -588,8 +645,34 @@
         grid-template-columns: 1fr;
       }
 
-      .social-grid {
-        grid-template-columns: 1fr;
+      .social-accordion {
+        flex-direction: column;
+        min-height: 500px;
+        padding: 14px;
+        border-radius: 26px;
+      }
+
+      .social-card {
+        flex: 1;
+        min-height: 0;
+        padding: 22px;
+      }
+
+      .social-card.active {
+        flex: 3;
+        border-color: rgba(140, 47, 36, 0.3);
+        box-shadow:
+          0 24px 64px rgba(32, 23, 17, 0.12),
+          0 0 28px rgba(164, 128, 112, 0.18);
+      }
+
+      .social-card.active::before,
+      .social-card.active .social-card-body {
+        opacity: 1;
+      }
+
+      .social-card.active .social-card-body {
+        transform: translateY(0);
       }
     }
   </style>
@@ -765,41 +848,49 @@ Soon</div>
 
     <section id="social" style="margin-top: 100px;">
       <div class="section-title">Follow PHILEMON</div>
-      <div class="social-grid">
-        <a class="social-card" href="https://www.instagram.com/philemon_life/" target="_blank" rel="noopener">
-          <div>
+      <div class="social-accordion" data-social-accordion>
+        <a class="social-card active" href="https://www.instagram.com/philemon_life/" target="_blank" rel="noopener">
+          <div class="social-card-meta">
             <div class="date">Instagram</div>
             <h3>@philemon_life</h3>
-            <p>書房日常、活動視覺與最新消息。</p>
           </div>
-          <div class="arrow">→</div>
+          <div class="social-card-body">
+            <p>書房日常、活動視覺與最新消息。</p>
+            <div class="arrow">→</div>
+          </div>
         </a>
 
         <a class="social-card" href="https://philemon.firstory.io/" target="_blank" rel="noopener">
-          <div>
+          <div class="social-card-meta">
             <div class="date">Podcast</div>
             <h3>Firstory</h3>
-            <p>收聽腓利門相關節目與聲音內容。</p>
           </div>
-          <div class="arrow">→</div>
+          <div class="social-card-body">
+            <p>收聽腓利門相關節目與聲音內容。</p>
+            <div class="arrow">→</div>
+          </div>
         </a>
 
         <a class="social-card" href="https://www.youtube.com/@tjcphilemon" target="_blank" rel="noopener">
-          <div>
+          <div class="social-card-meta">
             <div class="date">YouTube</div>
             <h3>@tjcphilemon</h3>
-            <p>影片、講座、介紹與影音企劃。</p>
           </div>
-          <div class="arrow">→</div>
+          <div class="social-card-body">
+            <p>影片、講座、介紹與影音企劃。</p>
+            <div class="arrow">→</div>
+          </div>
         </a>
 
         <a class="social-card" href="https://www.threads.com/@philemon_life" target="_blank" rel="noopener">
-          <div>
+          <div class="social-card-meta">
             <div class="date">Threads</div>
             <h3>@philemon_life</h3>
-            <p>追蹤短訊更新與即時分享。</p>
           </div>
-          <div class="arrow">→</div>
+          <div class="social-card-body">
+            <p>追蹤短訊更新與即時分享。</p>
+            <div class="arrow">→</div>
+          </div>
         </a>
       </div>
     </section>
@@ -823,6 +914,17 @@ Soon</div>
 
     heroToggles.forEach((toggle) => {
       toggle.addEventListener('click', () => setHeroPanel(toggle.dataset.heroTarget));
+    });
+
+    const socialCards = document.querySelectorAll('[data-social-accordion] .social-card');
+
+    socialCards.forEach((card) => {
+      card.addEventListener('click', (event) => {
+        if (!window.matchMedia('(max-width: 767px)').matches || card.classList.contains('active')) return;
+        event.preventDefault();
+        socialCards.forEach((item) => item.classList.remove('active'));
+        card.classList.add('active');
+      });
     });
   </script>
 </body>
