@@ -86,6 +86,7 @@
       transition: opacity 0.9s ease, visibility 0.9s ease;
     }
     .welcome-splash.is-hidden {
+      display: none;
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
@@ -542,7 +543,7 @@
       <picture>
         <source media="(max-width: 720px)" srcset="./hero-mother-mobile.jpg?v=20260426e" />
         <source media="(min-width: 721px)" srcset="./hero-mother-desktop.jpg?v=20260426c" />
-        <img src="./hero-mother-desktop.jpg?v=20260426c" alt="好禮加在腓利門，母親節特惠優惠" />
+        <img src="./hero-mother-desktop.jpg?v=20260426c" alt="Mother's Day special offers" />
       </picture>
       <button class="welcome-skip" type="button" id="welcomeSkip">Skip</button>
     </div>
@@ -651,15 +652,17 @@
 
       let hidden = false;
       let timerStarted = false;
+      function finalizeSplash() {
+        splash.classList.add("is-hidden");
+        splash.style.display = "none";
+        document.body.classList.remove("is-splash-active");
+        document.body.classList.add("splash-complete");
+      }
       function hideSplash() {
         if (hidden) return;
         hidden = true;
         splash.classList.add("is-exiting");
-        window.setTimeout(function() {
-          splash.classList.add("is-hidden");
-          document.body.classList.remove("is-splash-active");
-          document.body.classList.add("splash-complete");
-        }, 920);
+        window.setTimeout(finalizeSplash, 920);
       }
       function startSplashTimer() {
         if (timerStarted) return;
@@ -667,14 +670,29 @@
         window.setTimeout(hideSplash, 3400);
       }
 
+      window.__hideWelcomeSplash = function(immediate) {
+        if (immediate) {
+          hidden = true;
+          finalizeSplash();
+          return;
+        }
+        hideSplash();
+      };
       if (!splashImage || splashImage.complete) {
         startSplashTimer();
       } else {
         splashImage.addEventListener("load", startSplashTimer, { once: true });
         splashImage.addEventListener("error", startSplashTimer, { once: true });
+        window.addEventListener("load", startSplashTimer, { once: true });
+        window.setTimeout(startSplashTimer, 1800);
       }
-      splash.addEventListener("click", hideSplash);
-      if (skip) skip.addEventListener("click", hideSplash);
+      splash.addEventListener("click", function() {
+        window.__hideWelcomeSplash(true);
+      });
+      if (skip) skip.addEventListener("click", function(event) {
+        event.stopPropagation();
+        window.__hideWelcomeSplash(true);
+      });
       document.addEventListener("keydown", function(event) {
         if (event.key === "Escape") hideSplash();
       });

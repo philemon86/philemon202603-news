@@ -53,6 +53,109 @@
     body.is-splash-active {
       overflow: hidden;
     }
+    .welcome-splash {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at center, rgba(255, 255, 255, 0.82), transparent 34%),
+        radial-gradient(circle at top left, rgba(255, 228, 235, 0.9), transparent 28%),
+        radial-gradient(circle at top right, rgba(255, 240, 244, 0.86), transparent 30%),
+        linear-gradient(180deg, rgba(255, 247, 249, 0.98), rgba(253, 235, 239, 0.96));
+      transition: opacity 0.9s ease, visibility 0.9s ease;
+    }
+    .welcome-splash.is-hidden {
+      display: none;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .welcome-splash.is-exiting .welcome-shell {
+      animation: splashExit 0.95s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+    }
+    .welcome-splash.is-exiting .welcome-shell::before {
+      animation: sweepExit 0.95s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+    }
+    .welcome-splash.is-exiting .welcome-shell::after {
+      animation: frameExit 0.95s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+    }
+    .welcome-splash.is-exiting .welcome-shell img {
+      animation: splashImageExit 0.95s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+    }
+    .welcome-splash.is-exiting .welcome-skip {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    .welcome-shell {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      animation: splashEnter 1.25s cubic-bezier(0.22, 1, 0.36, 1) both;
+      isolation: isolate;
+    }
+    .welcome-shell::before {
+      content: "";
+      position: absolute;
+      inset: -8%;
+      z-index: 2;
+      background:
+        linear-gradient(115deg, rgba(255,255,255,0) 28%, rgba(255,255,255,0.32) 50%, rgba(255,255,255,0) 72%);
+      transform: translateX(-120%);
+      animation: splashSweep 1.45s ease 0.28s both;
+      pointer-events: none;
+    }
+    .welcome-shell::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      background:
+        radial-gradient(circle at center, rgba(255,255,255,0.14), transparent 42%),
+        linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.02) 30%, rgba(181, 87, 105, 0.1));
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12);
+      pointer-events: none;
+    }
+    .welcome-shell picture,
+    .welcome-shell img {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    .welcome-shell img {
+      object-fit: contain;
+      animation: splashImageEnter 2.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+      filter: saturate(1.04) contrast(1.02);
+    }
+    .welcome-skip {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 4;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 98px;
+      min-height: 44px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(140,60,79,0.16);
+      background: rgba(255,255,255,0.82);
+      color: var(--ink);
+      font: inherit;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.18);
+      transition: opacity 0.35s ease, transform 0.35s ease, background 0.35s ease;
+      cursor: pointer;
+    }
+    .welcome-skip:hover {
+      background: rgba(255,255,255,0.94);
+    }
     a { color: inherit; text-decoration: none; }
     img { display: block; width: 100%; }
     .page {
@@ -300,6 +403,36 @@
       0% { opacity: 0; transform: translateY(18px); }
       100% { opacity: 1; transform: translateY(0); }
     }
+    @keyframes splashEnter {
+      0% { opacity: 0; transform: scale(1.06); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    @keyframes splashImageEnter {
+      0% { transform: scale(1.16) translateY(2%); filter: saturate(0.98) contrast(0.98) brightness(1.02); }
+      100% { transform: scale(1.02) translateY(0); filter: saturate(1.04) contrast(1.02) brightness(1); }
+    }
+    @keyframes splashSweep {
+      0% { transform: translateX(-120%); opacity: 0; }
+      30% { opacity: 1; }
+      100% { transform: translateX(120%); opacity: 0; }
+    }
+    @keyframes splashExit {
+      0% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(1.08); }
+    }
+    @keyframes splashImageExit {
+      0% { transform: scale(1.02); filter: saturate(1.04) contrast(1.02) brightness(1); }
+      100% { transform: scale(1.1); filter: saturate(1.06) contrast(1.03) brightness(1.03); }
+    }
+    @keyframes sweepExit {
+      0% { transform: translateX(-20%); opacity: 0; }
+      35% { opacity: 0.42; }
+      100% { transform: translateX(130%); opacity: 0; }
+    }
+    @keyframes frameExit {
+      0% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(0.96); }
+    }
     @media (max-width: 960px) {
       .hero { grid-template-columns: 1fr; }
       header {
@@ -317,7 +450,8 @@
         min-height: 40px;
         padding: 8px 14px;
         font-size: 12px;
-      }      .page {
+      }
+      .page {
         width: min(100vw - 10px, 100%);
         margin: 5px auto 24px;
         padding: 18px 14px 40px;
@@ -325,7 +459,8 @@
       }
       .logo img { width: 54px; height: 54px; }
       .hero h1 { font-size: clamp(34px, 12vw, 48px); }
-      .hero p, .section-lead { font-size: 15px; }.media-shell { aspect-ratio: 9 / 16; }
+      .hero p, .section-lead { font-size: 15px; }
+      .media-shell { aspect-ratio: 9 / 16; }
       .archive-row {
         flex-direction: column;
         align-items: flex-start;
@@ -340,7 +475,7 @@
       <picture>
         <source media="(max-width: 720px)" srcset="./hero-mother-mobile.jpg?v=20260426e" />
         <source media="(min-width: 721px)" srcset="./hero-mother-desktop.jpg?v=20260426c" />
-        <img src="./hero-mother-desktop.jpg?v=20260426c" alt="好礼加在腓利门，母亲节特惠优惠" />
+        <img src="./hero-mother-desktop.jpg?v=20260426c" alt="Mother's Day special offers" />
       </picture>
       <button class="welcome-skip" type="button" id="welcomeSkip">Skip</button>
     </div>
@@ -449,15 +584,17 @@
 
       let hidden = false;
       let timerStarted = false;
+      function finalizeSplash() {
+        splash.classList.add("is-hidden");
+        splash.style.display = "none";
+        document.body.classList.remove("is-splash-active");
+        document.body.classList.add("splash-complete");
+      }
       function hideSplash() {
         if (hidden) return;
         hidden = true;
         splash.classList.add("is-exiting");
-        window.setTimeout(function() {
-          splash.classList.add("is-hidden");
-          document.body.classList.remove("is-splash-active");
-          document.body.classList.add("splash-complete");
-        }, 920);
+        window.setTimeout(finalizeSplash, 920);
       }
       function startSplashTimer() {
         if (timerStarted) return;
@@ -465,14 +602,29 @@
         window.setTimeout(hideSplash, 3400);
       }
 
+      window.__hideWelcomeSplash = function(immediate) {
+        if (immediate) {
+          hidden = true;
+          finalizeSplash();
+          return;
+        }
+        hideSplash();
+      };
       if (!splashImage || splashImage.complete) {
         startSplashTimer();
       } else {
         splashImage.addEventListener("load", startSplashTimer, { once: true });
         splashImage.addEventListener("error", startSplashTimer, { once: true });
+        window.addEventListener("load", startSplashTimer, { once: true });
+        window.setTimeout(startSplashTimer, 1800);
       }
-      splash.addEventListener("click", hideSplash);
-      if (skip) skip.addEventListener("click", hideSplash);
+      splash.addEventListener("click", function() {
+        window.__hideWelcomeSplash(true);
+      });
+      if (skip) skip.addEventListener("click", function(event) {
+        event.stopPropagation();
+        window.__hideWelcomeSplash(true);
+      });
       document.addEventListener("keydown", function(event) {
         if (event.key === "Escape") hideSplash();
       });
