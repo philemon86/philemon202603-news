@@ -18,6 +18,14 @@
       var href = link && link.getAttribute('href');
       var text = link ? (link.textContent || '').trim() : '';
       if (!href) return;
+      if (/instagram\.com\/philemon_life|philemon\.firstory\.io|youtube\.com\/@tjcphilemon|threads\.com\/@philemon_life/i.test(href)) {
+        gtag('event', 'social_link_click', {
+          link_url: href,
+          link_text: text || '(social)',
+          page_path: location.pathname
+        });
+        return;
+      }
       if (!/pbooks\.com\.tw\/(products\/|cart(?:\/|$))/i.test(href) && !/(購買|商品頁|購物車|Buy|Product|Cart)/i.test(text)) return;
       gtag('event', 'purchase_link_click', {
         link_url: href,
