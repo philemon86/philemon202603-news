@@ -480,21 +480,47 @@
       border-color: var(--accent);
     }
 
-    .archive-list {
+    .social-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
       margin-top: 20px;
     }
 
-    .archive-item {
-      display: grid;
-      grid-template-columns: 100px 1fr auto;
-      gap: 20px;
-      align-items: center;
-      padding: 24px 0;
-      border-bottom: 1px solid var(--border);
+    .social-card {
+      min-height: 190px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
     }
 
-    .archive-item--muted {
-      opacity: 0.55;
+    .social-card:hover {
+      transform: translateY(-5px);
+      background: var(--paper-strong);
+      border-color: rgba(140, 47, 36, 0.28);
+    }
+
+    .social-card h3 {
+      margin: 0;
+      font-size: 1.28rem;
+      line-height: 1.2;
+    }
+
+    .social-card p {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .social-card .arrow {
+      align-self: flex-start;
+      margin-top: 18px;
     }
 
     footer {
@@ -558,8 +584,11 @@
         width: 100%;
       }
 
-      .issue-links-row,
-      .archive-item {
+      .issue-links-row {
+        grid-template-columns: 1fr;
+      }
+
+      .social-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -571,7 +600,7 @@
     <nav>
       <a href="#newsletter">Newsletter</a>
       <a href="#portal">Portal</a>
-      <a href="#archive">Archive</a>
+      <a href="#social">Social</a>
       <a href="/first" target="_blank" rel="noopener" style="color:#e36b2c; font-weight:700;">First-Time Order?</a>
     </nav>
   </header>
@@ -734,29 +763,44 @@ Soon</div>
       </div>
     </section>
 
-    <section id="archive" style="margin-top: 100px;">
-      <div class="section-title">Archive</div>
-      <div class="archive-list">
-                <div class="archive-item">
-          <span>2026.05</span>
-          <strong>五月號電子報</strong>
-          <a href="./2026-05/" class="btn">Open</a>
-        </div>        <div class="archive-item">
-          <span>2026.04</span>
-          <strong>四月號電子報</strong>
-          <a href="./2026-04/" class="btn">Open</a>
-        </div>
+    <section id="social" style="margin-top: 100px;">
+      <div class="section-title">Follow PHILEMON</div>
+      <div class="social-grid">
+        <a class="social-card" href="https://www.instagram.com/philemon_life/" target="_blank" rel="noopener">
+          <div>
+            <div class="date">Instagram</div>
+            <h3>@philemon_life</h3>
+            <p>書房日常、活動視覺與最新消息。</p>
+          </div>
+          <div class="arrow">→</div>
+        </a>
 
-        <div class="archive-item">
-          <span>2026.03</span>
-          <strong>三月號電子報</strong>
-          <a href="./2026-03/" class="btn">Open</a>
-        </div>
-        <div class="archive-item archive-item--muted">
-          <span>2026.06</span>
-          <strong>Coming Soon</strong>
-          <span>敬請期待</span>
-        </div>
+        <a class="social-card" href="https://philemon.firstory.io/" target="_blank" rel="noopener">
+          <div>
+            <div class="date">Podcast</div>
+            <h3>Firstory</h3>
+            <p>收聽腓利門相關節目與聲音內容。</p>
+          </div>
+          <div class="arrow">→</div>
+        </a>
+
+        <a class="social-card" href="https://www.youtube.com/@tjcphilemon" target="_blank" rel="noopener">
+          <div>
+            <div class="date">YouTube</div>
+            <h3>@tjcphilemon</h3>
+            <p>影片、講座、介紹與影音企劃。</p>
+          </div>
+          <div class="arrow">→</div>
+        </a>
+
+        <a class="social-card" href="https://www.threads.com/@philemon_life" target="_blank" rel="noopener">
+          <div>
+            <div class="date">Threads</div>
+            <h3>@philemon_life</h3>
+            <p>追蹤短訊更新與即時分享。</p>
+          </div>
+          <div class="arrow">→</div>
+        </a>
       </div>
     </section>
   </div>

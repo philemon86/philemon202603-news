@@ -3,439 +3,237 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>買四送四｜勝利門書房</title>
+  <title>腓利門贈書活動 | 2026 五月號</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;500;700;900&display=swap');
+    @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@500;700;900&display=swap");
 
     :root {
-      /* 溫潤的實體牆面色調 */
-      --wall-color: #F4F1EC; 
-      --text-main: #2C2A29;
-      --text-muted: #736F6A;
-      --accent-red: #8C2E2E; 
-      --transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+      --paper: #f7f1ea;
+      --ink: #2c2724;
+      --muted: #6f655d;
+      --accent: #8c2e2e;
+      --line: rgba(44, 39, 36, 0.12);
+      --card: rgba(255, 255, 255, 0.82);
+      --shadow: 0 28px 60px rgba(44, 39, 36, 0.12);
     }
 
-    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      background-color: var(--wall-color);
-      color: var(--text-main);
+      color: var(--ink);
       font-family: "Noto Sans TC", sans-serif;
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
+      background:
+        radial-gradient(circle at top left, rgba(140, 46, 46, 0.08), transparent 26%),
+        radial-gradient(circle at top right, rgba(140, 46, 46, 0.06), transparent 24%),
+        linear-gradient(180deg, #fbf8f4 0%, var(--paper) 100%);
     }
 
-    /* --- 真實感核心：搖曳的樹影 --- */
-    .tree-shadow {
-      position: fixed;
-      top: -10%; left: -10%;
-      width: 120%; height: 120%;
-      /* 開源真實樹葉光影 */
-      background-image: url('https://images.unsplash.com/photo-1544252890-e5dc79815dd3?q=80&w=2000&auto=format&fit=crop');
-      background-size: cover;
-      background-position: center;
-      /* 色彩增值：只留下深色陰影，完美融合背景 */
-      mix-blend-mode: multiply;
-      opacity: 0.12; /* 隱約的質感，不干擾閱讀 */
-      pointer-events: none;
-      z-index: 9999;
-      animation: windSway 12s ease-in-out infinite alternate;
+    a { color: inherit; text-decoration: none; }
+
+    .page {
+      width: min(1160px, calc(100vw - 28px));
+      margin: 18px auto 42px;
+      padding: 28px clamp(18px, 4vw, 42px) 54px;
     }
 
-    /* 模擬微風搖曳的動態演算 */
-    @keyframes windSway {
-      0% { transform: rotate(0deg) scale(1) translate(0px, 0px); }
-      100% { transform: rotate(1.5deg) scale(1.02) translate(-15px, 10px); }
-    }
-
-    /* 紙張/牆面雜訊 (增加實體觸感) */
-    .noise {
-      position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      opacity: 0.04;
-      pointer-events: none;
-      z-index: 9998;
-    }
-
-    .reveal { opacity: 0; transform: translateY(40px); transition: var(--transition); }
-    .reveal.active { opacity: 1; transform: translateY(0); }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 5vw;
-      position: relative;
-      z-index: 10;
-    }
-
-    /* --- 序幕 --- */
     .hero {
-      min-height: 80vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      padding: 28px 0 34px;
       text-align: center;
-      padding-top: 5vh;
     }
 
-    .hero-badge {
-      font-size: 0.85rem;
-      letter-spacing: 0.2em;
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 14px;
+      color: var(--accent);
+      font-size: 13px;
       font-weight: 700;
-      color: var(--accent-red);
-      margin-bottom: 30px;
-      border-bottom: 1px solid var(--accent-red);
-      padding-bottom: 8px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
     }
 
-    .hero h1 {
+    h1,
+    h2 {
+      margin: 0;
       font-family: "Noto Serif TC", serif;
-      font-size: clamp(3rem, 7vw, 5.5rem);
-      font-weight: 900;
-      line-height: 1.1;
-      margin: 0 0 24px;
-      letter-spacing: 0.02em;
     }
 
-    .hero-title-line {
-      display: block;
+    h1 {
+      font-size: clamp(32px, 6vw, 54px);
+      line-height: 1.12;
     }
 
     .hero p {
-      font-size: clamp(1.05rem, 2vw, 1.25rem);
-      line-height: 1.8;
-      color: var(--text-muted);
-      max-width: 600px;
-      margin: 0;
+      width: min(720px, 100%);
+      margin: 18px auto 0;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.9;
     }
 
-    .hero-links {
+    .hero-actions,
+    .footer-actions {
       display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
       justify-content: center;
-      margin-top: 26px;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
     }
 
-    .hero-links a {
-      color: var(--accent-red);
-      text-decoration: none;
-      border-bottom: 1px solid rgba(140, 46, 46, 0.35);
-      padding-bottom: 4px;
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 180px;
+      padding: 14px 20px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.88);
+      box-shadow: 0 10px 24px rgba(44, 39, 36, 0.08);
+      font-weight: 700;
+    }
+
+    .btn.primary {
+      background: var(--ink);
+      color: #fff;
+      border-color: transparent;
+    }
+
+    .note {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 14px;
       letter-spacing: 0.04em;
     }
 
-    /* --- 藝廊展區 (無框排版) --- */
-    .exhibition {
-      padding: 50px 0 150px;
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+      margin-top: 26px;
     }
 
-    .art-block {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 25vh; /* 拉大間距，讓每個作品獨立呼吸 */
-      position: relative;
+    .card {
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
     }
 
-    .art-block.reverse {
-      flex-direction: row-reverse;
-    }
-
-    /* 巨大背景文字 */
-    .bg-text {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      font-family: "Noto Serif TC", serif;
-      font-size: clamp(5rem, 14vw, 16rem);
-      font-weight: 900;
-      color: rgba(140, 46, 46, 0.035); /* 極致淡的勃根地紅 */
-      white-space: nowrap;
-      z-index: -1;
-      pointer-events: none;
-      letter-spacing: 0.05em;
-    }
-
-    /* 書籍視覺區 */
-    .book-visual {
-      width: 45%;
-      position: relative;
-      z-index: 2;
-    }
-
-    .book-visual img {
-      width: 100%;
-      max-width: 380px;
-      display: block;
-      margin: 0 auto;
-      /* 真實物理陰影 */
-      filter: drop-shadow(25px 35px 50px rgba(0,0,0,0.12)) drop-shadow(5px 10px 15px rgba(0,0,0,0.08));
-      transition: transform 0.8s ease;
-    }
-
-    .art-block:hover .book-visual img {
-      transform: translateY(-12px) rotate(-1deg);
-    }
-
-    /* 文字排版區 (直接放在牆面上) */
-    .text-content {
-      width: 50%;
-      position: relative;
-      z-index: 2;
-    }
-
-    .quote-mark {
-      font-family: serif;
-      font-size: 8rem;
-      line-height: 0;
-      color: rgba(140, 46, 46, 0.08);
-      position: absolute;
-      top: 40px; left: -50px;
-      pointer-events: none;
-    }
-
-    .art-block.reverse .quote-mark {
-      left: auto; right: -20px;
-    }
-
-    .book-title {
-      font-family: "Noto Serif TC", serif;
-      font-size: clamp(2rem, 3.5vw, 3rem);
-      color: var(--text-main);
-      margin: 0 0 40px;
-      font-weight: 900;
-    }
-
-    .text-body p {
-      font-family: "Noto Serif TC", serif;
-      font-size: clamp(1.05rem, 1.5vw, 1.15rem);
-      line-height: 2.2;
-      color: var(--text-muted);
-      margin-bottom: 2em;
-      text-align: justify;
-      text-justify: inter-ideograph;
-    }
-
-    .text-body p:last-child {
-      margin-bottom: 0;
-    }
-
-    /* --- CTA --- */
-    .cta-section {
-      text-align: center;
-      padding: 50px 20px 150px;
-      position: relative;
-      z-index: 10;
-    }
-
-    .cta-actions {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-top: 32px;
-    }
-
-    .btn-action {
-      display: inline-block;
-      padding: 22px 60px;
-      background: var(--text-main);
-      color: var(--wall-color);
-      text-decoration: none;
-      font-size: 1.15rem;
-      letter-spacing: 0.1em;
-      font-weight: 700;
-      transition: all 0.4s ease;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-      position: relative;
+    .cover-shell {
+      aspect-ratio: 4 / 5;
+      display: grid;
+      place-items: center;
+      margin-bottom: 18px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(245,238,231,0.92));
       overflow: hidden;
-      border-radius: 4px;
     }
 
-    .btn-action::before {
-      content: "";
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background: var(--accent-red);
-      transform: translateY(100%);
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      z-index: -1;
+    .cover-shell img {
+      width: min(88%, 380px);
+      max-height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 22px 36px rgba(44, 39, 36, 0.18));
     }
 
-    .btn-action:hover {
-      color: #fff;
-      transform: translateY(-5px);
-      box-shadow: 0 25px 50px rgba(140, 46, 46, 0.2);
+    .code {
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
     }
-    .btn-action:hover::before { transform: translateY(0); }
 
-    /* --- RWD 手機與平板 --- */
-    @media (max-width: 992px) {
-      .art-block, .art-block.reverse {
-        flex-direction: column;
-        margin-bottom: 15vh;
-        text-align: center;
+    .card h2 {
+      margin-top: 8px;
+      font-size: clamp(24px, 3vw, 32px);
+    }
+
+    .card p {
+      margin: 12px 0 0;
+      color: var(--muted);
+      line-height: 1.85;
+    }
+
+    footer {
+      margin-top: 34px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 820px) {
+      .grid {
+        grid-template-columns: 1fr;
       }
 
-      .bg-text {
-        font-size: 24vw;
-        top: 25%; /* 手機端文字上移當背景 */
-      }
-
-      .book-visual {
+      .btn {
         width: 100%;
-        margin-bottom: 40px;
-      }
-
-      .book-visual img {
-        max-width: 260px;
-      }
-
-      .text-content {
-        width: 100%;
-        max-width: 600px;
-      }
-
-      .quote-mark { display: none; }
-
-      .hero h1 {
-        font-size: clamp(2.35rem, 12vw, 3.7rem);
-        line-height: 1.18;
-      }
-
-      .hero-title-line {
-        white-space: nowrap;
-      }
-
-      .btn-action {
-        width: min(100%, 320px);
-        padding: 18px 28px;
-      }
-
-      .text-body p {
-        text-align: left; /* 手機端左對齊更易讀 */
       }
     }
   </style>
 </head>
 <body>
-
-  <div class="tree-shadow"></div>
-  <div class="noise"></div>
-
-  <div class="container">
-    
-    <header class="hero reveal">
-      <div class="hero-badge">5-6月新書活動</div>
-      <h1><span class="hero-title-line">買四本本版書，</span><span class="hero-title-line">我們再送你四本。</span></h1>
-      <p>購買本版書，即可獲贈以下好書，<br>優惠以單筆訂單計算。</p>
-      <div class="hero-links">
-        <a href="https://news.pbooks.com.tw/2026-05/">返回電子報</a>
+  <div class="page">
+    <section class="hero">
+      <span class="eyebrow">May 2026 Gift Books</span>
+      <h1>腓利門贈書活動</h1>
+      <p>本頁整理 2026 年 5 月電子報的贈書活動書目。點選下方卡片可瀏覽本次推薦書封，若要回到電子報主頁或前往腓利門出版書籍專區，可使用頁面下方按鈕。</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="https://www.pbooks.com.tw/collections/%E8%85%93%E5%88%A9%E9%96%80%E6%9C%AC%E7%89%88%E6%9B%B8">瀏覽腓利門出版書籍</a>
+        <a class="btn" href="https://news.pbooks.com.tw/2026-05/">返回五月電子報</a>
       </div>
-    </header>
-
-    <main class="exhibition">
-      
-      <article class="art-block reveal">
-        <div class="bg-text">買一送一</div>
-        <div class="book-visual">
-          <img src="./philemon-four-gift-assets/C200-1.png" alt="行善人的道">
-        </div>
-        <div class="text-content">
-          <div class="quote-mark">“</div>
-          <h2 class="book-title">《行善人的道》</h2>
-          <div class="text-body">
-            <p>人既有生、老、貧、病之苦；又有一場無人能免之死的威脅等候他們，何能不憂且懼？然則此憂斯苦從何而來？聖經告訴我們：人類的始祖亞當夫婦違背神命，貪吃禁果以後，受神咒詛，被趕出樂園，就要終身勞苦，汗流滿面，始得餬口，直到歸土。</p>
-            <p>人信宗教拜神的原因，莫不出於求平安的緣故。世上稱為神，稱為宗教的太多，但究竟信那種宗教，那一位神才能真正使我們得平安呢？使我們能得真正平安的，只有又真又活的神──耶穌基督。因為有許多信徒的體驗，證實耶穌基督確是能賜人平安的又真又活的神。</p>
-          </div>
-        </div>
-      </article>
-
-      <article class="art-block reverse reveal">
-        <div class="bg-text">買二送二</div>
-        <div class="book-visual">
-          <img src="./philemon-four-gift-assets/C201-1.png" alt="守義人的路">
-        </div>
-        <div class="text-content">
-          <div class="quote-mark">“</div>
-          <h2 class="book-title">《守義人的路》</h2>
-          <div class="text-body">
-            <p>世人盼望健康、財富、權能、名聲，却忘記了一件人生最寶貴的東西──安寧的心境。有健康的身體，當然是人生大幸福之一；然而身體健康，若非能善用以做些利己益人的工作，却憑其體健力壯而放縱情慾，為所欲為，對他並非一件幸福的事。</p>
-            <p>神賜健康、權能、財富、名譽給許多人，却把「寧靜的心境」賜給祂特別眷顧的人。「心中安靜是肉體的生命」，唯有對於永遠的靈命有把握的人，才能獲得心中真正的安寧。</p>
-          </div>
-        </div>
-      </article>
-
-      <article class="art-block reveal">
-        <div class="bg-text">買三送三</div>
-        <div class="book-visual">
-          <img src="./philemon-four-gift-assets/C229-1.png" alt="究天人之際">
-        </div>
-        <div class="text-content">
-          <div class="quote-mark">“</div>
-          <h2 class="book-title">《究天人之際》</h2>
-          <div class="text-body">
-            <p>值得注意的卻是好些國家或地區的人民，過的是錦衣美食的生活，然而他們的心靈深處卻呈現史無前例的一種持久性之空虛與混沌。何以愈是養尊處優，衣食無虞的人，心靈愈是徬徨無依？</p>
-            <p>何以愈是養尊處優，衣食無虞的人，心靈愈是徬徨無依？這正應驗了經言：「日子將到，我必命飢荒降在地上；人飢餓非因無餅，乾渴非因無水，乃因不聽耶和華的話。」現在正是那「日子」，時下世人所面對的正是這等「飢荒」。</p>
-            <p>兄姊們，世人所面臨的即是如此一個無法自拔的悲愴局面，他們所最迫切需要的不是食物，而是神的話語。而向他們傳達這一信息的捨我其誰？但，自問，我們可有這種體認？可有這番準備？</p>
-          </div>
-        </div>
-      </article>
-
-      <article class="art-block reverse reveal">
-        <div class="bg-text">買四送四</div>
-        <div class="book-visual">
-          <img src="./philemon-four-gift-assets/C230-1.png" alt="通古今之變">
-        </div>
-        <div class="text-content">
-          <div class="quote-mark">“</div>
-          <h2 class="book-title">《通古今之變》</h2>
-          <div class="text-body">
-            <p>一個經競選勝利而上任的政治家，必是有許多政見忙著要兌現。但在神家中，我們的作風卻大不相同，誰都不敢誇口說大話，因我們深知生命只如雲霧一般，出現片時就消失無蹤，要不是主願意，我們一事也成不了。</p>
-            <p>縱有曠世奇才，要是少了神和人的同工，則必是一無所成的。有了神同工還須依些有默契的同工，可與之促膝談心，也可大談正事。感謝主，在這方面得神獨厚。經上說：「兩個人總比一個人好，因為二人同得美好的果效。」</p>
-            <p>一本聖靈報促成今日沙巴教會發展盛況；一本福音小書「報爾佳音」引發一人撇物從主數十年，拯救千萬生靈；一本介紹本會小冊開啟非洲的傳道之門，文宣工作在當今全球性的宣道事工居於首要地位當無疑。</p>
-          </div>
-        </div>
-      </article>
-
-    </main>
-
-    <section class="cta-section reveal">
-      <h2 style="font-family: 'Noto Serif TC', serif; font-size: clamp(2rem, 5vw, 3rem); margin: 0 0 20px;">一次帶走八本書。</h2>
-      <p style="color: var(--text-muted); margin-bottom: 50px; font-size: 1.1rem;">選四本你想讀的，剩下四本我們送你。</p>
-      <div class="cta-actions">
-        <a href="https://www.pbooks.com.tw/collections/%E8%85%93%E5%88%A9%E9%96%80%E6%9C%AC%E7%89%88%E6%9B%B8" class="btn-action">
-          <span style="position: relative; z-index: 2;">前往挑選本版書</span>
-        </a>
-        <a href="https://news.pbooks.com.tw/2026-05/" class="btn-action">
-          <span style="position: relative; z-index: 2;">返回電子報</span>
-        </a>
-      </div>
-      <div style="margin-top: 30px; font-size: 0.95rem; color: var(--text-muted); letter-spacing: 0.05em;">優惠至 2026.06.30 止</div>
+      <div class="note">活動頁面修復版 | 截止日期：2026.06.30</div>
     </section>
 
+    <section class="grid" aria-label="Gift book selection">
+      <article class="card">
+        <div class="cover-shell">
+          <img src="./philemon-four-gift-assets/C200-1.png" alt="C200 贈書活動書封">
+        </div>
+        <div class="code">C200</div>
+        <h2>贈書選書一</h2>
+        <p>本次贈書活動收錄的精選書籍之一，保留原始書封展示，方便從電子報活動頁直接延伸瀏覽。</p>
+      </article>
+
+      <article class="card">
+        <div class="cover-shell">
+          <img src="./philemon-four-gift-assets/C201-1.png" alt="C201 贈書活動書封">
+        </div>
+        <div class="code">C201</div>
+        <h2>贈書選書二</h2>
+        <p>延續本月母親節與閱讀主題，活動書單以清楚可讀的版面重新整理，避免原頁面亂碼造成瀏覽中斷。</p>
+      </article>
+
+      <article class="card">
+        <div class="cover-shell">
+          <img src="./philemon-four-gift-assets/C229-1.png" alt="C229 贈書活動書封">
+        </div>
+        <div class="code">C229</div>
+        <h2>贈書選書三</h2>
+        <p>保留活動視覺與書封圖檔，讓讀者仍可正常查看本次推薦書籍，不再受到損毀 HTML 的影響。</p>
+      </article>
+
+      <article class="card">
+        <div class="cover-shell">
+          <img src="./philemon-four-gift-assets/C230-1.png" alt="C230 贈書活動書封">
+        </div>
+        <div class="code">C230</div>
+        <h2>贈書選書四</h2>
+        <p>若需要查看完整書籍清單與購買入口，可直接前往腓利門出版書籍專區；此頁先作為本期活動的穩定展示頁。</p>
+      </article>
+    </section>
+
+    <footer>
+      <div class="footer-actions">
+        <a class="btn primary" href="https://www.pbooks.com.tw/collections/%E8%85%93%E5%88%A9%E9%96%80%E6%9C%AC%E7%89%88%E6%9B%B8">前往書籍專區</a>
+        <a class="btn" href="https://news.pbooks.com.tw/2026-05/">回到電子報</a>
+      </div>
+      <p>PHILEMON NEWS | 2026 五月號 | 贈書活動頁</p>
+    </footer>
   </div>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('active');
-          }
-        });
-      }, {
-        rootMargin: '0px 0px -15% 0px',
-        threshold: 0.1
-      });
-
-      const elements = document.querySelectorAll('.reveal');
-      elements.forEach(el => observer.observe(el));
-    });
-  </script>
-
 </body>
 </html>
