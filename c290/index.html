@@ -3,6 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JD1JHF86H1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-JD1JHF86H1');
+    </script>
+    <script>
+      document.addEventListener('click', function(event) {
+        var link = event.target.closest('a[href]');
+        var href = link && link.getAttribute('href');
+        var text = link ? (link.textContent || '').trim() : '';
+        if (!href) return;
+        if (!/pbooks\.com\.tw\/(products\/|collections\/|cart(?:\/|$))/i.test(href) && !/(購買|商品頁|購物車|Buy|Product|Cart)/i.test(text)) return;
+        gtag('event', 'purchase_link_click', {
+          link_url: href,
+          link_text: text || '(image)',
+          page_path: location.pathname
+        });
+      });
+    </script>
     <link rel="icon" type="image/svg+xml" href="../favicon-book.svg" />
     <title>C290 洗禮論 | 腓利門書房</title>
     <meta

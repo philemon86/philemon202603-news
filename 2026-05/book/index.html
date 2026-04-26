@@ -3,6 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JD1JHF86H1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    const pageLanguage = document.documentElement.lang || "und";
+    gtag("js", new Date());
+    gtag("config", "G-JD1JHF86H1", { page_language: pageLanguage });
+  </script>
+  <script>
+    document.addEventListener("click", function(event) {
+      var link = event.target.closest("a[href]");
+      var href = link && link.getAttribute("href");
+      if (!href) return;
+      if (!/pbooks\.com\.tw\/(products\/|collections\/|cart(?:\/|$))/i.test(href)) return;
+      gtag("event", "purchase_link_click", {
+        link_url: href,
+        link_text: (link.textContent || "").trim() || "(image)",
+        page_path: location.pathname,
+        page_language: pageLanguage
+      });
+    });
+  </script>
   <title>腓利門贈書活動 | 2026 五月號</title>
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@500;700;900&display=swap");
