@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
@@ -26,7 +26,7 @@
       });
     });
   </script>
-  <title>腓利門電子報 | 2026 五月號</title>
+  <title>腓利門電子報｜2026 五月號</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
@@ -761,7 +761,7 @@
         const days = Math.floor(totalSeconds / 86400);
         const hours = Math.floor((totalSeconds % 86400) / 3600);
         const minutes = Math.floor((totalSeconds % 3600) / 60);
-        return days + "憭?" + hours + "??" + minutes + "??;
+        return days + "天 " + hours + "小時 " + minutes + "分鐘";
       }
 
       function updateCountdowns() {
@@ -772,10 +772,10 @@
           const prefixEl = card.querySelector(".promo-prefix");
           if (!valueEl || !prefixEl || Number.isNaN(target)) return;
           if (now >= target) {
-            prefixEl.textContent = card.dataset.ended || "瘣餃?撌脩???;
+            prefixEl.textContent = card.dataset.ended || "活動已結束";
             valueEl.textContent = "";
           } else {
-            prefixEl.textContent = card.dataset.prefix || "?芣??";
+            prefixEl.textContent = card.dataset.prefix || "優惠倒數";
             valueEl.textContent = formatRemaining(target - now);
           }
         });
@@ -787,7 +787,6 @@
   </script>
 </body>
 </html>
-
 
 
 
