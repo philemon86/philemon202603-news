@@ -394,6 +394,53 @@
       gap: 24px;
     }
 
+    .portal-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+
+    .portal-head .section-title {
+      flex: 1;
+      margin-bottom: 0;
+    }
+
+    .portal-pager {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .portal-page-btn {
+      min-width: 38px;
+      height: 38px;
+      border: 1px solid rgba(31, 26, 23, 0.1);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.76);
+      color: var(--muted);
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .portal-page-btn.active {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: #fff;
+    }
+
+    .portal-grid .card {
+      display: none;
+    }
+
+    .portal-grid .card.active {
+      display: flex;
+    }
+
     .card {
       display: flex;
       flex-direction: column;
@@ -664,6 +711,21 @@
         grid-template-columns: 1fr;
       }
 
+      .portal-head {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 16px;
+        margin-bottom: 20px;
+      }
+
+      .portal-pager {
+        width: 100%;
+      }
+
+      .portal-page-btn {
+        flex: 1;
+      }
+
       .social-accordion {
         flex-direction: column;
         min-height: auto;
@@ -854,8 +916,19 @@ Soon</div>
     </section>
 
     <section id="portal" style="margin-top: 100px;">
-      <div class="section-title">PHILEMON Entrance</div>
-      <div class="grid">
+      <div class="portal-head">
+        <div class="section-title">PHILEMON Entrance</div>
+        <div class="portal-pager" data-portal-pager aria-label="PHILEMON Entrance 分頁"></div>
+      </div>
+      <div class="grid portal-grid" data-portal-grid>
+        <a href="./music/" class="card">
+          <div>
+            <div class="date">Music</div>
+            <h3>創作詩歌</h3>
+          </div>
+          <p>搜尋真耶穌教會創作詩歌樂譜，快速查看曲目、詞曲、頁數、價格與試聽。</p>
+        </a>
+
         <a href="./bookstore/" class="card">
           <div>
             <div class="date">Space</div>
@@ -961,6 +1034,38 @@ Soon</div>
         card.classList.add('active');
       });
     });
+
+    const portalGrid = document.querySelector('[data-portal-grid]');
+    const portalPager = document.querySelector('[data-portal-pager]');
+    const portalCards = portalGrid ? Array.from(portalGrid.querySelectorAll('.card')) : [];
+    const portalPageSize = 3;
+    const portalPageCount = Math.ceil(portalCards.length / portalPageSize);
+
+    function setPortalPage(pageIndex) {
+      portalCards.forEach((card, index) => {
+        const pageStart = pageIndex * portalPageSize;
+        card.classList.toggle('active', index >= pageStart && index < pageStart + portalPageSize);
+      });
+
+      if (!portalPager) return;
+      portalPager.querySelectorAll('.portal-page-btn').forEach((button, index) => {
+        button.classList.toggle('active', index === pageIndex);
+      });
+    }
+
+    if (portalPager && portalCards.length) {
+      for (let index = 0; index < portalPageCount; index += 1) {
+        const button = document.createElement('button');
+        button.className = 'portal-page-btn';
+        button.type = 'button';
+        button.textContent = String(index + 1);
+        button.setAttribute('aria-label', `第 ${index + 1} 頁`);
+        button.addEventListener('click', () => setPortalPage(index));
+        portalPager.appendChild(button);
+      }
+
+      setPortalPage(0);
+    }
   </script>
 </body>
 </html>
