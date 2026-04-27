@@ -683,13 +683,17 @@
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#39;");
     }
+    function setText(id, value) {
+      const node = document.getElementById(id);
+      if (node) node.textContent = value;
+    }
     function renderStats(filtered) {
       const playable = scores.filter((item) => item.v === "P").length;
-      document.getElementById("heroCount").textContent = scores.length;
-      document.getElementById("heroPlayable").textContent = playable;
-      document.getElementById("heroFiltered").textContent = filtered.length;
-      document.getElementById("heroCurrent").textContent = currentId || "--";
-      document.getElementById("countBadge").textContent = filtered.length;
+      setText("heroCount", scores.length);
+      setText("heroPlayable", playable);
+      setText("heroFiltered", filtered.length);
+      setText("heroCurrent", currentId || "--");
+      setText("countBadge", filtered.length);
     }
     function renderList(list) {
       const body = document.getElementById("listBody");
