@@ -187,11 +187,8 @@
       overflow: hidden;
     }
     .title strong {
-      display: -webkit-box;
+      display: block;
       max-width: 100%;
-      overflow: hidden;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 2;
       font-size: 1rem;
       line-height: 1.25;
     }
@@ -212,11 +209,9 @@
     }
     .meta {
       grid-area: meta;
-      overflow: hidden;
       color: var(--muted);
       font-size: 13px;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      line-height: 1.45;
     }
     .tags {
       grid-area: tags;
@@ -447,7 +442,8 @@
         const meta = [
           product.author || "未標作者",
           product.publication_date || product.year || "未標日期",
-          product.pages ? `${product.pages}頁` : ""
+          product.pages ? `${product.pages}頁` : "",
+          product.isbn ? `ISBN ${product.isbn}` : ""
         ].filter(Boolean).join(" · ");
         return `
           <article class="row">
@@ -456,7 +452,6 @@
             <div class="meta">${escapeHtml(meta)}</div>
             <div class="tags">
               ${product.year ? `<span class="tag">${escapeHtml(product.year)}</span>` : ""}
-              ${product.isbn ? `<span class="tag">ISBN</span>` : ""}
             </div>
             <div class="price">${escapeHtml(price)}</div>
             <div class="actions">
