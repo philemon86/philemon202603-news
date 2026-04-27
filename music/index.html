@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>真耶穌教會創作詩歌樂譜目錄 | PHILEMON NEWS</title>
-  <link rel="icon" type="image/svg+xml" href="../favicon-news.svg" />
+  <link rel="icon" type="image/svg+xml" href="./favicon-music.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Noto+Serif+TC:wght@600;900&display=swap" rel="stylesheet">
@@ -55,6 +55,7 @@
       letter-spacing: 0.22em;
       text-transform: uppercase;
     }
+    .mobile-credit { display: none; }
     .brand-sub {
       font-size: 12px;
       color: var(--muted);
@@ -216,7 +217,7 @@
       align-items: center;
       padding: 16px 18px;
     }
-    .search-box { position: relative; }
+    .search-box { position: relative; min-width: 0; }
     .search-box input {
       width: 100%;
       border: 1px solid rgba(31, 26, 23, 0.1);
@@ -367,6 +368,7 @@
       box-shadow: 0 28px 70px rgba(16, 11, 8, 0.35);
       backdrop-filter: blur(16px);
     }
+    .player.is-empty { display: none; }
     .player-art {
       width: 64px;
       height: 64px;
@@ -444,17 +446,30 @@
       main { width: min(100% - 20px, 1200px); padding-top: 24px; }
       .hero-panel {
         grid-template-columns: 1fr;
-        gap: 18px;
-        padding: 22px;
+        gap: 12px;
+        padding: 16px;
       }
       .hero-stats {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 6px;
+      }
+      .hero-stat {
+        border-radius: 12px;
+        padding: 8px 10px;
+      }
+      .hero-stat span {
+        font-size: 10px;
+        letter-spacing: 0.05em;
+      }
+      .hero-stat strong {
+        font-size: 1.25rem;
       }
       .controls-shell {
         position: static;
-        margin-bottom: 14px;
+        margin-bottom: 12px;
       }
       .controls {
+        grid-template-columns: minmax(0, 1fr) auto;
         gap: 10px;
         padding: 12px;
         border-radius: 18px;
@@ -465,9 +480,7 @@
       }
       .search-icon { left: 15px; }
       .summary-chip {
-        width: 100%;
-        padding: 9px 14px;
-        text-align: left;
+        display: none;
       }
       .list-shell {
         background: transparent;
@@ -479,9 +492,9 @@
       .list-row {
         grid-template-columns: auto minmax(0, 1fr) auto;
         grid-template-areas:
-          "code title price"
+          "code title title"
           "code author author"
-          "code pages actions";
+          "code actions actions";
         align-items: start;
         gap: 6px 10px;
         margin-bottom: 8px;
@@ -525,12 +538,8 @@
         line-height: 1.35;
       }
       .author-col { grid-area: author; }
-      .page-col { grid-area: pages; }
-      .price-col {
-        grid-area: price;
-        justify-content: flex-end;
-        white-space: nowrap;
-      }
+      .page-col { display: none; }
+      .price-col { display: none; }
       .author-col::before,
       .page-col::before,
       .price-col::before {
@@ -544,6 +553,15 @@
       .page-col::before { content: "頁數"; }
       .price-col::before { content: ""; display: none; }
       .price-col strong { font-size: 1rem; }
+      .song-main p { display: none; }
+      .desktop-credit { display: none; }
+      .mobile-credit {
+        display: inline;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .author-col::before { content: "詞曲"; }
       .action-col {
         grid-area: actions;
         justify-content: flex-end;
@@ -581,15 +599,15 @@
       audio {
         height: 32px;
       }
-      body { padding-bottom: 100px; }
+      body { padding-bottom: 24px; }
+      body.has-player { padding-bottom: 100px; }
     }
   </style>
 </head>
 <body>
   <header>
     <div class="brand">
-      <span class="brand-mark">PHILEMON NEWS</span>
-      <span class="brand-sub">Music</span>
+      <span class="brand-mark">PHILEMON MUSIC</span>
     </div>
     <nav>
       <a href="/">首頁</a>
@@ -634,7 +652,7 @@
       <div id="emptyState" class="empty-state">找不到符合條件的曲目，請換個關鍵字。</div>
     </section>
   </main>
-  <section class="player" id="playerWrap">
+  <section class="player is-empty" id="playerWrap">
     <div class="player-art" id="displayArt">MUSIC</div>
     <div class="player-main">
       <div class="player-copy">
@@ -899,6 +917,11 @@
         {v:'P', id:'H237', n:'牧人的安慰', pg:'3', pr:'10', c:'NJ Chen', l:'Helena Wu'}
     ];
     let currentId = null;
+    function syncPlayerVisibility() {
+      const hasPlayer = Boolean(currentId);
+      document.getElementById("playerWrap").classList.toggle("is-empty", !hasPlayer);
+      document.body.classList.toggle("has-player", hasPlayer);
+    }
     function escapeHtml(value) {
       return String(value ?? "")
         .replace(/&/g, "&amp;")
@@ -941,7 +964,7 @@
               <h2>${escapeHtml(s.n)}</h2>
               <p>${escapeHtml(s.l)}</p>
             </div>
-            <div class="author-col">${escapeHtml(s.c)}</div>
+            <div class="author-col"><span class="desktop-credit">${escapeHtml(s.c)}</span><span class="mobile-credit">${escapeHtml(s.l)}／${escapeHtml(s.c)} · ${escapeHtml(s.pg)}頁 · $${escapeHtml(s.pr)}</span></div>
             <div class="page-col">${escapeHtml(s.pg)} 頁</div>
             <div class="price-col"><strong>$${escapeHtml(s.pr)}</strong></div>
             <div class="action-col">
@@ -983,6 +1006,7 @@
         s.l.toUpperCase().includes(keyword)
       );
       renderList(filtered);
+      syncPlayerVisibility();
     }
     audio.onplay = renderCurrent;
     audio.onpause = renderCurrent;
@@ -991,6 +1015,7 @@
       document.getElementById("displayArt").innerText = "MUSIC";
       document.getElementById("displayTitle").innerText = "尚未播放";
       document.getElementById("displaySub").innerText = "請點擊試聽按鈕";
+      syncPlayerVisibility();
       renderCurrent();
     };
     document.getElementById("searchInput").addEventListener("input", renderCurrent);
