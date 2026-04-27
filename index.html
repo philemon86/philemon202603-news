@@ -438,42 +438,6 @@
       font-size: 1.25rem;
     }
 
-
-    .portal-carousel {
-      display: grid;
-      gap: 18px;
-    }
-
-    .portal-track {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 24px;
-    }
-
-    .portal-card.is-hidden {
-      display: none;
-    }
-
-    .portal-dots {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-    }
-
-    .portal-dot {
-      width: 10px;
-      height: 10px;
-      border: 0;
-      border-radius: 999px;
-      background: rgba(31, 26, 23, 0.18);
-      cursor: pointer;
-      padding: 0;
-    }
-
-    .portal-dot.is-active {
-      background: var(--accent);
-      transform: scale(1.1);
-    }
     .issue-links-panel {
       display: grid;
       gap: 14px;
@@ -775,7 +739,7 @@
             <h1>腓利門<br>有新事</h1>
             <p>走入腓利門書房，打開閱讀的心房。</p>
             <div class="hero-cta">
-              <a href="./2026-04/" class="btn primary">最新一期電子報</a>
+              <a href="./2026-05/" class="btn primary">最新一期電子報</a>
               <a href="https://www.pbooks.com.tw/" class="btn" target="_blank" rel="noopener">Go to Store</a>
             </div>
           </div>
@@ -834,7 +798,15 @@ Soon</div>
   <div class="container">
     <section id="newsletter">
       <div class="section-title">Latest Issues</div>
-      <div class="grid">`r`n<a href="./2026-04/" class="card">
+      <div class="grid">
+                <a href="./2026-05/" class="card">
+          <div>
+            <div class="date">2026 / 05</div>
+            <h3>五月電子報：<br>母親節好禮推薦</h3>
+            <p>好禮加在腓利門，看你的母親，買一送一活動。</p>
+          </div>
+          <div class="arrow">→</div>
+        </a>        <a href="./2026-04/" class="card">
           <div>
             <div class="date">2026 / 04</div>
             <h3>四月號電子報<br>本月精選與最新消息</h3>
@@ -853,7 +825,15 @@ Soon</div>
         </a>
       </div>
 
-      <div class="issue-links-panel">`r`n        <div class="issue-links-row"><div class="issue-links-row">
+      <div class="issue-links-panel">
+                <div class="issue-links-row">
+          <strong>2026.05</strong>
+          <div class="issue-links-list" aria-label="2026 May language links">
+            <a href="./2026-05/">繁中</a>
+            <a href="./2026-05/zh-cn.html">简中</a>
+            <a href="./2026-05/en.html">EN</a>
+          </div>
+        </div>        <div class="issue-links-row">
           <strong>2026.04</strong>
           <div class="issue-links-list" aria-label="2026 April language links">
             <a href="./2026-04/">繁中</a>
@@ -972,35 +952,6 @@ Soon</div>
       toggle.addEventListener('click', () => setHeroPanel(toggle.dataset.heroTarget));
     });
 
-
-    const portalTrack = document.getElementById('portalTrack');
-    const portalDots = document.getElementById('portalDots');
-    const portalCards = portalTrack ? Array.from(portalTrack.querySelectorAll('.portal-card')) : [];
-    const portalPageSize = 3;
-    const portalPageCount = portalCards.length ? Math.ceil(portalCards.length / portalPageSize) : 0;
-
-    function setPortalPage(pageIndex) {
-      portalCards.forEach((card, index) => {
-        const start = pageIndex * portalPageSize;
-        const end = start + portalPageSize;
-        card.classList.toggle('is-hidden', index < start || index >= end);
-      });
-      Array.from(portalDots.querySelectorAll('.portal-dot')).forEach((dot, index) => {
-        dot.classList.toggle('is-active', index === pageIndex);
-      });
-    }
-
-    if (portalPageCount > 0) {
-      for (let i = 0; i < portalPageCount; i += 1) {
-        const dot = document.createElement('button');
-        dot.type = 'button';
-        dot.className = 'portal-dot';
-        dot.setAttribute('aria-label', `PHILEMON Entrance page ${i + 1}`);
-        dot.addEventListener('click', () => setPortalPage(i));
-        portalDots.appendChild(dot);
-      }
-      setPortalPage(0);
-    }
     const socialCards = document.querySelectorAll('[data-social-accordion] .social-card');
 
     socialCards.forEach((card) => {
@@ -1013,4 +964,3 @@ Soon</div>
   </script>
 </body>
 </html>
-

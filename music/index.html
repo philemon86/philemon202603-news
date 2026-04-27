@@ -435,7 +435,7 @@
           <div class="stat-card"><div class="stat-label">Filtered</div><div class="stat-value" id="heroFiltered">0</div></div>
           <div class="stat-card"><div class="stat-label">Current</div><div class="stat-value" id="heroCurrent">--</div></div>
         </div>
-        <p>可搜尋歌名、代碼、作曲與作詞。若要直接購買整套，請使用上方的全套樂譜連結。</p>
+        <p>可搜尋歌名、代碼、作曲與作詞。沒有音檔的曲目仍保留商品頁入口。</p>
       </aside>
     </section>
     <section class="controls-shell">
@@ -454,7 +454,7 @@
         <div>作曲／作詞</div>
         <div>頁數</div>
         <div>價格</div>
-        <div style="text-align:right;">試聽／購買</div>
+        <div style="text-align:right;">操作</div>
       </div>
       <div id="listBody"></div>
       <div id="emptyState" class="empty-state">找不到符合條件的曲目，請換個關鍵字。</div>
@@ -761,14 +761,14 @@
             <div><span class="code-pill">${escapeHtml(s.id)}</span></div>
             <div class="song-main">
               <h2>${escapeHtml(s.n)}</h2>
-              <p>作詞／${escapeHtml(s.l)}</p>
+              <p>${escapeHtml(s.l)}</p>
             </div>
             <div class="author-col">${escapeHtml(s.c)}</div>
             <div class="page-col">${escapeHtml(s.pg)} 頁</div>
             <div class="price-col"><strong>$${escapeHtml(s.pr)}</strong></div>
             <div class="action-col">
               ${s.v === "P" ? `<button class="play-btn ${isActive ? "is-active" : ""}" data-id="${escapeHtml(s.id)}" data-name="${escapeHtml(s.n)}" data-author="${escapeHtml(s.c)}" data-share="${escapeHtml(share)}">${isActive ? "Pause" : "Play"}</button>` : ""}
-              <a class="buy-btn" href="https://www.pbooks.com.tw/products/H-ALL" target="_blank" rel="noopener">購買全套樂譜</a>
+              <a class="buy-btn" href="${buyUrl}" target="_blank" rel="noopener">商品頁</a>
             </div>
           </div>`;
       }).join("");
@@ -820,4 +820,3 @@
   </script>
 </body>
 </html>
-
