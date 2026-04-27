@@ -160,12 +160,11 @@
       display: grid;
       grid-template-columns: 58px minmax(0, 1fr);
       grid-template-areas:
-        "cover title"
-        "cover meta"
+        "title title"
         "cover tags"
         "cover price"
         "cover action";
-      gap: 5px 10px;
+      gap: 7px 10px;
       align-items: start;
       padding: 10px;
       border: 1px solid var(--line);
@@ -206,12 +205,6 @@
       font-weight: 800;
       white-space: nowrap;
       line-height: 1.1;
-    }
-    .meta {
-      grid-area: meta;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.45;
     }
     .tags {
       grid-area: tags;
@@ -334,14 +327,13 @@
       }
       .filters { margin-top: 0; }
       .row {
-        grid-template-columns: 64px 92px minmax(0, 1.4fr) minmax(150px, 0.7fr) 74px 126px;
-        grid-template-areas: "cover title meta tags price action";
+        grid-template-columns: 64px minmax(0, 1.5fr) minmax(160px, 0.7fr) 74px 126px;
+        grid-template-areas: "cover title tags price action";
         align-items: center;
         padding: 12px 14px;
       }
       .cover { width: 64px; }
       .title strong { white-space: normal; }
-      .meta { white-space: normal; }
     }
   </style>
 </head>
@@ -439,18 +431,12 @@
       table.innerHTML = list.map((product) => {
         const image = product.image || "../favicon-book.svg";
         const price = product.price ? `$${product.price}` : "";
-        const meta = [
-          product.author || "未標作者",
-          product.publication_date || product.year || "未標日期",
-          product.pages ? `${product.pages}頁` : "",
-          product.isbn ? `ISBN ${product.isbn}` : ""
-        ].filter(Boolean).join(" · ");
         return `
           <article class="row">
             <img class="cover" src="${escapeHtml(image)}" alt="${escapeHtml(product.title_clean)}" loading="lazy" />
             <div class="title"><span>${escapeHtml(product.code)}</span><strong>${escapeHtml(product.title_clean || product.title)}</strong></div>
-            <div class="meta">${escapeHtml(meta)}</div>
             <div class="tags">
+              ${product.author ? `<span class="tag">${escapeHtml(product.author)}</span>` : ""}
               ${product.year ? `<span class="tag">${escapeHtml(product.year)}</span>` : ""}
             </div>
             <div class="price">${escapeHtml(price)}</div>
