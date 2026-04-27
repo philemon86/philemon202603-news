@@ -77,9 +77,7 @@
       padding: 34px 0 64px;
     }
     .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
-      gap: 24px;
+      display: block;
       margin-bottom: 24px;
     }
     .hero-panel,
@@ -93,23 +91,34 @@
       backdrop-filter: blur(12px);
     }
     .hero-panel {
-      padding: 30px;
-      min-height: 280px;
+      display: grid;
+      grid-template-columns: minmax(260px, 1fr) minmax(220px, 0.7fr) minmax(340px, 0.95fr);
+      gap: 24px;
+      align-items: center;
+      padding: 24px 28px;
+      min-height: 150px;
       background:
-        linear-gradient(180deg, rgba(21, 15, 12, 0.08), rgba(21, 15, 12, 0.14)),
-        linear-gradient(135deg, #f4ece2 0%, #dcc3ab 50%, #b17d63 100%);
+        radial-gradient(circle at 88% 16%, rgba(255,255,255,0.38), transparent 24%),
+        linear-gradient(180deg, rgba(21, 15, 12, 0.05), rgba(21, 15, 12, 0.1)),
+        linear-gradient(135deg, #f4ece2 0%, #dfc8b1 48%, #b77b60 100%);
       position: relative;
       overflow: hidden;
     }
     .hero-panel::after {
-      content: "MUSIC";
+      content: "♪";
       position: absolute;
-      right: 24px;
-      bottom: 4px;
-      font-size: clamp(3rem, 8vw, 6rem);
+      right: 20px;
+      top: -28px;
+      font-size: clamp(5rem, 9vw, 8rem);
       font-weight: 700;
-      letter-spacing: 0.12em;
-      color: rgba(255,255,255,0.18);
+      color: rgba(255,255,255,0.22);
+      line-height: 1;
+    }
+    .hero-copy,
+    .music-staff,
+    .hero-stats {
+      position: relative;
+      z-index: 1;
     }
     .kicker {
       display: inline-block;
@@ -122,10 +131,78 @@
     h1, h2, .track-name { font-family: "Noto Serif TC", "Source Han Serif TC", serif; }
     h1 {
       margin: 0;
-      font-size: clamp(2.1rem, 5vw, 4rem);
-      line-height: 1.08;
-      max-width: 10ch;
-    }`r`n
+      font-size: clamp(1.8rem, 3.5vw, 3rem);
+      line-height: 1.12;
+      max-width: 16ch;
+    }
+    .music-staff {
+      height: 74px;
+      border-radius: 18px;
+      background:
+        linear-gradient(to bottom,
+          transparent 13px,
+          rgba(31,26,23,0.22) 14px,
+          transparent 15px,
+          transparent 27px,
+          rgba(31,26,23,0.2) 28px,
+          transparent 29px,
+          transparent 41px,
+          rgba(31,26,23,0.18) 42px,
+          transparent 43px,
+          transparent 55px,
+          rgba(31,26,23,0.16) 56px,
+          transparent 57px);
+      opacity: 0.9;
+    }
+    .music-staff::before,
+    .music-staff::after {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(140,47,36,0.72);
+      font-family: "Noto Serif TC", serif;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .music-staff::before {
+      content: "𝄞";
+      left: 12px;
+      font-size: 50px;
+    }
+    .music-staff::after {
+      content: "♪ ♫";
+      right: 14px;
+      font-size: 28px;
+      letter-spacing: 0.18em;
+    }
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .hero-stat {
+      min-width: 0;
+      border: 1px solid rgba(31, 26, 23, 0.12);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.44);
+      padding: 12px 14px;
+      backdrop-filter: blur(8px);
+    }
+    .hero-stat span {
+      display: block;
+      color: rgba(31,26,23,0.62);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .hero-stat strong {
+      display: block;
+      margin-top: 4px;
+      color: var(--ink);
+      font-size: clamp(1.25rem, 2.4vw, 2rem);
+      line-height: 1;
+    }
     .controls-shell {
       position: sticky;
       top: 84px;
@@ -341,7 +418,10 @@
       filter: invert(1) hue-rotate(180deg) brightness(1.2);
     }
     @media (max-width: 1080px) {
-      .hero { grid-template-columns: 1fr; }
+      .hero-panel {
+        grid-template-columns: minmax(240px, 1fr) minmax(320px, 1fr);
+      }
+      .music-staff { display: none; }
       .list-head { display: none; }
       .list-row {
         grid-template-columns: 1fr;
@@ -360,7 +440,14 @@
       }
       nav { gap: 12px; font-size: 12px; }
       main { width: min(100% - 20px, 1200px); padding-top: 24px; }
-      .hero-panel { padding: 22px; }
+      .hero-panel {
+        grid-template-columns: 1fr;
+        gap: 18px;
+        padding: 22px;
+      }
+      .hero-stats {
+        grid-template-columns: 1fr;
+      }
       .controls-shell { top: 76px; }
       .player {
         left: 12px;
@@ -387,7 +474,20 @@
     </nav>
   </header>
   <main>
-    <section class="hero">`r`n      <div class="hero-panel">`r`n        <h1>真耶穌教會<br>創作詩歌樂譜目錄</h1>`r`n      </div>`r`n    </section>
+    <section class="hero">
+      <div class="hero-panel">
+        <div class="hero-copy">
+          <span class="kicker">TJC Original Scores</span>
+          <h1>真耶穌教會創作詩歌樂譜目錄</h1>
+        </div>
+        <div class="music-staff" aria-hidden="true"></div>
+        <div class="hero-stats" aria-label="樂譜統計">
+          <div class="hero-stat"><span>全部曲目</span><strong id="heroCount">0</strong></div>
+          <div class="hero-stat"><span>可試聽</span><strong id="heroPlayable">0</strong></div>
+          <div class="hero-stat"><span>目前顯示</span><strong id="heroFiltered">0</strong></div>
+        </div>
+      </div>
+    </section>
     <section class="controls-shell">
       <div class="controls">
         <label class="search-box">
