@@ -90,29 +90,25 @@
       justify-content: flex-start;
       gap: 10px;
     }
-    input[type=range] {
-      -webkit-appearance: none;
-      width: 100%;
-      height: 4px;
+    .price-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .price-chip {
+      border: 1px solid var(--border-color);
       border-radius: 999px;
-      background: var(--border-color);
-      outline: none;
-    }
-    input[type=range]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: var(--text-main);
+      background: #fff;
+      color: var(--text-muted);
+      padding: 6px 12px;
+      font-size: 12px;
       cursor: pointer;
     }
-    input[type=range]::-moz-range-thumb {
-      width: 14px;
-      height: 14px;
-      border: 0;
-      border-radius: 50%;
-      background: var(--text-main);
-      cursor: pointer;
+    .price-chip.active {
+      border-color: rgba(140,47,36,0.32);
+      background: rgba(140,47,36,0.08);
+      color: var(--accent);
+      font-weight: 700;
     }
 
     main {
@@ -389,8 +385,8 @@
       </div>
       <div class="filters">
         <div class="filter-group">
-          <label class="filter-label" for="priceRange">最高價格 <span>$<span id="priceDisplay">0</span></span></label>
-          <input type="range" id="priceRange" min="0" max="1000" step="50" value="1000" />
+          <label class="filter-label">價格</label>
+          <div class="price-options" id="priceOptions"></div>
         </div>
         <div class="filter-group">
           <label class="filter-label" for="yearRange">當年度出版 <span id="yearDisplay">--</span></label>
@@ -417,11 +413,10 @@
   </section>
 
   <script>
-    const state = { products: [], query: "", maxPrice: 0, maxYear: 0 };
+    const state = { products: [], query: "", selectedPrice: "", maxYear: 0 };
     const grid = document.getElementById("bookGrid");
     const searchInput = document.getElementById("searchInput");
-    const priceRange = document.getElementById("priceRange");
-    const priceDisplay = document.getElementById("priceDisplay");
+    const priceOptions = document.getElementById("priceOptions");
     const yearRange = document.getElementById("yearRange");
     const yearDisplay = document.getElementById("yearDisplay");
     const visibleCount = document.getElementById("visibleCount");
@@ -476,30 +471,39 @@
     }
 
     function setupControls(data) {
-      const prices = state.products.map((book) => book.price).filter(Boolean);
+      const prices = [...new Set(state.products.map((book) => book.price).filter(Boolean))].sort((a, b) => a - b);
       const years = state.products.map((book) => book.yearNumber).filter(Boolean);
-      const maxPrice = Math.ceil((Math.max(...prices, 0) || 1000) / 50) * 50;
       const minYear = Math.min(...years, 1990);
       const maxYear = Math.max(...years, new Date().getFullYear());
 
-      state.maxPrice = maxPrice;
+      state.selectedPrice = "";
       state.maxYear = maxYear;
-      priceRange.max = String(maxPrice);
-      priceRange.value = String(maxPrice);
-      priceDisplay.textContent = String(maxPrice);
       yearRange.min = String(minYear);
       yearRange.max = String(maxYear);
       yearRange.value = String(maxYear);
       yearDisplay.textContent = String(maxYear);
       totalCount.textContent = String(state.products.length);
       updatedAt.textContent = data.updated_at ? `更新 ${formatDate(data.updated_at)}` : "";
+
+      const options = ["全部", ...prices.map((price) => `$${price}`)];
+      priceOptions.innerHTML = options.map((label, index) => {
+        const value = index === 0 ? "" : String(prices[index - 1]);
+        return `<button class="price-chip${index === 0 ? " active" : ""}" type="button" data-price="${escapeHtml(value)}">${escapeHtml(label)}</button>`;
+      }).join("");
+      priceOptions.querySelectorAll("[data-price]").forEach((chip) => {
+        chip.addEventListener("click", () => {
+          state.selectedPrice = chip.dataset.price;
+          priceOptions.querySelectorAll(".price-chip").forEach((item) => item.classList.toggle("active", item === chip));
+          renderGrid();
+        });
+      });
     }
 
     function filteredBooks() {
       const query = state.query.trim().toLowerCase();
       return state.products.filter((book) => {
         if (query && !searchableText(book).includes(query)) return false;
-        if (book.price && book.price > state.maxPrice) return false;
+        if (state.selectedPrice && String(book.price) !== state.selectedPrice) return false;
         if (book.yearNumber && book.yearNumber > state.maxYear) return false;
         return true;
       });
@@ -574,12 +578,6 @@
 
     searchInput.addEventListener("input", (event) => {
       state.query = event.target.value;
-      renderGrid();
-    });
-
-    priceRange.addEventListener("input", (event) => {
-      state.maxPrice = Number(event.target.value);
-      priceDisplay.textContent = String(state.maxPrice);
       renderGrid();
     });
 
