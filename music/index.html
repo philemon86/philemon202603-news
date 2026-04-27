@@ -125,42 +125,7 @@
       font-size: clamp(2.1rem, 5vw, 4rem);
       line-height: 1.08;
       max-width: 10ch;
-    }
-    .hero-panel p,
-    .hero-side p {
-      margin: 14px 0 0;
-      color: var(--muted);
-    }
-    .hero-side {
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      justify-content: space-between;
-    }
-    .stat-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-    .stat-card {
-      background: var(--paper-strong);
-      border: 1px solid rgba(31, 26, 23, 0.08);
-      border-radius: 18px;
-      padding: 16px;
-    }
-    .stat-label {
-      font-size: 11px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    .stat-value {
-      margin-top: 10px;
-      font-size: 1.8rem;
-      font-weight: 700;
-      line-height: 1;
-    }
+    }`r`n
     .controls-shell {
       position: sticky;
       top: 84px;
@@ -395,7 +360,7 @@
       }
       nav { gap: 12px; font-size: 12px; }
       main { width: min(100% - 20px, 1200px); padding-top: 24px; }
-      .hero-panel, .hero-side { padding: 22px; }
+      .hero-panel { padding: 22px; }
       .controls-shell { top: 76px; }
       .player {
         left: 12px;
@@ -422,22 +387,7 @@
     </nav>
   </header>
   <main>
-    <section class="hero">
-      <div class="hero-panel">
-        <span class="kicker">TJC Original Scores</span>
-        <h1>真耶穌教會創作詩歌樂譜目錄</h1>
-        <p>保留首頁的配色、字體與紙感材質，但把曲目收斂成簡潔列表，讓搜尋、試聽與比對資訊更直接。</p>
-      </div>
-      <aside class="hero-side">
-        <div class="stat-grid">
-          <div class="stat-card"><div class="stat-label">Catalog</div><div class="stat-value" id="heroCount">0</div></div>
-          <div class="stat-card"><div class="stat-label">Playable</div><div class="stat-value" id="heroPlayable">0</div></div>
-          <div class="stat-card"><div class="stat-label">Filtered</div><div class="stat-value" id="heroFiltered">0</div></div>
-          <div class="stat-card"><div class="stat-label">Current</div><div class="stat-value" id="heroCurrent">--</div></div>
-        </div>
-        <p>可搜尋歌名、代碼、作曲與作詞。沒有音檔的曲目仍保留商品頁入口。</p>
-      </aside>
-    </section>
+    <section class="hero">`r`n      <div class="hero-panel">`r`n        <h1>真耶穌教會<br>創作詩歌樂譜目錄</h1>`r`n      </div>`r`n    </section>
     <section class="controls-shell">
       <div class="controls">
         <label class="search-box">
@@ -820,3 +770,4 @@
   </script>
 </body>
 </html>
+
