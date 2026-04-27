@@ -332,6 +332,13 @@
       font-size: 15px;
       line-height: 1.8;
     }
+    .slogan-tag {
+      color: var(--text-main);
+      font-family: var(--font-serif);
+      font-size: 17px;
+      font-weight: 800;
+      line-height: 1.6;
+    }
     .catalog-list {
       display: grid;
       gap: 5px;
@@ -549,7 +556,7 @@
             ${book.publisher ? `<span>出版社：${escapeHtml(book.publisher)}</span>` : ""}
             ${book.price ? `<span class="detail-price">$${escapeHtml(book.price)}</span>` : ""}
           </div>
-          ${book.slogan ? `<section class="detail-section"><h2>一句話</h2><p>${escapeHtml(book.slogan)}</p></section>` : ""}
+          ${book.slogan ? `<p class="slogan-tag"><strong>#${escapeHtml(book.slogan.replace(/^#/, ""))}</strong></p>` : ""}
           ${book.intro ? `<section class="detail-section"><h2>商品介紹</h2><p>${escapeHtml(book.intro)}</p></section>` : ""}
           ${catalog.length ? `<section class="detail-section"><h2>目錄</h2><ol class="catalog-list">${catalog.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ol></section>` : ""}
         </div>
