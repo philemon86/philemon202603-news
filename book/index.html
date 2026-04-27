@@ -3,381 +3,427 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>腓利門書本線上目錄 | PHILEMON NEWS</title>
+  <title>腓利門書本目錄 | PHILEMON NEWS</title>
   <link rel="icon" type="image/svg+xml" href="../favicon-book.svg" />
   <style>
     :root {
-      --bg: #f2eadf;
-      --paper: rgba(255,255,255,0.88);
-      --paper-strong: #fffdfa;
-      --ink: #1f1a17;
-      --muted: #6b5e54;
+      --bg: #ffffff;
+      --surface: #fafafa;
+      --text-main: #111111;
+      --text-muted: #6f6a66;
+      --text-soft: #938c86;
       --accent: #8c2f24;
-      --accent-soft: rgba(140,47,36,0.1);
-      --line: rgba(31,26,23,0.09);
-      --shadow: 0 18px 48px rgba(32,23,17,0.08);
+      --border-color: #e7e2dd;
+      --font-ui: "Helvetica Neue", Helvetica, "Microsoft JhengHei", Arial, sans-serif;
+      --font-serif: "Noto Serif TC", "Source Han Serif TC", "Microsoft JhengHei", serif;
     }
-    * { box-sizing: border-box; }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      margin: 0;
-      background:
-        radial-gradient(circle at top left, rgba(255,255,255,0.7), transparent 32%),
-        linear-gradient(180deg, #f4ede4 0%, #efe3d2 100%);
-      color: var(--ink);
-      font-family: "Noto Serif TC", "Source Han Serif TC", "Microsoft JhengHei", serif;
-      line-height: 1.55;
+      background: var(--bg);
+      color: var(--text-main);
+      font-family: var(--font-ui);
+      line-height: 1.5;
       overflow-x: hidden;
     }
     a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+
     header {
       position: sticky;
       top: 0;
-      z-index: 20;
+      z-index: 50;
+      background: rgba(255,255,255,0.94);
+      border-bottom: 1px solid var(--border-color);
+      padding: 18px 20px 16px;
+      backdrop-filter: blur(14px);
+    }
+    .topbar {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 16px;
-      padding: 14px 18px;
-      background: rgba(242,234,223,0.86);
-      border-bottom: 1px solid rgba(31,26,23,0.06);
-      backdrop-filter: blur(12px);
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 16px;
     }
     .brand {
-      font-family: "Space Grotesk", "Noto Serif TC", sans-serif;
-      font-size: 15px;
+      font-size: 22px;
       font-weight: 800;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
+      letter-spacing: -0.02em;
       white-space: nowrap;
     }
-    nav {
+    .nav {
       display: flex;
       gap: 14px;
-      color: var(--muted);
+      color: var(--text-muted);
       font-size: 13px;
-    }
-    main {
-      width: min(1180px, calc(100% - 20px));
-      margin: 0 auto;
-      padding: 22px 0 46px;
-    }
-    .hero {
-      display: grid;
-      gap: 14px;
-      padding: 18px;
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      background:
-        linear-gradient(135deg, rgba(255,255,255,0.7), rgba(255,255,255,0.9)),
-        linear-gradient(135deg, #f4ece2 0%, #d7bca3 100%);
-      box-shadow: var(--shadow);
-    }
-    .eyebrow {
-      color: var(--muted);
-      font-family: "Space Grotesk", sans-serif;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-    }
-    h1 {
-      margin: 0;
-      font-size: clamp(2rem, 7vw, 4rem);
-      line-height: 1.08;
-    }
-    .hero p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 14px;
-    }
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 8px;
-    }
-    .stat {
-      border: 1px solid rgba(31,26,23,0.08);
-      border-radius: 14px;
-      background: rgba(255,255,255,0.58);
-      padding: 10px;
-    }
-    .stat span {
-      display: block;
-      color: var(--muted);
-      font-size: 11px;
-    }
-    .stat strong {
-      display: block;
-      margin-top: 2px;
-      font-size: 1.35rem;
-      line-height: 1;
+      white-space: nowrap;
     }
     .toolbar {
-      position: sticky;
-      top: 58px;
-      z-index: 15;
-      margin: 14px 0;
-      padding: 12px;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      background: rgba(255,255,255,0.9);
-      box-shadow: 0 10px 30px rgba(32,23,17,0.06);
-      backdrop-filter: blur(12px);
+      display: grid;
+      gap: 14px;
+      font-size: 14px;
     }
-    .search {
+    .search-input {
       width: 100%;
-      border: 1px solid rgba(31,26,23,0.1);
-      border-radius: 999px;
-      background: #fff;
-      padding: 11px 16px;
-      color: var(--ink);
-      font: inherit;
-      font-size: 15px;
+      border: 0;
+      border-bottom: 1px solid var(--border-color);
+      border-radius: 0;
+      background: transparent;
+      padding: 9px 0;
+      color: var(--text-main);
       outline: none;
     }
+    .search-input:focus { border-bottom-color: var(--text-main); }
     .filters {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-top: 10px;
+      gap: 12px;
     }
-    select {
-      min-width: 0;
-      border: 1px solid rgba(31,26,23,0.1);
+    .filter-group {
+      display: grid;
+      gap: 6px;
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+    .filter-label {
+      display: flex;
+      justify-content: flex-start;
+      gap: 10px;
+    }
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 4px;
       border-radius: 999px;
-      background: #fff;
-      padding: 9px 12px;
-      color: var(--muted);
-      font: inherit;
+      background: var(--border-color);
+      outline: none;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--text-main);
+      cursor: pointer;
+    }
+    input[type=range]::-moz-range-thumb {
+      width: 14px;
+      height: 14px;
+      border: 0;
+      border-radius: 50%;
+      background: var(--text-main);
+      cursor: pointer;
+    }
+
+    main {
+      padding: 22px 20px 56px;
+      min-height: 80vh;
+    }
+    .summary {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 22px;
+      color: var(--text-muted);
       font-size: 13px;
-    }
-    .table {
-      display: grid;
-      gap: 8px;
-    }
-    .row {
-      display: grid;
-      grid-template-columns: 58px minmax(0, 1fr);
-      grid-template-areas:
-        "title title"
-        "cover tags"
-        "cover price"
-        "cover action";
-      gap: 7px 10px;
-      align-items: start;
-      padding: 10px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: var(--paper);
-    }
-    .cover {
-      grid-area: cover;
-      width: 58px;
-      aspect-ratio: 3 / 4;
-      border-radius: 8px;
-      background: #eadfd3;
-      object-fit: cover;
-      box-shadow: 0 6px 14px rgba(31,26,23,0.12);
-    }
-    .title {
-      grid-area: title;
-      min-width: 0;
       overflow: hidden;
     }
-    .title strong {
-      display: block;
-      max-width: 100%;
-      font-size: 1rem;
-      line-height: 1.25;
+    .summary strong {
+      color: var(--text-main);
+      font-size: 22px;
+      font-weight: 700;
     }
-    .title span {
-      color: var(--accent);
-      font-family: "Space Grotesk", sans-serif;
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-    }
-    .price {
-      grid-area: price;
-      color: var(--accent);
-      font-family: "Space Grotesk", sans-serif;
-      font-weight: 800;
+    #updatedAt {
+      display: none;
+      overflow: hidden;
+      text-overflow: ellipsis;
       white-space: nowrap;
-      line-height: 1.1;
     }
-    .tags {
-      grid-area: tags;
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, calc((100vw - 55px) / 2)));
+      gap: 32px 15px;
+      width: 100%;
+      overflow: hidden;
+    }
+    .book-card {
+      border: 0;
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      padding: 0;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-width: 0;
+      width: 100%;
+      max-width: 100%;
+      overflow: hidden;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .book-card:hover .cover-wrapper img { transform: translateY(-2px); }
+    .cover-wrapper {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      background: var(--surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      border: 1px solid #f0ece8;
+      min-width: 0;
+      max-width: 100%;
+    }
+    .cover-wrapper img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      transition: transform 0.25s ease;
+    }
+    .book-info {
+      display: grid;
+      gap: 6px;
+      min-width: 0;
+      max-width: 100%;
+      overflow: hidden;
+    }
+    .book-code {
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+    .book-title {
+      font-family: var(--font-serif);
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.35;
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+    .book-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 5px;
       min-width: 0;
+      max-width: 100%;
+      overflow: hidden;
     }
     .tag {
+      max-width: 100%;
+      border: 1px solid rgba(140,47,36,0.12);
       border-radius: 999px;
-      background: var(--accent-soft);
+      background: rgba(140,47,36,0.06);
       color: var(--accent);
       padding: 3px 7px;
       font-size: 11px;
-      font-weight: 700;
+      line-height: 1.2;
+      overflow: hidden;
+      text-overflow: ellipsis;
       white-space: nowrap;
     }
-    .actions {
-      grid-area: action;
+    .book-price {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+    .empty-state {
+      grid-column: 1 / -1;
+      padding: 60px 0;
+      text-align: center;
+      color: var(--text-muted);
+    }
+
+    .detail-view {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
       display: flex;
-      gap: 6px;
-      justify-content: flex-start;
-      min-width: 0;
+      flex-direction: column;
+      background: var(--bg);
+      overflow-y: auto;
+      transform: translateY(100%);
+      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .btn {
-      border: 1px solid rgba(31,26,23,0.1);
-      border-radius: 999px;
-      background: #fff;
-      color: var(--ink);
-      padding: 6px 10px;
-      font-size: 12px;
-      font-weight: 800;
-      white-space: nowrap;
-      cursor: pointer;
+    .detail-view.active { transform: translateY(0); }
+    .detail-header {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      border-bottom: 1px solid var(--border-color);
+      background: rgba(255,255,255,0.94);
+      padding: 16px 20px;
+      backdrop-filter: blur(14px);
     }
-    .btn.primary {
-      background: var(--ink);
-      color: #fff;
-    }
-    dialog {
-      width: min(760px, calc(100% - 24px));
-      max-height: min(760px, calc(100vh - 36px));
+    .btn-back,
+    .buy-link {
       border: 0;
-      border-radius: 18px;
-      padding: 0;
-      background: var(--paper-strong);
-      color: var(--ink);
-      box-shadow: 0 30px 90px rgba(16,11,8,0.34);
+      background: none;
+      color: var(--text-main);
+      cursor: pointer;
+      font-size: 14px;
+      text-decoration: underline;
+      text-underline-offset: 4px;
     }
-    dialog::backdrop { background: rgba(31,26,23,0.38); }
-    .detail {
+    .detail-content {
       display: grid;
-      gap: 16px;
+      gap: 28px;
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 30px 20px 52px;
+    }
+    .detail-image-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--surface);
+      border: 1px solid #f0ece8;
       padding: 18px;
     }
-    .detail-head {
-      display: grid;
-      grid-template-columns: 92px minmax(0, 1fr);
-      gap: 14px;
-      align-items: start;
+    .detail-image {
+      width: 100%;
+      max-height: min(560px, 62vh);
+      object-fit: contain;
     }
-    .detail-cover {
-      width: 92px;
-      border-radius: 10px;
-      box-shadow: 0 8px 22px rgba(31,26,23,0.14);
+    .detail-text {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      min-width: 0;
     }
-    .detail h2 {
-      margin: 0;
-      font-size: 1.35rem;
+    .detail-text h1 {
+      font-family: var(--font-serif);
+      font-size: 25px;
+      font-weight: 600;
       line-height: 1.25;
     }
-    .detail-section h3 {
-      margin: 0 0 6px;
-      font-size: 0.95rem;
+    .detail-meta {
+      display: grid;
+      gap: 7px;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+    .detail-price {
+      color: var(--text-main);
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .detail-section {
+      display: grid;
+      gap: 8px;
+    }
+    .detail-section h2 {
       color: var(--accent);
+      font-size: 13px;
+      letter-spacing: 0.08em;
     }
     .detail-section p,
     .catalog-list {
-      margin: 0;
-      color: var(--muted);
-      font-size: 14px;
+      color: var(--text-muted);
+      font-family: var(--font-serif);
+      font-size: 15px;
+      line-height: 1.8;
     }
     .catalog-list {
       display: grid;
-      gap: 4px;
+      gap: 5px;
       padding-left: 18px;
     }
-    .close {
-      position: sticky;
-      bottom: 0;
-      width: 100%;
-      border: 0;
-      border-top: 1px solid var(--line);
-      background: #fff;
-      padding: 13px;
-      font: inherit;
-      font-weight: 800;
-      cursor: pointer;
-    }
-    .empty {
-      display: none;
-      padding: 28px;
-      text-align: center;
-      color: var(--muted);
-    }
+
     @media (min-width: 760px) {
-      header { padding: 18px 5%; }
-      main { padding-top: 34px; }
-      .hero {
-        grid-template-columns: minmax(0, 1fr) 420px;
-        align-items: end;
-        padding: 30px;
-      }
-      .hero-copy { max-width: 580px; }
+      header { padding: 22px 40px 18px; }
+      .topbar { margin-bottom: 20px; }
+      .brand { font-size: 25px; }
       .toolbar {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) 320px;
-        gap: 12px;
-        align-items: center;
+        grid-template-columns: minmax(260px, 1fr) 220px 220px;
+        align-items: end;
+        gap: 24px;
       }
-      .filters { margin-top: 0; }
-      .row {
-        grid-template-columns: 64px minmax(0, 1.5fr) minmax(160px, 0.7fr) 74px 126px;
-        grid-template-areas: "cover title tags price action";
-        align-items: center;
-        padding: 12px 14px;
+      .filters {
+        display: contents;
       }
-      .cover { width: 64px; }
-      .title strong { white-space: normal; }
+      main { padding: 40px; }
+      #updatedAt { display: block; }
+      .grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 58px 30px;
+      }
+      .book-title { font-size: 16px; }
+      .detail-header { padding: 20px 40px; }
+      .detail-content {
+        grid-template-columns: minmax(0, 0.92fr) minmax(360px, 0.78fr);
+        gap: 60px;
+        padding: 58px 40px;
+      }
+      .detail-text h1 { font-size: 33px; }
     }
   </style>
 </head>
 <body>
   <header>
-    <a class="brand" href="/">PHILEMON BOOKS</a>
-    <nav>
-      <a href="/">首頁</a>
-      <a href="https://www.pbooks.com.tw/collections/%E8%85%93%E5%88%A9%E9%96%80%E6%9C%AC%E7%89%88%E6%9B%B8" target="_blank" rel="noopener">書房網站</a>
-    </nav>
-  </header>
-  <main>
-    <section class="hero">
-      <div class="hero-copy">
-        <div class="eyebrow">Online Catalog</div>
-        <h1>腓利門書本<br>線上目錄</h1>
-        <p>以手機閱讀為主的快速索引，可依年代、作者、書名、ISBN 或商品編號搜尋。</p>
+    <div class="topbar">
+      <a class="brand" href="/book/">PHILEMON BOOKS</a>
+      <nav class="nav" aria-label="頁面導覽">
+        <a href="/">首頁</a>
+        <a href="https://www.pbooks.com.tw/collections/%E8%85%93%E5%88%A9%E9%96%80%E6%9C%AC%E7%89%88%E6%9B%B8" target="_blank" rel="noopener">書房網站</a>
+      </nav>
+    </div>
+    <div class="toolbar">
+      <div class="search-wrapper">
+        <input type="search" id="searchInput" class="search-input" placeholder="搜尋書名、作者、ISBN、C 編號" />
       </div>
-      <div class="stats">
-        <div class="stat"><span>收錄書目</span><strong id="totalCount">0</strong></div>
-        <div class="stat"><span>目前顯示</span><strong id="visibleCount">0</strong></div>
-        <div class="stat"><span>最新年份</span><strong id="latestYear">--</strong></div>
-      </div>
-    </section>
-    <section class="toolbar">
-      <input class="search" id="searchInput" type="search" placeholder="搜尋書名、作者、年代、ISBN、C 編號" />
       <div class="filters">
-        <select id="yearFilter" aria-label="依年份篩選"></select>
-        <select id="authorFilter" aria-label="依作者篩選"></select>
+        <div class="filter-group">
+          <label class="filter-label" for="priceRange">最高價格 <span>$<span id="priceDisplay">0</span></span></label>
+          <input type="range" id="priceRange" min="0" max="1000" step="50" value="1000" />
+        </div>
+        <div class="filter-group">
+          <label class="filter-label" for="yearRange">最新年代 <span id="yearDisplay">--</span></label>
+          <input type="range" id="yearRange" min="1990" max="2026" step="1" value="2026" />
+        </div>
       </div>
-    </section>
-    <section class="table" id="bookTable" aria-live="polite"></section>
-    <div class="empty" id="emptyState">找不到符合條件的書目。</div>
+    </div>
+  </header>
+
+  <main>
+    <div class="summary">
+      <div><strong id="visibleCount">0</strong> / <span id="totalCount">0</span> 本</div>
+      <span id="updatedAt"></span>
+    </div>
+    <section class="grid" id="bookGrid" aria-live="polite"></section>
   </main>
-  <dialog id="detailDialog">
-    <article class="detail" id="detailContent"></article>
-    <button class="close" type="button" id="closeDialog">關閉</button>
-  </dialog>
+
+  <section id="detailView" class="detail-view" aria-hidden="true">
+    <div class="detail-header">
+      <button class="btn-back" type="button" id="closeDetail">← 返回目錄</button>
+      <a class="buy-link" id="detailBuyLink" href="#" target="_blank" rel="noopener">購買</a>
+    </div>
+    <div class="detail-content" id="detailContent"></div>
+  </section>
+
   <script>
-    const state = { products: [], query: "", year: "", author: "" };
-    const table = document.getElementById("bookTable");
-    const emptyState = document.getElementById("emptyState");
-    const detailDialog = document.getElementById("detailDialog");
+    const state = { products: [], query: "", maxPrice: 0, maxYear: 0 };
+    const grid = document.getElementById("bookGrid");
+    const searchInput = document.getElementById("searchInput");
+    const priceRange = document.getElementById("priceRange");
+    const priceDisplay = document.getElementById("priceDisplay");
+    const yearRange = document.getElementById("yearRange");
+    const yearDisplay = document.getElementById("yearDisplay");
+    const visibleCount = document.getElementById("visibleCount");
+    const totalCount = document.getElementById("totalCount");
+    const updatedAt = document.getElementById("updatedAt");
+    const detailView = document.getElementById("detailView");
     const detailContent = document.getElementById("detailContent");
+    const detailBuyLink = document.getElementById("detailBuyLink");
+    const closeDetailBtn = document.getElementById("closeDetail");
 
     function escapeHtml(value) {
       return String(value ?? "")
@@ -388,114 +434,168 @@
         .replace(/'/g, "&#39;");
     }
 
-    function optionHtml(value, label) {
-      return `<option value="${escapeHtml(value)}">${escapeHtml(label)}</option>`;
+    function numberValue(value) {
+      const number = Number(value);
+      return Number.isFinite(number) ? number : 0;
     }
 
-    function searchableText(product) {
+    function formatDate(value) {
+      if (!value) return "";
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return "";
+      return date.toLocaleDateString("zh-TW", { year: "numeric", month: "2-digit", day: "2-digit" });
+    }
+
+    function searchableText(book) {
       return [
-        product.code,
-        product.title,
-        product.title_clean,
-        product.author,
-        product.year,
-        product.publication_date,
-        product.isbn,
-        product.slogan
+        book.code,
+        book.title,
+        book.title_clean,
+        book.author,
+        book.year,
+        book.publication_date,
+        book.isbn,
+        book.slogan
       ].join(" ").toLowerCase();
     }
 
-    function setupFilters() {
-      const years = [...new Set(state.products.map((p) => p.year).filter(Boolean))].sort((a, b) => b.localeCompare(a));
-      const authors = [...new Set(state.products.flatMap((p) => p.authors || []).filter(Boolean))].sort((a, b) => a.localeCompare(b, "zh-Hant"));
-      document.getElementById("yearFilter").innerHTML = optionHtml("", "全部年代") + years.map((year) => optionHtml(year, year)).join("");
-      document.getElementById("authorFilter").innerHTML = optionHtml("", "全部作者") + authors.map((author) => optionHtml(author, author)).join("");
-      document.getElementById("latestYear").textContent = years[0] || "--";
+    function normalizeProducts(products) {
+      return products.map((book) => ({
+        ...book,
+        price: numberValue(book.price),
+        yearNumber: numberValue(book.year),
+        displayTitle: book.title_clean || book.title || book.code
+      }));
     }
 
-    function filteredProducts() {
+    function setupControls(data) {
+      const prices = state.products.map((book) => book.price).filter(Boolean);
+      const years = state.products.map((book) => book.yearNumber).filter(Boolean);
+      const maxPrice = Math.ceil((Math.max(...prices, 0) || 1000) / 50) * 50;
+      const minYear = Math.min(...years, 1990);
+      const maxYear = Math.max(...years, new Date().getFullYear());
+
+      state.maxPrice = maxPrice;
+      state.maxYear = maxYear;
+      priceRange.max = String(maxPrice);
+      priceRange.value = String(maxPrice);
+      priceDisplay.textContent = String(maxPrice);
+      yearRange.min = String(minYear);
+      yearRange.max = String(maxYear);
+      yearRange.value = String(maxYear);
+      yearDisplay.textContent = String(maxYear);
+      totalCount.textContent = String(state.products.length);
+      updatedAt.textContent = data.updated_at ? `更新 ${formatDate(data.updated_at)}` : "";
+    }
+
+    function filteredBooks() {
       const query = state.query.trim().toLowerCase();
-      return state.products.filter((product) => {
-        if (state.year && product.year !== state.year) return false;
-        if (state.author && !(product.authors || []).includes(state.author)) return false;
-        if (query && !searchableText(product).includes(query)) return false;
+      return state.products.filter((book) => {
+        if (query && !searchableText(book).includes(query)) return false;
+        if (book.price && book.price > state.maxPrice) return false;
+        if (book.yearNumber && book.yearNumber > state.maxYear) return false;
         return true;
       });
     }
 
-    function render() {
-      const list = filteredProducts();
-      document.getElementById("totalCount").textContent = state.products.length;
-      document.getElementById("visibleCount").textContent = list.length;
-      emptyState.style.display = list.length ? "none" : "block";
-      table.innerHTML = list.map((product) => {
-        const image = product.image || "../favicon-book.svg";
-        const price = product.price ? `$${product.price}` : "";
-        return `
-          <article class="row">
-            <img class="cover" src="${escapeHtml(image)}" alt="${escapeHtml(product.title_clean)}" loading="lazy" />
-            <div class="title"><span>${escapeHtml(product.code)}</span><strong>${escapeHtml(product.title_clean || product.title)}</strong></div>
-            <div class="tags">
-              ${product.author ? `<span class="tag">${escapeHtml(product.author)}</span>` : ""}
-              ${product.year ? `<span class="tag">${escapeHtml(product.year)}</span>` : ""}
+    function renderGrid() {
+      const books = filteredBooks();
+      visibleCount.textContent = String(books.length);
+
+      if (!books.length) {
+        grid.innerHTML = '<div class="empty-state">找不到符合條件的書籍。</div>';
+        return;
+      }
+
+      grid.innerHTML = books.map((book) => `
+        <button class="book-card" type="button" data-code="${escapeHtml(book.code)}">
+          <div class="cover-wrapper">
+            <img src="${escapeHtml(book.image || "../favicon-book.svg")}" alt="${escapeHtml(book.displayTitle)}" loading="lazy" />
+          </div>
+          <div class="book-info">
+            <span class="book-code">${escapeHtml(book.code)}</span>
+            <h2 class="book-title">${escapeHtml(book.displayTitle)}</h2>
+            <div class="book-tags">
+              ${book.author ? `<span class="tag">${escapeHtml(book.author)}</span>` : ""}
+              ${book.year ? `<span class="tag">${escapeHtml(book.year)}</span>` : ""}
             </div>
-            <div class="price">${escapeHtml(price)}</div>
-            <div class="actions">
-              <button class="btn" type="button" data-detail="${escapeHtml(product.code)}">詳情</button>
-              <a class="btn primary" href="${escapeHtml(product.url)}" target="_blank" rel="noopener">購買</a>
-            </div>
-          </article>`;
-      }).join("");
-      table.querySelectorAll("[data-detail]").forEach((button) => {
-        button.addEventListener("click", () => openDetail(button.dataset.detail));
+            ${book.price ? `<span class="book-price">$${escapeHtml(book.price)}</span>` : ""}
+          </div>
+        </button>
+      `).join("");
+
+      grid.querySelectorAll("[data-code]").forEach((card) => {
+        card.addEventListener("click", () => openDetail(card.dataset.code));
       });
     }
 
     function openDetail(code) {
-      const product = state.products.find((item) => item.code === code);
-      if (!product) return;
-      const catalog = (product.catalog || []).slice(0, 48);
+      const book = state.products.find((item) => item.code === code);
+      if (!book) return;
+      const catalog = (book.catalog || []).slice(0, 60);
+      detailBuyLink.href = book.url || "#";
       detailContent.innerHTML = `
-        <div class="detail-head">
-          <img class="detail-cover" src="${escapeHtml(product.image || "../favicon-book.svg")}" alt="${escapeHtml(product.title_clean)}" />
-          <div>
-            <div class="eyebrow">${escapeHtml(product.code)}</div>
-            <h2>${escapeHtml(product.title_clean || product.title)}</h2>
-            <p>${escapeHtml([product.author, product.publication_date, product.pages ? `${product.pages}頁` : "", product.price ? `$${product.price}` : ""].filter(Boolean).join(" · "))}</p>
-          </div>
+        <div class="detail-image-wrap">
+          <img class="detail-image" src="${escapeHtml(book.image || "../favicon-book.svg")}" alt="${escapeHtml(book.displayTitle)}" />
         </div>
-        ${product.slogan ? `<section class="detail-section"><h3>一句話</h3><p>${escapeHtml(product.slogan)}</p></section>` : ""}
-        ${product.intro ? `<section class="detail-section"><h3>商品介紹</h3><p>${escapeHtml(product.intro)}</p></section>` : ""}
-        ${catalog.length ? `<section class="detail-section"><h3>目錄</h3><ol class="catalog-list">${catalog.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ol></section>` : ""}
-        <section class="detail-section"><h3>書籍資料</h3><p>${escapeHtml([product.isbn ? `ISBN：${product.isbn}` : "", product.publisher ? `出版社：${product.publisher}` : "", product.language_and_format].filter(Boolean).join(" · "))}</p></section>
+        <div class="detail-text">
+          <h1>${escapeHtml(book.displayTitle)}</h1>
+          <div class="detail-meta">
+            <span>商品編號：${escapeHtml(book.code)}</span>
+            ${book.author ? `<span>作者：${escapeHtml(book.author)}</span>` : ""}
+            ${book.publication_date || book.year ? `<span>出版日期：${escapeHtml(book.publication_date || book.year)}</span>` : ""}
+            ${book.pages ? `<span>頁數：${escapeHtml(book.pages)}頁</span>` : ""}
+            ${book.isbn ? `<span>ISBN：${escapeHtml(book.isbn)}</span>` : ""}
+            ${book.publisher ? `<span>出版社：${escapeHtml(book.publisher)}</span>` : ""}
+            ${book.price ? `<span class="detail-price">$${escapeHtml(book.price)}</span>` : ""}
+          </div>
+          ${book.slogan ? `<section class="detail-section"><h2>一句話</h2><p>${escapeHtml(book.slogan)}</p></section>` : ""}
+          ${book.intro ? `<section class="detail-section"><h2>商品介紹</h2><p>${escapeHtml(book.intro)}</p></section>` : ""}
+          ${catalog.length ? `<section class="detail-section"><h2>目錄</h2><ol class="catalog-list">${catalog.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ol></section>` : ""}
+        </div>
       `;
-      detailDialog.showModal();
+      document.body.style.overflow = "hidden";
+      detailView.classList.add("active");
+      detailView.setAttribute("aria-hidden", "false");
     }
 
-    document.getElementById("searchInput").addEventListener("input", (event) => {
+    function closeDetail() {
+      detailView.classList.remove("active");
+      detailView.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+
+    searchInput.addEventListener("input", (event) => {
       state.query = event.target.value;
-      render();
+      renderGrid();
     });
-    document.getElementById("yearFilter").addEventListener("change", (event) => {
-      state.year = event.target.value;
-      render();
+
+    priceRange.addEventListener("input", (event) => {
+      state.maxPrice = Number(event.target.value);
+      priceDisplay.textContent = String(state.maxPrice);
+      renderGrid();
     });
-    document.getElementById("authorFilter").addEventListener("change", (event) => {
-      state.author = event.target.value;
-      render();
+
+    yearRange.addEventListener("input", (event) => {
+      state.maxYear = Number(event.target.value);
+      yearDisplay.textContent = String(state.maxYear);
+      renderGrid();
     });
-    document.getElementById("closeDialog").addEventListener("click", () => detailDialog.close());
+
+    closeDetailBtn.addEventListener("click", closeDetail);
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && detailView.classList.contains("active")) closeDetail();
+    });
 
     fetch("./products.json")
       .then((response) => response.json())
       .then((data) => {
-        state.products = data.products || [];
-        setupFilters();
-        render();
+        state.products = normalizeProducts(data.products || []);
+        setupControls(data);
+        renderGrid();
       })
       .catch(() => {
-        emptyState.textContent = "書目資料載入失敗，請稍後再試。";
-        emptyState.style.display = "block";
+        grid.innerHTML = '<div class="empty-state">書目資料載入失敗，請稍後再試。</div>';
       });
   </script>
 </body>
