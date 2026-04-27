@@ -448,6 +448,80 @@
       .hero-stats {
         grid-template-columns: 1fr;
       }
+      .list-shell {
+        background: transparent;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        overflow: visible;
+      }
+      .list-row {
+        grid-template-columns: auto minmax(0, 1fr);
+        grid-template-areas:
+          "code title"
+          "author author"
+          "pages price"
+          "actions actions";
+        align-items: start;
+        gap: 10px 12px;
+        margin-bottom: 10px;
+        padding: 16px;
+        border: 1px solid rgba(31, 26, 23, 0.08);
+        border-radius: 18px;
+        background: rgba(255,255,255,0.86);
+        box-shadow: 0 10px 28px rgba(32, 23, 17, 0.06);
+      }
+      .list-row:last-child { margin-bottom: 0; }
+      .list-row.is-active {
+        border-left: 4px solid var(--accent);
+        padding-left: 13px;
+      }
+      .list-row > div:first-child { grid-area: code; }
+      .song-main { grid-area: title; min-width: 0; }
+      .song-main h2 {
+        margin-top: 1px;
+        font-size: 1.04rem;
+        line-height: 1.35;
+      }
+      .song-main p {
+        margin-top: 5px;
+        line-height: 1.45;
+      }
+      .author-col,
+      .page-col,
+      .price-col {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        min-width: 0;
+        line-height: 1.45;
+      }
+      .author-col { grid-area: author; }
+      .page-col { grid-area: pages; }
+      .price-col { grid-area: price; justify-content: flex-end; }
+      .author-col::before,
+      .page-col::before,
+      .price-col::before {
+        flex: 0 0 auto;
+        color: rgba(31,26,23,0.46);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+      }
+      .author-col::before { content: "作曲"; }
+      .page-col::before { content: "頁數"; }
+      .price-col::before { content: "價格"; }
+      .action-col {
+        grid-area: actions;
+        justify-content: stretch;
+        gap: 8px;
+      }
+      .play-btn,
+      .buy-btn {
+        flex: 1 1 120px;
+        text-align: center;
+        padding: 10px 12px;
+      }
       .controls-shell { top: 76px; }
       .player {
         left: 12px;
