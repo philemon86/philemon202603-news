@@ -91,9 +91,6 @@
       gap: 10px;
     }
     
-    /* ------------------------------ */
-    /* 優化後的滑桿 (Slider) 樣式     */
-    /* ------------------------------ */
     .timeline {
       position: relative;
       padding: 8px 0;
@@ -106,7 +103,6 @@
       width: 100%;
       height: 4px;
       border-radius: 2px;
-      /* 利用 CSS 變數動態改變進度條顏色 */
       background: linear-gradient(to right, var(--text-main) var(--progress, 100%), var(--border-color) var(--progress, 100%));
       outline: none;
     }
@@ -120,8 +116,6 @@
       background: transparent;
       border: none;
     }
-    
-    /* 滑塊 (Thumb) 基礎樣式 */
     .timeline input[type=range]::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
@@ -132,7 +126,7 @@
       border: 2px solid var(--text-main);
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       cursor: pointer;
-      margin-top: -7px; /* 垂直置中: (18-4)/2 */
+      margin-top: -7px; 
       transition: transform 0.15s ease, background-color 0.15s ease;
     }
     .timeline input[type=range]::-moz-range-thumb {
@@ -145,14 +139,8 @@
       cursor: pointer;
       transition: transform 0.15s ease, background-color 0.15s ease;
     }
-    
-    /* 滑塊互動效果 (Hover & Active) */
-    .timeline input[type=range]:hover::-webkit-slider-thumb {
-      transform: scale(1.15);
-    }
-    .timeline input[type=range]:hover::-moz-range-thumb {
-      transform: scale(1.15);
-    }
+    .timeline input[type=range]:hover::-webkit-slider-thumb { transform: scale(1.15); }
+    .timeline input[type=range]:hover::-moz-range-thumb { transform: scale(1.15); }
     .timeline input[type=range]:active::-webkit-slider-thumb {
       background: var(--text-main);
       transform: scale(0.9);
@@ -161,7 +149,6 @@
       background: var(--text-main);
       transform: scale(0.9);
     }
-    /* ------------------------------ */
 
     .timeline-value {
       display: flex;
@@ -347,13 +334,19 @@
       justify-content: center;
       background: var(--surface);
       border: 1px solid #f0ece8;
-      padding: 18px;
+      padding: 30px 18px; /* 上下多留點白，讓小圖更有呼吸空間 */
     }
+    
+    /* ======== 修改重點 ======== */
     .detail-image {
-      width: 100%;
-      max-height: min(560px, 62vh); /* 手機版預設高度 */
+      width: auto;            /* 讓圖片保持原本的真實像素大小，不強制拉寬 */
+      max-width: 100%;        /* 但最大不會超過外框，避免大圖破版 */
+      max-height: 400px;      /* 限制最大高度，讓版面更精緻 */
       object-fit: contain;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* 淡淡陰影增添立體感 */
     }
+    /* ========================== */
+
     .detail-text {
       display: flex;
       flex-direction: column;
@@ -406,9 +399,6 @@
       padding-left: 18px;
     }
 
-    /* ========================================= */
-    /* 電腦版樣式區塊 (min-width: 760px)         */
-    /* ========================================= */
     @media (min-width: 760px) {
       header { padding: 22px 40px 18px; }
       .topbar { margin-bottom: 20px; }
@@ -436,14 +426,10 @@
       }
       .detail-text h1 { font-size: 33px; }
       
-      /* 電腦版的左側圖片區塊固定 (Sticky Fix) */
       .detail-image-wrap {
-        align-self: start;      /* 靠上對齊，避免被右側文字拉長 */
-        position: sticky;       /* 開啟黏性定位 */
-        top: 90px;              /* 距離頂部保持距離，避開選單 */
-      }
-      .detail-image {
-        max-height: min(500px, 60vh); /* 電腦版讓圖片稍微秀氣一點，比例更好看 */
+        align-self: start;
+        position: sticky;
+        top: 90px;
       }
     }
   </style>
@@ -553,7 +539,6 @@
       }));
     }
 
-    // 計算並更新 Range Input 的進度百分比 (用於 CSS 漸層)
     function updateRangeProgress(input) {
       const min = Number(input.min) || 0;
       const max = Number(input.max) || 100;
@@ -576,13 +561,13 @@
       priceRange.max = String(prices.length);
       priceRange.value = "0";
       priceDisplay.textContent = "全部";
-      updateRangeProgress(priceRange); // 初始化進度條
+      updateRangeProgress(priceRange); 
 
       yearRange.min = String(minYear);
       yearRange.max = String(maxYear);
       yearRange.value = String(maxYear);
       yearDisplay.textContent = String(maxYear);
-      updateRangeProgress(yearRange); // 初始化進度條
+      updateRangeProgress(yearRange); 
       
       totalCount.textContent = String(state.products.length);
       updatedAt.textContent = data.updated_at ? `更新 ${formatDate(data.updated_at)}` : "";
@@ -674,7 +659,7 @@
     });
 
     priceRange.addEventListener("input", (event) => {
-      updateRangeProgress(event.target); // 即時更新進度條顏色
+      updateRangeProgress(event.target); 
       state.priceIndex = Number(event.target.value);
       const selected = state.priceIndex > 0 ? state.priceOptions[state.priceIndex - 1] : "";
       priceDisplay.textContent = selected ? `$${selected}` : "全部";
@@ -682,7 +667,7 @@
     });
 
     yearRange.addEventListener("input", (event) => {
-      updateRangeProgress(event.target); // 即時更新進度條顏色
+      updateRangeProgress(event.target); 
       state.yearValue = Number(event.target.value);
       yearDisplay.textContent = String(state.yearValue);
       renderGrid();
