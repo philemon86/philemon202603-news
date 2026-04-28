@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
@@ -351,7 +351,7 @@
     }
     .detail-image {
       width: 100%;
-      max-height: min(560px, 62vh);
+      max-height: min(560px, 62vh); /* 手機版預設高度 */
       object-fit: contain;
     }
     .detail-text {
@@ -406,6 +406,9 @@
       padding-left: 18px;
     }
 
+    /* ========================================= */
+    /* 電腦版樣式區塊 (min-width: 760px)         */
+    /* ========================================= */
     @media (min-width: 760px) {
       header { padding: 22px 40px 18px; }
       .topbar { margin-bottom: 20px; }
@@ -432,6 +435,16 @@
         padding: 58px 40px;
       }
       .detail-text h1 { font-size: 33px; }
+      
+      /* 電腦版的左側圖片區塊固定 (Sticky Fix) */
+      .detail-image-wrap {
+        align-self: start;      /* 靠上對齊，避免被右側文字拉長 */
+        position: sticky;       /* 開啟黏性定位 */
+        top: 90px;              /* 距離頂部保持距離，避開選單 */
+      }
+      .detail-image {
+        max-height: min(500px, 60vh); /* 電腦版讓圖片稍微秀氣一點，比例更好看 */
+      }
     }
   </style>
 </head>
