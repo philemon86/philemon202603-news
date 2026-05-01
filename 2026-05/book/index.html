@@ -3,259 +3,601 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JD1JHF86H1"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    const pageLanguage = document.documentElement.lang || "und";
-    gtag("js", new Date());
-    gtag("config", "G-JD1JHF86H1", { page_language: pageLanguage });
-  </script>
-  <script>
-    document.addEventListener("click", function(event) {
-      var link = event.target.closest("a[href]");
-      var href = link && link.getAttribute("href");
-      if (!href) return;
-      if (!/pbooks\.com\.tw\/(products\/|collections\/|cart(?:\/|$))/i.test(href)) return;
-      gtag("event", "purchase_link_click", {
-        link_url: href,
-        link_text: (link.textContent || "").trim() || "(image)",
-        page_path: location.pathname,
-        page_language: pageLanguage
-      });
-    });
-  </script>
-  <title>腓利門贈書活動 | 2026 五月號</title>
+  <title>腓利門贈書活動｜四本信仰好書精選</title>
   <style>
-    @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@500;700;900&display=swap");
+    @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@700;900&display=swap");
 
     :root {
-      --paper: #f7f1ea;
-      --ink: #2c2724;
-      --muted: #6f655d;
-      --accent: #8c2e2e;
-      --line: rgba(44, 39, 36, 0.12);
-      --card: rgba(255, 255, 255, 0.82);
-      --shadow: 0 28px 60px rgba(44, 39, 36, 0.12);
+      --paper: #f8f4ee;
+      --paper-deep: #efe5d8;
+      --ink: #25211d;
+      --muted: #675f57;
+      --line: rgba(37, 33, 29, 0.12);
+      --accent: #8b3f2f;
+      --green: #486a55;
+      --blue: #355f7a;
+      --gold: #b57b2d;
+      --white: #fffdf9;
     }
 
     * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
       color: var(--ink);
       font-family: "Noto Sans TC", sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(140, 46, 46, 0.08), transparent 26%),
-        radial-gradient(circle at top right, rgba(140, 46, 46, 0.06), transparent 24%),
-        linear-gradient(180deg, #fbf8f4 0%, var(--paper) 100%);
+      background: var(--paper);
+      text-rendering: optimizeLegibility;
     }
 
     a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
 
-    .page {
-      width: min(1160px, calc(100vw - 28px));
-      margin: 18px auto 42px;
-      padding: 28px clamp(18px, 4vw, 42px) 54px;
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: center;
+      border-bottom: 1px solid rgba(37, 33, 29, 0.08);
+      background: rgba(248, 244, 238, 0.76);
+      backdrop-filter: blur(22px) saturate(150%);
+    }
+
+    .topbar-inner {
+      width: min(1120px, calc(100vw - 28px));
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .brand { letter-spacing: 0.08em; color: var(--accent); }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--muted);
+    }
+
+    .nav a:last-child {
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: var(--ink);
+      color: #fff;
     }
 
     .hero {
-      padding: 28px 0 34px;
+      min-height: calc(100vh - 52px);
+      display: grid;
+      align-items: center;
+      justify-items: center;
+      padding: clamp(46px, 8vw, 90px) 18px 28px;
+      overflow: hidden;
       text-align: center;
+      background:
+        radial-gradient(circle at 50% 26%, rgba(181, 123, 45, 0.18), transparent 28%),
+        linear-gradient(180deg, #fffaf4 0%, var(--paper) 72%);
     }
 
-    .eyebrow {
-      display: inline-block;
-      margin-bottom: 14px;
+    .hero-kicker {
       color: var(--accent);
       font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.16em;
+      font-weight: 900;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
     }
 
     h1,
-    h2 {
+    h2,
+    h3 {
       margin: 0;
       font-family: "Noto Serif TC", serif;
+      letter-spacing: 0;
     }
 
     h1 {
-      font-size: clamp(32px, 6vw, 54px);
-      line-height: 1.12;
+      max-width: 980px;
+      margin-top: 18px;
+      font-size: clamp(50px, 9.4vw, 132px);
+      line-height: 0.98;
+      font-weight: 900;
     }
 
-    .hero p {
-      width: min(720px, 100%);
-      margin: 18px auto 0;
+    .hero-lede {
+      max-width: 760px;
+      margin: 26px auto 0;
       color: var(--muted);
-      font-size: 17px;
-      line-height: 1.9;
+      font-size: clamp(19px, 2.2vw, 26px);
+      line-height: 1.65;
+      font-weight: 500;
     }
 
     .hero-actions,
-    .footer-actions {
+    .gift-actions {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
       gap: 12px;
-      margin-top: 24px;
+      margin-top: 30px;
     }
 
-    .btn {
+    .pill {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-width: 180px;
-      padding: 14px 20px;
+      min-height: 44px;
+      padding: 10px 20px;
       border-radius: 999px;
+      background: var(--ink);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    .pill.light {
       border: 1px solid var(--line);
-      background: rgba(255, 255, 255, 0.88);
-      box-shadow: 0 10px 24px rgba(44, 39, 36, 0.08);
+      background: rgba(255, 253, 249, 0.64);
+      color: var(--ink);
+      backdrop-filter: blur(18px);
+    }
+
+    .hero-books {
+      width: min(980px, 100%);
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      align-items: end;
+      gap: clamp(8px, 2vw, 24px);
+      margin-top: 0;
+    }
+
+    .hero-books img {
+      width: 100%;
+      max-height: 360px;
+      object-fit: contain;
+      filter: drop-shadow(0 32px 32px rgba(37, 33, 29, 0.22));
+    }
+
+    .hero-books img:nth-child(1) { transform: translateY(10px) rotate(-2deg); }
+    .hero-books img:nth-child(2) { transform: translateY(-12px) rotate(1.5deg); }
+    .hero-books img:nth-child(3) { transform: translateY(16px) rotate(-1deg); }
+    .hero-books img:nth-child(4) { transform: translateY(-4px) rotate(2deg); }
+
+    .manifesto {
+      display: grid;
+      place-items: center;
+      min-height: 56vh;
+      padding: clamp(58px, 10vw, 128px) 18px;
+      text-align: center;
+    }
+
+    .manifesto p {
+      width: min(920px, 100%);
+      margin: 0;
+      color: var(--ink);
+      font-family: "Noto Serif TC", serif;
+      font-size: clamp(30px, 4.6vw, 66px);
+      font-weight: 900;
+      line-height: 1.18;
+    }
+
+    .manifesto span {
+      color: var(--muted);
+    }
+
+    .book-section {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(360px, 0.92fr);
+      align-items: center;
+      gap: clamp(34px, 7vw, 94px);
+      width: min(1180px, calc(100vw - 34px));
+      margin: 0 auto;
+      padding: clamp(62px, 9vw, 118px) 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .book-section:nth-of-type(odd) .book-visual {
+      order: 2;
+    }
+
+    .book-visual {
+      min-height: 560px;
+      display: grid;
+      place-items: center;
+      border-radius: 42px;
+      background:
+        radial-gradient(circle at 50% 44%, rgba(255, 253, 249, 0.94), rgba(239, 229, 216, 0.56) 45%, transparent 66%);
+    }
+
+    .book-visual img {
+      width: min(74%, 390px);
+      max-height: 520px;
+      object-fit: contain;
+      filter: drop-shadow(0 36px 42px rgba(37, 33, 29, 0.22));
+    }
+
+    .book-code {
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 0.18em;
+    }
+
+    .book-copy h2 {
+      margin-top: 10px;
+      font-size: clamp(46px, 6.8vw, 88px);
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .tagline {
+      margin: 20px 0 0;
+      color: var(--green);
+      font-size: clamp(21px, 2.7vw, 32px);
+      line-height: 1.42;
+      font-weight: 900;
+    }
+
+    .description {
+      max-width: 650px;
+      margin: 24px 0 0;
+      color: var(--muted);
+      font-size: clamp(16px, 1.55vw, 19px);
+      line-height: 1.92;
+    }
+
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1px;
+      max-width: 560px;
+      margin-top: 28px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: var(--line);
+    }
+
+    .fact {
+      min-height: 76px;
+      display: grid;
+      align-content: center;
+      gap: 4px;
+      padding: 14px 18px;
+      background: rgba(255, 253, 249, 0.58);
+      backdrop-filter: blur(18px);
+    }
+
+    .fact b {
+      color: var(--ink);
+      font-size: 15px;
+    }
+
+    .fact span {
+      color: var(--muted);
+      font-size: 13px;
       font-weight: 700;
     }
 
-    .btn.primary {
-      background: var(--ink);
-      color: #fff;
-      border-color: transparent;
+    .toc {
+      max-width: 680px;
+      margin-top: 30px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
     }
 
-    .note {
-      margin-top: 14px;
-      color: var(--muted);
-      font-size: 14px;
-      letter-spacing: 0.04em;
+    .toc h3 {
+      color: var(--blue);
+      font-size: 20px;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 22px;
-      margin-top: 26px;
-    }
-
-    .card {
-      padding: 20px;
-      border: 1px solid var(--line);
-      border-radius: 28px;
-      background: var(--card);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(10px);
-    }
-
-    .cover-shell {
-      aspect-ratio: 4 / 5;
-      display: grid;
-      place-items: center;
-      margin-bottom: 18px;
-      border-radius: 22px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(245,238,231,0.92));
-      overflow: hidden;
-    }
-
-    .cover-shell img {
-      width: min(88%, 380px);
-      max-height: 100%;
-      object-fit: contain;
-      filter: drop-shadow(0 22px 36px rgba(44, 39, 36, 0.18));
-    }
-
-    .code {
-      color: var(--accent);
-      font-size: 13px;
-      font-weight: 800;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-    }
-
-    .card h2 {
-      margin-top: 8px;
-      font-size: clamp(24px, 3vw, 32px);
-    }
-
-    .card p {
+    .toc p {
       margin: 12px 0 0;
       color: var(--muted);
-      line-height: 1.85;
+      font-size: 15px;
+      line-height: 1.86;
+    }
+
+    .gift {
+      min-height: 88vh;
+      display: grid;
+      place-items: center;
+      padding: clamp(64px, 10vw, 130px) 18px;
+      background:
+        linear-gradient(135deg, rgba(139, 63, 47, 0.94), rgba(72, 106, 85, 0.96)),
+        var(--accent);
+      color: #fff;
+      text-align: center;
+    }
+
+    .gift-inner {
+      width: min(930px, 100%);
+    }
+
+    .gift h2 {
+      font-size: clamp(48px, 8vw, 112px);
+      line-height: 0.98;
+      font-weight: 900;
+    }
+
+    .gift p {
+      width: min(760px, 100%);
+      margin: 28px auto 0;
+      color: rgba(255,255,255,0.88);
+      font-size: clamp(18px, 2.3vw, 25px);
+      line-height: 1.66;
+      font-weight: 500;
+    }
+
+    .gift .pill {
+      background: #fff;
+      color: var(--ink);
+    }
+
+    .gift .pill.light {
+      border-color: rgba(255,255,255,0.32);
+      background: rgba(255,255,255,0.12);
+      color: #fff;
     }
 
     footer {
-      margin-top: 34px;
-      text-align: center;
+      padding: 24px 18px;
       color: var(--muted);
-      font-size: 14px;
+      text-align: center;
+      font-size: 13px;
+      background: var(--paper);
     }
 
-    @media (max-width: 820px) {
-      .grid {
+    @media (max-width: 920px) {
+      .nav a:not(:last-child) { display: none; }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .hero-books {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        width: min(560px, 100%);
+      }
+
+      .hero-books img {
+        max-height: 270px;
+      }
+
+      .book-section {
+        min-height: auto;
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 62px 0;
+      }
+
+      .book-section:nth-of-type(odd) .book-visual {
+        order: initial;
+      }
+
+      .book-visual {
+        min-height: auto;
+        padding: 26px 0 10px;
+        border-radius: 0;
+        background: radial-gradient(circle at 50% 46%, rgba(255,253,249,0.92), rgba(239,229,216,0.42) 48%, transparent 70%);
+      }
+
+      .book-visual img {
+        width: min(58vw, 250px);
+        max-height: 320px;
+      }
+
+      .book-copy {
+        text-align: center;
+      }
+
+      .description,
+      .toc,
+      .facts {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .facts {
+        grid-template-columns: 1fr 1fr;
+        border-radius: 20px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .topbar-inner {
+        width: calc(100vw - 22px);
+      }
+
+      h1 {
+        font-size: clamp(48px, 15vw, 72px);
+      }
+
+      .hero-lede {
+        font-size: 18px;
+      }
+
+      .hero-actions,
+      .gift-actions {
+        width: min(320px, 100%);
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .pill {
+        width: 100%;
+      }
+
+      .manifesto {
+        min-height: auto;
+        padding: 70px 18px;
+      }
+
+      .manifesto p {
+        font-size: clamp(30px, 10vw, 46px);
+      }
+
+      .book-section {
+        width: calc(100vw - 24px);
+      }
+
+      .book-copy h2 {
+        font-size: clamp(44px, 14vw, 62px);
+      }
+
+      .tagline {
+        font-size: 21px;
+      }
+
+      .description {
+        text-align: left;
+      }
+
+      .facts {
         grid-template-columns: 1fr;
       }
 
-      .btn {
-        width: 100%;
+      .toc {
+        text-align: left;
       }
     }
   </style>
 </head>
 <body>
-  <div class="page">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#">PHILEMON</a>
+      <nav class="nav" aria-label="頁面導覽">
+        <a href="#books">精選贈書</a>
+        <a href="#gift">贈書活動</a>
+        <a href="https://news.pbooks.com.tw/2026-05/">回五月電子報</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
     <section class="hero">
-      <span class="eyebrow">May 2026 Gift Books</span>
-      <h1>腓利門贈書活動</h1>
-      <p>本頁整理 2026 年 5 月電子報的贈書活動書目。點選下方卡片可瀏覽本次推薦書封，若要回到電子報主頁或前往腓利門出版書籍專區，可使用頁面下方按鈕。</p>
-      <div class="hero-actions">
-        <a class="btn primary" href="https://www.pbooks.com.tw/collections/%E8%85%93%E5%88%A9%E9%96%80%E6%9C%AC%E7%89%88%E6%9B%B8">瀏覽腓利門出版書籍</a>
-        <a class="btn" href="https://news.pbooks.com.tw/2026-05/">返回五月電子報</a>
+      <div>
+        <div class="hero-books" aria-label="四本贈書書封">
+          <img src="./philemon-four-gift-assets/C201-1.png" alt="守義人的路書封">
+          <img src="./philemon-four-gift-assets/C200-1.png" alt="行善人的道書封">
+          <img src="./philemon-four-gift-assets/C230-1.png" alt="通古今之變書封">
+          <img src="./philemon-four-gift-assets/C229-1.png" alt="究天人之際書封">
+        </div>
       </div>
-      <div class="note">活動頁面修復版 | 截止日期：2026.06.30</div>
     </section>
 
-    <section class="grid" aria-label="Gift book selection">
-      <article class="card">
-        <div class="cover-shell">
-          <img src="./philemon-four-gift-assets/C200-1.png" alt="C200 贈書活動書封">
-        </div>
-        <div class="code">C200</div>
-        <h2>贈書選書一</h2>
-        <p>本次贈書活動收錄的精選書籍之一，保留原始書封展示，方便從電子報活動頁直接延伸瀏覽。</p>
-      </article>
-
-      <article class="card">
-        <div class="cover-shell">
-          <img src="./philemon-four-gift-assets/C201-1.png" alt="C201 贈書活動書封">
-        </div>
-        <div class="code">C201</div>
-        <h2>贈書選書二</h2>
-        <p>延續本月母親節與閱讀主題，活動書單以清楚可讀的版面重新整理，避免原頁面亂碼造成瀏覽中斷。</p>
-      </article>
-
-      <article class="card">
-        <div class="cover-shell">
-          <img src="./philemon-four-gift-assets/C229-1.png" alt="C229 贈書活動書封">
-        </div>
-        <div class="code">C229</div>
-        <h2>贈書選書三</h2>
-        <p>保留活動視覺與書封圖檔，讓讀者仍可正常查看本次推薦書籍，不再受到損毀 HTML 的影響。</p>
-      </article>
-
-      <article class="card">
-        <div class="cover-shell">
-          <img src="./philemon-four-gift-assets/C230-1.png" alt="C230 贈書活動書封">
-        </div>
-        <div class="code">C230</div>
-        <h2>贈書選書四</h2>
-        <p>若需要查看完整書籍清單與購買入口，可直接前往腓利門出版書籍專區；此頁先作為本期活動的穩定展示頁。</p>
-      </article>
+    <section class="manifesto">
+      <p>就是四本好書，<br><span>你買書就送。</span></p>
     </section>
 
-    <footer>
-      <div class="footer-actions">
-        <a class="btn primary" href="https://www.pbooks.com.tw/collections/%E8%85%93%E5%88%A9%E9%96%80%E6%9C%AC%E7%89%88%E6%9B%B8">前往書籍專區</a>
-        <a class="btn" href="https://news.pbooks.com.tw/2026-05/">回到電子報</a>
+    <section id="books" class="book-section">
+      <div class="book-visual">
+        <img src="./philemon-four-gift-assets/C201-1.png" alt="C201 守義人的路">
       </div>
-      <p>PHILEMON NEWS | 2026 五月號 | 贈書活動頁</p>
-    </footer>
-  </div>
+      <div class="book-copy">
+        <div class="book-code">C201</div>
+        <h2>守義人的路</h2>
+        <p class="tagline">信仰引導我們，走向公義與正直。</p>
+        <p class="description">智慧是知識的來源。人若尋找真智慧，智慧就會護衛、保守人，救人脫離諸般兇惡；因為神看顧義人，只要守住義人的路，必有平安與喜樂。本書收錄謝忠光長老刊載於《聖靈月刊》、《青年團契》、《宗教教育》的作品，內容涵蓋講臺、靈修、查經與信徒生活。</p>
+        <div class="facts">
+          <div class="fact"><b>謝忠光</b><span>作者</span></div>
+          <div class="fact"><b>NT$ 250</b><span>定價</span></div>
+          <div class="fact"><b>335 頁</b><span>繁體中文平裝</span></div>
+          <div class="fact"><b>2009.07</b><span>初版</span></div>
+        </div>
+        <div class="toc">
+          <h3>內容選讀</h3>
+          <p>禱告的榜樣、真耶穌教會的特色、平安之道、青年與靈修、論交友之道、箴言中的智慧人、箴言中的義人、信徒可以做生日麼、尊敬老人。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="book-section">
+      <div class="book-visual">
+        <img src="./philemon-four-gift-assets/C200-1.png" alt="C200 行善人的道">
+      </div>
+      <div class="book-copy">
+        <div class="book-code">C200</div>
+        <h2>行善人的道</h2>
+        <p class="tagline">活出信仰中的愛，也活出行善的力量。</p>
+        <p class="description">智慧以慈父的心懷說明求智慧的重要，使人脫離惡人的道，行在善人的道上，得以在地上存活。本書同樣收錄謝忠光長老過去發表於《聖靈月刊》、《青年團契》、《宗教教育》的文字，從福音、社論到論道，展現信仰如何進入生活與教會事奉。</p>
+        <div class="facts">
+          <div class="fact"><b>謝忠光</b><span>作者</span></div>
+          <div class="fact"><b>NT$ 250</b><span>定價</span></div>
+          <div class="fact"><b>336 頁</b><span>繁體中文平裝</span></div>
+          <div class="fact"><b>2009.07</b><span>初版</span></div>
+        </div>
+        <div class="toc">
+          <h3>內容選讀</h3>
+          <p>除祂以外別無拯救、人人需要耶穌、得救之正路、母親節感言、愛惜光陰、為甚麼稱為真耶穌教會、論禱告、信徒成聖之道、論愛心。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="book-section">
+      <div class="book-visual">
+        <img src="./philemon-four-gift-assets/C230-1.png" alt="C230 通古今之變">
+      </div>
+      <div class="book-copy">
+        <div class="book-code">C230</div>
+        <h2>通古今之變</h2>
+        <p class="tagline">跨越時間，看見信仰不變的光。</p>
+        <p class="description">《通古今之變》與《究天人之際》為蕭榮光執事過去刊載於《青年團契》、《聖靈月刊》等文章的摘錄選集。蕭執事以細膩筆觸觀看教會、時代、文化與生命，在變動的世代中提醒讀者回到信仰的根基，分辨方向並回應主託。</p>
+        <div class="facts">
+          <div class="fact"><b>蕭時雄</b><span>作者</span></div>
+          <div class="fact"><b>NT$ 200</b><span>定價</span></div>
+          <div class="fact"><b>222 頁</b><span>繁體中文平裝</span></div>
+          <div class="fact"><b>2014.11</b><span>初版</span></div>
+        </div>
+        <div class="toc">
+          <h3>內容選讀</h3>
+          <p>文宣的時代和時代的文宣、以利亞再上路、讀書樂、唱出生命唱出愛、變色的伊甸園、知變與處變、世紀末的省思、預備與回應。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="book-section">
+      <div class="book-visual">
+        <img src="./philemon-four-gift-assets/C229-1.png" alt="C229 究天人之際">
+      </div>
+      <div class="book-copy">
+        <div class="book-code">C229</div>
+        <h2>究天人之際</h2>
+        <p class="tagline">在天與人之間，體會信仰的奧祕。</p>
+        <p class="description">這本書帶領讀者從自然、人生與信仰經驗中，看見造物主在創設世界之初所賜下的美好。從一粒沙、一朵花、裂縫中的嫩芽，到奔騰飛瀑下的寧靜，天地草木皆可成為思想信仰的文章。</p>
+        <div class="facts">
+          <div class="fact"><b>蕭時雄</b><span>作者</span></div>
+          <div class="fact"><b>NT$ 250</b><span>定價</span></div>
+          <div class="fact"><b>287 頁</b><span>繁體中文平裝</span></div>
+          <div class="fact"><b>9789867893727</b><span>ISBN</span></div>
+        </div>
+        <div class="toc">
+          <h3>內容選讀</h3>
+          <p>常在祂愛中、一人歸主天地同歡、淺談靈修、勸君作祂知心友、守心勝一切、祭司的國度、我們需要團隊精神、喜樂的泉源、兩條船、重訪古道、永樂歸你，憂歎逃避。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="gift" class="gift">
+      <div class="gift-inner">
+        <h2>買本版書，就送精選好書。</h2>
+        <p>活動期間購買腓利門本版書，即可獲得本次精選贈書。把值得慢讀的信仰文字，帶回家，也分享給正在尋找力量的人。</p>
+        <div class="gift-actions">
+          <a class="pill" href="https://www.pbooks.com.tw/collections/%E8%85%93%E5%88%A9%E9%96%80%E6%9C%AC%E7%89%88%E6%9B%B8" target="_blank" rel="noopener">前往本版書專區</a>
+          <a class="pill light" href="https://news.pbooks.com.tw/2026-05/">回五月電子報</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>PHILEMON BOOKSTORE｜腓利門書房贈書活動</footer>
 </body>
 </html>
