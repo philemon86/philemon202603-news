@@ -18,22 +18,26 @@
   <style>
     /* === 1. 基礎設定 & 變數 === */
     :root {
-      --primary-color: #5d4037;
-      --accent-color: #8d6e63;
-      --bg-color: #f5f5f5;
-      --card-bg: #ffffff;
-      --text-color: #333;
+      --primary-color: #8c2f24;
+      --accent-color: #6b5e54;
+      --bg-color: #f2eadf;
+      --card-bg: rgba(255, 255, 255, 0.84);
+      --card-strong: #fffdfa;
+      --text-color: #1f1a17;
+      --border-color: rgba(31, 26, 23, 0.1);
       --highlight-color: #fff9c4;
       --selected-bg: #ffe0b2;
-      --shadow: 0 4px 6px rgba(0,0,0,0.1);
-      --radius: 12px;
+      --shadow: 0 24px 60px rgba(32, 23, 17, 0.08);
+      --radius: 20px;
     }
 
     * { box-sizing: border-box; }
     
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      background-color: var(--bg-color);
+      font-family: "Space Grotesk", "Noto Serif TC", "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.6), transparent 32%),
+        linear-gradient(180deg, #f4ede4 0%, #efe3d2 100%);
       color: var(--text-color);
       margin: 0;
       padding: 20px;
@@ -88,7 +92,7 @@
 
     .subtitle {
       text-align: center;
-      color: #666;
+      color: var(--accent-color);
       font-size: 0.9rem;
       margin-bottom: 30px;
     }
@@ -98,8 +102,10 @@
       background: var(--card-bg);
       border-radius: var(--radius);
       padding: 20px;
+      border: 1px solid var(--border-color);
       box-shadow: var(--shadow);
       margin-bottom: 20px;
+      backdrop-filter: blur(12px);
     }
 
     .search-group {
@@ -111,12 +117,18 @@
     input[type="text"] {
       flex: 1;
       padding: 12px 15px;
-      border: 1px solid #ddd;
+      border: 1px solid var(--border-color);
       border-radius: 8px;
       font-size: 16px;
       width: 100%;
+      background: rgba(255,255,255,0.78);
+      color: var(--text-color);
     }
-    input[type="text"]:focus { outline: none; border-color: var(--primary-color); }
+    input[type="text"]:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(140, 47, 36, 0.12);
+    }
 
     button {
       background-color: var(--primary-color);
@@ -127,8 +139,9 @@
       font-size: 16px;
       cursor: pointer;
       white-space: nowrap;
+      box-shadow: 0 16px 36px rgba(140, 47, 36, 0.16);
     }
-    button:hover { background-color: #4e342e; }
+    button:hover { background-color: #74261d; }
     
     /* === 分頁 === */
     .pagination {
@@ -137,7 +150,8 @@
         gap: 8px;
         margin-top: 20px;
         align-items: center;
-        background: #fafafa;
+        background: rgba(255,255,255,0.74);
+        border: 1px solid var(--border-color);
         padding: 10px;
         border-radius: 8px;
     }
@@ -146,9 +160,11 @@
         width: 60px;
         padding: 8px;
         text-align: center;
-        border: 1px solid #ddd;
+        border: 1px solid var(--border-color);
         border-radius: 6px;
         font-size: 16px;
+        background: var(--card-strong);
+        color: var(--text-color);
     }
     .jump-btn {
         padding: 8px 15px;
@@ -159,7 +175,7 @@
     /* === 搜尋結果 === */
     .result-item {
       padding: 15px;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid rgba(31, 26, 23, 0.08);
       display: flex;
       flex-direction: column;
       gap: 8px;
@@ -201,8 +217,8 @@
 
     .copy-btn {
       background-color: transparent;
-      color: #777;
-      border: 1px solid #ddd;
+      color: var(--accent-color);
+      border: 1px solid var(--border-color);
       padding: 6px 12px;
       font-size: 0.85rem;
       border-radius: 20px;
@@ -210,9 +226,9 @@
     }
 
     .copy-btn:hover {
-      background-color: #f0f0f0;
-      color: #333;
-      border-color: #999;
+      background-color: rgba(255,255,255,0.9);
+      color: var(--text-color);
+      border-color: rgba(31, 26, 23, 0.18);
     }
 
     /* === 浮動操作按鈕 === */
@@ -221,7 +237,7 @@
         bottom: 30px;
         left: 50%;
         transform: translateX(-50%) translateY(150px);
-        background-color: #333;
+        background-color: #1f1a17;
         color: white;
         padding: 12px 20px;
         border-radius: 50px;
@@ -256,7 +272,7 @@
     .fab-close {
         background: none;
         border: none;
-        color: #aaa;
+        color: #c9bcae;
         font-size: 1.2rem;
         cursor: pointer;
         padding: 0 5px;
@@ -287,7 +303,7 @@
     .redirect-overlay {
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(93, 64, 55, 0.9); /* primary color with opacity */
+        background: rgba(31, 26, 23, 0.84); /* primary color with opacity */
         z-index: 2000;
         display: flex;
         justify-content: center;
@@ -383,7 +399,7 @@
     <div class="redirect-content">
         <div class="redirect-icon">📚</div>
         <div class="redirect-text">歡迎你咻咻買書！</div>
-        <div style="margin-top:10px; font-size:0.9rem; color:#888;">正在前往書房...</div>
+        <div style="margin-top:10px; font-size:0.9rem; color:var(--accent-color);">正在前往書房...</div>
     </div>
 </div>
 
