@@ -395,50 +395,35 @@
     }
 
     .portal-head {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 20px;
       margin-bottom: 32px;
     }
 
     .portal-head .section-title {
-      flex: 1;
       margin-bottom: 0;
     }
 
-    .portal-pager {
-      display: flex;
+    .portal-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .guide-card {
+      min-height: auto;
+      padding: 18px;
       align-items: center;
-      gap: 8px;
+      text-align: center;
+      gap: 14px;
     }
 
-    .portal-page-btn {
-      min-width: 38px;
-      height: 38px;
-      border: 1px solid rgba(31, 26, 23, 0.1);
-      border-radius: 999px;
-      background: rgba(255,255,255,0.76);
-      color: var(--muted);
-      font: inherit;
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s ease;
+    .guide-card img {
+      width: 100%;
+      max-width: 320px;
+      height: auto;
+      display: block;
+      border-radius: 22px;
     }
 
-    .portal-page-btn.active {
-      background: var(--ink);
-      border-color: var(--ink);
-      color: #fff;
-    }
-
-    .portal-grid .card {
-      display: none;
-    }
-
-    .portal-grid .card.active {
-      display: flex;
+    .guide-card p {
+      margin: 0;
     }
 
     .card {
@@ -712,18 +697,11 @@
       }
 
       .portal-head {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 16px;
         margin-bottom: 20px;
       }
 
-      .portal-pager {
-        width: 100%;
-      }
-
-      .portal-page-btn {
-        flex: 1;
+      .portal-grid {
+        grid-template-columns: 1fr;
       }
 
       .social-accordion {
@@ -918,53 +896,34 @@ Soon</div>
     <section id="portal" style="margin-top: 100px;">
       <div class="portal-head">
         <div class="section-title">PHILEMON GUIDE</div>
-        <div class="portal-pager" data-portal-pager aria-label="PHILEMON GUIDE 分頁"></div>
       </div>
-      <div class="grid portal-grid" data-portal-grid>
-        <a href="./book/" class="card">
-          <div>
-            <div class="date">Publish</div>
-            <h3>本會出版品</h3>
-          </div>
+      <div class="grid portal-grid">
+        <a href="./book/" class="card guide-card">
+          <img src="./guide-logos/publish.png" alt="Publish logo" />
           <p>進入本會出版品頁面，依標題、價格與年度快速查找書籍與出版資料。</p>
         </a>
-        <a href="./music/" class="card">
-          <div>
-            <div class="date">Music</div>
-            <h3>創作詩歌</h3>
-          </div>
+        <a href="./music/" class="card guide-card">
+          <img src="./guide-logos/music.png" alt="Music logo" />
           <p>搜尋真耶穌教會創作詩歌樂譜，快速查看曲目、詞曲、頁數、價格與試聽。</p>
         </a>
 
-        <a href="./bookstore/" class="card">
-          <div>
-            <div class="date">Space</div>
-            <h3>書房空間</h3>
-          </div>
+        <a href="./bookstore/" class="card guide-card">
+          <img src="./guide-logos/space.png" alt="Space logo" />
           <p>走進整修後的新書房，看看腓利門書房目前的空間與展陳樣貌。</p>
         </a>
 
-        <a href="./cup/" class="card">
-          <div>
-            <div class="date">Craft</div>
-            <h3>杯子設計</h3>
-          </div>
+        <a href="./cup/" class="card guide-card">
+          <img src="./guide-logos/craft.png" alt="Craft logo" />
           <p>瀏覽杯款與視覺設計，延伸看看腓利門書房的周邊企劃。</p>
         </a>
 
-        <a href="./2026-luggage/" class="card">
-          <div>
-            <div class="date">Journey</div>
-            <h3>2026 百年旅行箱</h3>
-          </div>
+        <a href="./2026-luggage/" class="card guide-card">
+          <img src="./guide-logos/journey.png" alt="Journey logo" />
           <p>查看旅行箱專頁，延伸認識百年企劃與相關內容。</p>
         </a>
 
-        <a href="./soonsoonbible/" class="card">
-          <div>
-            <div class="date">Bible</div>
-            <h3>咻咻查聖經</h3>
-          </div>
+        <a href="./soonsoonbible/" class="card guide-card">
+          <img src="./guide-logos/bible.png" alt="Bible logo" />
           <p>讓你咻咻找到聖經經文。</p>
         </a>
       </div>
@@ -1050,37 +1009,6 @@ Soon</div>
       });
     });
 
-    const portalGrid = document.querySelector('[data-portal-grid]');
-    const portalPager = document.querySelector('[data-portal-pager]');
-    const portalCards = portalGrid ? Array.from(portalGrid.querySelectorAll('.card')) : [];
-    const portalPageSize = 3;
-    const portalPageCount = Math.ceil(portalCards.length / portalPageSize);
-
-    function setPortalPage(pageIndex) {
-      portalCards.forEach((card, index) => {
-        const pageStart = pageIndex * portalPageSize;
-        card.classList.toggle('active', index >= pageStart && index < pageStart + portalPageSize);
-      });
-
-      if (!portalPager) return;
-      portalPager.querySelectorAll('.portal-page-btn').forEach((button, index) => {
-        button.classList.toggle('active', index === pageIndex);
-      });
-    }
-
-    if (portalPager && portalCards.length) {
-      for (let index = 0; index < portalPageCount; index += 1) {
-        const button = document.createElement('button');
-        button.className = 'portal-page-btn';
-        button.type = 'button';
-        button.textContent = String(index + 1);
-        button.setAttribute('aria-label', `第 ${index + 1} 頁`);
-        button.addEventListener('click', () => setPortalPage(index));
-        portalPager.appendChild(button);
-      }
-
-      setPortalPage(0);
-    }
   </script>
 </body>
 </html>
