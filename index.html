@@ -407,12 +407,14 @@
     }
 
     .guide-card {
+      position: relative;
       min-height: auto;
       padding: 18px;
       align-items: center;
       text-align: center;
       gap: 14px;
       background: rgb(250, 245, 236);
+      overflow: hidden;
     }
 
     .guide-card img {
@@ -423,8 +425,39 @@
       border-radius: 22px;
     }
 
+    .guide-card h3 {
+      margin: 0;
+      font-size: 1.3rem;
+      line-height: 1.2;
+    }
+
     .guide-card p {
       margin: 0;
+    }
+
+    .guide-card-info {
+      position: absolute;
+      inset: auto 16px 16px 16px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(31, 26, 23, 0.92);
+      color: #fffdfa;
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+      transition: opacity 0.22s ease, transform 0.22s ease;
+      box-shadow: 0 18px 34px rgba(31, 26, 23, 0.18);
+    }
+
+    .guide-card:hover .guide-card-info,
+    .guide-card.show-info .guide-card-info {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .guide-card:hover,
+    .guide-card.show-info {
+      background: var(--paper-strong);
     }
 
     .card {
@@ -901,31 +934,37 @@ Soon</div>
       <div class="grid portal-grid">
         <a href="./book/" class="card guide-card">
           <img src="./guide-logos/publish.png" alt="Publish logo" />
-          <p>進入本會出版品頁面，依標題、價格與年度快速查找書籍與出版資料。</p>
+          <h3>本會出版品</h3>
+          <div class="guide-card-info">進入本會出版品頁面，依標題、價格與年度快速查找書籍與出版資料。</div>
         </a>
         <a href="./music/" class="card guide-card">
           <img src="./guide-logos/music.png" alt="Music logo" />
-          <p>搜尋真耶穌教會創作詩歌樂譜，快速查看曲目、詞曲、頁數、價格與試聽。</p>
+          <h3>創作詩歌</h3>
+          <div class="guide-card-info">搜尋真耶穌教會創作詩歌樂譜，快速查看曲目、詞曲、頁數、價格與試聽。</div>
         </a>
 
         <a href="./bookstore/" class="card guide-card">
           <img src="./guide-logos/space.png" alt="Space logo" />
-          <p>走進整修後的新書房，看看腓利門書房目前的空間與展陳樣貌。</p>
+          <h3>書房空間</h3>
+          <div class="guide-card-info">走進整修後的新書房，看看腓利門書房目前的空間與展陳樣貌。</div>
         </a>
 
         <a href="./cup/" class="card guide-card">
           <img src="./guide-logos/craft.png" alt="Craft logo" />
-          <p>瀏覽杯款與視覺設計，延伸看看腓利門書房的周邊企劃。</p>
+          <h3>杯子設計</h3>
+          <div class="guide-card-info">瀏覽杯款與視覺設計，延伸看看腓利門書房的周邊企劃。</div>
         </a>
 
         <a href="./2026-luggage/" class="card guide-card">
           <img src="./guide-logos/journey.png" alt="Journey logo" />
-          <p>查看旅行箱專頁，延伸認識百年企劃與相關內容。</p>
+          <h3>2026 百年旅行箱</h3>
+          <div class="guide-card-info">查看旅行箱專頁，延伸認識百年企劃與相關內容。</div>
         </a>
 
         <a href="./soonsoonbible/" class="card guide-card">
           <img src="./guide-logos/bible.png" alt="Bible logo" />
-          <p>讓你咻咻找到聖經經文。</p>
+          <h3>咻咻查聖經</h3>
+          <div class="guide-card-info">讓你咻咻找到聖經經文。</div>
         </a>
       </div>
     </section>
@@ -1007,6 +1046,41 @@ Soon</div>
         if (!window.matchMedia('(max-width: 767px)').matches) return;
         socialCards.forEach((item) => item.classList.remove('active'));
         card.classList.add('active');
+      });
+    });
+
+    const guideCards = document.querySelectorAll('.guide-card');
+
+    guideCards.forEach((card) => {
+      let pressTimer = null;
+      let longPressTriggered = false;
+
+      card.addEventListener('pointerdown', (event) => {
+        if (event.pointerType === 'mouse') return;
+        longPressTriggered = false;
+        pressTimer = window.setTimeout(() => {
+          guideCards.forEach((item) => item.classList.remove('show-info'));
+          card.classList.add('show-info');
+          longPressTriggered = true;
+        }, 420);
+      });
+
+      card.addEventListener('pointerup', () => {
+        if (pressTimer) window.clearTimeout(pressTimer);
+      });
+
+      card.addEventListener('pointerleave', () => {
+        if (pressTimer) window.clearTimeout(pressTimer);
+      });
+
+      card.addEventListener('pointercancel', () => {
+        if (pressTimer) window.clearTimeout(pressTimer);
+      });
+
+      card.addEventListener('click', (event) => {
+        if (!longPressTriggered) return;
+        event.preventDefault();
+        longPressTriggered = false;
       });
     });
 
