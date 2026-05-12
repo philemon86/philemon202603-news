@@ -1,0 +1,1042 @@
+﻿<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>✦咻咻查聖經SoonSoonBible✦</title>
+  <link rel="icon" type="image/svg+xml" href="../favicon-book.svg">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JD1JHF86H1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-JD1JHF86H1', {
+      page_title: 'SoonSoonBible',
+      page_path: '/soonsoonbible/'
+    });
+  </script>
+  <style>
+    /* === 1. 基礎設定 & 變數 === */
+    :root {
+      --primary-color: #5d4037;
+      --accent-color: #8d6e63;
+      --bg-color: #f5f5f5;
+      --card-bg: #ffffff;
+      --text-color: #333;
+      --highlight-color: #fff9c4;
+      --selected-bg: #ffe0b2;
+      --shadow: 0 4px 6px rgba(0,0,0,0.1);
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 20px;
+      line-height: 1.6;
+      padding-bottom: 120px;
+    }
+
+    .container { max-width: 800px; margin: 0 auto; }
+
+    h1 {
+      text-align: center;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+      font-size: 1.8rem;
+      line-height: 1.3;
+    }
+    
+    /* === 修改重點：英文標題連結樣式 (置中修正版) === */
+    .title-link {
+        display: inline-block; /* 改用 inline-block，讓它根據文字寬度置中 */
+        position: relative;    /* 作為箭頭定位的基準點 */
+        font-size: 1.2rem;
+        color: var(--accent-color);
+        text-decoration: none;
+        margin-top: 5px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .title-link:hover {
+        color: var(--primary-color);
+        transform: scale(1.05);
+        text-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .title-link::after {
+        content: '↗';
+        font-size: 0.8em;
+        position: absolute; /* 關鍵：讓箭頭浮動，不佔據文字排版空間 */
+        left: 100%;         /* 推到文字框的最右邊外面 */
+        top: 50%;           /* 垂直置中 */
+        transform: translateY(-50%); 
+        margin-left: 6px;   /* 跟文字保持一點距離 */
+        opacity: 0;
+        transition: opacity 0.3s;
+        pointer-events: none; /* 讓箭頭不干擾點擊 */
+    }
+
+    .title-link:hover::after {
+        opacity: 1;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 30px;
+    }
+
+    /* === 卡片與搜尋 === */
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+
+    .search-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+      width: 100%;
+    }
+    input[type="text"]:focus { outline: none; border-color: var(--primary-color); }
+
+    button {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    button:hover { background-color: #4e342e; }
+    
+    /* === 分頁 === */
+    .pagination {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 20px;
+        align-items: center;
+        background: #fafafa;
+        padding: 10px;
+        border-radius: 8px;
+    }
+    
+    .page-input {
+        width: 60px;
+        padding: 8px;
+        text-align: center;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 16px;
+    }
+    .jump-btn {
+        padding: 8px 15px;
+        background-color: var(--accent-color);
+        font-size: 14px;
+    }
+
+    /* === 搜尋結果 === */
+    .result-item {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      border-radius: 8px;
+    }
+    
+    .result-item:last-child { border-bottom: none; }
+
+    .result-item.selected {
+        background-color: var(--selected-bg);
+    }
+
+    .verse-ref {
+      font-weight: bold;
+      color: var(--primary-color);
+      font-size: 1rem;
+    }
+
+    .verse-text {
+      font-size: 1.05rem;
+      text-align: justify;
+    }
+
+    .highlight { 
+      background-color: var(--highlight-color); 
+      padding: 2px 4px;
+      border-radius: 4px;
+      color: #000;
+    }
+
+    /* === 按鈕列 === */
+    .action-bar {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 5px;
+    }
+
+    .copy-btn {
+      background-color: transparent;
+      color: #777;
+      border: 1px solid #ddd;
+      padding: 6px 12px;
+      font-size: 0.85rem;
+      border-radius: 20px;
+      z-index: 2;
+    }
+
+    .copy-btn:hover {
+      background-color: #f0f0f0;
+      color: #333;
+      border-color: #999;
+    }
+
+    /* === 浮動操作按鈕 === */
+    .fab-container {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%) translateY(150px);
+        background-color: #333;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 50px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.27);
+        z-index: 100;
+        min-width: 280px;
+        justify-content: space-between;
+    }
+
+    .fab-container.show {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    .fab-text { font-size: 0.95rem; font-weight: bold; }
+    
+    .fab-btn {
+        background-color: var(--selected-bg);
+        color: #5d4037;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 20px;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 0.9rem;
+    }
+    .fab-btn:active { transform: scale(0.95); }
+
+    .fab-close {
+        background: none;
+        border: none;
+        color: #aaa;
+        font-size: 1.2rem;
+        cursor: pointer;
+        padding: 0 5px;
+    }
+    .fab-close:hover { color: #fff; }
+
+    /* === Toast === */
+    .toast {
+      visibility: hidden;
+      min-width: 200px;
+      background-color: rgba(0,0,0,0.8);
+      color: #fff;
+      text-align: center;
+      border-radius: 8px;
+      padding: 10px;
+      position: fixed;
+      z-index: 101;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 14px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .toast.show { visibility: visible; opacity: 1; }
+
+    /* === 跳轉通知 Overlay === */
+    .redirect-overlay {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(93, 64, 55, 0.9); /* primary color with opacity */
+        z-index: 2000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        backdrop-filter: blur(5px);
+    }
+    .redirect-overlay.active {
+        visibility: visible;
+        opacity: 1;
+    }
+    .redirect-content {
+        background: white;
+        padding: 40px;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        transform: scale(0.8);
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.27);
+    }
+    .redirect-overlay.active .redirect-content {
+        transform: scale(1);
+    }
+    .redirect-icon {
+        font-size: 3rem;
+        margin-bottom: 15px;
+        animation: bounce 1s infinite;
+    }
+    .redirect-text {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--primary-color);
+    }
+    @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 10px; padding-bottom: 120px; }
+      .card { padding: 15px; }
+      h1 { font-size: 1.5rem; }
+      #keywordBtn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>
+      <div>✦咻咻查聖經✦</div>
+      <a href="https://www.pbooks.com.tw/" target="_blank" id="promoLink" class="title-link">✦SoonSoonBible✦</a>
+  </h1>
+  <p class="subtitle">快速檢索・支援多種中文經卷簡稱・可大量選取複製</p>
+
+  <div class="card">
+    <label style="display:block; margin-bottom:8px; font-weight:bold; color:var(--primary-color);">經文查詢</label>
+    <div class="search-group">
+      <input type="text" id="searchInput" placeholder="範例：太9.27、伯7.3-8.1、1.7、使徒7">
+    </div>
+    <div id="result" style="margin-top: 15px;"></div>
+  </div>
+
+  <div class="card">
+    <label style="display:block; margin-bottom:8px; font-weight:bold; color:var(--primary-color);">關鍵字查詢</label>
+    <div class="search-group">
+      <input type="text" id="keywordInput" placeholder="使用空格查詢多項關鍵字，減號可排除">
+      <button id="keywordBtn">搜尋</button>
+    </div>
+    <div id="keywordResult" style="margin-top: 15px;"></div>
+    <div id="paginationContainer" class="pagination" style="display:none;">
+        <span class="page-label">第</span>
+        <input type="number" id="pageInput" class="page-input" value="1" min="1">
+        <span class="page-label"> / <span id="totalPagesDisplay">1</span> 頁</span>
+        <button class="jump-btn" onclick="jumpToPage()">GO</button>
+    </div>
+  </div>
+</div>
+
+<div id="fab" class="fab-container">
+    <div style="display:flex; align-items:center; gap:10px;">
+        <button class="fab-close" onclick="clearSelection()" title="清除所有選取">✕</button>
+        <span class="fab-text" id="fabText">已選 0 節</span>
+    </div>
+    <button class="fab-btn" onclick="copySelectedVerses()">複製全部</button>
+</div>
+
+<div id="toast" class="toast">已複製</div>
+
+<div id="redirectOverlay" class="redirect-overlay">
+    <div class="redirect-content">
+        <div class="redirect-icon">📚</div>
+        <div class="redirect-text">歡迎你咻咻買書！</div>
+        <div style="margin-top:10px; font-size:0.9rem; color:#888;">正在前往書房...</div>
+    </div>
+</div>
+
+<script>
+  const trackedChapterViewKeys = new Set();
+
+  function trackChapterViews(query, rawInput, results) {
+    if (typeof gtag !== 'function' || !Array.isArray(results) || results.length === 0) return;
+
+    const chapters = new Map();
+    let searchType = 'other';
+
+    if (query.type === 'range') {
+      searchType = 'range';
+      results.forEach((entry) => {
+        const key = `${entry.book}:${entry.chapter}`;
+        if (!chapters.has(key)) chapters.set(key, { book: entry.book, chapter: entry.chapter });
+      });
+    } else if (query.book && query.chapter && query.verse == null) {
+      searchType = 'chapter';
+      chapters.set(`${query.book}:${query.chapter}`, { book: query.book, chapter: query.chapter });
+    } else {
+      return;
+    }
+
+    chapters.forEach(({ book, chapter }) => {
+      const dedupeKey = `${searchType}:${book}:${chapter}`;
+      if (trackedChapterViewKeys.has(dedupeKey)) return;
+      trackedChapterViewKeys.add(dedupeKey);
+
+      gtag('event', 'chapter_view', {
+        event_category: 'SoonSoonBible',
+        event_label: `${book} ${chapter}`,
+        bible_book: book,
+        bible_chapter: chapter,
+        chapter_key: `${book}-${chapter}`,
+        chapter_label: `${book} 第${chapter}章`,
+        search_type: searchType,
+        search_query: rawInput,
+        result_count: results.length,
+        page_path: '/soonsoonbible/'
+      });
+    });
+  }
+
+  // === 0. 連結跳轉特效 ===
+  document.getElementById('promoLink').addEventListener('click', function(e) {
+        e.preventDefault(); // 阻止直接跳轉
+        const url = this.href;
+        const overlay = document.getElementById('redirectOverlay');
+      
+      // 顯示遮罩與動畫
+      overlay.classList.add('active');
+      
+      // 延遲跳轉
+      setTimeout(() => {
+          window.open(url, '_blank');
+          
+          // 跳轉後稍微等待一下再關閉遮罩 (使用者若切回來會看到消失動畫)
+          setTimeout(() => {
+              overlay.classList.remove('active');
+          }, 500);
+      }, 1200); // 1.2秒後跳轉
+  });
+
+  // === 1. 資料庫對照表 (完整支援) ===
+  const bookMap = {
+    // 舊約
+    '創':'Gen','創世':'Gen','創世記':'Gen', 
+    '出':'Exo','出埃及':'Exo','出埃及記':'Exo', 
+    '利':'Lev','利未':'Lev','利未記':'Lev',
+    '民':'Num','民數':'Num','民數記':'Num', 
+    '申':'Deu','申命':'Deu','申命記':'Deu', 
+    '書':'Jos','約書亞':'Jos','約書亞記':'Jos',
+    '士':'Jug','士師':'Jug','士師記':'Jug', 
+    '得':'Rut','路得':'Rut','路得記':'Rut', 
+    '撒上':'1Sa','撒母耳上':'1Sa','撒母耳記上':'1Sa',
+    '撒下':'2Sa','撒母耳下':'2Sa','撒母耳記下':'2Sa', 
+    '王上':'1Ki','列王上':'1Ki','列王記上':'1Ki', 
+    '王下':'2Ki','列王下':'2Ki','列王記下':'2Ki',
+    '代上':'1Ch','歷代上':'1Ch','歷代志上':'1Ch', 
+    '代下':'2Ch','歷代下':'2Ch','歷代志下':'2Ch', 
+    '拉':'Ezr','以斯拉':'Ezr','以斯拉記':'Ezr',
+    '尼':'Neh','尼希米':'Neh','尼希米記':'Neh', 
+    '斯':'Est','以斯帖':'Est','以斯帖記':'Est', 
+    '伯':'Job','約伯':'Job','約伯記':'Job',
+    '詩':'Psm','詩篇':'Psm', 
+    '箴':'Pro','箴言':'Pro', 
+    '傳':'Ecc','傳道':'Ecc','傳道書':'Ecc',
+    '歌':'Son','雅歌':'Son', 
+    '賽':'Isa','以賽亞':'Isa','以賽亞書':'Isa', 
+    '耶':'Jer','耶利米':'Jer','耶利米書':'Jer',
+    '哀':'Lam','耶利米哀':'Lam','耶利米哀歌':'Lam', 
+    '結':'Eze','以西結':'Eze','以西結書':'Eze', 
+    '但':'Dan','但以理':'Dan','但以理書':'Dan',
+    '何':'Hos','何西阿':'Hos','何西阿書':'Hos', 
+    '珥':'Joe','約珥':'Joe','約珥書':'Joe', 
+    '摩':'Amo','阿摩司':'Amo','阿摩司書':'Amo',
+    '俄':'Oba','俄巴底亞':'Oba','俄巴底亞書':'Oba', 
+    '拿':'Jon','約拿':'Jon','約拿書':'Jon', 
+    '彌':'Mic','彌迦':'Mic','彌迦書':'Mic',
+    '鴻':'Nah','那鴻':'Nah','那鴻書':'Nah', 
+    '哈':'Hab','哈巴谷':'Hab','哈巴谷書':'Hab', 
+    '番':'Zep','西番雅':'Zep','西番雅書':'Zep',
+    '該':'Hag','哈該':'Hag','哈該書':'Hag', 
+    '亞':'Zec','撒迦利亞':'Zec','撒迦利亞書':'Zec', 
+    '瑪':'Mal','瑪拉基':'Mal','瑪拉基書':'Mal',
+    // 新約
+    '太':'Mat','馬太':'Mat','馬太福音':'Mat', '可':'Mak','馬可':'Mak','馬可福音':'Mak', 
+    '路':'Luk','路加':'Luk','路加福音':'Luk', '約':'Jhn','約翰':'Jhn','約翰福音':'Jhn', 
+    '徒':'Act','使徒':'Act','使徒行傳':'Act', '羅':'Rom','羅馬':'Rom','羅馬書':'Rom',
+    '林前':'1Co','哥林多前':'1Co','哥林多前書':'1Co', '林後':'2Co','哥林多後':'2Co','哥林多後書':'2Co', 
+    '加':'Gal','加拉太':'Gal','加拉太書':'Gal', '弗':'Eph','以弗所':'Eph','以弗所書':'Eph', 
+    '腓':'Phl','腓立比':'Phl','腓立比書':'Phl', '西':'Col','歌羅西':'Col','歌羅西書':'Col',
+    '帖前':'1Ts','帖撒羅尼迦前':'1Ts','帖撒羅尼迦前書':'1Ts', '帖後':'2Ts','帖撒羅尼迦後':'2Ts','帖撒羅尼迦後書':'2Ts', 
+    '提前':'1Ti','提摩太前':'1Ti','提摩太前書':'1Ti', '提後':'2Ti','提摩太後':'2Ti','提摩太後書':'2Ti', 
+    '多':'Tit','提多':'Tit','提多書':'Tit', '門':'Phm','腓利門':'Phm','腓利門書':'Phm',
+    '來':'Heb','希伯來':'Heb','希伯來書':'Heb', '雅':'Jas','雅各':'Jas','雅各書':'Jas', 
+    '彼前':'1Pe','彼得前':'1Pe','彼得前書':'1Pe', '彼後':'2Pe','彼得後':'2Pe','彼得後書':'2Pe', 
+    '約一':'1Jn','約翰一':'1Jn','約翰一書':'1Jn', '約二':'2Jn','約翰二':'2Jn','約翰二書':'2Jn',
+    '約三':'3Jn','約翰三':'3Jn','約翰三書':'3Jn', '猶':'Jud','猶大':'Jud','猶大書':'Jud', 
+    '啟':'Rev','啟示':'Rev','啟示錄':'Rev'
+  };
+
+  const sortedBookNames = Object.keys(bookMap).sort((a, b) => b.length - a.length);
+
+  let bibleData = [];
+  let bibleReady = false;
+   
+  let currentKeywordResults = [];
+  let currentPage = 1;
+  const ITEMS_PER_PAGE = 100;
+  let currentIncludeKeywords = []; 
+   
+  let currentVerseData = [];         
+  let currentKeywordPageData = [];  
+  let selectedVerses = new Set();    
+
+  window.addEventListener('load', () => {
+    const searchInput = document.getElementById('searchInput');
+    const keywordInput = document.getElementById('keywordInput');
+    const keywordBtn = document.getElementById('keywordBtn');
+    
+    document.getElementById('result').innerHTML = '<span style="color:#888">資料庫載入中...</span>';
+
+    searchInput.addEventListener('input', debounce(searchVerse, 300));
+    keywordBtn.addEventListener('click', () => initKeywordSearch());
+    keywordInput.addEventListener('keydown', e => { if (e.key === 'Enter') initKeywordSearch(); });
+    document.getElementById('pageInput').addEventListener('keydown', e => { if (e.key === 'Enter') jumpToPage(); });
+
+    loadCSVWithRetry();
+  });
+
+  async function loadCSVWithRetry(maxAttempts = 3) {
+    let lastErr;
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+      try {
+        const bust = (attempt === 1) ? '' : `?v=${Date.now()}`;
+        const res = await fetch(`./bible.csv${bust}`, (attempt === 1) ? { cache: 'default' } : { cache: 'no-store' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const text = (await res.text()).replace(/^\uFEFF/, '');
+        await parseCSVInWorker(text);
+        bibleReady = true;
+        document.getElementById('result').innerHTML = '';
+        if (document.getElementById('searchInput').value.trim()) searchVerse();
+        return;
+      } catch (err) { lastErr = err; await delay(300 * attempt); }
+    }
+    document.getElementById('result').innerHTML = `<span style="color:red">資料載入失敗。</span>`;
+  }
+
+  function parseCSVInWorker(csvText) {
+    return new Promise((resolve) => {
+      const workerCode = `
+        self.onmessage = (e) => {
+          const lines = e.data.split(/\\r?\\n/);
+          const out = [];
+          for (let i = 1; i < lines.length; i++) {
+            const row = lines[i]; if (!row) continue;
+            const parts = row.split(',');
+            if (parts.length >= 4) {
+              const c = parseInt(parts[1].trim());
+              const v = parseInt(parts[2].trim());
+              if(!isNaN(c) && !isNaN(v)){
+                  out.push({
+                    book: parts[0].trim(),
+                    chapter: c,
+                    verse: v,
+                    text: parts.slice(3).join(',').trim(),
+                    id: c * 1000 + v 
+                  });
+              }
+            }
+          }
+          postMessage(out);
+        };
+      `;
+      const blob = new Blob([workerCode], { type: 'application/javascript' });
+      const worker = new Worker(URL.createObjectURL(blob));
+      worker.onmessage = (ev) => { bibleData = ev.data || []; worker.terminate(); resolve(); };
+      worker.postMessage(csvText);
+    });
+  }
+
+  // === 工具函式 ===
+  function numToCn(numStr) {
+    const n = parseInt(numStr);
+    if (isNaN(n)) return numStr;
+    const digits = ['零','一','二','三','四','五','六','七','八','九'];
+    if (n <= 10) return n === 10 ? '十' : digits[n];
+    if (n < 20) return '十' + digits[n % 10];
+    if (n < 100) {
+        const ten = Math.floor(n / 10);
+        const unit = n % 10;
+        const result = digits[ten] + '十' + (unit === 0 ? '' : digits[unit]);
+        return result;
+    }
+    if (n < 1000) { 
+        if (n === 100) return '一百';
+        if (n <= 150) {
+            const h = Math.floor(n / 100);
+            const rem = n % 100;
+            const t = Math.floor(rem / 10);
+            const u = rem % 10;
+            let str = '一百';
+            if (t > 0) str += digits[t] + '十';
+            else if (u > 0) str += '零';
+            if (u > 0) str += digits[u];
+            return str;
+        }
+    }
+    return numStr; 
+  }
+
+  function cnToNum(str) {
+    if (!str) return null;
+    if (/^\d+$/.test(str)) return parseInt(str, 10);
+    const map = { '零':0, '一':1, '二':2, '三':3, '四':4, '五':5, '六':6, '七':7, '八':8, '九':9, '十':10, '百':100 };
+    if (!/[一二三四五六七八九十百]/.test(str)) return null;
+    let num = 0, temp = 0; 
+    for (let i = 0; i < str.length; i++) {
+      const n = map[str[i]];
+      if (n === undefined) continue;
+      if (n === 100) { num += (temp === 0 ? 1 : temp) * 100; temp = 0; }
+      else if (n === 10) { num += (temp === 0 ? 1 : temp) * 10; temp = 0; }
+      else { temp = n; }
+    }
+    num += temp; return num;
+  }
+
+  function formatRef(englishBook, chapter, verse) {
+      let shortBook = englishBook;
+      try {
+        const keys = Object.keys(bookMap).filter(k => bookMap[k] === englishBook);
+        if (keys.length > 0) {
+            keys.sort((a, b) => a.length - b.length);
+            shortBook = keys[0];
+        }
+      } catch (e) {}
+      const cnChapter = numToCn(chapter);
+      return `${shortBook}${cnChapter}${verse}`;
+  }
+
+  // === ★★★ V4.8 核心修正：邏輯簡化與強化 ★★★
+  function parseRefPart(str, defaultBook, defaultChapter) {
+      // 1. 先從頭匹配書卷名
+      let bookKey = defaultBook;
+      let remain = str;
+      let hasBookInStr = false; // 標記是否使用者有輸入書卷
+
+      for (const key of sortedBookNames) {
+          if (str.startsWith(key)) {
+              bookKey = bookMap[key];
+              remain = str.substring(key.length);
+              hasBookInStr = true; // 發現書卷名
+              break;
+          }
+      }
+      
+      remain = remain.replace(/[.．。,，]/g, ':');
+      let c, v;
+      
+      let splitIdx = -1;
+      const isDigit = (char) => /[0-9]/.test(char);
+      const isCnDigit = (char) => /[一二三四五六七八九十百]/.test(char);
+      
+      // 找中文數字與阿拉伯數字的交界
+      for(let i=0; i<remain.length-1; i++) {
+          if(isCnDigit(remain[i]) && isDigit(remain[i+1])) {
+              splitIdx = i+1; break; 
+          }
+      }
+
+      if (remain.includes(':')) {
+          // 有冒號: "7:2"
+          const p = remain.split(':');
+          c = cnToNum(p[0]) || parseInt(p[0]);
+          v = cnToNum(p[1]) || parseInt(p[1]);
+      } else if (splitIdx !== -1) {
+          // 混合型: "一1"
+          c = cnToNum(remain.substring(0, splitIdx));
+          v = parseInt(remain.substring(splitIdx));
+      } else {
+          // 只有一段數字
+          const val = cnToNum(remain) || parseInt(remain);
+          
+          // ★ 關鍵修正：如果這個字串裡沒有書卷名，且前面已經有章了，那這就是節！
+          if (defaultChapter && !hasBookInStr) {
+              c = defaultChapter;
+              v = val;
+          } else {
+              c = val;
+              v = null;
+          }
+      }
+      
+      return { 
+          book: bookKey, 
+          chapter: c, 
+          verse: v,
+          id: (c && v) ? (c * 1000 + v) : null,
+          isChapterOnly: (c && !v)
+      };
+  }
+
+  function parseSearchQuery(input) {
+    // 1. 全域清洗
+    let clean = input.replace(/\s+/g, '')
+                     .replace(/[.．。,，]/g, ':') 
+                     .replace(/[—~]/g, '-');
+
+    // 2. 中文與數字分隔 (太一1 -> 太一:1)
+    clean = clean.replace(/([一二三四五六七八九十百])(\d)/g, '$1:$2');
+
+    // 3. 判斷區間
+    if (clean.includes('-')) {
+        const parts = clean.split('-');
+        const startStr = parts[0]; 
+        const endStr = parts[1];    
+
+        const startObj = parseRefPart(startStr, null, null);
+        if (!startObj.chapter) return null;
+
+        // ★ 傳入 context: 如果 start 有 verse，則 end 的純數字應視為 verse (contextChap 有值)
+        // 如果 start 只有 chapter，則 end 的純數字應視為 chapter (contextChap 為 null)
+        const contextChap = startObj.verse ? startObj.chapter : null;
+        
+        let endBook = startObj.book;
+        const endObj = parseRefPart(endStr, startObj.book, contextChap);
+        
+        if (!endObj.book) endObj.book = startObj.book;
+
+        let startId = startObj.id;
+        let endId = 0;
+
+        // 計算 EndID
+        if (endObj.verse) {
+            // 有指定節
+            endId = endObj.chapter * 1000 + endObj.verse;
+        } else {
+            // 只有章 -> 視為該章最後一節
+            endId = endObj.chapter * 1000 + 999;
+        }
+        
+        // 修正 Start 是整章的情況
+        if (startObj.isChapterOnly) startId = startObj.chapter * 1000;
+
+        return {
+            type: 'range',
+            book: startObj.book,
+            startId: startId,
+            endId: endId
+        };
+
+    } else {
+        const obj = parseRefPart(clean, null, null);
+        return {
+            type: 'single',
+            book: obj.book,
+            chapter: obj.chapter,
+            verse: obj.verse
+        };
+    }
+  }
+
+  // === 經文搜尋 ===
+  function searchVerse() {
+    const input = document.getElementById('searchInput').value.trim();
+    const resultElement = document.getElementById('result');
+    if (!bibleReady) return;
+    resultElement.innerHTML = '';
+    if (!input) return;
+
+    const query = parseSearchQuery(input);
+    if (!query) return;
+
+    let results = [];
+    let title = "";
+
+    if (query.type === 'range') {
+        results = bibleData.filter(e => 
+            e.book === query.book && 
+            e.id >= query.startId && 
+            e.id <= query.endId
+        );
+        const cBookName = Object.keys(bookMap).find(k => bookMap[k] === query.book);
+        if(results.length > 0) title = `<div style="margin-bottom:10px; font-weight:bold; font-size:1.1rem">區間搜尋：${input}</div>`;
+        
+    } else {
+        // 單點
+        if (query.book) {
+           if (!query.chapter) return;
+           results = bibleData.filter(e => e.book === query.book && e.chapter === parseInt(query.chapter) && (query.verse === null || e.verse === parseInt(query.verse)));
+           const cBookName = Object.keys(bookMap).find(k => bookMap[k] === query.book);
+           if (results.length > 0 && !query.verse) title = `<div style="margin-bottom:10px; font-weight:bold; font-size:1.1rem">${cBookName} 第 ${query.chapter} 章</div>`;
+        } else if (query.chapter && query.verse) {
+            results = bibleData.filter(e => e.chapter === parseInt(query.chapter) && e.verse === parseInt(query.verse));
+            if (results.length > 0) title = `<div style="margin-bottom:10px; font-weight:bold; color:var(--primary-color)">全經卷搜尋：第 ${query.chapter} 章 第 ${query.verse} 節</div>`;
+        }
+    }
+
+      if (results.length > 0) {
+        currentVerseData = results; 
+        trackChapterViews(query, input, results);
+        let htmlBuffer = title;
+        results.forEach((e, idx) => {
+        const formattedRef = formatRef(e.book, e.chapter, e.verse);
+        const key = JSON.stringify(e);
+        const isSelected = selectedVerses.has(key) ? 'selected' : '';
+
+        htmlBuffer += `
+          <div class="result-item ${isSelected}" id="v-row-${idx}" onclick="toggleVerseSelection(${idx})">
+            <div>
+              <span class="verse-ref">${formattedRef}</span>
+              <span class="verse-text">${e.text}</span>
+            </div>
+            <div class="action-bar">
+               <button class="copy-btn" onclick='copySingle(event, "${e.text} (${formattedRef})")'>
+                 複製
+               </button>
+            </div>
+          </div>
+        `;
+      });
+      resultElement.innerHTML = htmlBuffer;
+    } else {
+      if (query.chapter || query.type === 'range') {
+          resultElement.innerHTML = '<div style="color:#999">查無經文。</div>';
+      }
+    }
+  }
+
+  // === 關鍵字搜尋 ===
+  function initKeywordSearch() {
+    let input = document.getElementById('keywordInput').value.trim();
+    if (!bibleReady) return;
+    if (!input) { showToast('請輸入關鍵字'); return; }
+    
+    input = input.replace(/([^\s])-/g, '$1 -'); 
+
+    const rawTokens = input.split(' ').filter(t => t.trim() !== '');
+    const includes = [];
+    const excludes = [];
+    rawTokens.forEach(token => {
+      if (token.startsWith('-') && token.length > 1) excludes.push(token.substring(1));
+      else includes.push(token);
+    });
+    
+    currentIncludeKeywords = includes;
+
+    if (includes.length === 0) {
+        document.getElementById('keywordResult').innerHTML = '<div style="color:red; text-align:center;">請至少輸入一個正向關鍵字</div>';
+        document.getElementById('paginationContainer').style.display = 'none';
+        return;
+    }
+
+    currentKeywordResults = [];
+    for (const entry of bibleData) {
+      if (!includes.every(key => entry.text.includes(key))) continue;
+      if (excludes.some(key => entry.text.includes(key))) continue;
+      currentKeywordResults.push(entry);
+    }
+
+    if (currentKeywordResults.length === 0) {
+        document.getElementById('keywordResult').innerHTML = '<div style="padding:20px; text-align:center; color:#999">找不到相關經文。</div>';
+        document.getElementById('paginationContainer').style.display = 'none';
+        return;
+    }
+    currentPage = 1;
+    document.getElementById('pageInput').value = 1; 
+    renderKeywordPage();
+  }
+
+  function renderKeywordPage() {
+      const container = document.getElementById('keywordResult');
+      const totalItems = currentKeywordResults.length;
+      const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+      const startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
+      const endIdx = Math.min(startIdx + ITEMS_PER_PAGE, totalItems);
+      
+      const pageData = currentKeywordResults.slice(startIdx, endIdx);
+      currentKeywordPageData = pageData; 
+
+      const esc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp(`(${currentIncludeKeywords.map(esc).join('|')})`, 'gi');
+
+      let htmlBuffer = `<div style="padding:10px 0; color:#666;">共找到 ${totalItems} 筆資料</div>`;
+
+      pageData.forEach((entry, idx) => {
+        const highlightedText = entry.text.replace(regex, '<span class="highlight">$1</span>');
+        const formattedRef = formatRef(entry.book, entry.chapter, entry.verse); 
+
+        const key = JSON.stringify(entry);
+        const isSelected = selectedVerses.has(key) ? 'selected' : '';
+        
+        htmlBuffer += `
+          <div class="result-item ${isSelected}" id="k-row-${idx}" onclick="toggleKeywordSelection(${idx})">
+            <div class="verse-ref">${formattedRef}</div>
+            <div class="verse-text">${highlightedText}</div>
+             <div class="action-bar">
+               <button class="copy-btn" onclick='copySingle(event, "${entry.text} (${formattedRef})")'>複製</button>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = htmlBuffer;
+      container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      if (totalPages > 1) {
+          document.getElementById('paginationContainer').style.display = 'flex';
+          document.getElementById('totalPagesDisplay').textContent = totalPages;
+          document.getElementById('pageInput').max = totalPages;
+      } else {
+          document.getElementById('paginationContainer').style.display = 'none';
+      }
+  }
+   
+  // === 選取邏輯 ===
+  function toggleVerseSelection(idx) {
+      const entry = currentVerseData[idx];
+      if (!entry) return;
+      const key = JSON.stringify(entry);
+      const row = document.getElementById(`v-row-${idx}`);
+      handleToggle(key, row);
+  }
+   
+  function toggleKeywordSelection(idx) {
+      const entry = currentKeywordPageData[idx];
+      if (!entry) return;
+      const key = JSON.stringify(entry);
+      const row = document.getElementById(`k-row-${idx}`);
+      handleToggle(key, row);
+  }
+   
+  function handleToggle(key, rowElement) {
+      if (selectedVerses.has(key)) {
+          selectedVerses.delete(key);
+          if (rowElement) rowElement.classList.remove('selected');
+      } else {
+          selectedVerses.add(key);
+          if (rowElement) rowElement.classList.add('selected');
+      }
+      updateFab();
+  }
+
+  function updateFab() {
+      const fab = document.getElementById('fab');
+      const count = selectedVerses.size;
+      document.getElementById('fabText').textContent = `已選 ${count} 節`;
+      
+      if (count > 0) fab.classList.add('show');
+      else fab.classList.remove('show');
+  }
+   
+  function clearSelection() {
+      selectedVerses.clear();
+      document.querySelectorAll('.result-item.selected').forEach(el => el.classList.remove('selected'));
+      updateFab();
+  }
+
+  // === 複製核心 (同步) ===
+  function copySelectedVerses() {
+      if (selectedVerses.size === 0) return;
+      
+      let textBuffer = [];
+      selectedVerses.forEach(jsonStr => {
+          try {
+            const e = JSON.parse(jsonStr);
+            const formattedRef = formatRef(e.book, e.chapter, e.verse);
+            textBuffer.push(`${e.text} (${formattedRef})`);
+          } catch(err) {
+            console.warn("Skip invalid");
+          }
+      });
+
+      if (textBuffer.length > 0) {
+        copyToClipboard(textBuffer.join('\n'), true); 
+        clearSelection();
+      }
+  }
+
+  function copySingle(e, text) {
+      e.stopPropagation();
+      copyToClipboard(text);
+  }
+
+  function jumpToPage() {
+      const input = document.getElementById('pageInput');
+      const totalPages = Math.ceil(currentKeywordResults.length / ITEMS_PER_PAGE);
+      let val = parseInt(input.value);
+      if (isNaN(val) || val < 1) val = 1;
+      if (val > totalPages) val = totalPages;
+      currentPage = val;
+      input.value = val; 
+      renderKeywordPage();
+  }
+
+  window.jumpToPage = jumpToPage;
+  window.copySingle = copySingle;
+  window.copySelectedVerses = copySelectedVerses;
+  window.toggleVerseSelection = toggleVerseSelection;
+  window.toggleKeywordSelection = toggleKeywordSelection;
+  window.clearSelection = clearSelection;
+
+  function copyToClipboard(text, isBatch = false) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = 0;
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      const successful = document.execCommand('copy');
+      if (successful) {
+          showToast(isBatch ? `已複製 ${selectedVerses.size} 節` : '已複製');
+      } else {
+          showToast('複製失敗');
+      }
+    } catch (err) {
+      showToast('複製失敗');
+    }
+    document.body.removeChild(ta);
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.className = 'toast show';
+    setTimeout(() => { t.className = t.className.replace('show', ''); }, 3000);
+  }
+  function debounce(fn, w = 200) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn.apply(this, a), w); }; }
+  function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+</script>
+</body>
+</html>
+
