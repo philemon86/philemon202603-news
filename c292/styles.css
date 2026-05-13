@@ -920,9 +920,15 @@ a {
     flex-direction: column;
   }
 
-  .button,
-  .floating-buy {
+  .button {
     width: 100%;
+  }
+
+  .floating-buy {
+    left: 16px;
+    right: 16px;
+    width: auto;
+    justify-content: center;
   }
 
   .pdf-viewer-outer {
