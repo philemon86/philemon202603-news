@@ -461,26 +461,127 @@ a {
 }
 
 .structure-copy {
-  padding: 30px;
+  position: relative;
+  padding: 32px;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, rgba(127, 131, 80, 0.08) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(127, 131, 80, 0.08) 1px, transparent 1px),
+    rgba(255, 255, 255, 0.72);
+  background-size: 34px 34px;
+}
+
+.structure-copy::before {
+  content: "";
+  position: absolute;
+  inset: 18px;
+  border: 1px dashed rgba(127, 131, 80, 0.22);
+  border-radius: 24px;
+  pointer-events: none;
+}
+
+.map-intro {
+  position: relative;
+  margin-top: 0;
 }
 
 .structure-list {
+  position: relative;
   list-style: none;
-  padding: 0;
-  margin: 24px 0 0;
+  padding: 0 0 0 22px;
+  margin: 26px 0 0;
   display: grid;
-  gap: 12px;
+  gap: 16px;
+}
+
+.structure-list::before {
+  content: "";
+  position: absolute;
+  top: 22px;
+  bottom: 22px;
+  left: 21px;
+  width: 2px;
+  background: linear-gradient(180deg, rgba(127, 131, 80, 0.16), rgba(200, 164, 72, 0.72), rgba(127, 131, 80, 0.16));
 }
 
 .structure-list li {
-  padding: 16px 18px;
+  position: relative;
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  padding: 18px 20px 18px 0;
   border-radius: 18px;
-  background: rgba(201, 164, 72, 0.1);
+  background: rgba(255, 253, 248, 0.78);
+  border: 1px solid rgba(127, 131, 80, 0.12);
   line-height: 1.8;
 }
 
+.map-marker {
+  position: relative;
+  z-index: 1;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 50% 50% 50% 10px;
+  background: linear-gradient(135deg, #7f8350, #c8a448);
+  color: #fff;
+  transform: rotate(-45deg);
+  box-shadow: 0 12px 24px rgba(92, 70, 19, 0.16);
+}
+
+.map-marker span {
+  position: relative;
+  z-index: 1;
+  font-size: 0.8rem;
+  font-weight: 900;
+  transform: rotate(45deg);
+  line-height: 1;
+}
+
+.map-marker::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  position: absolute;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+}
+
+.map-marker + div {
+  padding-top: 1px;
+}
+
+.map-marker + div strong {
+  display: block;
+  color: #342810;
+  font-family: "Noto Serif TC", serif;
+  font-size: 1.15rem;
+}
+
+.map-marker + div p {
+  margin: 6px 0 0;
+}
+
 .structure-note {
-  margin: 18px 0 0;
+  position: relative;
+  margin: 22px 0 0;
+  padding: 16px 18px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  border-radius: 18px;
+  background: rgba(127, 131, 80, 0.1);
+  border: 1px solid rgba(127, 131, 80, 0.14);
+}
+
+.structure-note span {
+  color: #8e6921;
+  font-size: 1.1rem;
+  line-height: 1.8;
 }
 
 .deepread-dialogues {
