@@ -522,8 +522,6 @@ a {
   z-index: 1;
   width: 44px;
   height: 44px;
-  display: grid;
-  place-items: center;
   border-radius: 50% 50% 50% 10px;
   background: linear-gradient(135deg, #7f8350, #c8a448);
   color: #fff;
@@ -533,22 +531,15 @@ a {
 
 .map-marker span {
   position: relative;
-  z-index: 1;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
   font-size: 0.8rem;
   font-weight: 900;
   transform: rotate(45deg);
   line-height: 1;
-}
-
-.map-marker::after {
-  content: "";
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.92);
-  position: absolute;
-  inset: 50% auto auto 50%;
-  transform: translate(-50%, -50%);
 }
 
 .map-marker + div {
