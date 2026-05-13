@@ -321,7 +321,6 @@ a {
 .poster-card,
 .thesis-card,
 .structure-copy,
-.structure-frame,
 .reader-card,
 .cta-section {
   border-radius: var(--radius-xl);
@@ -455,11 +454,10 @@ a {
 }
 
 .structure-layout {
-  display: grid;
-  grid-template-columns: 0.94fr 1.06fr;
-  gap: 22px;
-  align-items: start;
+  max-width: 860px;
   margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .structure-copy {
@@ -483,17 +481,6 @@ a {
 
 .structure-note {
   margin: 18px 0 0;
-}
-
-.structure-frame {
-  overflow: hidden;
-  background: #fff;
-}
-
-.structure-frame img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 
 .deepread-dialogues {
