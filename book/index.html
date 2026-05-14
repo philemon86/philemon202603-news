@@ -531,12 +531,24 @@
     }
 
     function normalizeProducts(products) {
-      return products.map((book) => ({
-        ...book,
-        price: numberValue(book.price),
-        yearNumber: numberValue(book.year),
-        displayTitle: book.title_clean || book.title || book.code
-      }));
+      return products
+        .map((book) => {
+          const codeText = String(book.code || "").toUpperCase();
+          const codeNumbers = (codeText.match(/\d+/g) || []).map((value) => numberValue(value));
+          return {
+            ...book,
+            price: numberValue(book.price),
+            yearNumber: numberValue(book.year),
+            displayTitle: book.title_clean || book.title || book.code,
+            codeText,
+            codeSortValue: codeNumbers.length ? Math.max(...codeNumbers) : -1
+          };
+        })
+        .sort((a, b) => {
+          if (b.yearNumber !== a.yearNumber) return b.yearNumber - a.yearNumber;
+          if (b.codeSortValue !== a.codeSortValue) return b.codeSortValue - a.codeSortValue;
+          return a.codeText.localeCompare(b.codeText, "en", { numeric: true });
+        });
     }
 
     function updateRangeProgress(input) {
