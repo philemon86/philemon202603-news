@@ -591,9 +591,14 @@ a {
     flex-direction: column;
   }
 
-  .button,
-  .floating-buy {
+  .button {
     width: 100%;
+  }
+
+  .floating-buy {
+    left: 18px;
+    right: 18px;
+    width: auto;
   }
 
   .quote-panel {
