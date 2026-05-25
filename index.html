@@ -287,6 +287,26 @@
       display: grid;
       gap: 14px;
       margin-top: 28px;
+      max-height: 458px;
+      overflow-y: auto;
+      padding-right: 8px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(140, 47, 36, 0.34) rgba(255, 255, 255, 0.28);
+    }
+
+    .book-sequence::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    .book-sequence::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.42);
+      border-radius: 999px;
+    }
+
+    .book-sequence::-webkit-scrollbar-thumb {
+      background: rgba(140, 47, 36, 0.34);
+      border-radius: 999px;
+      border: 2px solid rgba(255, 255, 255, 0.42);
     }
 
     .book-card {
@@ -323,6 +343,7 @@
     .book-cover.cover-c292 { background-image: url('./home-cover-c292.jpg'); }
     .book-cover.cover-c291 { background-image: url('./home-cover-c291.jpg'); }
     .book-cover.cover-c290 { background-image: url('./home-cover-c290.jpg'); }
+    .book-cover.cover-c293 { background-image: url('./home-cover-c293.jpg'); }
     .book-cover.cover-coming {
       background:
         linear-gradient(180deg, rgba(255,255,255,0.28), rgba(255,255,255,0.08)),
@@ -712,6 +733,11 @@
         border-radius: 24px;
       }
 
+      .book-sequence {
+        max-height: 520px;
+        padding-right: 2px;
+      }
+
       .hero-book-overlay {
         left: 24px;
         bottom: 24px;
@@ -839,10 +865,18 @@
             </div>
 
             <div class="book-sequence">
+              <a class="book-card" href="./c293/">
+                <div class="book-cover cover-c293" aria-hidden="true"></div>
+                <div class="book-meta">
+                  <span class="book-order">01</span>
+                  <h3>C293 親身體會神的大愛</h3>
+                </div>
+              </a>
+
               <a class="book-card" href="./c292/">
                 <div class="book-cover cover-c292" aria-hidden="true"></div>
                 <div class="book-meta">
-                  <span class="book-order">01</span>
+                  <span class="book-order">02</span>
                   <h3>C292 使徒行傳釋義</h3>
                 </div>
               </a>
@@ -850,7 +884,7 @@
               <a class="book-card" href="./c291/">
                 <div class="book-cover cover-c291" aria-hidden="true"></div>
                 <div class="book-meta">
-                  <span class="book-order">02</span>
+                  <span class="book-order">03</span>
                   <h3>C291 路得記講壇</h3>
                 </div>
               </a>
@@ -858,7 +892,7 @@
               <a class="book-card" href="./c290/">
                 <div class="book-cover cover-c290" aria-hidden="true"></div>
                 <div class="book-meta">
-                  <span class="book-order">03</span>
+                  <span class="book-order">04</span>
                   <h3>C290 洗禮論</h3>
                 </div>
               </a>
