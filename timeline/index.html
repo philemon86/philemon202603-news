@@ -686,8 +686,8 @@
         }
 
         .board-row {
-          grid-template-columns: 1fr;
-          gap: 12px;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 12px 14px;
           min-width: 0;
           padding: 18px 18px 20px;
           min-height: auto;
@@ -702,10 +702,25 @@
           min-width: 0;
         }
 
+        .board-row > .flight-no,
+        .board-row > .board-datetime,
+        .board-row > .board-place {
+          grid-column: 1 / -1;
+        }
+
+        .board-row > .board-type {
+          grid-column: 1;
+        }
+
+        .board-row > .status-badge {
+          grid-column: 2;
+          justify-self: end;
+        }
+
         .board-row > span::before {
           content: attr(data-label);
           display: block;
-          margin-bottom: 7px;
+          margin-bottom: 6px;
           color: var(--muted);
           font-family: var(--font-mono);
           font-size: 0.64rem;
@@ -721,7 +736,7 @@
         .board-datetime {
           display: flex;
           flex-wrap: wrap;
-          gap: 8px;
+          gap: 6px 10px;
           white-space: normal;
           align-items: baseline;
         }
