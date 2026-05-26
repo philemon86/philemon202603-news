@@ -458,6 +458,10 @@
         color: var(--green);
       }
 
+      .board-meta {
+        display: contents;
+      }
+
       .status-badge {
         background: rgba(217, 164, 65, 0.22);
         color: #7c4c12;
@@ -708,13 +712,11 @@
           grid-column: 1 / -1;
         }
 
-        .board-row > .board-type {
-          grid-column: 1;
-        }
-
-        .board-row > .status-badge {
-          grid-column: 2;
-          justify-self: end;
+        .board-meta {
+          display: grid;
+          grid-column: 1 / -1;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 10px;
         }
 
         .board-row > span::before {
@@ -758,10 +760,11 @@
 
         .board-type,
         .status-badge {
-          width: fit-content;
-          padding: 6px 9px;
-          border-radius: 999px;
-          font-size: 0.7rem;
+          width: 100%;
+          justify-self: stretch;
+          padding: 7px 10px;
+          border-radius: 14px;
+          font-size: 0.72rem;
         }
 
         .map-panel {
@@ -1027,8 +1030,10 @@
                   <span class="board-week">${formatWeek(event.date || event.startDate || event.day, event.week || event.weekday)}</span>
                 </span>
                 <strong class="board-place" data-label="地點">${placeName(event)}</strong>
-                <span class="board-type" data-label="活動">${type}</span>
-                <span class="status-badge ${status === "ARRIVED" || status === "ARRIVING" ? "is-live" : ""}" data-label="狀態">${status}</span>
+                <div class="board-meta">
+                  <span class="board-type" data-label="活動">${type}</span>
+                  <span class="status-badge ${status === "ARRIVED" || status === "ARRIVING" ? "is-live" : ""}" data-label="狀態">${status}</span>
+                </div>
               `;
 
               body.appendChild(row);
