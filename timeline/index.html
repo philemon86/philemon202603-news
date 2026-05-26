@@ -713,10 +713,11 @@
         }
 
         .board-meta {
-          display: grid;
+          display: flex;
           grid-column: 1 / -1;
-          grid-template-columns: repeat(2, minmax(0, 1fr));
+          flex-wrap: wrap;
           gap: 10px;
+          align-items: center;
         }
 
         .board-row > span::before {
@@ -760,8 +761,7 @@
 
         .board-type,
         .status-badge {
-          width: 100%;
-          justify-self: stretch;
+          width: auto;
           padding: 7px 10px;
           border-radius: 14px;
           font-size: 0.72rem;
