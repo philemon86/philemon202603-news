@@ -1,0 +1,65 @@
+name: Verify Pages
+
+on:
+  workflow_run:
+    workflows:
+      - Deploy Pages
+    types:
+      - completed
+
+jobs:
+  verify:
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Verify published pages
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          urls=(
+            "https://news.pbooks.com.tw/"
+            "https://news.pbooks.com.tw/timeline/"
+            "https://news.pbooks.com.tw/404.html"
+            "https://news.pbooks.com.tw/C293/"
+          )
+
+          for url in "${urls[@]}"; do
+            ok=0
+            for attempt in {1..18}; do
+              status=$(curl -L -s -o /tmp/page.out -w "%{http_code}" "$url" || true)
+              body=$(tr '\n' ' ' < /tmp/page.out)
+
+              if [[ "$url" == *"/404.html" ]]; then
+                if [[ "$status" == "200" && "$body" == *"LOST ROUTE"* ]]; then
+                  ok=1
+                  break
+                fi
+              elif [[ "$url" == *"/timeline/" ]]; then
+                if [[ "$status" == "200" && "$body" == *"history-map"* ]]; then
+                  ok=1
+                  break
+                fi
+              elif [[ "$url" == *"/C293/" ]]; then
+                if [[ "$status" == "200" && "$body" == *"products/c293"* ]]; then
+                  ok=1
+                  break
+                fi
+              else
+                if [[ "$status" == "200" && "$body" == *"PHILEMON NEWS"* ]]; then
+                  ok=1
+                  break
+                fi
+              fi
+
+              sleep 10
+            done
+
+            if [[ "$ok" -ne 1 ]]; then
+              echo "Verification failed for $url"
+              echo "HTTP status: $status"
+              cat /tmp/page.out
+              exit 1
+            fi
+          done
