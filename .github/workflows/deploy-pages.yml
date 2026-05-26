@@ -1,0 +1,118 @@
+name: Deploy Pages
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - Update book catalog
+    types:
+      - completed
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || github.sha }}
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Prepare static artifact
+        run: |
+          site_dir="$RUNNER_TEMP/site"
+          mkdir -p "$site_dir"
+          rsync -a \
+            --delete \
+            --exclude '.git/' \
+            --exclude '.github/' \
+            ./ "$site_dir"/
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ runner.temp }}/site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  verify:
+    needs: deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Verify published pages
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          urls=(
+            "https://news.pbooks.com.tw/"
+            "https://news.pbooks.com.tw/timeline/"
+            "https://news.pbooks.com.tw/404.html"
+            "https://news.pbooks.com.tw/C293/"
+          )
+
+          for url in "${urls[@]}"; do
+            ok=0
+            for attempt in {1..18}; do
+              status=$(curl -L -s -o /tmp/page.out -w "%{http_code}" "$url" || true)
+              body=$(tr '\n' ' ' < /tmp/page.out)
+
+              if [[ "$url" == *"/404.html" ]]; then
+                if [[ "$status" == "200" && "$body" == *"LOST ROUTE"* ]]; then
+                  ok=1
+                  break
+                fi
+              elif [[ "$url" == *"/timeline/" ]]; then
+                if [[ "$status" == "200" && "$body" == *"history-map"* ]]; then
+                  ok=1
+                  break
+                fi
+              elif [[ "$url" == *"/C293/" ]]; then
+                if [[ "$status" == "200" && "$body" == *"products/c293"* ]]; then
+                  ok=1
+                  break
+                fi
+              else
+                if [[ "$status" == "200" && "$body" == *"PHILEMON NEWS"* ]]; then
+                  ok=1
+                  break
+                fi
+              fi
+
+              sleep 10
+            done
+
+            if [[ "$ok" -ne 1 ]]; then
+              echo "Verification failed for $url"
+              echo "HTTP status: $status"
+              cat /tmp/page.out
+              exit 1
+            fi
+          done
