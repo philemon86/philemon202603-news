@@ -651,6 +651,14 @@
           padding-top: 46px;
         }
 
+        .hero-copy h1 {
+          font-size: clamp(2.6rem, 18vw, 4rem);
+        }
+
+        .hero-panel {
+          gap: 12px;
+        }
+
         .metrics-card {
           grid-template-columns: 1fr;
         }
@@ -665,60 +673,87 @@
         }
 
         .board-shell {
-          overflow-x: auto;
-          -webkit-overflow-scrolling: touch;
+          overflow: visible;
         }
 
         .board-head {
+          display: none;
+        }
+
+        .board-body {
           display: grid;
-          grid-template-columns: 64px 124px minmax(176px, 1fr) 76px 76px;
-          gap: 8px;
-          min-width: 524px;
-          padding: 12px 12px 10px;
-          font-size: 0.62rem;
-          letter-spacing: 0.08em;
-          white-space: nowrap;
+          gap: 12px;
         }
 
         .board-row {
-          grid-template-columns: 64px 124px minmax(176px, 1fr) 76px 76px;
+          grid-template-columns: 1fr;
           gap: 8px;
-          min-width: 524px;
-          padding: 12px;
-          min-height: 58px;
-          align-items: center;
-          white-space: nowrap;
+          min-width: 0;
+          padding: 16px;
+          min-height: auto;
+          align-items: start;
+          white-space: normal;
+          border-radius: 20px;
         }
 
-        .flight-no,
-        .board-date,
-        .board-week,
-        .board-type,
-        .status-badge {
-          font-size: 0.68rem;
+        .board-row > span {
+          display: block;
+          min-width: 0;
+        }
+
+        .board-row > span::before {
+          content: attr(data-label);
+          display: block;
+          margin-bottom: 4px;
+          color: var(--muted);
+          font-family: var(--font-mono);
+          font-size: 0.64rem;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+        }
+
+        .board-row .flight-no::before,
+        .board-row .status-badge::before {
+          margin-bottom: 6px;
         }
 
         .board-datetime {
-          gap: 6px;
+          gap: 4px;
         }
 
         .flight-no {
+          width: fit-content;
           padding: 5px 7px;
           border-radius: 8px;
+          font-size: 0.72rem;
         }
 
         .board-place {
-          font-size: 0.88rem;
-          line-height: 1.2;
-          overflow: hidden;
-          text-overflow: ellipsis;
+          font-size: 1rem;
+          line-height: 1.35;
+          overflow: visible;
+          text-overflow: unset;
+          white-space: normal;
         }
 
         .board-type,
         .status-badge {
-          width: auto;
+          width: fit-content;
           padding: 5px 7px;
           border-radius: 999px;
+          font-size: 0.7rem;
+        }
+
+        .map-panel {
+          min-height: 380px;
+        }
+
+        #history-map-canvas {
+          height: 336px;
+        }
+
+        .sidebar-card {
+          padding: 18px;
         }
       }
     </style>
@@ -966,14 +1001,14 @@
               row.style.animationDelay = `${index * 70}ms`;
 
               row.innerHTML = `
-                <span class="flight-no">${event.flightCode || `PB-${pad(index + 1)}`}</span>
-                <span class="board-datetime">
+                <span class="flight-no" data-label="編號">${event.flightCode || `PB-${pad(index + 1)}`}</span>
+                <span class="board-datetime" data-label="日期 / 星期">
                   <span class="board-date">${formatDateRange(event)}</span>
                   <span class="board-week">${formatWeek(event.date || event.startDate || event.day, event.week || event.weekday)}</span>
                 </span>
-                <strong class="board-place">${placeName(event)}</strong>
-                <span class="board-type">${type}</span>
-                <span class="status-badge ${status === "ARRIVED" || status === "ARRIVING" ? "is-live" : ""}">${status}</span>
+                <strong class="board-place" data-label="地點">${placeName(event)}</strong>
+                <span class="board-type" data-label="活動">${type}</span>
+                <span class="status-badge ${status === "ARRIVED" || status === "ARRIVING" ? "is-live" : ""}" data-label="狀態">${status}</span>
               `;
 
               body.appendChild(row);
