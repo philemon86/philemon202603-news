@@ -1,0 +1,591 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="../favicon-news.svg" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JD1JHF86H1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    const pageLanguage = document.documentElement.lang || 'und';
+    gtag('js', new Date());
+    gtag('config', 'G-JD1JHF86H1', {
+      page_language: pageLanguage
+    });
+  </script>
+  <script>
+    document.addEventListener('click', function(event) {
+      var link = event.target.closest('a[href]');
+      var href = link && link.getAttribute('href');
+      var text = link ? (link.textContent || '').trim() : '';
+      if (!href) return;
+      if (!/pbooks\.com\.tw\/(products\/|cart(?:\/|$))/i.test(href) && !/(buy|product|cart)/i.test(text)) return;
+      gtag('event', 'purchase_link_click', {
+        link_url: href,
+        link_text: text || '(empty)',
+        page_path: location.pathname,
+        page_language: pageLanguage
+      });
+    });
+  </script>
+  <title>Philemon News | April 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Serif:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #eaddc5;
+      --paper-dark: #d4c1a0;
+      --ink: #2b2219;
+      --muted: #4a3e32;
+      --highlight: #7c2d23;
+      --line: #2b2219;
+      --card: rgba(255,255,255,0.9);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Noto Serif", serif;
+      color: var(--ink);
+      background-color: var(--paper);
+      background-image:
+        radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.05) 100%),
+        repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(43,34,25,0.03) 3px, rgba(43,34,25,0.03) 4px);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)"/></svg>');
+      opacity: 0.08;
+      pointer-events: none;
+      z-index: 100;
+      mix-blend-mode: multiply;
+    }
+
+    .page {
+      width: min(1200px, calc(100vw - 20px));
+      margin: 20px auto 60px;
+      padding: 32px clamp(18px, 4vw, 42px) 72px;
+      background: var(--paper);
+      border: 1px solid var(--paper-dark);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+    }
+
+    .lang-switcher {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 0 0 18px;
+    }
+
+    .lang-switcher a {
+      border: 1px solid var(--line);
+      padding: 6px 12px;
+      background: rgba(255,255,255,0.34);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .lang-switcher a.active {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0 4px;
+      flex-wrap: wrap;
+    }
+
+    .logo { flex: 0 0 auto; }
+    .logo img { height: 58px; width: auto; display: block; }
+    .brand {
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      font-size: 18px;
+      flex: 1 1 240px;
+      min-width: 0;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex: 1 1 420px;
+      justify-content: flex-end;
+      min-width: 0;
+    }
+
+    nav {
+      display: flex;
+      gap: 16px;
+      font-size: 14px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    nav a {
+      padding: 6px 0;
+      border-bottom: 1px solid transparent;
+    }
+
+    nav a:hover { border-color: var(--ink); }
+
+    .hero {
+      margin: 46px 0 38px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(44px, 7vw, 78px);
+      line-height: 1.02;
+      letter-spacing: 0.01em;
+      font-family: "Cinzel", serif;
+    }
+
+    .hero p {
+      margin: 6px 0 16px;
+      font-size: 18px;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 900px;
+    }
+
+    .section { margin: 48px 0; }
+    .section h2 { margin: 0 0 12px; font-size: 24px; letter-spacing: 0.04em; }
+    .section small { color: var(--muted); }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 18px;
+      border-radius: 10px;
+      border: 2px solid var(--ink);
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      transition: 0.15s ease;
+      background: #fff7ec;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.7), 2px 4px 0 rgba(43,34,25,0.16);
+      text-align: center;
+    }
+
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.18); }
+
+    .buy-link { animation: buyFloat 2.6s ease-in-out infinite; }
+    .buy-link:hover { animation-play-state: paused; }
+
+    .card {
+      border: 2px solid var(--line);
+      background: rgba(255,255,255,0.9);
+      padding: 18px;
+      border-radius: 14px;
+      box-shadow: 4px 6px 0 rgba(43,34,25,0.16);
+      min-width: 0;
+    }
+
+    .card h3 { margin: 0 0 8px; font-size: 20px; }
+    .card p { margin: 0; color: var(--muted); line-height: 1.6; }
+
+    .product {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+      align-items: start;
+    }
+
+    .product img,
+    .gallery img {
+      width: 100%;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: #f7f7f7;
+      display: block;
+    }
+
+    .list {
+      margin: 10px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .pill,
+    .note-pill {
+      display: inline-flex;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(124,45,35,0.12);
+      color: var(--highlight);
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+    }
+
+    .notebook-section {
+      border: 2px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.86);
+      box-shadow: 4px 6px 0 rgba(43,34,25,0.14);
+      padding: 22px;
+      margin-top: 14px;
+    }
+
+    .notebook-head {
+      display: grid;
+      grid-template-columns: minmax(280px, 420px) minmax(320px, 1fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .notebook-cover-frame {
+      border: 2px solid var(--line);
+      border-radius: 18px;
+      overflow: hidden;
+      background: #f7f7f7;
+      box-shadow: 4px 6px 0 rgba(43,34,25,0.12);
+    }
+
+    .notebook-cover-frame img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 16px;
+    }
+
+    .video-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.06);
+    }
+
+    .video-card iframe {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: none;
+      display: block;
+    }
+
+    .video-card .meta { padding: 12px 14px; font-weight: 700; }
+    .content-media {
+      opacity: 0;
+      filter: blur(10px);
+      background:
+        linear-gradient(110deg, rgba(255,255,255,0.18) 8%, rgba(255,255,255,0.62) 18%, rgba(255,255,255,0.18) 33%),
+        #e9dcc4;
+      background-size: 220% 100%;
+      animation: mediaShimmer 1.35s linear infinite;
+      transition: opacity 0.35s ease, filter 0.35s ease;
+    }
+
+    .content-media.is-ready {
+      opacity: 1;
+      filter: none;
+      animation: none;
+    }
+
+    .archive {
+      border: 1px solid var(--line);
+      padding: 16px;
+      border-radius: 14px;
+      background: var(--card);
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      border-bottom: 1px solid var(--line);
+      padding: 10px 0;
+      flex-wrap: wrap;
+    }
+
+    .row:last-child { border-bottom: none; }
+
+    .lang-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .lang-row a {
+      border: 1px solid var(--line);
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      background: #fff;
+    }
+
+    footer {
+      margin-top: 36px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @keyframes buyFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-3px); }
+    }
+
+    @keyframes mediaShimmer {
+      from { background-position: 200% 0; }
+      to { background-position: -20% 0; }
+    }
+
+    @media (max-width: 900px) {
+      .page { padding: 20px 14px 40px; }
+      header,
+      .notebook-head {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+      .header-right { justify-content: flex-start; }
+      nav { gap: 10px; justify-content: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="lang-switcher" aria-label="Language switcher">
+      <a href="./">Traditional Chinese</a>
+      <a href="./zh-cn.html">Simplified Chinese</a>
+      <a class="active" href="./en.html">English</a>
+    </div>
+    <header>
+      <a class="logo" href="https://www.pbooks.com.tw/" target="_blank" rel="noopener" aria-label="Visit Philemon Bookstore">
+        <img src="../LOGO.png" alt="PHILEMON LOGO" />
+      </a>
+      <div class="brand">PHILEMON NEWS | APRIL 2026</div>
+      <div class="header-right">
+        <nav class="main-nav">
+          <a href="https://news.pbooks.com.tw/">Home</a>
+          <a href="#product">Bottle</a>
+          <a href="#notebook">Notebook</a>
+          <a href="#stationery">Stationery</a>
+          <a href="#video">Videos</a>
+          <a href="#archive">Archive</a>
+        </nav>
+      </div>
+    </header>
+
+    <section class="hero">
+      <h1>A Centennial with You</h1>
+      <p>Let the days we have walked through stay close in daily life. This issue highlights the renovated bookstore, the charity notebook series, correction tape, waterdrop pens, and insulated bottles. The centennial luggage series is expected to arrive in mid to late April.</p>
+    </section>
+
+    <section id="stationery" class="section">
+      <h2>Record / Correct / Keep Warm</h2>
+      <div class="product">
+        <div class="card">
+          <h3>Warm-Tone Correction Tape</h3>
+          <p>Writing comes with small mistakes, just like daily life. A light swipe turns an error into blank space. Correction tape is not concealment, but a chance to start the line again.</p>
+          <div style="margin: 12px 0;">
+            <img src="./correction-tape-cover.jpg" alt="Warm-tone correction tape" />
+          </div>
+          <div class="actions">
+            <span class="pill">List NT$50</span>
+            <span class="pill">Sale NT$40</span>
+            <a class="btn buy-link" href="https://www.pbooks.com.tw/products/pg48" target="_blank" rel="noopener">Buy now</a>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Waterdrop Gel Pen</h3>
+          <p>Line by line, it records centennial grace. Word by word, it continues the mission of faith. Each handwritten stroke carries conviction and hope.</p>
+          <div style="margin: 12px 0;">
+            <img src="./pen-cover.jpg" alt="Waterdrop gel pen" />
+          </div>
+          <div class="actions">
+            <span class="pill">List NT$25</span>
+            <span class="pill">Sale NT$20</span>
+            <a class="btn buy-link" href="https://www.pbooks.com.tw/products/p5p6p7" target="_blank" rel="noopener">Buy now</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="product" class="section">
+      <h2>Gradient Insulated Bottle</h2>
+      <div class="card" style="margin-top:14px;">
+        <div class="product">
+          <img src="./cup-cover.jpg" alt="Four-color insulated bottle" />
+          <div class="card" style="border:none; box-shadow:none; padding:0; background:transparent;">
+            <h3>One-Touch Flip-Top Bottle</h3>
+            <p>Time fades many things, but the core of faith should not slowly cool in everyday life. From recording to restoring to keeping, this bottle is a reminder to hold fast to the heart that first chose to believe.</p>
+            <ul class="list">
+              <li>Four gradient colors: ivory, ice blue, green, and rose pink.</li>
+              <li>Locking flip lid and leak-proof silicone ring.</li>
+              <li>Slim body for commuting, gatherings, and camping.</li>
+            </ul>
+            <div class="actions" style="margin-top:14px;">
+              <span class="pill">List NT$500</span>
+              <span class="pill">Sale NT$399</span>
+              <a class="btn buy-link" href="https://www.pbooks.com.tw/products/cup10" target="_blank" rel="noopener">Buy now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="notebook" class="section">
+      <h2>New Charity Notebook Series</h2>
+      <small>Published by Philemon Bookstore x Hosted by Rehoboth Social Welfare Foundation</small>
+      <div class="notebook-section">
+        <div class="notebook-head">
+          <div class="notebook-cover-frame">
+            <img src="./notebook-cover-01.jpg" alt="Charity notebook cover" />
+          </div>
+          <div>
+            <div class="actions" style="margin-bottom:12px;">
+              <span class="note-pill">About Rehoboth</span>
+              <span class="note-pill">Charity collaboration</span>
+              <span class="note-pill">Support social welfare</span>
+            </div>
+            <h3>Buy a Notebook, Support a Good Cause</h3>
+            <p>For every notebook purchased, the bookstore sets aside a small portion as an offering. After costs are deducted, proceeds are donated to the foundation so that love can keep moving forward.</p>
+            <ul class="list">
+              <li>Size: A5 (210mm x 148mm)</li>
+              <li>48 pages</li>
+              <li>Lined inner pages</li>
+              <li>Dowling paper cover</li>
+              <li>Five styles available</li>
+            </ul>
+            <div class="gallery">
+              <div class="card"><strong>Green</strong><br><span>Minimal lines</span></div>
+              <div class="card"><strong>Yellow</strong><br><span>Playful illustration</span></div>
+              <div class="card"><strong>Brown</strong><br><span>Calm texture</span></div>
+              <div class="card"><strong>Holy Spirit</strong><br><span>In Taiwan</span></div>
+              <div class="card"><strong>Everyone Evangelizes</strong><br><span>Warm momentum</span></div>
+            </div>
+            <div class="actions" style="margin-top:16px;">
+              <span class="pill">Sale NT$25</span>
+              <a class="btn buy-link" href="https://www.pbooks.com.tw/products/s046f" target="_blank" rel="noopener">Buy now</a>
+            </div>
+          </div>
+        </div>
+        <div class="gallery">
+          <img src="./notebook-01.jpg" alt="Notebook detail 1" />
+          <img src="./notebook-02.jpg" alt="Notebook detail 2" />
+          <img src="./notebook-03.jpg" alt="Notebook detail 3" />
+        </div>
+      </div>
+    </section>
+
+    <section id="video" class="section">
+      <h2>Renovated Bookstore / Centennial Feature</h2>
+      <small>Welcome to visit in person. Preview the space below.</small>
+      <div class="video-grid" style="margin-top:14px;">
+        <div class="video-card">
+          <iframe src="https://www.youtube.com/embed/q4xy4MRdrcs" allowfullscreen title="Renovated bookstore video"></iframe>
+          <div class="meta">Bookstore renovation video</div>
+        </div>
+        <div class="video-card">
+          <iframe src="https://www.youtube.com/embed/0g5a9dgRZec" allowfullscreen title="Bookstore history"></iframe>
+          <div class="meta">Bookstore history</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Centennial Luggage Page</h2>
+      <small>Related project: Carry Love</small>
+      <div class="product" style="margin-top:14px;">
+        <div class="card">
+          <h3>Carry Love Luggage</h3>
+          <p>An exclusive luggage series for the True Jesus Church, available in five colors and three sizes for ministry travel.</p>
+          <div class="actions" style="margin-top:12px;">
+            <a class="btn" href="../2026-luggage/" target="_blank" rel="noopener">View page</a>
+          </div>
+        </div>
+        <div class="card">
+          <h3>New Bookstore Space</h3>
+          <p>To mark the centennial of evangelism in Taiwan, the bookstore has been renovated to provide a more comfortable space for reading and fellowship.</p>
+          <div class="actions" style="margin-top:12px;">
+            <a class="btn" href="../bookstore/" target="_blank" rel="noopener">Visit bookstore</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="archive" class="section">
+      <h2>Archive</h2>
+      <div class="archive" style="margin-top:12px;">
+        <div class="row">
+          <div>2026 | 04 Current Issue</div>
+          <div class="lang-row">
+            <a href="./">TC</a>
+            <a href="./zh-cn.html">SC</a>
+            <a href="./en.html">EN</a>
+          </div>
+        </div>
+        <div class="row">
+          <div>2026 | 03 March Issue</div>
+          <div class="lang-row">
+            <a href="../2026-03/">TC</a>
+            <a href="../2026-03/zh-cn.html">SC</a>
+            <a href="../2026-03/en.html">EN</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer>
+      PHILEMON NEWS | APRIL 2026
+    </footer>
+  </div>
+  <script>
+    document.querySelectorAll(".page img").forEach((img) => {
+      if (img.closest(".logo")) return;
+      img.classList.add("content-media");
+      const ready = () => img.classList.add("is-ready");
+      if (img.complete && img.naturalWidth > 0) {
+        ready();
+      } else {
+        img.addEventListener("load", ready, { once: true });
+        img.addEventListener("error", ready, { once: true });
+      }
+    });
+  </script>
+</body>
+</html>
+

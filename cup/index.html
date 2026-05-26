@@ -1,0 +1,366 @@
+﻿<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <title>百繪教堂紀念馬克杯</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <link rel="icon" type="image/svg+xml" href="../favicon-philemon.svg" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JD1JHF86H1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-JD1JHF86H1');
+  </script>
+  <script>
+    document.addEventListener('click', function(event) {
+      var link = event.target.closest('a[href]');
+      var href = link && link.getAttribute('href');
+      var text = link ? (link.textContent || '').trim() : '';
+      if (!href) return;
+      if (!/pbooks\.com\.tw\/(products\/|cart(?:\/|$))/i.test(href) && !/(購買|商品頁|購物車)/.test(text)) return;
+      gtag('event', 'purchase_link_click', {
+        link_url: href,
+        link_text: text || '(empty)',
+        page_path: location.pathname
+      });
+    });
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root { color-scheme: light; font-family: "Noto Sans TC", sans-serif; }
+    
+    body { 
+      margin: 0; 
+      overflow: hidden; 
+      /* 背景漸層加深一點點，讓純白馬克杯更跳脫出來 */
+      background: radial-gradient(circle at 50% 45%, #ffffff 0%, #e6eaef 60%, #d1d8e0 100%);
+    }
+    
+    aside { display: none; } /* 隱藏控制台 */
+    
+    #viewer { 
+      position: relative; 
+      width: 100vw; 
+      height: 100vh; 
+      display: block; 
+      cursor: pointer; /* 提示可以點擊 */
+    }
+    
+    canvas { 
+      display: block; 
+      outline: none; 
+      background: transparent !important; 
+    }
+
+    /* 頂部標題 */
+    #overlay-ui {
+      position: absolute;
+      top: 45px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      pointer-events: none;
+      z-index: 10;
+    }
+    #overlay-ui h1 {
+      margin: 0;
+      font-size: 26px;
+      font-weight: 700;
+      color: #2c3e50;
+      letter-spacing: 3px;
+      text-shadow: 0 2px 10px rgba(255,255,255,0.8);
+    }
+    #overlay-ui p {
+      margin: 8px 0 0;
+      font-size: 14px;
+      font-weight: 500;
+      color: #637381;
+      letter-spacing: 2px;
+    }
+
+  /* 右下膠囊移除 */
+  /*膠囊保留但不顯示*/ #church-capsule { display: none; }
+  </style>
+</head>
+<body>
+  <div id="church-capsule" style="display:none;"><span id="church-name">載入中...</span></div>
+  <script type="importmap">
+    { "imports": {
+        "three": "https://unpkg.com/three@0.164.1/build/three.module.js",
+        "three/examples/jsm/controls/OrbitControls": "https://unpkg.com/three@0.164.1/examples/jsm/controls/OrbitControls.js",
+        "three/examples/jsm/loaders/GLTFLoader": "https://unpkg.com/three@0.164.1/examples/jsm/loaders/GLTFLoader.js"
+      } }
+  </script>
+</head>
+<body>
+
+  <div id="overlay-ui">
+    <h1>百繪教堂紀念馬克杯</h1>
+    <p>腓利門書房 · 3D 預覽</p>
+  </div>
+
+  <!-- 膠囊已移除 -->
+
+  <aside>
+    <select id="logoSelect"><option value="主視覺文字.png">主視覺文字.png</option></select>
+    <select id="photoSelect">
+      <option value="church01.png">中投小區-臺中</option>
+      <option value="church02.png">中苗小區-清水</option>
+      <option value="church03.png">台南小區-台南</option>
+      <option value="church04.png">台南小區-永康</option>
+      <option value="church05.png">台南小區-和順</option>
+      <option value="church06.png">台南小區-東昇</option>
+      <option value="church07.png">台南小區-南門</option>
+      <option value="church08.png">台南小區-麻豆</option>
+      <option value="church09.png">台南小區-喜樹</option>
+      <option value="church10.png">台南小區-開元</option>
+      <option value="church11.png">台南小區-新營</option>
+      <option value="church12.png">台南小區-歸仁</option>
+      <option value="church13.png">高屏小區-十全</option>
+      <option value="church14.png">高屏小區-五甲</option>
+      <option value="church15.png">高屏小區-古樓</option>
+      <option value="church16.png">高屏小區-竹坑</option>
+      <option value="church17.png">高屏小區-岡山</option>
+      <option value="church18.png">高屏小區-前鎮</option>
+      <option value="church19.png">高屏小區-屏東</option>
+      <option value="church20.png">高屏小區-烏龍</option>
+      <option value="church21.png">高屏小區-高雄</option>
+      <option value="church22.png">高屏小區-莒光</option>
+      <option value="church23.png">高屏小區-鳳山</option>
+      <option value="church24.png">彰濱小區-伸港</option>
+    </select>
+    <input type="number" id="logoScale" value="20" />
+    <input type="number" id="logoOffsetX" value="0" />
+    <input type="number" id="photoScale" value="55" />
+    <input type="number" id="photoOffsetX" value="-30" />
+  </aside>
+
+  <main id="viewer"></main>
+
+  <script type="module">
+    import * as THREE from "three";
+    import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+    import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+
+    const viewer = document.getElementById("viewer");
+    const logoSelect = document.getElementById("logoSelect");
+    const photoSelect = document.getElementById("photoSelect");
+    const photoScaleInput = document.getElementById("photoScale");
+    const photoOffsetXInput = document.getElementById("photoOffsetX");
+    const logoScaleInput = document.getElementById("logoScale");
+    const logoOffsetXInput = document.getElementById("logoOffsetX");
+    const churchNameEl = document.getElementById("church-name");
+
+    const photos = Array.from(photoSelect.options).map(o => o.value);
+    let currentPhotoIndex = photos.findIndex(p => p === photoSelect.value) || 0;
+
+    const scene = new THREE.Scene();
+    scene.background = null; 
+
+    const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.set(4.5, 3.5, 6.5);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.setClearColor(0x000000, 0); 
+    renderer.outputEncoding = THREE.sRGBEncoding;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.25;
+    viewer.appendChild(renderer.domElement);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.enablePan = false;
+    controls.target.set(0, 1.6, 0);
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 1.2;
+
+    const hemi = new THREE.HemisphereLight(0xffffff, 0xdfe6e9, 0.8);
+    scene.add(hemi);
+    
+    const dir = new THREE.DirectionalLight(0xffffff, 1.6);
+    dir.position.set(5, 10, 6);
+    dir.castShadow = true;
+    dir.shadow.mapSize.set(2048, 2048);
+    dir.shadow.radius = 4;
+    scene.add(dir);
+    
+    const fill = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(fill);
+
+    const groundGeo = new THREE.PlaneGeometry(20, 20);
+    const groundMat = new THREE.ShadowMaterial({ opacity: 0.12 }); 
+    const ground = new THREE.Mesh(groundGeo, groundMat);
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.y = 0; 
+    ground.receiveShadow = true;
+    scene.add(ground);
+
+    const mugGroup = new THREE.Group();
+    scene.add(mugGroup);
+
+    const texCanvas = document.createElement("canvas");
+    texCanvas.width = 4096; texCanvas.height = 1024;
+    const ctx = texCanvas.getContext("2d");
+    const tex = new THREE.CanvasTexture(texCanvas);
+    tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+    tex.colorSpace = THREE.SRGBColorSpace; 
+    tex.flipY = false;
+    tex.offset.set(0.0, 0);
+
+    function updateChurchName(filename) {
+      try {
+        const parts = filename.split('-');
+        if (parts.length > 1) {
+          const namePart = parts[1].replace('.png', '');
+          churchNameEl.innerText = namePart + '教會';
+        } else {
+          churchNameEl.innerText = filename.replace('.png', '');
+        }
+      } catch (e) {
+        churchNameEl.innerText = "百繪教堂";
+      }
+    }
+
+    function drawTexture(photoSrc, logoSrc) {
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, texCanvas.width, texCanvas.height);
+
+      const pad = 80;
+      const printableH = texCanvas.height - pad * 2;
+      const halfW = texCanvas.width / 2;
+
+      Promise.all([ loadImg(photoSrc), loadImg(logoSrc) ]).then(([photo, logo]) => {
+        const photoScaleVal = (parseFloat(photoScaleInput.value || "80") / 100);
+        const photoMaxW = halfW * photoScaleVal;
+        const scalePhoto = Math.min(photoMaxW / photo.width, printableH / photo.height);
+        const pw = photo.width * scalePhoto;
+        const ph = photo.height * scalePhoto;
+        const px = halfW + (halfW - pw) / 2 + halfW * (parseFloat(photoOffsetXInput.value || "0") / 100);
+        const py = (texCanvas.height - ph) / 2;
+        ctx.drawImage(photo, px, py, pw, ph);
+
+        const logoScaleVal = (parseFloat(logoScaleInput.value || "70") / 100);
+        const logoMaxW = halfW * logoScaleVal;
+        const scaleLogo = Math.min(logoMaxW / logo.width, printableH / logo.height);
+        const lw = logo.width * scaleLogo;
+        const lh = logo.height * scaleLogo;
+        const logoY = (texCanvas.height - lh) / 2;
+        const logoX = (halfW - lw) / 2 + halfW * (parseFloat(logoOffsetXInput.value || "0") / 100);
+        ctx.drawImage(logo, logoX, logoY, lw, lh);
+
+        tex.needsUpdate = true;
+      }).catch(err => console.error(err));
+    }
+
+    const assetBase = "https://news.pbooks.com.tw/cup/"; // 固定絕對路徑，避免相對路徑解析錯誤
+
+    function loadImg(src) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        const baseUrl = /^https?:/i.test(src) ? src : assetBase + src;
+        img.src = baseUrl;
+        img.onload = () => resolve(img);
+        img.onerror = () => {
+          const c = document.createElement("canvas"); c.width = 2; c.height = 2;
+          const fallback = new Image(); fallback.src = c.toDataURL();
+          fallback.onload = () => resolve(fallback);
+        };
+      });
+    }
+
+    function loadCustomMug() {
+      const loader = new GLTFLoader();
+      loader.load("oldmug_uv.glb", (gltf) => {
+        mugGroup.clear();
+        gltf.scene.traverse((o) => {
+          if (o.isMesh && o.material && o.material.isMeshStandardMaterial) {
+            o.castShadow = true;
+            o.receiveShadow = true;
+            const mat = o.material.clone();
+            mat.color = new THREE.Color(0xffffff); // 確保材質為白色
+            mat.metalness = 0.02;
+            mat.roughness = 0.08; 
+            
+            // --- 核心修改：判斷名稱，只給杯身外貼圖 ---
+            // 我這裡假設你的模型零件名稱包含這些關鍵字：
+            // "Inside", "Inner", "Bottom_Inside", "Handle"
+            // 你可以用 Blender 打開模型確認正確的名稱，再修改這裡的判斷邏輯。
+            const name = o.name.toLowerCase();
+            if (name.includes("inner") || name.includes("handle") || name.includes("bottom") || name.includes("inside") || name.includes("in")) {
+              // 如果名稱包含內部關鍵字，不給貼圖 (純白)
+              mat.map = null; 
+            } else {
+              // 其他部位 (外側) 套用貼圖
+              mat.map = tex;  
+            }
+            // --- 修改結束 ---
+
+            mat.needsUpdate = true;
+            o.material = mat;
+          }
+        });
+        gltf.scene.position.y = 1.5;
+        mugGroup.add(gltf.scene);
+      });
+    }
+
+    // 初始化
+    updateChurchName(photoSelect.value);
+    drawTexture(photoSelect.value, logoSelect.value);
+    loadCustomMug();
+
+    let pointerDownPos = { x: 0, y: 0 };
+    window.addEventListener('pointerdown', (e) => {
+      pointerDownPos = { x: e.clientX, y: e.clientY };
+    });
+    
+    window.addEventListener('pointerup', (e) => {
+      const dist = Math.hypot(e.clientX - pointerDownPos.x, e.clientY - pointerDownPos.y);
+      if (dist < 5) {
+        currentPhotoIndex = (currentPhotoIndex + 1) % photos.length;
+        const nextPhoto = photos[currentPhotoIndex];
+        photoSelect.value = nextPhoto;
+        
+        updateChurchName(nextPhoto);
+        drawTexture(nextPhoto, logoSelect.value);
+      }
+    });
+
+    let t = 0;
+    function animate() {
+      requestAnimationFrame(animate);
+      t += 0.02;
+      mugGroup.position.y = Math.sin(t) * 0.03 + 0.05; 
+      controls.update(); 
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener("resize", () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+

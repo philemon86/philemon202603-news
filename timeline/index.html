@@ -1,0 +1,1167 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>書展時光 | PHILEMON NEWS</title>
+    <meta name="description" content="腓利門書房近期書展、總會尋根之旅與歷年書展足跡整理。" />
+    <link rel="icon" type="image/svg+xml" href="./favicon-timelime.svg" />
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JD1JHF86H1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag("js", new Date());
+      gtag("config", "G-JD1JHF86H1");
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Manrope:wght@400;500;700;800&family=Noto+Serif+TC:wght@500;700;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+
+    <style>
+      :root {
+        --ink: #18231c;
+        --muted: #637064;
+        --paper: #fffaf0;
+        --paper-2: #f4ead6;
+        --green: #0f3f2f;
+        --green-2: #1f6b52;
+        --gold: #d9a441;
+        --orange: #c7663a;
+        --cream: #fff6df;
+        --line: rgba(24, 35, 28, 0.12);
+        --shadow: 0 28px 80px rgba(27, 42, 31, 0.16);
+        --radius-xl: 34px;
+        --radius-lg: 24px;
+        --font-sans: "Manrope", "Noto Serif TC", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        --font-serif: "Noto Serif TC", serif;
+        --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 12% 10%, rgba(217, 164, 65, 0.28), transparent 28rem),
+          radial-gradient(circle at 82% 4%, rgba(31, 107, 82, 0.18), transparent 30rem),
+          linear-gradient(135deg, #fffaf0 0%, #f4ead6 54%, #e9dcc4 100%);
+        font-family: var(--font-sans);
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.28;
+        background-image:
+          linear-gradient(rgba(24, 35, 28, 0.045) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(24, 35, 28, 0.04) 1px, transparent 1px);
+        background-size: 34px 34px;
+        mask-image: linear-gradient(to bottom, black, transparent 82%);
+        z-index: 0;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .page-shell {
+        position: relative;
+        z-index: 1;
+        width: min(1180px, calc(100% - 36px));
+        margin: 0 auto;
+      }
+
+      .hero {
+        min-height: 78vh;
+        padding: 28px 0 64px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 12px;
+        border: 1px solid rgba(15, 63, 47, 0.12);
+        border-radius: 999px;
+        background: rgba(255, 250, 240, 0.72);
+        backdrop-filter: blur(18px);
+        box-shadow: 0 12px 34px rgba(27, 42, 31, 0.08);
+      }
+
+      .brand,
+      .back-link,
+      .pill,
+      .year-button {
+        transition:
+          transform 0.25s ease,
+          background 0.25s ease,
+          color 0.25s ease,
+          border-color 0.25s ease,
+          box-shadow 0.25s ease;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 18px;
+        border-radius: 999px;
+        background: var(--green);
+        color: #fff7e6;
+        font-family: var(--font-mono);
+        font-size: 0.86rem;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+      }
+
+      .brand::before {
+        content: "";
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: var(--gold);
+        box-shadow: 0 0 0 7px rgba(217, 164, 65, 0.17);
+      }
+
+      .back-link {
+        padding: 10px 16px;
+        border-radius: 999px;
+        color: var(--green);
+        font-weight: 800;
+        font-size: 0.92rem;
+      }
+
+      .brand:hover,
+      .back-link:hover,
+      .pill:hover,
+      .year-button:hover {
+        transform: none;
+      }
+
+      .back-link:hover {
+        background: rgba(15, 63, 47, 0.08);
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 34px;
+        align-items: end;
+        padding: 92px 0 20px;
+      }
+
+      .eyebrow {
+        margin: 0 0 14px;
+        color: var(--orange);
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2 {
+        margin: 0;
+        font-family: var(--font-serif);
+        line-height: 1.05;
+        letter-spacing: -0.04em;
+      }
+
+      h1 {
+        max-width: 720px;
+        font-size: clamp(4rem, 10vw, 8.9rem);
+        font-weight: 900;
+      }
+
+      h2 {
+        font-size: clamp(2.2rem, 5vw, 4.6rem);
+        font-weight: 900;
+      }
+
+      .hero-lead {
+        max-width: 680px;
+        margin: 28px 0 0;
+        color: #435046;
+        font-family: var(--font-serif);
+        font-size: clamp(1.18rem, 2.1vw, 1.7rem);
+        line-height: 1.9;
+        text-wrap: pretty;
+      }
+
+      .hero-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 32px;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 13px 18px;
+        border: 1px solid rgba(15, 63, 47, 0.16);
+        border-radius: 999px;
+        background: rgba(255, 250, 240, 0.72);
+        color: var(--green);
+        font-weight: 800;
+        box-shadow: 0 10px 26px rgba(27, 42, 31, 0.07);
+      }
+
+      .pill::after {
+        content: "→";
+        transition: transform 0.25s ease;
+      }
+
+      .pill:hover::after {
+        transform: translateX(4px);
+      }
+
+      .hero-panel {
+        display: grid;
+        gap: 16px;
+      }
+
+      .signal-card,
+      .metrics-card,
+      .board-shell,
+      .map-panel,
+      .sidebar-card {
+        border: 1px solid rgba(15, 63, 47, 0.13);
+        background: rgba(255, 250, 240, 0.76);
+        backdrop-filter: blur(18px);
+        box-shadow: var(--shadow);
+      }
+
+      .signal-card {
+        position: relative;
+        min-height: 250px;
+        padding: 30px;
+        border-radius: var(--radius-xl);
+        overflow: hidden;
+      }
+
+      .signal-card::before {
+        content: "";
+        position: absolute;
+        width: 220px;
+        height: 220px;
+        right: -70px;
+        top: -70px;
+        border-radius: 50%;
+        background: conic-gradient(from 140deg, rgba(217,164,65,0.8), rgba(31,107,82,0.55), rgba(217,164,65,0.8));
+        filter: blur(2px);
+        opacity: 0.55;
+        animation: slowSpin 12s linear infinite;
+      }
+
+      .signal-card > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      .signal-label,
+      .sidebar-label {
+        margin: 0 0 12px;
+        color: var(--orange);
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+      }
+
+      .signal-card strong {
+        display: block;
+        max-width: 380px;
+        font-family: var(--font-serif);
+        font-size: 2.1rem;
+        line-height: 1.28;
+      }
+
+      .signal-card span {
+        display: block;
+        margin-top: 18px;
+        color: var(--muted);
+        line-height: 1.8;
+      }
+
+      .metrics-card {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+      }
+
+      .metrics-card div {
+        padding: 22px 18px;
+        border-right: 1px solid var(--line);
+      }
+
+      .metrics-card div:last-child {
+        border-right: 0;
+      }
+
+      .metrics-card strong {
+        display: block;
+        font-family: var(--font-mono);
+        font-size: clamp(2rem, 4vw, 3.2rem);
+        color: var(--green);
+        line-height: 1;
+      }
+
+      .metrics-card span {
+        display: block;
+        margin-top: 9px;
+        color: var(--muted);
+        font-weight: 800;
+      }
+
+      .content {
+        display: grid;
+        gap: 76px;
+        padding: 38px 0 90px;
+      }
+
+      .section {
+        scroll-margin-top: 28px;
+      }
+
+      .section-heading {
+        display: grid;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+
+      .section-copy {
+        max-width: 760px;
+        margin: 0;
+        color: #536058;
+        font-size: 1.05rem;
+        line-height: 1.9;
+      }
+
+      .board-shell {
+        border-radius: var(--radius-xl);
+        overflow: hidden;
+      }
+
+      .board-head,
+      .board-row {
+        display: grid;
+        grid-template-columns: 0.85fr 1.35fr 1.95fr 1fr 0.95fr;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .board-head {
+        padding: 18px 22px;
+        background: var(--green);
+        color: #fff7e6;
+        font-family: var(--font-mono);
+        font-size: 0.76rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+      }
+
+      .board-body {
+        background: rgba(255, 250, 240, 0.54);
+      }
+
+      .board-row {
+        min-height: 78px;
+        padding: 18px 22px;
+        border-bottom: 1px solid var(--line);
+        transform: none;
+        opacity: 1;
+      }
+
+      .board-row:last-child {
+        border-bottom: 0;
+      }
+
+      .board-row:hover {
+        background: rgba(217, 164, 65, 0.12);
+      }
+
+      .flight-no {
+        width: fit-content;
+        padding: 8px 10px;
+        border-radius: 12px;
+        background: #1c2b21;
+        color: #fff6df;
+        font-family: var(--font-mono);
+        font-weight: 800;
+        box-shadow: inset 0 -2px 0 rgba(255,255,255,0.08);
+      }
+
+      .board-date,
+      .board-week {
+        font-family: var(--font-mono);
+        font-weight: 800;
+        color: #26372d;
+      }
+
+      .board-datetime {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        white-space: nowrap;
+      }
+
+      .board-place {
+        font-family: var(--font-serif);
+        font-size: 1.25rem;
+        font-weight: 900;
+      }
+
+      .board-type,
+      .status-badge {
+        width: fit-content;
+        padding: 8px 12px;
+        border-radius: 999px;
+        font-size: 0.85rem;
+        font-weight: 900;
+        white-space: nowrap;
+      }
+
+      .board-type {
+        background: rgba(15, 63, 47, 0.08);
+        color: var(--green);
+      }
+
+      .status-badge {
+        background: rgba(217, 164, 65, 0.22);
+        color: #7c4c12;
+      }
+
+      .status-badge.is-live {
+        background: rgba(31, 107, 82, 0.15);
+        color: var(--green);
+      }
+
+      .empty-state {
+        padding: 34px 22px;
+        color: var(--muted);
+        line-height: 1.8;
+      }
+
+      .map-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 330px;
+        gap: 22px;
+        align-items: stretch;
+      }
+
+      .map-panel {
+        min-height: 620px;
+        padding: 12px;
+        border-radius: var(--radius-xl);
+        overflow: hidden;
+      }
+
+      #history-map-canvas {
+        width: 100%;
+        height: 596px;
+        border-radius: 26px;
+        background: #e7dcc7;
+        overflow: hidden;
+      }
+
+      .leaflet-container {
+        font-family: var(--font-sans);
+      }
+
+      .map-sidebar {
+        display: grid;
+        gap: 16px;
+        align-content: start;
+      }
+
+      .sidebar-card {
+        padding: 22px;
+        border-radius: var(--radius-lg);
+      }
+
+      .year-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .year-button {
+        border: 1px solid rgba(15, 63, 47, 0.14);
+        border-radius: 999px;
+        padding: 10px 13px;
+        background: rgba(255, 250, 240, 0.8);
+        color: var(--green);
+        cursor: pointer;
+        font-family: var(--font-mono);
+        font-weight: 800;
+      }
+
+      .year-button.is-active,
+      .year-button:hover {
+        background: var(--green);
+        color: #fff6df;
+        box-shadow: 0 12px 24px rgba(15, 63, 47, 0.16);
+      }
+
+      .year-bars {
+        display: grid;
+        gap: 14px;
+      }
+
+      .year-bar {
+        display: grid;
+        gap: 8px;
+      }
+
+      .year-bar-top {
+        display: flex;
+        justify-content: space-between;
+        gap: 14px;
+        color: #34453a;
+        font-family: var(--font-mono);
+        font-weight: 800;
+        font-size: 0.86rem;
+      }
+
+      .bar-track {
+        height: 10px;
+        border-radius: 999px;
+        background: rgba(15, 63, 47, 0.1);
+        overflow: hidden;
+      }
+
+      .bar-fill {
+        height: 100%;
+        width: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--green), var(--gold));
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+
+      .reveal.is-visible {
+        opacity: 1;
+        transform: none;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          scroll-behavior: auto !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+
+      @media (max-width: 920px) {
+        .hero {
+          min-height: auto;
+        }
+
+        .hero-grid,
+        .map-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-grid {
+          padding-top: 62px;
+        }
+
+        .map-panel {
+          min-height: 470px;
+        }
+
+        #history-map-canvas {
+          height: 446px;
+        }
+
+        .board-head {
+          display: none;
+        }
+
+        .board-row {
+          grid-template-columns: 1fr 1fr;
+          gap: 12px;
+          min-height: auto;
+        }
+
+        .board-place {
+          grid-column: 1 / -1;
+          font-size: 1.45rem;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .page-shell {
+          width: min(100% - 24px, 1180px);
+        }
+
+        .topbar {
+          align-items: stretch;
+          border-radius: 24px;
+        }
+
+        .brand,
+        .back-link {
+          justify-content: center;
+        }
+
+        .hero {
+          padding-top: 14px;
+        }
+
+        .hero-grid {
+          padding-top: 46px;
+        }
+
+        .metrics-card {
+          grid-template-columns: 1fr;
+        }
+
+        .metrics-card div {
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+        }
+
+        .metrics-card div:last-child {
+          border-bottom: 0;
+        }
+
+        .board-shell {
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+        }
+
+        .board-head {
+          display: grid;
+          grid-template-columns: 64px 124px minmax(176px, 1fr) 76px 76px;
+          gap: 8px;
+          min-width: 524px;
+          padding: 12px 12px 10px;
+          font-size: 0.62rem;
+          letter-spacing: 0.08em;
+          white-space: nowrap;
+        }
+
+        .board-row {
+          grid-template-columns: 64px 124px minmax(176px, 1fr) 76px 76px;
+          gap: 8px;
+          min-width: 524px;
+          padding: 12px;
+          min-height: 58px;
+          align-items: center;
+          white-space: nowrap;
+        }
+
+        .flight-no,
+        .board-date,
+        .board-week,
+        .board-type,
+        .status-badge {
+          font-size: 0.68rem;
+        }
+
+        .board-datetime {
+          gap: 6px;
+        }
+
+        .flight-no {
+          padding: 5px 7px;
+          border-radius: 8px;
+        }
+
+        .board-place {
+          font-size: 0.88rem;
+          line-height: 1.2;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .board-type,
+        .status-badge {
+          width: auto;
+          padding: 5px 7px;
+          border-radius: 999px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <nav class="topbar reveal">
+          <a class="brand" href="https://news.pbooks.com.tw/" target="_blank" rel="noreferrer">PHILEMON NEWS</a>
+          <a class="back-link" href="https://news.pbooks.com.tw/" target="_blank" rel="noreferrer">返回首頁</a>
+        </nav>
+
+        <div class="hero-grid">
+          <section class="hero-copy reveal">
+            <p class="eyebrow">Book Fair Schedule</p>
+            <h1>書展時光</h1>
+            <p class="hero-lead">了解近期書展概況與書展足跡</p>
+
+            <div class="hero-pills">
+              <a href="#flight-board" class="pill">查看近期活動</a>
+              <a href="#history-map" class="pill">瀏覽歷年地圖</a>
+            </div>
+          </section>
+
+          <section class="hero-panel reveal">
+            <div class="signal-card">
+              <p class="signal-label">收錄內容</p>
+              <strong>近期行程與歷年書展足跡</strong>
+              <span>快速瀏覽歷年書展，讓你看見移動的書房</span>
+            </div>
+
+            <div class="metrics-card" aria-label="活動統計">
+              <div>
+                <strong id="metric-bookfair">0</strong>
+                <span>書展場次</span>
+              </div>
+              <div>
+                <strong id="metric-journey">0</strong>
+                <span>尋根之旅</span>
+              </div>
+              <div>
+                <strong id="metric-history">0</strong>
+                <span>歷年足跡</span>
+              </div>
+            </div>
+          </section>
+        </div>
+      </header>
+
+      <main class="content">
+        <section class="section reveal" id="flight-board">
+          <div class="section-heading">
+            <p class="eyebrow">Upcoming Events</p>
+            <h2>近期活動一覽</h2>
+          </div>
+
+          <div class="board-shell">
+            <div class="board-head" aria-hidden="true">
+              <span>編號</span>
+              <span>日期 / 星期</span>
+              <span>地點</span>
+              <span>活動</span>
+              <span>狀態</span>
+            </div>
+            <div class="board-body" id="flight-board-body"></div>
+          </div>
+        </section>
+
+        <section class="section reveal" id="history-map">
+          <div class="section-heading">
+            <p class="eyebrow">History Map</p>
+            <h2>歷年書展地圖</h2>
+            <p class="section-copy">
+              地圖整理歷年書展曾到訪的地點。標記越明顯，代表該地累積出現次數越多；也可以依年份切換，查看不同時期的書展分布。
+            </p>
+          </div>
+
+          <div class="map-layout">
+            <div class="map-panel">
+              <div id="history-map-canvas" aria-label="歷年書展地圖"></div>
+            </div>
+
+            <aside class="map-sidebar">
+              <div class="sidebar-card">
+                <p class="sidebar-label">依年份查看</p>
+                <div class="year-buttons" id="map-year-buttons"></div>
+              </div>
+
+              <div class="sidebar-card">
+                <p class="sidebar-label">年度統計</p>
+                <div class="year-bars" id="year-bars"></div>
+              </div>
+            </aside>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+
+    <script src="./data.js"></script>
+
+    <script>
+      (() => {
+        const $ = (selector, root = document) => root.querySelector(selector);
+        const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
+
+        const getDataArray = (...candidates) => {
+          for (const item of candidates) {
+            if (Array.isArray(item)) return item;
+          }
+          return [];
+        };
+
+        const dataRoot =
+          window.TIMELIME_DATA ||
+          window.PHILEMON_BOOKFAIR_DATA ||
+          window.PHILEMON_DATA ||
+          window.BOOKFAIR_DATA ||
+          {};
+
+        const upcomingEvents = getDataArray(
+          dataRoot.upcomingEvents,
+          dataRoot.events,
+          window.upcomingEvents,
+          window.flightBoardData,
+          window.bookfairEvents,
+          window.recentEvents,
+          window.PHILEMON_EVENTS
+        );
+
+        const historyPoints = getDataArray(
+          dataRoot.historyPoints,
+          dataRoot.history,
+          dataRoot.mapPoints,
+          window.historyPoints,
+          window.bookfairHistory,
+          window.mapPoints,
+          window.PHILEMON_HISTORY
+        );
+
+        const weekdayText = ["日", "一", "二", "三", "四", "五", "六"];
+
+        const parseDate = (value) => {
+          if (!value) return null;
+          const normalized = String(value).replace(/\./g, "-").replace(/\//g, "-");
+          const date = new Date(normalized);
+          return Number.isNaN(date.getTime()) ? null : date;
+        };
+
+        const pad = (number) => String(number).padStart(2, "0");
+
+        const formatDate = (value) => {
+          const date = parseDate(value);
+          if (!date) return value || "待公告";
+          return `${date.getFullYear()}.${pad(date.getMonth() + 1)}.${pad(date.getDate())}`;
+        };
+
+        const formatDateRange = (event) => {
+          if (event.dateLabel) return event.dateLabel;
+          const start = parseDate(event.startDate || event.date || event.day);
+          const end = parseDate(event.endDate || event.end || event.startDate || event.date || event.day);
+          if (!start) return "待公告";
+          if (!end || start.getTime() === end.getTime()) {
+            return `${pad(start.getMonth() + 1)}/${pad(start.getDate())}`;
+          }
+          return `${pad(start.getMonth() + 1)}/${pad(start.getDate())} - ${pad(end.getMonth() + 1)}/${pad(end.getDate())}`;
+        };
+
+        const formatWeek = (value, fallback) => {
+          if (fallback) return fallback;
+          const date = parseDate(value);
+          return date ? `週${weekdayText[date.getDay()]}` : "—";
+        };
+
+        const normalizeType = (value = "") => {
+          const text = String(value || "書展");
+          if (text.includes("尋根")) return "尋根之旅";
+          if (text.includes("總會")) return "總會活動";
+          return text;
+        };
+
+        const normalizeStatus = (event) => {
+          const given = event.status || event.state;
+          if (given) return String(given);
+
+          const start = parseDate(event.startDate || event.date || event.day);
+          const end = parseDate(event.endDate || event.end || event.startDate || event.date || event.day);
+          if (!start) return "SCHEDULED";
+
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          start.setHours(0, 0, 0, 0);
+          end?.setHours(0, 0, 0, 0);
+
+          if (end && today >= start && today <= end) return "ARRIVED";
+          const daysUntil = Math.ceil((start - today) / 86400000);
+          if (daysUntil >= 0 && daysUntil <= 30) return "ARRIVING";
+          if (start > today) return "SCHEDULED";
+          return "CLOSED";
+        };
+
+        const placeName = (item) =>
+          item.place ||
+          item.location ||
+          item.name ||
+          item.church ||
+          item.title ||
+          "地點待公告";
+
+        const renderBoard = () => {
+          const body = $("#flight-board-body");
+          if (!body) return;
+
+          body.innerHTML = "";
+
+          if (!upcomingEvents.length) {
+            body.innerHTML = `
+              <div class="empty-state">
+                近期活動資料尚未載入。請確認 <strong>data.js</strong> 已放入 upcomingEvents、bookfairEvents 或 PHILEMON_BOOKFAIR_DATA.events。
+              </div>
+            `;
+            return;
+          }
+
+          upcomingEvents
+            .slice()
+            .sort((a, b) => {
+              const dateA = parseDate(a.date || a.startDate || a.day)?.getTime() || 0;
+              const dateB = parseDate(b.date || b.startDate || b.day)?.getTime() || 0;
+              return dateA - dateB;
+            })
+            .filter((event) => normalizeStatus(event) !== "CLOSED")
+            .forEach((event, index) => {
+              const type = normalizeType(event.type || event.category);
+              const status = normalizeStatus(event);
+
+              const row = document.createElement("article");
+              row.className = "board-row";
+              row.style.animationDelay = `${index * 70}ms`;
+
+              row.innerHTML = `
+                <span class="flight-no">${event.flightCode || `PB-${pad(index + 1)}`}</span>
+                <span class="board-datetime">
+                  <span class="board-date">${formatDateRange(event)}</span>
+                  <span class="board-week">${formatWeek(event.date || event.startDate || event.day, event.week || event.weekday)}</span>
+                </span>
+                <strong class="board-place">${placeName(event)}</strong>
+                <span class="board-type">${type}</span>
+                <span class="status-badge ${status === "ARRIVED" || status === "ARRIVING" ? "is-live" : ""}">${status}</span>
+              `;
+
+              body.appendChild(row);
+            });
+        };
+
+        const countBy = (items, getter) =>
+          items.reduce((acc, item) => {
+            const key = getter(item);
+            if (!key && key !== 0) return acc;
+            acc[key] = (acc[key] || 0) + 1;
+            return acc;
+          }, {});
+
+        const setNumber = (selector, target) => {
+          const el = $(selector);
+          if (!el) return;
+          el.textContent = String(Math.max(0, Number(target) || 0));
+        };
+
+        const renderMetrics = () => {
+          const bookfair = upcomingEvents.filter(
+            (item) => !normalizeType(item.type || item.category).includes("尋根")
+          ).length;
+
+          const journey = upcomingEvents.filter(
+            (item) => normalizeType(item.type || item.category).includes("尋根")
+          ).length;
+
+          setNumber("#metric-bookfair", bookfair);
+          setNumber("#metric-journey", journey);
+          setNumber("#metric-history", historyPoints.length);
+        };
+
+        const pointYear = (item) =>
+          item.year ||
+          item.date?.slice?.(0, 4) ||
+          item.startDate?.slice?.(0, 4) ||
+          "未分年";
+
+        const pointLat = (item) => Number(item.lat ?? item.latitude ?? item.coords?.[0]);
+        const pointLng = (item) => Number(item.lng ?? item.lon ?? item.longitude ?? item.coords?.[1]);
+
+        const hasCoords = (item) =>
+          Number.isFinite(pointLat(item)) && Number.isFinite(pointLng(item));
+
+        const renderYearBars = () => {
+          const wrap = $("#year-bars");
+          if (!wrap) return;
+
+          const counts = countBy(historyPoints, pointYear);
+          const entries = Object.entries(counts).sort((a, b) =>
+            String(b[0]).localeCompare(String(a[0]))
+          );
+
+          const max = Math.max(1, ...entries.map(([, count]) => count));
+
+          wrap.innerHTML = entries.length
+            ? ""
+            : `<div class="empty-state">尚未載入歷年統計資料。</div>`;
+
+          entries.forEach(([year, count], index) => {
+            const row = document.createElement("div");
+            row.className = "year-bar";
+
+            row.innerHTML = `
+              <div class="year-bar-top">
+                <span>${year}</span>
+                <span>${count} 筆</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill"></div>
+              </div>
+            `;
+
+            wrap.appendChild(row);
+            row.querySelector(".bar-fill").style.width =
+              `${Math.max(8, (count / max) * 100)}%`;
+          });
+        };
+
+        const renderMap = () => {
+          const canvas = $("#history-map-canvas");
+          const buttonWrap = $("#map-year-buttons");
+
+          if (!canvas || !buttonWrap) return;
+
+          const pointsWithCoords = historyPoints.filter(hasCoords);
+          const years = [...new Set(historyPoints.map(pointYear))].sort((a, b) =>
+            String(b).localeCompare(String(a))
+          );
+
+          buttonWrap.innerHTML = "";
+
+          const makeButton = (label, active = false) => {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = `year-button ${active ? "is-active" : ""}`;
+            button.textContent = label;
+            button.dataset.year = label;
+            buttonWrap.appendChild(button);
+            return button;
+          };
+
+          makeButton("全部", true);
+          years.forEach((year) => makeButton(year));
+
+          if (!window.L || !pointsWithCoords.length) {
+            canvas.innerHTML = `
+              <div class="empty-state">
+                地圖座標尚未載入。若要顯示地圖，請在歷年資料中加入 lat / lng 或 latitude / longitude 欄位。
+              </div>
+            `;
+            return;
+          }
+
+          const map = L.map(canvas, {
+            scrollWheelZoom: false,
+            zoomControl: true
+          }).setView([23.75, 121.0], 7);
+
+          L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            maxZoom: 18,
+            attribution: "&copy; OpenStreetMap contributors"
+          }).addTo(map);
+
+          let layer = L.layerGroup().addTo(map);
+
+          const draw = (year = "全部") => {
+            layer.clearLayers();
+
+            const filtered =
+              year === "全部"
+                ? pointsWithCoords
+                : pointsWithCoords.filter((item) => String(pointYear(item)) === String(year));
+
+            const bounds = [];
+
+            filtered.forEach((item) => {
+              const lat = pointLat(item);
+              const lng = pointLng(item);
+
+              const marker = L.circleMarker([lat, lng], {
+                radius: 7,
+                color: "#0f3f2f",
+                weight: 2,
+                fillColor: "#d9a441",
+                fillOpacity: 0.72
+              }).bindPopup(
+                `<strong>${placeName(item)}</strong><br>${pointYear(item)}｜${item.type || item.category || "書展"}`
+              );
+
+              marker.addTo(layer);
+              bounds.push([lat, lng]);
+            });
+
+            if (bounds.length) {
+              map.fitBounds(bounds, {
+                padding: [38, 38],
+                maxZoom: 11
+              });
+            }
+          };
+
+          buttonWrap.addEventListener("click", (event) => {
+            const button = event.target.closest(".year-button");
+            if (!button) return;
+
+            $$(".year-button", buttonWrap).forEach((item) =>
+              item.classList.remove("is-active")
+            );
+
+            button.classList.add("is-active");
+            draw(button.dataset.year);
+          });
+
+          draw();
+
+          setTimeout(() => map.invalidateSize(), 350);
+        };
+
+        document.addEventListener("DOMContentLoaded", () => {
+          renderBoard();
+          renderMetrics();
+          renderYearBars();
+          renderMap();
+        });
+      })();
+    </script>
+  </body>
+</html>

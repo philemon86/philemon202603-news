@@ -1,0 +1,1028 @@
+﻿<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>真耶穌教會創作詩歌樂譜目錄 | PHILEMON NEWS</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon-music.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Noto+Serif+TC:wght@600;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f2eadf;
+      --paper: rgba(255, 255, 255, 0.82);
+      --paper-strong: rgba(255, 253, 250, 0.95);
+      --ink: #1f1a17;
+      --muted: #6b5e54;
+      --accent: #8c2f24;
+      --accent-soft: rgba(140, 47, 36, 0.12);
+      --border: rgba(31, 26, 23, 0.1);
+      --shadow: 0 24px 60px rgba(32, 23, 17, 0.08);
+      --player-height: 110px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Space Grotesk", "Noto Serif TC", "Source Han Serif TC", "Microsoft JhengHei", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.65), transparent 32%),
+        linear-gradient(180deg, #f4ede4 0%, #efe3d2 100%);
+      line-height: 1.6;
+      overflow-x: hidden;
+      padding-bottom: calc(var(--player-height) + 36px);
+    }
+    a { color: inherit; text-decoration: none; }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 18px 5%;
+      background: rgba(242, 234, 223, 0.78);
+      border-bottom: 1px solid rgba(31, 26, 23, 0.06);
+      backdrop-filter: blur(12px);
+    }
+    .brand { display: flex; flex-direction: column; gap: 2px; }
+    .brand-mark {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+    .mobile-credit { display: none; }
+    .brand-sub {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    nav a { opacity: 0.72; }
+    nav a:hover, nav a.active { opacity: 1; color: var(--accent); }
+    main {
+      width: min(1200px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 34px 0 64px;
+    }
+    .hero {
+      display: block;
+      margin-bottom: 24px;
+    }
+    .hero-panel,
+    .hero-side,
+    .controls,
+    .list-shell {
+      background: linear-gradient(180deg, rgba(255,255,255,0.78), rgba(255,255,255,0.94));
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+    .hero-panel {
+      display: grid;
+      grid-template-columns: minmax(260px, 1fr) minmax(220px, 0.7fr) minmax(340px, 0.95fr);
+      gap: 24px;
+      align-items: center;
+      padding: 24px 28px;
+      min-height: 150px;
+      background:
+        radial-gradient(circle at 88% 16%, rgba(255,255,255,0.38), transparent 24%),
+        linear-gradient(180deg, rgba(21, 15, 12, 0.05), rgba(21, 15, 12, 0.1)),
+        linear-gradient(135deg, #f4ece2 0%, #dfc8b1 48%, #b77b60 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-panel::after {
+      content: "♪";
+      position: absolute;
+      right: 20px;
+      top: -28px;
+      font-size: clamp(5rem, 9vw, 8rem);
+      font-weight: 700;
+      color: rgba(255,255,255,0.22);
+      line-height: 1;
+    }
+    .hero-copy,
+    .music-staff,
+    .hero-stats {
+      position: relative;
+      z-index: 1;
+    }
+    .kicker {
+      display: inline-block;
+      margin-bottom: 10px;
+      color: rgba(31, 26, 23, 0.7);
+      font-size: 12px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+    h1, h2, .track-name { font-family: "Noto Serif TC", "Source Han Serif TC", serif; }
+    h1 {
+      margin: 0;
+      font-size: clamp(1.8rem, 3.5vw, 3rem);
+      line-height: 1.12;
+      max-width: 16ch;
+    }
+    .music-staff {
+      height: 74px;
+      border-radius: 18px;
+      background:
+        linear-gradient(to bottom,
+          transparent 13px,
+          rgba(31,26,23,0.22) 14px,
+          transparent 15px,
+          transparent 27px,
+          rgba(31,26,23,0.2) 28px,
+          transparent 29px,
+          transparent 41px,
+          rgba(31,26,23,0.18) 42px,
+          transparent 43px,
+          transparent 55px,
+          rgba(31,26,23,0.16) 56px,
+          transparent 57px);
+      opacity: 0.9;
+    }
+    .music-staff::before,
+    .music-staff::after {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(140,47,36,0.72);
+      font-family: "Noto Serif TC", serif;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .music-staff::before {
+      content: "𝄞";
+      left: 12px;
+      font-size: 50px;
+    }
+    .music-staff::after {
+      content: "♪ ♫";
+      right: 14px;
+      font-size: 28px;
+      letter-spacing: 0.18em;
+    }
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .hero-stat {
+      min-width: 0;
+      border: 1px solid rgba(31, 26, 23, 0.12);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.44);
+      padding: 12px 14px;
+      backdrop-filter: blur(8px);
+    }
+    .hero-stat span {
+      display: block;
+      color: rgba(31,26,23,0.62);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .hero-stat strong {
+      display: block;
+      margin-top: 4px;
+      color: var(--ink);
+      font-size: clamp(1.25rem, 2.4vw, 2rem);
+      line-height: 1;
+    }
+    .controls-shell {
+      position: sticky;
+      top: 84px;
+      z-index: 30;
+      margin-bottom: 20px;
+    }
+    .controls {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+      padding: 16px 18px;
+    }
+    .search-box { position: relative; min-width: 0; }
+    .search-box input {
+      width: 100%;
+      border: 1px solid rgba(31, 26, 23, 0.1);
+      background: rgba(255,255,255,0.88);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 14px 18px 14px 48px;
+      font: inherit;
+      font-size: 16px;
+      outline: none;
+    }
+    .search-box input:focus {
+      border-color: rgba(140, 47, 36, 0.32);
+      box-shadow: 0 0 0 4px rgba(140, 47, 36, 0.08);
+    }
+    .search-icon {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+    }
+    .summary-chip {
+      background: var(--paper-strong);
+      border: 1px solid rgba(31, 26, 23, 0.08);
+      border-radius: 999px;
+      padding: 12px 18px;
+      white-space: nowrap;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .summary-chip strong {
+      color: var(--ink);
+      margin-left: 8px;
+      font-size: 1rem;
+    }
+    .list-shell {
+      overflow: hidden;
+    }
+    .list-head,
+    .list-row {
+      display: grid;
+      grid-template-columns: 88px minmax(0, 1.3fr) minmax(140px, 0.75fr) 70px 74px 220px;
+      gap: 14px;
+      align-items: center;
+      padding: 16px 20px;
+    }
+    .list-head {
+      background: rgba(31, 26, 23, 0.04);
+      border-bottom: 1px solid rgba(31, 26, 23, 0.08);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .list-row {
+      border-bottom: 1px solid rgba(31, 26, 23, 0.07);
+      transition: background 160ms ease, border-color 160ms ease;
+    }
+    .list-row:last-child { border-bottom: 0; }
+    .list-row.is-active {
+      background: rgba(140, 47, 36, 0.06);
+      border-left: 4px solid var(--accent);
+      padding-left: 16px;
+    }
+    .code-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 7px 12px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+    }
+    .song-main h2 {
+      margin: 0 0 4px;
+      font-size: 1.15rem;
+      line-height: 1.3;
+    }
+    .song-main p,
+    .author-col,
+    .price-col,
+    .page-col {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .price-col strong {
+      color: var(--ink);
+      font-size: 1rem;
+    }
+    .action-col {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .play-btn,
+    .buy-btn {
+      border: 1px solid rgba(31, 26, 23, 0.08);
+      border-radius: 999px;
+      padding: 9px 14px;
+      font: inherit;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 160ms ease, background 160ms ease, color 160ms ease;
+    }
+    .play-btn {
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink);
+    }
+    .play-btn.is-active {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .buy-btn {
+      background: rgba(255,255,255,0.74);
+      color: var(--ink);
+    }
+    .play-btn:hover,
+    .buy-btn:hover { transform: translateY(-1px); }
+    .empty-state {
+      display: none;
+      padding: 42px 24px;
+      text-align: center;
+      color: var(--muted);
+    }
+    .player {
+      position: fixed;
+      left: 18px;
+      right: 18px;
+      bottom: 16px;
+      z-index: 50;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 16px;
+      align-items: center;
+      padding: 18px 22px;
+      border-radius: 28px;
+      background: rgba(27, 21, 18, 0.92);
+      color: #fff;
+      box-shadow: 0 28px 70px rgba(16, 11, 8, 0.35);
+      backdrop-filter: blur(16px);
+    }
+    .player.is-empty { display: none; }
+    .player-art {
+      width: 64px;
+      height: 64px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #d8c0a5 0%, #7f2f25 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 8px;
+      text-align: center;
+      line-height: 1.2;
+    }
+    .player-main {
+      display: grid;
+      grid-template-columns: minmax(0, 260px) minmax(0, 1fr);
+      gap: 16px;
+      align-items: center;
+    }
+    .player-copy .label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.62);
+    }
+    .player-copy .track-name {
+      display: block;
+      font-size: 1.15rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .player-copy .track-sub {
+      display: block;
+      font-size: 13px;
+      color: rgba(255,255,255,0.72);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    audio {
+      width: 100%;
+      height: 38px;
+      filter: invert(1) hue-rotate(180deg) brightness(1.2);
+    }
+    @media (max-width: 1080px) {
+      .hero-panel {
+        grid-template-columns: minmax(240px, 1fr) minmax(320px, 1fr);
+      }
+      .music-staff { display: none; }
+      .list-head { display: none; }
+      .list-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 18px;
+      }
+      .action-col { justify-content: flex-start; }
+      .controls { grid-template-columns: 1fr; }
+      .player-main { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 720px) {
+      :root { --player-height: 82px; }
+      header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+        padding: 14px 20px;
+      }
+      nav { gap: 12px; font-size: 12px; }
+      main { width: min(100% - 20px, 1200px); padding-top: 24px; }
+      .hero-panel {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 16px;
+      }
+      .hero-stats {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 6px;
+      }
+      .hero-stat {
+        border-radius: 12px;
+        padding: 8px 10px;
+      }
+      .hero-stat span {
+        font-size: 10px;
+        letter-spacing: 0.05em;
+      }
+      .hero-stat strong {
+        font-size: 1.25rem;
+      }
+      .controls-shell {
+        position: static;
+        margin-bottom: 12px;
+      }
+      .controls {
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 10px;
+        padding: 12px;
+        border-radius: 18px;
+      }
+      .search-box input {
+        padding: 11px 14px 11px 40px;
+        font-size: 15px;
+      }
+      .search-icon { left: 15px; }
+      .summary-chip {
+        display: none;
+      }
+      .list-shell {
+        background: transparent;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        overflow: visible;
+      }
+      .list-row {
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        grid-template-areas:
+          "code title title"
+          "code author author"
+          "code actions actions";
+        align-items: start;
+        gap: 6px 10px;
+        margin-bottom: 8px;
+        padding: 12px 12px;
+        border: 1px solid rgba(31, 26, 23, 0.07);
+        border-radius: 12px;
+        background: rgba(255,255,255,0.9);
+        box-shadow: none;
+      }
+      .list-row:last-child { margin-bottom: 0; }
+      .list-row.is-active {
+        border-left: 4px solid var(--accent);
+        padding-left: 9px;
+      }
+      .list-row > div:first-child { grid-area: code; }
+      .code-pill {
+        min-width: 48px;
+        padding: 6px 9px;
+        border-radius: 14px;
+        font-size: 12px;
+      }
+      .song-main { grid-area: title; min-width: 0; }
+      .song-main h2 {
+        margin: 0;
+        font-size: 1rem;
+        line-height: 1.3;
+      }
+      .song-main p {
+        margin-top: 2px;
+        line-height: 1.3;
+        font-size: 13px;
+      }
+      .author-col,
+      .page-col,
+      .price-col {
+        display: flex;
+        align-items: baseline;
+        gap: 6px;
+        min-width: 0;
+        font-size: 13px;
+        line-height: 1.35;
+      }
+      .author-col { grid-area: author; }
+      .page-col { display: none; }
+      .price-col { display: none; }
+      .author-col::before,
+      .page-col::before,
+      .price-col::before {
+        flex: 0 0 auto;
+        color: rgba(31,26,23,0.46);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+      }
+      .author-col::before { content: "作曲"; }
+      .page-col::before { content: "頁數"; }
+      .price-col::before { content: ""; display: none; }
+      .price-col strong { font-size: 1rem; }
+      .song-main p { display: none; }
+      .desktop-credit { display: none; }
+      .mobile-credit {
+        display: inline;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .author-col::before { content: "詞曲"; }
+      .action-col {
+        grid-area: actions;
+        justify-content: flex-end;
+        gap: 6px;
+      }
+      .play-btn,
+      .buy-btn {
+        flex: 0 0 auto;
+        text-align: center;
+        padding: 7px 10px;
+        font-size: 11px;
+      }
+      .player {
+        left: 10px;
+        right: 10px;
+        bottom: 8px;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 8px;
+        padding: 10px 12px;
+        border-radius: 18px;
+      }
+      .player-art { display: none; }
+      .player-main {
+        grid-template-columns: minmax(0, 1fr) minmax(132px, 42vw);
+        gap: 10px;
+      }
+      .player-copy .label,
+      .player-copy .track-sub {
+        display: none;
+      }
+      .player-copy .track-name {
+        font-size: 0.95rem;
+        line-height: 34px;
+      }
+      audio {
+        height: 32px;
+      }
+      body { padding-bottom: 24px; }
+      body.has-player { padding-bottom: 100px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <span class="brand-mark">PHILEMON MUSIC</span>
+    </div>
+    <nav>
+      <a href="/">首頁</a>
+      
+      <a href="https://www.pbooks.com.tw/products/H-ALL" target="_blank" rel="noopener">購買全套樂譜</a>
+    </nav>
+  </header>
+  <main>
+    <section class="hero">
+      <div class="hero-panel">
+        <div class="hero-copy">
+          <span class="kicker">TJC Original Scores</span>
+          <h1>真耶穌教會<br>創作詩歌樂譜目錄</h1>
+        </div>
+        <div class="music-staff" aria-hidden="true"></div>
+        <div class="hero-stats" aria-label="樂譜統計">
+          <div class="hero-stat"><span>全部曲目</span><strong id="heroCount">0</strong></div>
+          <div class="hero-stat"><span>可試聽</span><strong id="heroPlayable">0</strong></div>
+          <div class="hero-stat"><span>目前顯示</span><strong id="heroFiltered">0</strong></div>
+        </div>
+      </div>
+    </section>
+    <section class="controls-shell">
+      <div class="controls">
+        <label class="search-box">
+          <span class="search-icon">⌕</span>
+          <input type="text" id="searchInput" placeholder="搜尋歌名、代碼、作曲、作詞">
+        </label>
+        <div class="summary-chip">顯示筆數 <strong id="countBadge">0</strong></div>
+      </div>
+    </section>
+    <section class="list-shell">
+      <div class="list-head">
+        <div>代碼</div>
+        <div>曲目</div>
+        <div>作曲／作詞</div>
+        <div>頁數</div>
+        <div>價格</div>
+        <div style="text-align:right;">操作</div>
+      </div>
+      <div id="listBody"></div>
+      <div id="emptyState" class="empty-state">找不到符合條件的曲目，請換個關鍵字。</div>
+    </section>
+  </main>
+  <section class="player is-empty" id="playerWrap">
+    <div class="player-art" id="displayArt">MUSIC</div>
+    <div class="player-main">
+      <div class="player-copy">
+        <span class="label">Now Playing</span>
+        <span class="track-name" id="displayTitle">尚未播放</span>
+        <span class="track-sub" id="displaySub">請點擊試聽按鈕</span>
+      </div>
+      <audio id="audioBox" controls crossorigin="anonymous"></audio>
+    </div>
+  </section>
+  <script>
+    const BASE_URL = "https://cdn.jsdelivr.net/gh/philemon86/tjc-music@main/";
+    const audio = document.getElementById("audioBox");
+    const scores = [
+
+        {v:'P', id:'H1', n:'喜訊-長笛版', pg:'10', pr:'25', c:'李佳恩', l:'李佳恩'},
+        {v:'P', id:'H2', n:'殷勤做工', pg:'1', pr:'10', c:'蔡真光', l:'蔡真光'},
+        {v:'P', id:'H3', n:'所羅門王求智慧', pg:'1', pr:'10', c:'千捆', l:'千捆'},
+        {v:'P', id:'H4', n:'你是我的力量保障', pg:'1', pr:'10', c:'千捆,美惠', l:'豪'},
+        {v:'P', id:'H5', n:'寶貴耶穌', pg:'2', pr:'10', c:'黽立', l:'黽立'},
+        {v:'P', id:'H6', n:'光明的大道', pg:'2', pr:'10', c:'黽立', l:'黽立'},
+        {v:'P', id:'H7', n:'迎主進來', pg:'1', pr:'10', c:'蔡真光', l:'蔡真光'},
+        {v:'P', id:'H8', n:'跟主走', pg:'1', pr:'10', c:'蔡真光', l:'蔡真光'},
+        {v:'P', id:'H9', n:'保守你心', pg:'1', pr:'10', c:'蔡真光', l:'蔡真光'},
+        {v:'P', id:'H10', n:'耶和華是我牧者', pg:'3', pr:'10', c:'Rose', l:'Rose'},
+        {v:'P', id:'H11', n:'感念主恩', pg:'1', pr:'10', c:'黽立', l:'黽立'},
+        {v:'P', id:'H12', n:'求主垂聽', pg:'1', pr:'10', c:'黽立', l:'黽立'},
+        {v:'P', id:'H13', n:'跟主的腳步', pg:'2', pr:'10', c:'黽立', l:'黽立'},
+        {v:'P', id:'H14', n:'我要親近你', pg:'2', pr:'10', c:'黽立', l:'黽立'},
+        {v:'P', id:'H15', n:'羨慕天城', pg:'1', pr:'10', c:'蔡真光', l:'蔡真光'},
+        {v:'P', id:'H16', n:'讚美主神', pg:'1', pr:'10', c:'蔡真光', l:'蔡真光'},
+        {v:'P', id:'H17', n:'送別祝福', pg:'1', pr:'10', c:'蔡真光', l:'蔡真光'},
+        {v:'P', id:'H18', n:'主是避難所', pg:'1', pr:'10', c:'黃家興', l:'黃家興'},
+        {v:'P', id:'H19', n:'頌讚神之大能', pg:'1', pr:'10', c:'黃家興', l:'黃家興'},
+        {v:'P', id:'H20', n:'主的恩', pg:'3', pr:'10', c:'胡明勇', l:'胡明勇'},
+        {v:'P', id:'H21', n:'人生', pg:'1', pr:'10', c:'賴英夫', l:'賴英夫'},
+        {v:'P', id:'H22', n:'快樂在我心', pg:'2', pr:'10', c:'胡明勇', l:'胡明勇'},
+        {v:'P', id:'H23', n:'祈求', pg:'2', pr:'10', c:'胡明勇', l:'胡明勇'},
+        {v:'P', id:'H24', n:'感恩的祈禱', pg:'3', pr:'10', c:'鄭恩惠', l:'鄭恩惠'},
+        {v:'P', id:'H25', n:'十誡', pg:'1', pr:'10', c:'滕樹勳', l:'出埃及記20章'},
+        {v:'P', id:'H26', n:'主是力量保障', pg:'1', pr:'10', c:'柔', l:'豪'},
+        {v:'P', id:'H27', n:'向前奔跑', pg:'1', pr:'10', c:'方錦煌', l:'方錦煌'},
+        {v:'P', id:'H28', n:'老歲仔的歌(台語)', pg:'1', pr:'10', c:'千捆', l:'千捆'},
+        {v:'P', id:'H29', n:'求主憐憫', pg:'1', pr:'10', c:'李孟真', l:'詩篇69篇'},
+        {v:'P', id:'H30', n:'長青樹(華語)', pg:'1', pr:'10', c:'朱成明', l:'侯恩源'},
+        {v:'P', id:'H31', n:'長青樹(台語)', pg:'1', pr:'10', c:'朱成明', l:'侯恩源'},
+        {v:'P', id:'H32', n:'耶穌是我磐石', pg:'1', pr:'10', c:'千捆', l:'千捆'},
+        {v:'P', id:'H33', n:'耶穌恩友', pg:'2', pr:'10', c:'黎為昇', l:'讚美詩263、298、299、300首改編'},
+        {v:'P', id:'H34', n:'頌主救恩', pg:'1', pr:'10', c:'柔', l:'詩篇31篇'},
+        {v:'P', id:'H35', n:'頌讚耶和華(一)', pg:'1', pr:'10', c:'蔡真光', l:'詩篇56篇'},
+        {v:'P', id:'H36', n:'頌讚耶和華(二)', pg:'1', pr:'10', c:'蔡真光', l:'詩篇51篇'},
+        {v:'P', id:'H37', n:'頌讚耶和華(三)', pg:'1', pr:'10', c:'蔡真光', l:'詩篇42篇'},
+        {v:'P', id:'H38', n:'頌讚耶和華(四)', pg:'1', pr:'10', c:'蔡真光', l:'詩篇8篇'},
+        {v:'P', id:'H39', n:'頌讚耶和華(五)', pg:'1', pr:'10', c:'蔡真光', l:'詩篇18篇'},
+        {v:'P', id:'H40', n:'頌讚耶和華(六)', pg:'1', pr:'10', c:'蔡真光', l:'詩篇24篇'},
+        {v:'P', id:'H41', n:'箴言要訓(台語)', pg:'1', pr:'10', c:'黎為昇', l:'箴言4章'},
+        {v:'P', id:'H42', n:'誰家的孩子最乖', pg:'1', pr:'10', c:'千捆', l:'千捆'},
+        {v:'P', id:'H43', n:'在主蔭下', pg:'1', pr:'10', c:'Rose', l:'讚美詩161首'},
+        {v:'P', id:'H44', n:'耶穌大愛', pg:'1', pr:'10', c:'陳文宏', l:'陳文宏'},
+        {v:'P', id:'H45', n:'因為有你', pg:'2', pr:'10', c:'廖謙', l:'廖謙'},
+        {v:'P', id:'H46', n:'我的神', pg:'1', pr:'10', c:'廖謙', l:'廖謙'},
+        {v:'P', id:'H47', n:'福音的曙光', pg:'1', pr:'10', c:'陳文宏', l:'Small Polo'},
+        {v:'P', id:'H48', n:'萬有當讚美耶和華', pg:'2', pr:'10', c:'廖謙', l:'廖謙'},
+        {v:'P', id:'H49', n:'百合花', pg:'2', pr:'10', c:'蕭榮燦', l:'楊英祥'},
+        {v:'P', id:'H50', n:'若不是', pg:'7', pr:'20', c:'李純慧', l:'黃美淑'},
+        {v:'P', id:'H51', n:'我不孤單', pg:'5', pr:'20', c:'Elim Chen', l:'Elim Chen'},
+        {v:'P', id:'H51-1', n:'我不孤單(二聲部)', pg:'5', pr:'20', c:'Elim Chen', l:'Elim Chen', s:'H51-1'},
+        {v:'P', id:'H52', n:'主禱文', pg:'3', pr:'10', c:'李佳恩', l:'Justine Lee'},
+        {v:'P', id:'H53', n:'願坦途鋪於你前', pg:'10', pr:'20', c:'Irish Verse', l:'李佳恩'},
+        {v:'P', id:'H54', n:'獻我一生', pg:'1', pr:'10', c:'Lanny', l:'Lanny'},
+        {v:'P', id:'H55', n:'永遠愛你', pg:'1', pr:'10', c:'謝至民', l:'謝至民'},
+        {v:'P', id:'H56', n:'全能的神', pg:'1', pr:'10', c:'廖雪芳', l:'廖雪芳'},
+        {v:'P', id:'H57', n:'為主多勞力', pg:'1', pr:'10', c:'林榮福', l:'林榮福'},
+        {v:'P', id:'H58', n:'主在我身旁', pg:'1', pr:'10', c:'Lanny', l:'Helena, Lanny'},
+        {v:'P', id:'H59', n:'精兵每戰必勝', pg:'1', pr:'10', c:'林榮福', l:'林榮福'},
+        {v:'P', id:'H60', n:'到我這裡來', pg:'1', pr:'10', c:'謝至民', l:'謝至民'},
+        {v:'P', id:'H61', n:'哈巴谷之禱', pg:'1', pr:'10', c:'Lanny', l:'哈巴谷書3章'},
+        {v:'P', id:'H62', n:'歸向主，我心安樂', pg:'1', pr:'10', c:'林榮福', l:'林榮福'},
+        {v:'P', id:'H63', n:'帶領我路', pg:'1', pr:'10', c:'謝至民', l:'謝至民'},
+        {v:'P', id:'H64', n:'聽!救主呼召', pg:'1', pr:'10', c:'林榮福', l:'林榮福'},
+        {v:'P', id:'H65', n:'Gift of Love', pg:'3', pr:'10', c:'余雅芬', l:'內新中級班'},
+        {v:'P', id:'H66', n:'神同在', pg:'8', pr:'20', c:'Ya-Lun Yu', l:'Ya-Lun Yu'},
+        {v:'P', id:'H67', n:'八福頌', pg:'1', pr:'10', c:'Lanny', l:'馬太福音五章'},
+        {v:'P', id:'H68', n:'心靈安慰', pg:'1', pr:'10', c:'蔡真光', l:'蔡真光'},
+        {v:'P', id:'H69', n:'永遠所在', pg:'1', pr:'10', c:'蔡真光', l:'蔡真光'},
+        {v:'P', id:'H70', n:'向山舉目', pg:'1', pr:'10', c:'蔡真光', l:'蔡真光'},
+        {v:'P', id:'H71', n:'沙崙玫瑰', pg:'1', pr:'10', c:'黽立', l:'黽立'},
+        {v:'P', id:'H72', n:'走在十字路', pg:'1', pr:'10', c:'Lanny, Nick', l:'許曉娟'},
+        {v:'P', id:'H73', n:'走在主路上', pg:'1', pr:'10', c:'黽立', l:'黽立'},
+        {v:'P', id:'H74', n:'奇妙恩典', pg:'1', pr:'10', c:'蔡真光', l:'蔡真光'},
+        {v:'P', id:'H75', n:'非主莫屬', pg:'1', pr:'10', c:'黽立', l:'黽立'},
+        {v:'P', id:'H76', n:'活著親像在天堂', pg:'1', pr:'10', c:'黽立', l:'黽立'},
+        {v:'P', id:'H77', n:'耶穌常可靠', pg:'1', pr:'10', c:'黽立', l:'黽立'},
+        {v:'P', id:'H78', n:'耶穌喚你快回家', pg:'1', pr:'10', c:'黽立', l:'黽立'},
+        {v:'P', id:'H79', n:'嗯免驚', pg:'1', pr:'10', c:'黽立', l:'黽立'},
+        {v:'P', id:'H80', n:'跟隨主腳步', pg:'1', pr:'10', c:'黽立', l:'黽立'},
+        {v:'P', id:'H81', n:'親愛的寶貝', pg:'1', pr:'10', c:'Lanny', l:'申命記6章'},
+        {v:'P', id:'H82', n:'全心全意 With All Your Heart', pg:'3', pr:'10', c:'李佳恩', l:'耶利米書29章'},
+        {v:'', id:'H83', n:'主是我的避難所', pg:'7', pr:'20', c:'黎為昇／作曲、李佳恩編曲', l:'詩篇91篇'},
+        {v:'P', id:'H84', n:'獻新歌給榮耀主', pg:'9', pr:'20', c:'李佳恩', l:'啟示錄'},
+        {v:'P', id:'H85', n:'以馬内利，懇求降臨', pg:'7', pr:'20', c:'李佳恩', l:'Latin Hymn'},
+        {v:'P', id:'H86', n:'願主賜平安 Peace be with you', pg:'4', pr:'20', c:'李佳恩', l:'詩篇122篇'},
+        {v:'P', id:'H87', n:'交託', pg:'8', pr:'20', c:'李佳恩', l:'黎為昇'},
+        {v:'P', id:'H88', n:'平靜風和海', pg:'5', pr:'20', c:'黎為昇／作曲、李佳恩編曲', l:'葉順隆'},
+        {v:'P', id:'H89', n:'神，同在(佳恩編曲版)', pg:'8', pr:'20', c:'尤亞倫／作曲、李佳恩編曲', l:'尤亞倫'},
+        {v:'', id:'H90', n:'那聖者說', pg:'8', pr:'20', c:'李佳恩', l:'賽40章'},
+        {v:'P', id:'H91', n:'主愛臨我 (奇異恩典) 四部混聲', pg:'9', pr:'20', c:'李佳恩', l:'John Newton'},
+        {v:'P', id:'H92', n:'主愛臨我（奇異恩典）女聲2部', pg:'9', pr:'20', c:'李佳恩', l:'John Newton'},
+        {v:'P', id:'H93', n:'主慈懷', pg:'12', pr:'20', c:'李佳恩', l:'李佳恩'},
+        {v:'P', id:'H94', n:'神，開路', pg:'9', pr:'20', c:'李佳恩', l:'賽30章'},
+        {v:'P', id:'H94-1', n:'神，開路-英文版', pg:'10', pr:'20', c:'李佳恩', l:'賽30章', s:'H94-1'},
+        {v:'P', id:'H95', n:'因祢，有盼望', pg:'7', pr:'20', c:'李佳恩', l:'李佳恩'},
+        {v:'P', id:'H96', n:'永恆的愛', pg:'11', pr:'20', c:'李佳恩', l:'林前13章'},
+        {v:'P', id:'H97', n:'定睛眷顧', pg:'10', pr:'20', c:'李佳恩', l:'詩121'},
+        {v:'P', id:'H98', n:'In My Mind', pg:'2', pr:'10', c:'美門團契畢業生', l:'美門團契畢業生'},
+        {v:'', id:'H99', n:'一步一步走', pg:'1', pr:'10', c:'賴英夫', l:'賴英夫'},
+        {v:'', id:'H100', n:'安息聖日', pg:'1', pr:'10', c:'賴英夫', l:'賴英夫'},
+        {v:'P', id:'H101', n:'盼望復活頌', pg:'7', pr:'20', c:'呈勳', l:'讚美詩 108、407、78、79'},
+        {v:'', id:'H102', n:'你要認識神', pg:'1', pr:'10', c:'賴英夫', l:'賴英夫'},
+        {v:'', id:'H103', n:'耶穌的愛跟隨我(台語)', pg:'1', pr:'10', c:'賴英夫', l:'賴英夫'},
+        {v:'P', id:'H104', n:'耶穌是否仍然看顧', pg:'2', pr:'10', c:'張伯潤', l:'J.Lincoln Hall'},
+        {v:'', id:'H105', n:'耶穌是救主', pg:'1', pr:'10', c:'賴英夫', l:'賴英夫'},
+        {v:'', id:'H106', n:'風在吹', pg:'1', pr:'10', c:'賴英夫', l:'賴英夫'},
+        {v:'', id:'H107', n:'長青樹(華語)', pg:'1', pr:'10', c:'朱成明', l:'侯恩源'},
+        {v:'', id:'H108', n:'敬虔的人生', pg:'1', pr:'10', c:'賴英夫', l:'賴英夫'},
+        {v:'', id:'H109', n:'萬主之主', pg:'1', pr:'10', c:'賴英夫', l:'賴英夫'},
+        {v:'', id:'H110', n:'聖靈替我們禱告', pg:'1', pr:'10', c:'賴英夫', l:'賴英夫'},
+        {v:'', id:'H111', n:'天父賞賜', pg:'1', pr:'10', c:'謝俊雄', l:'謝俊雄'},
+        {v:'', id:'H112', n:'思念錫安', pg:'1', pr:'10', c:'謝俊雄', l:'謝俊雄'},
+        {v:'', id:'H113', n:'堅定所信的道', pg:'1', pr:'10', c:'謝俊雄', l:'謝俊雄'},
+        {v:'', id:'H114', n:'平安的路', pg:'1', pr:'10', c:'謝俊雄', l:'謝俊雄'},
+        {v:'', id:'H115', n:'歡喜走天路', pg:'1', pr:'10', c:'賴英夫', l:'賴英夫'},
+        {v:'P', id:'H116', n:'感謝', pg:'6', pr:'20', c:'James Chen', l:'James Chen'},
+        {v:'P', id:'H117', n:'百合花', pg:'6', pr:'20', c:'Unknown', l:'編曲／Chihyuan Lai'},
+        {v:'P', id:'H118', n:'呼求者的禱告', pg:'4', pr:'20', c:'Pei-en Lin', l:'詩篇8、55、61篇'},
+        {v:'P', id:'H119', n:'疲乏者的禱告', pg:'6', pr:'20', c:'讚美詩264、265首', l:'編曲／Hui-min Chen'},
+        {v:'P', id:'H120', n:'惟有主能救我', pg:'4', pr:'20', c:'徒4:12', l:'黃恩霖'},
+        {v:'P', id:'H121', n:'十字架', pg:'10', pr:'20', c:'李佳恩', l:'李佳恩'},
+        {v:'P', id:'H122', n:'因你，有盼望(雙提琴)', pg:'10', pr:'20', c:'李佳恩', l:'李佳恩'},
+        {v:'P', id:'H123', n:'永存的冠冕', pg:'8', pr:'20', c:'李佳恩', l:'李佳恩'},
+        {v:'P', id:'H124', n:'永存的冠冕(Bb major)', pg:'8', pr:'20', c:'李佳恩', l:'李佳恩'},
+        {v:'P', id:'H125', n:'聖殿的榮美', pg:'8', pr:'20', c:'李佳恩', l:'李佳恩'},
+        {v:'P', id:'H126', n:'真耶穌教會英文版', pg:'5', pr:'20', c:'Albert Chen', l:'Albert Chen'},
+        {v:'P', id:'H127', n:'主耶穌在呼召', pg:'10', pr:'20', c:'李佳恩', l:'李佳恩'},
+        {v:'P', id:'H128', n:'永恆的讚美', pg:'7', pr:'20', c:'Chih-yuan Lai', l:'Chih-yuan Lai'},
+        {v:'P', id:'H129', n:'感謝你，陪著我', pg:'5', pr:'20', c:'姜呈勳', l:'讚美詩改編'},
+        {v:'', id:'H130', n:'我要能看見', pg:'4', pr:'20', c:'張敏敏', l:'林慈恩'},
+        {v:'', id:'H131', n:'同心合意 With One Accord', pg:'4', pr:'20', c:'張敏敏', l:'張敏敏'},
+        {v:'P', id:'H132', n:'至聖耶穌', pg:'10', pr:'20', c:'Cheng-Hsun Jiang', l:'Cheng-Hsun Jiang'},
+        {v:'P', id:'H133', n:'給雲霧的愛', pg:'3', pr:'10', c:'Lanny', l:'恩暉、Helena、Lanny'},
+        {v:'P', id:'H134', n:'因主的慈愛', pg:'1', pr:'10', c:'Tsai-Yulin', l:'Tsai-Yulin'},
+        {v:'P', id:'H135', n:'耶穌是否仍然看顧我', pg:'7', pr:'20', c:'FRANK E. GRAEFF', l:'改編Ying Ting Tseng'},
+        {v:'P', id:'H136', n:'主的平安', pg:'3', pr:'10', c:'林昀蓉', l:'林昀蓉'},
+        {v:'P', id:'H137', n:'同走十架路', pg:'10', pr:'20', c:'Cheng-Hsun Jiang', l:'Cheng-Hsun Jiang'},
+        {v:'', id:'H138', n:'因你是我一切所有', pg:'8', pr:'20', c:'吳聖福', l:'陳俐瑜、廖宇謙、羅治成、吳聖福'},
+        {v:'P', id:'H139', n:'宣揚耶穌', pg:'9', pr:'20', c:'吳聖福', l:'陳俐瑜、廖宇謙、羅治成、吳聖福'},
+        {v:'', id:'H140', n:'祂看顧麻雀', pg:'6', pr:'20', c:'吳聖福改編', l:'Civilla Durfee Martin'},
+        {v:'P', id:'H141', n:'末日頌', pg:'10', pr:'20', c:'Cheng-Hsun Jiang', l:'Cheng-Hsun Jiang'},
+        {v:'P', id:'H142', n:'耶穌良牧', pg:'1', pr:'10', c:'游以寧', l:'游以寧'},
+        {v:'P', id:'H143', n:'遠方的守望', pg:'32', pr:'50', c:'吳聖福、張中漢、廖宇謙、陳俐瑜', l:'張中漢'},
+        {v:'P', id:'H144', n:'耶穌是誰', pg:'2', pr:'10', c:'吳聖福', l:'郭弈萱、陳俐瑜'},
+        {v:'P', id:'H145', n:'求主指引我路', pg:'5', pr:'20', c:'BENJAMIN M. RAMSWY', l:'Chen Chi-Yang'},
+        {v:'P', id:'H146', n:'主啊，除祢以外', pg:'8', pr:'20', c:'李佳恩', l:'Lemuel Leong'},
+        {v:'P', id:'H147', n:'喜訊-合唱版', pg:'7', pr:'20', c:'李佳恩', l:'F.J. Crosby'},
+        {v:'P', id:'H148', n:'滿有威榮的神', pg:'8', pr:'20', c:'李佳恩', l:'李佳恩'},
+        {v:'P', id:'H149', n:'團契', pg:'3', pr:'10', c:'吳聖福', l:'張中漢'},
+        {v:'P', id:'H150', n:'詩篇之禱', pg:'8', pr:'20', c:'李佳恩', l:'詩篇5、51篇'},
+        {v:'P', id:'H151', n:'如鷹展翅', pg:'8', pr:'20', c:'李佳恩', l:'以賽亞書四十張'},
+        {v:'P', id:'H152', n:'耶和華是我牧者', pg:'8', pr:'20', c:'李佳恩', l:'詩篇23篇'},
+        {v:'P', id:'H153', n:'古舊十架-何等的愛', pg:'11', pr:'20', c:'洪慈霙', l:'洪慈霙'},
+        {v:'P', id:'H154', n:'大哉！榮耀的神', pg:'6', pr:'20', c:'李佳恩', l:'李佳恩'},
+        {v:'P', id:'H155', n:'詩篇十六篇', pg:'3', pr:'10', c:'曲Lanny／編曲Zhiren', l:'詩篇16篇'},
+        {v:'P', id:'H156', n:'主在身邊', pg:'1', pr:'10', c:'游以寧', l:'游以寧'},
+        {v:'P', id:'H157', n:'刻在心版上', pg:'5', pr:'20', c:'李佳恩', l:'箴言三章1-7節'},
+        {v:'P', id:'H158', n:'伴我飛翔', pg:'7', pr:'20', c:'Lanny', l:'Smallpolo Chen'},
+        {v:'P', id:'H159', n:'祝福', pg:'4', pr:'20', c:'Lanny', l:'Smallpolo Chen'},
+        {v:'P', id:'H160', n:'一生約定', pg:'4', pr:'20', c:'Lanny', l:'Smallpolo Chen'},
+        {v:'P', id:'H161', n:'不放手', pg:'3', pr:'10', c:'Lanny', l:'Smallpolo Chen'},
+        {v:'P', id:'H162', n:'美好地方', pg:'5', pr:'20', c:'Lanny', l:'Smallpolo Chen'},
+        {v:'P', id:'H163', n:'凡事都有主旨意', pg:'1', pr:'10', c:'吳孟瀠', l:'吳孟瀠'},
+        {v:'', id:'H164', n:'谷中百合', pg:'1', pr:'10', c:'吳孟瀠', l:'吳孟瀠'},
+        {v:'P', id:'H165', n:'祂顧念的角落', pg:'4', pr:'20', c:'NJ C.', l:'Helena W.'},
+        {v:'P', id:'H166', n:'默然愛你', pg:'3', pr:'10', c:'Esther Sing', l:'Esther Sing'},
+        {v:'', id:'H167', n:'主必預備', pg:'5', pr:'20', c:'讚美詩152首改編', l:'江瑾琦'},
+        {v:'P', id:'H168', n:'主，我將自己獻上', pg:'7', pr:'20', c:'李佳恩', l:'李佳恩'},
+        {v:'P', id:'H169', n:'讓恩友進入你心', pg:'7', pr:'20', c:'讚美詩341,265,263,133改編', l:'吳聖福.羅智恩.黃文蒨'},
+        {v:'P', id:'H170', n:'無非是人所能受', pg:'7', pr:'20', c:'Esther Sing', l:'Esther Sing'},
+        {v:'P', id:'H171', n:'主引領眷顧', pg:'12', pr:'20', c:'Cheng-Hsun Jiang', l:'Cheng-Hsun Jiang'},
+        {v:'P', id:'H172', n:'領我走永生的道路', pg:'8', pr:'20', c:'李佳恩', l:'詩篇139篇'},
+        {v:'P', id:'H173', n:'每一天得力量', pg:'8', pr:'20', c:'李佳恩', l:'Carolina S.Berg，Lemuel Leong'},
+        {v:'P', id:'H174', n:'恩典印記', pg:'9', pr:'20', c:'李佳恩', l:'黃孟文'},
+        {v:'P', id:'H175-1', n:'不怕黑夜行的瘟疫(中文版)-四部和聲/鋼琴', pg:'7', pr:'20', c:'李佳恩', l:'詩篇九十一篇', s:'H175'},
+        {v:'P', id:'H175-2', n:'不怕黑夜行的瘟疫(英文版)-四部和聲/鋼琴', pg:'7', pr:'20', c:'李佳恩', l:'Psalm 91', s:'H175'},
+        {v:'P', id:'H175-3', n:'不怕黑夜行的瘟疫(中文版)-A cappella', pg:'5', pr:'20', c:'李佳恩', l:'詩篇九十一篇', s:'H175'},
+        {v:'P', id:'H175-4', n:'不怕黑夜行的瘟疫(英文版)-A cappella', pg:'5', pr:'20', c:'李佳恩', l:'Psalm 91', s:'H175'},
+        {v:'P', id:'H176', n:'尋求(附單譜)', pg:'4', pr:'20', c:'曲：Lanny Liu／編曲：Esther-Sing', l:'詞：Smallpolo Chen'},
+        {v:'P', id:'H177', n:'詩篇23篇', pg:'4', pr:'20', c:'Lanny／編曲：Esther-Sing', l:'詩篇23篇'},
+        {v:'', id:'H178', n:'永恆的盟約', pg:'1', pr:'10', c:'吳孟瀠', l:'吳孟瀠'},
+        {v:'P', id:'H179', n:'全知的主，我稱頌祢!', pg:'8', pr:'20', c:'洪慈霙', l:'詩篇139篇'},
+        {v:'P', id:'H179-1', n:'全知的主-小提琴版', pg:'10', pr:'20', c:'洪慈霙', l:'詩篇139篇', s:'H179-1'},
+        {v:'P', id:'H180', n:'全備的愛(總譜)', pg:'14', pr:'30', c:'洪慈霙', l:'讚美詩431首改編'},
+        {v:'P', id:'H180-1', n:'全備的愛-器樂版', pg:'14', pr:'30', c:'洪慈霙', l:'讚美詩431首改編', s:'H180-1'},
+        {v:'', id:'H181', n:'婚約', pg:'6', pr:'20', c:'彩虹團契', l:'彩虹團契'},
+        {v:'P', id:'H182', n:'新婚頌主', pg:'11', pr:'20', c:'改編／吳聖福.廖宇謙.陳俐瑜', l:'讚美詩263、298、299、300首改編'},
+        {v:'P', id:'H183', n:'願聖靈感動你', pg:'1', pr:'10', c:'林浩恩', l:'林浩恩'},
+        {v:'P', id:'H184', n:'心中的王', pg:'3', pr:'10', c:'黃惠如', l:'黃惠如'},
+        {v:'', id:'H185', n:'主，我願像祢', pg:'6', pr:'20', c:'編曲／Wei- Yun W.', l:'讚美詩改編'},
+        {v:'P', id:'H186', n:'軟弱者的禱告', pg:'9', pr:'20', c:'吳聖福', l:'吳聖福'},
+        {v:'P', id:'H187', n:'親愛的主', pg:'3', pr:'10', c:'陳恩暉、Smallpolo Chen', l:'曲／Lanny 編曲／Esther-Sing'},
+        {v:'P', id:'H188', n:'因為有你', pg:'8', pr:'20', c:'永和教會青教組', l:'永和教會青教組'},
+        {v:'P', id:'H189', n:'一粒麥子', pg:'6', pr:'20', c:'2022TJC神學生創作', l:'2022TJC神學生創作'},
+        {v:'P', id:'H189-1', n:'一粒麥子-器樂版', pg:'6', pr:'20', c:'2022TJC', l:'2022TJC', s:'H189-1'},
+        {v:'P', id:'H190', n:'因祢已勝過這世界', pg:'9', pr:'20', c:'洪慈霙Sylvia Hung', l:'讚美詩166首歌詞'},
+        {v:'P', id:'H191', n:'栽在溪水旁', pg:'1', pr:'10', c:'鐘國軒', l:'鐘國軒'},
+        {v:'P', id:'H192', n:'神的時候', pg:'7', pr:'20', c:'李佳恩', l:'黃畀予'},
+        {v:'P', id:'H193', n:'神對我說', pg:'8', pr:'20', c:'S.enyu', l:'S.enyu'},
+        {v:'P', id:'H194', n:'任主差派', pg:'6', pr:'20', c:'編曲／Wei- Yun W', l:'讚美詩392首改編'},
+        {v:'P', id:'H195', n:'耶穌愛我', pg:'6', pr:'20', c:'編曲／Wei- Yun W', l:'讚美詩27首改編'},
+        {v:'P', id:'H196', n:'決心信靠', pg:'6', pr:'20', c:'蔡佳諺', l:'詩篇62篇'},
+        {v:'P', id:'H197', n:'恩雨已降(弦樂)', pg:'14', pr:'30', c:'編曲／Jen-chieh Huang', l:'讚美詩246, 256, 372, 253首'},
+        {v:'P', id:'H198', n:'最美事奉', pg:'6', pr:'20', c:'曲／Lanny 編曲／Zhiren', l:'詞：Helena'},
+        {v:'P', id:'H199', n:'順水行路', pg:'7', pr:'20', c:'張伯潤', l:'讚美詩225首改編'},
+        {v:'P', id:'H200', n:'愛拯救我', pg:'10', pr:'20', c:'Jia en Lin', l:'(約壹四10)'},
+        {v:'P', id:'H201-1', n:'聖靈頌-女聲二部版', pg:'5', pr:'20', c:'吳聖福', l:'吳聖福', s:'H201'},
+        {v:'P', id:'H201-2', n:'聖靈頌-混聲二部版', pg:'5', pr:'20', c:'吳聖福', l:'吳聖福', s:'H201'},
+        {v:'P', id:'H202', n:'我屬耶穌', pg:'11', pr:'20', c:'洪慈霙Sylvia Hung', l:'讚美詩236首改編'},
+        {v:'P', id:'H203-1', n:'求主向我發言-小號管風琴版', pg:'10', pr:'20', c:'洪慈霙Sylvia Hung', l:'讚美詩26首改編', s:'H203'},
+        {v:'P', id:'H203-2', n:'求主向我發言-弦樂鋼琴版', pg:'10', pr:'20', c:'洪慈霙Sylvia Hung', l:'讚美詩26首改編', s:'H203'},
+        {v:'P', id:'H204', n:'耶穌奇妙的救恩', pg:'18', pr:'30', c:'洪慈霙Sylvia Hung', l:'讚美詩457首改編'},
+        {v:'P', id:'H205', n:'每一天', pg:'7', pr:'20', c:'洪慈霙Sylvia Hung', l:'讚美詩351首改編'},
+        {v:'P', id:'H206', n:'求主攜我手', pg:'10', pr:'20', c:'洪慈霙Sylvia Hung', l:'讚美詩68首改編'},
+        {v:'P', id:'H207', n:'在神的時候遇見你', pg:'10', pr:'20', c:'Aaron Ting', l:'黃孟文'},
+        {v:'P', id:'H208', n:'完整', pg:'3', pr:'10', c:'NJ Chen', l:'Helena Wu'},
+        {v:'P', id:'H209', n:'面臨試驗時候', pg:'6', pr:'20', c:'吳聖福', l:'讚美詩371首改編'},
+        {v:'P', id:'H210', n:'神的話語', pg:'2', pr:'10', c:'Lanny Liu', l:'Smallpolo Chen'},
+        {v:'P', id:'H211', n:'路', pg:'1', pr:'10', c:'Lanny Liu', l:'Yinya Wang'},
+        {v:'P', id:'H212', n:'感恩', pg:'2', pr:'10', c:'Lanny Liu', l:'Smallpolo Chen/Helena Wu'},
+        {v:'P', id:'H213', n:'謙卑獻上', pg:'6', pr:'20', c:'Balune C.', l:'詩篇116:12-17'},
+        {v:'P', id:'H214', n:'哈巴谷的信息', pg:'11', pr:'20', c:'吳聖福', l:'哈巴谷書'},
+        {v:'P', id:'H215', n:'舉目觀看', pg:'5', pr:'20', c:'Esther-Sing', l:'詩篇121篇'},
+        {v:'P', id:'H216', n:'我要向山舉目', pg:'3', pr:'10', c:'Jen-chieh Huang', l:'Jen-chieh Huang'},
+        {v:'P', id:'H217', n:'自從聽見的日子', pg:'4', pr:'20', c:'Lanny Liu、Wei-Yun W.', l:'Helena Wu'},
+        {v:'P', id:'H218', n:'祢寶貴聖言', pg:'12', pr:'20', c:'洪慈霙Sylvia Hung', l:'蔡恆忠、洪士恆'},
+        {v:'P', id:'H219', n:'榮歸錫安山', pg:'10', pr:'20', c:'Cheng-Hsun Jiang', l:'Cheng-Hsun Jiang'},
+        {v:'P', id:'H220', n:'主必看顧', pg:'1', pr:'10', c:'Lanny Liu', l:'Smallpolo Chen'},
+        {v:'P', id:'H221', n:'同心行走', pg:'1', pr:'10', c:'Lanny Liu', l:'Smallpolo Chen'},
+        {v:'P', id:'H222', n:'愛是唯一', pg:'7', pr:'20', c:'EstherHuang / JamesChen', l:'EstherHuang / JamesChen'},
+        {v:'P', id:'H223', n:'傳救恩到遙遠之地', pg:'8', pr:'20', c:'Wen-Mei Pan', l:'讚美詩改編'},
+        {v:'P', id:'H224', n:'獻上這殿', pg:'11', pr:'20', c:'許牧恩、吳聖福、陳俐瑜', l:'許牧恩、吳聖福、陳俐瑜'},
+        {v:'P', id:'H225', n:'重修牆垣，開展境界', pg:'2', pr:'10', c:'林沛恩', l:'林沛恩'},
+        {v:'P', id:'H226', n:'一生有祢', pg:'1', pr:'10', c:'李如宇', l:'王嘉凱等'},
+        {v:'P', id:'H227', n:'蒙恩', pg:'7', pr:'20', c:'陳齊揚', l:'林采縈'},
+        {v:'P', id:'H228', n:'失去的感謝', pg:'9', pr:'20', c:'陳齊揚', l:'Qesu'},
+        {v:'P', id:'H229', n:'同心', pg:'12', pr:'20', c:'陳齊揚', l:'陳齊揚'},
+        {v:'P', id:'H230', n:'求主同住', pg:'10', pr:'20', c:'Cheng-Hsun Jiang', l:'Cheng-Hsun Jiang'},
+        {v:'P', id:'H231', n:'到遠方', pg:'8', pr:'20', c:'Cheng-Hsun Jiang', l:'Cheng-Hsun Jiang'},
+        {v:'P', id:'H232', n:'獻上至好的', pg:'6', pr:'20', c:'Wei-Yun W.', l:'Wei-Yun W.'},
+        {v:'', id:'H233', n:'得神喜悅', pg:'1', pr:'10', c:'張以樂', l:'張以樂、吳聖福'},
+        {v:'P', id:'H234', n:'你並不獨行', pg:'6', pr:'20', c:'李佳恩', l:'古愛爾蘭祝詞'},
+        {v:'P', id:'H235', n:'全心奉獻', pg:'2', pr:'10', c:'Lanny Liu', l:'Smallpolo Chen'},
+        {v:'P', id:'H236', n:'在祢懷中', pg:'2', pr:'10', c:'Lanny Liu', l:'Smallpolo Chen'},
+        {v:'P', id:'H237', n:'牧人的安慰', pg:'3', pr:'10', c:'NJ Chen', l:'Helena Wu'}
+    ];
+    let currentId = null;
+    function syncPlayerVisibility() {
+      const hasPlayer = Boolean(currentId);
+      document.getElementById("playerWrap").classList.toggle("is-empty", !hasPlayer);
+      document.body.classList.toggle("has-player", hasPlayer);
+    }
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+    function setText(id, value) {
+      const node = document.getElementById(id);
+      if (node) node.textContent = value;
+    }
+    function renderStats(filtered) {
+      const playable = scores.filter((item) => item.v === "P").length;
+      setText("heroCount", scores.length);
+      setText("heroPlayable", playable);
+      setText("heroFiltered", filtered.length);
+      setText("heroCurrent", currentId || "--");
+      setText("countBadge", filtered.length);
+    }
+    function renderList(list) {
+      const body = document.getElementById("listBody");
+      const empty = document.getElementById("emptyState");
+      renderStats(list);
+      if (!list.length) {
+        body.innerHTML = "";
+        empty.style.display = "block";
+        return;
+      }
+      empty.style.display = "none";
+      body.innerHTML = list.map((s) => {
+        const buyUrl = `https://www.pbooks.com.tw/products/${s.id.toLowerCase()}`;
+        const isActive = currentId === s.id && !audio.paused;
+        const isSelected = currentId === s.id;
+        const share = s.s || "";
+        return `
+          <div class="list-row ${isSelected ? "is-active" : ""}">
+            <div><span class="code-pill">${escapeHtml(s.id)}</span></div>
+            <div class="song-main">
+              <h2>${escapeHtml(s.n)}</h2>
+              <p>${escapeHtml(s.l)}</p>
+            </div>
+            <div class="author-col"><span class="desktop-credit">${escapeHtml(s.c)}</span><span class="mobile-credit">${escapeHtml(s.l)}／${escapeHtml(s.c)} · ${escapeHtml(s.pg)}頁 · $${escapeHtml(s.pr)}</span></div>
+            <div class="page-col">${escapeHtml(s.pg)} 頁</div>
+            <div class="price-col"><strong>$${escapeHtml(s.pr)}</strong></div>
+            <div class="action-col">
+              ${s.v === "P" ? `<button class="play-btn ${isActive ? "is-active" : ""}" data-id="${escapeHtml(s.id)}" data-name="${escapeHtml(s.n)}" data-author="${escapeHtml(s.c)}" data-share="${escapeHtml(share)}">${isActive ? "Pause" : "Play"}</button>` : ""}
+              <a class="buy-btn" href="${buyUrl}" target="_blank" rel="noopener">商品頁</a>
+            </div>
+          </div>`;
+      }).join("");
+      document.querySelectorAll('.play-btn').forEach((button) => {
+        button.addEventListener('click', () => {
+          togglePlay(button.dataset.id, button.dataset.name, button.dataset.author, button.dataset.share);
+        });
+      });
+    }
+    function togglePlay(id, name, author, share) {
+      const fileId = share || id;
+      if (currentId === id) {
+        if (audio.paused) {
+          audio.play();
+        } else {
+          audio.pause();
+        }
+      } else {
+        currentId = id;
+        audio.src = BASE_URL + fileId + ".mp3";
+        document.getElementById("displayTitle").innerText = `${id} ${name}`;
+        document.getElementById("displaySub").innerText = author;
+        document.getElementById("displayArt").innerText = fileId;
+        audio.play().catch(() => console.log("等待加載..."));
+      }
+      renderCurrent();
+    }
+    function renderCurrent() {
+      const keyword = document.getElementById("searchInput").value.trim().toUpperCase();
+      const filtered = scores.filter((s) =>
+        s.n.toUpperCase().includes(keyword) ||
+        s.id.toUpperCase().includes(keyword) ||
+        s.c.toUpperCase().includes(keyword) ||
+        s.l.toUpperCase().includes(keyword)
+      );
+      renderList(filtered);
+      syncPlayerVisibility();
+    }
+    audio.onplay = renderCurrent;
+    audio.onpause = renderCurrent;
+    audio.onended = () => {
+      currentId = null;
+      document.getElementById("displayArt").innerText = "MUSIC";
+      document.getElementById("displayTitle").innerText = "尚未播放";
+      document.getElementById("displaySub").innerText = "請點擊試聽按鈕";
+      syncPlayerVisibility();
+      renderCurrent();
+    };
+    document.getElementById("searchInput").addEventListener("input", renderCurrent);
+    renderCurrent();
+  </script>
+</body>
+</html>
+
+
+

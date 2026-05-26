@@ -1,0 +1,292 @@
+﻿<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="../favicon-philemon.svg">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JD1JHF86H1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-JD1JHF86H1');
+  </script>
+  <script>
+    document.addEventListener('click', function(event) {
+      var link = event.target.closest('a[href]');
+      var href = link && link.getAttribute('href');
+      var text = link ? (link.textContent || '').trim() : '';
+      if (!href) return;
+      if (!/pbooks\.com\.tw\/(products\/|cart(?:\/|$))/i.test(href) && !/(購買|商品頁|購物車)/.test(text)) return;
+      gtag('event', 'purchase_link_click', {
+        link_url: href,
+        link_text: text || '(empty)',
+        page_path: location.pathname
+      });
+    });
+  </script>
+  <title>腓利門書房｜首購新客導覽</title>
+  <style>
+    :root {
+      --green:#9EB2A0;--blue:#8DA1B5;--clay:#DBC7B5;--clay-dark:#b59f8c;--sand:#E5DED1;
+      --text:#2f2a25;--muted:#66615b;--bg:#FAFAFA;--border:#EAEAEA;--r:12px;--maxw:1000px;
+    }
+    *{box-sizing:border-box;} body{margin:0;font-family:"Helvetica Neue",Arial,"Microsoft JhengHei",sans-serif;color:var(--text);line-height:1.6;background:var(--bg);-webkit-font-smoothing:antialiased;} a{text-decoration:none;color:inherit;}
+    .container{max-width:var(--maxw);margin:0 auto;padding:60px 24px;}
+    .hero{text-align:center;margin-bottom:72px;}
+    .hero-image-wrap{width:100%;height:340px;border-radius:var(--r);overflow:hidden;background:var(--sand);margin-bottom:28px;position:relative;box-shadow:0 12px 28px rgba(0,0,0,.08);} .hero-image-wrap img{width:100%;height:100%;object-fit:cover;}
+    .hero h1{font-size:clamp(30px,5vw,40px);font-weight:600;letter-spacing:1.6px;margin:0 0 14px;color:#1a1816;}
+    .hero p{font-size:17px;color:var(--muted);max-width:640px;margin:0 auto 28px;}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 28px;border-radius:30px;font-size:16px;font-weight:600;letter-spacing:.8px;transition:opacity .2s;border:1px solid transparent;box-shadow:0 8px 18px rgba(0,0,0,.06);} .btn:hover{opacity:.86;} .btn-primary{background:var(--blue);color:#fff;} .btn-ghost{background:#fff;border-color:#d8d2c9;color:#3a332d;}
+    .steps-section{text-align:center;margin-bottom:68px;} .section-title{font-size:26px;font-weight:600;margin-bottom:36px;letter-spacing:.8px;color:#201c18;}
+    .steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:32px;} .step-card{padding:18px;background:#fff;border-radius:12px;box-shadow:0 6px 16px rgba(0,0,0,.04);} .step-number{width:44px;height:44px;background:var(--clay);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:bold;margin:0 auto 14px;} .step-card h3{margin:0 0 10px;font-size:19px;} .step-card p{margin:0;color:var(--muted);font-size:14px;}
+    .category-section{margin-bottom:72px;} .category-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;} .cat-card{position:relative;border-radius:var(--r);overflow:hidden;aspect-ratio:4/3;display:flex;flex-direction:column;justify-content:flex-end;padding:26px;color:#fff;transition:transform .25s ease,box-shadow .25s ease;} .cat-card:hover{transform:translateY(-6px);box-shadow:0 12px 20px rgba(0,0,0,.12);} .cat-card img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;opacity:.42;} .cat-card::before{content:'';position:absolute;inset:0;z-index:2;background:linear-gradient(to top,rgba(0,0,0,.6) 0%,rgba(0,0,0,0) 78%);} .cat-content{position:relative;z-index:3;} .cat-content h3{margin:0 0 6px;font-size:22px;font-weight:650;letter-spacing:.8px;} .cat-content p{margin:0;font-size:14px;font-weight:300;opacity:.95;}
+    .faq-section{max-width:820px;margin:0 auto 12px;} details{border-bottom:1px solid var(--border);} details:first-of-type{border-top:1px solid var(--border);} summary{padding:18px 0;font-size:17px;font-weight:560;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;color:#1a1816;} summary::-webkit-details-marker{display:none;} summary::after{content:'+';font-size:22px;color:var(--clay-dark);transition:transform .3s;} details[open] summary::after{transform:rotate(45deg);} .faq-content{padding:0 0 18px 0;color:var(--muted);font-size:14px;} .faq-content ul{margin:0;padding-left:18px;} .faq-content li{margin-bottom:8px;}
+    .contact-actions{display:flex;flex-wrap:wrap;gap:10px;} .contact-actions a{display:inline-flex;align-items:center;gap:6px;padding:10px 14px;border-radius:10px;border:1px solid #d8d2c9;background:#fff;color:#2f2a25;box-shadow:0 4px 10px rgba(0,0,0,.06);font-size:13px;font-weight:600;} .contact-actions a:hover{background:#f8f5f0;}
+    .lang-switch{position:fixed;right:16px;bottom:16px;display:grid;gap:8px;z-index:9999;} .lang-switch button{padding:10px 12px;border-radius:10px;border:1px solid #d8d2c9;background:#fff;color:#2f2a25;box-shadow:0 6px 16px rgba(0,0,0,.08);font-size:13px;cursor:pointer;}
+    @media(max-width:768px){.hero-image-wrap{height:240px;} .container{padding:40px 20px;} .cat-card{aspect-ratio:3/2;padding:22px;}}
+  </style>
+</head>
+<body>
+  <div class="container" data-lang="zh-TW">
+    <section class="hero">
+      <div class="hero-image-wrap">
+        <img src="assets/hero.jpg" alt="腓利門書房">
+      </div>
+      <h1 data-i18n="hero.title">第一次逛網路書房？</h1>
+      <p data-i18n="hero.desc">無論是安靜獨處，或陪伴孩子的時刻，都能找到與你當下情境共鳴的文字。</p>
+      <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+        <a class="btn btn-primary" data-i18n="hero.cta.book" href="https://www.pbooks.com.tw/collections/%E8%85%93%E5%88%A9%E9%96%80%E6%9C%AC%E7%89%88%E6%9B%B8">開始探索書籍</a>
+        <a class="btn btn-ghost" data-i18n="hero.cta.cart" href="https://www.pbooks.com.tw/cart">查看購物車</a>
+        <a class="btn btn-ghost" data-i18n="hero.cta.faq" href="https://www.pbooks.com.tw/blogs/%E5%90%84%E9%A1%9E%E8%B3%87%E8%A8%8A/168673" target="_blank">下單前說明</a>
+        <a class="btn btn-ghost" data-i18n="hero.cta.home" href="https://news.pbooks.com.tw/">返回電子報</a>
+      </div>
+    </section>
+
+    <section class="steps-section">
+      <h2 class="section-title" data-i18n="steps.title">今天想找點什麼？</h2>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <h3 data-i18n="steps.1.title">遇見你的需要</h3>
+          <p data-i18n="steps.1.desc">從這裡開始，尋找與你當下共鳴的文字。</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <h3 data-i18n="steps.2.title">加入購物車</h3>
+          <p data-i18n="steps.2.desc">結帳時可用紅利點數折抵，越逛越划算。</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <h3 data-i18n="steps.3.title">安心收件</h3>
+          <p data-i18n="steps.3.desc">上班日 10:00 前下單，當日開單出貨。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="category-section">
+      <h2 class="section-title" style="text-align:center;" data-i18n="cats.title">你今天想找什麼？</h2>
+      <div class="category-grid">
+        <a class="cat-card color-1" href="https://www.pbooks.com.tw/collections/%E6%9C%AC%E7%89%88%E5%9C%96%E7%95%AB%E6%9B%B8%EF%BC%8F%E7%B9%AA%E6%9C%AC">
+          <img class="bg" src="assets/cat1.jpg" alt="童書繪本">
+          <div class="cat-content">
+            <h3 data-i18n="cats.1.title">童書與繪本</h3>
+            <p data-i18n="cats.1.desc">陪孩子在故事裡，種下信仰種子。</p>
+          </div>
+        </a>
+        <a class="cat-card color-2" href="https://www.pbooks.com.tw/collections/tjc100">
+          <img class="bg" src="assets/cat2.jpg" alt="百周年禮品">
+          <div class="cat-content">
+            <h3 data-i18n="cats.2.title">百周年紀念禮品</h3>
+            <p data-i18n="cats.2.desc">獨家限定設計，收藏與送禮首選。</p>
+          </div>
+        </a>
+        <a class="cat-card color-3" href="https://www.pbooks.com.tw/collections/%E6%9C%AC%E7%89%88%E5%89%B5%E4%BD%9C%E8%A9%A9%E6%AD%8C%E5%96%AE%E8%AD%9C">
+          <img class="bg" src="assets/cat3.jpg" alt="詩歌單譜">
+          <div class="cat-content">
+            <h3 data-i18n="cats.3.title">創作詩歌單譜</h3>
+            <p data-i18n="cats.3.desc">敬拜、詩班練習，一次備齊。</p>
+          </div>
+        </a>
+        <a class="cat-card color-4" href="https://www.pbooks.com.tw/collections/%E8%85%93%E5%88%A9%E9%96%80%E6%9C%AC%E7%89%88%E6%9B%B8">
+          <img class="bg" src="assets/cat4.jpg" alt="本版書">
+          <div class="cat-content">
+            <h3 data-i18n="cats.4.title">腓利門本版書</h3>
+            <p data-i18n="cats.4.desc">信仰與生活主題，一次掌握。</p>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2 class="section-title" style="text-align:center;" data-i18n="faq.title">購物與物流指南</h2>
+
+      <details>
+        <summary data-i18n="faq.ship.title">國內運費與物流怎麼算？</summary>
+        <div class="faq-content">
+          <p><strong data-i18n="faq.ship.domestic">國內配送：</strong></p>
+          <ul>
+            <li data-i18n="faq.ship.blackcat">黑貓：滿 $2,500 免運；未滿 NT$100。宅配／7-11 門市取貨／貨到付款。</li>
+            <li data-i18n="faq.ship.post">郵局：滿 $600 免運；未滿 NT$65。全台配送。</li>
+            <li data-i18n="faq.ship.cvs">超商取貨：運費 NT$100，需先付款。</li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary data-i18n="faq.overseas.title">海外訂購可寄送哪些國家？</summary>
+        <div class="faq-content">
+          <p data-i18n="faq.ship.overseas.desc1">結帳時選擇國家，系統會自動試算空運運費；若找不到你的國家，請聯繫客服。</p>
+          <p data-i18n="faq.ship.overseas.desc2">目前提供寄送的國家與方式如下：</p>
+          <ul>
+            <li data-i18n="faq.ship.overseas.cn.air">中國｜空運</li>
+            <li data-i18n="faq.ship.overseas.jp.air">日本｜空運</li>
+            <li data-i18n="faq.ship.overseas.ca.air">加拿大｜空運</li>
+            <li data-i18n="faq.ship.overseas.ca.seaair">加拿大｜陸空聯運</li>
+            <li data-i18n="faq.ship.overseas.us.air">美國｜空運</li>
+            <li data-i18n="faq.ship.overseas.us.seaair">美國｜陸空聯運</li>
+            <li data-i18n="faq.ship.overseas.hkmo.air">香港／澳門｜空運</li>
+            <li data-i18n="faq.ship.overseas.au.air">紐西蘭／澳洲｜空運</li>
+            <li data-i18n="faq.ship.overseas.sea.air">新加坡／馬來西亞／泰國｜空運</li>
+            <li data-i18n="faq.ship.overseas.eu.air">歐洲｜空運</li>
+          </ul>
+          <p data-i18n="faq.ship.overseas.contact">其他國家請直接聯繫書房客服。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary data-i18n="faq.pay.title">提供哪些付款方式？</summary>
+        <div class="faq-content">
+          <ul>
+            <li data-i18n="faq.pay.digital">數位支付：LINE Pay、Apple Pay、Google Pay</li>
+            <li data-i18n="faq.pay.card">刷卡：信用卡、銀聯卡</li>
+            <li data-i18n="faq.pay.transfer">轉帳/劃撥：虛擬 ATM、銀行轉帳、郵局劃撥</li>
+            <li data-i18n="faq.pay.cod">其他：黑貓貨到付款</li>
+          </ul>
+          <p style="margin-top:12px; font-size:13px;" data-i18n="faq.pay.atm">ATM：新光銀行松竹分行 (103) 帳號 0435-10-081028-4</p>
+          <p style="margin-top:4px; font-size:13px;" data-i18n="faq.pay.remit">劃撥：戶名 腓利門實業股份有限公司；帳號 22178043</p>
+        </div>
+      </details>
+
+      <details>
+        <summary data-i18n="faq.dispatch.title">出貨時間與實體書房營業時間？</summary>
+        <div class="faq-content">
+          <p data-i18n="faq.dispatch.desc"><strong>出貨：</strong>上班日 10:00 前下單，當日開單出貨；10:00 後隔一工作天（例假日暫停）。急件可電洽 04-22454043。</p>
+          <p style="margin-top:12px;" data-i18n="faq.dispatch.store"><strong>實體書房：</strong></p>
+          <ul>
+            <li data-i18n="faq.dispatch.hours1">週一至週五：08:30 - 12:00 ｜ 13:30 - 17:30</li>
+            <li data-i18n="faq.dispatch.hours2">週六：15:30 - 19:00（比照國定假日休）</li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary data-i18n="faq.rewards.title">紅利點數與訂購須知</summary>
+        <div class="faq-content">
+          <ul>
+            <li data-i18n="faq.rewards.pay">個人訂購請先付款；書報組代訂可先收貨後付款。</li>
+            <li data-i18n="faq.rewards.rule">紅利：每消費 100 元得 1 點，效期一年；部分特價品/教會用品不適用折抵。</li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary data-i18n="faq.contact.title">需要協助嗎？聯繫客服</summary>
+        <div class="faq-content">
+          <div class="contact-actions">
+            <a href="tel:+886422454043" data-i18n="faq.contact.call">📞 撥打電話 +886-4-2245-4043</a>
+            <a href="mailto:philemon@tjc.org.tw" data-i18n="faq.contact.mail">✉️ 寫信 philemon@tjc.org.tw</a>
+            <a href="https://www.pbooks.com.tw/contact" target="_blank" rel="noopener" data-i18n="faq.contact.form">💬 線上表單／客服</a>
+          </div>
+        </div>
+      </details>
+    </section>
+  </div>
+
+  <div class="lang-switch">
+    <button data-lang="zh-TW">繁體</button>
+    <button data-lang="zh-CN">简体</button>
+    <button data-lang="en">English</button>
+  </div>
+
+  <script>
+    const i18n = {
+      'hero.title': { zh:'第一次逛網路書房？', zhCN:'第一次逛网络书房？', en:'First time here?' },
+      'hero.desc': { zh:'無論是安靜獨處，或陪伴孩子的時刻，都能找到與你當下情境共鳴的文字。', zhCN:'无论是安静独处，或陪伴孩子的时刻，都能找到与你当下情境共鸣的文字。', en:'Find books that resonate—whether for quiet time or reading with your kids.' },
+      'hero.cta.book': { zh:'開始探索書籍', zhCN:'开始探索书籍', en:'Browse books' },
+      'hero.cta.cart': { zh:'查看購物車', zhCN:'查看购物车', en:'View cart' },
+      'hero.cta.faq':  { zh:'下單前說明', zhCN:'下单前说明', en:'Pre-order notes' },
+      'hero.cta.home': { zh:'返回電子報', zhCN:'返回電子報', en:'Back to newsletter' },
+      'steps.title':   { zh:'今天想找點什麼？', zhCN:'今天想找点什么？', en:'What do you want today?' },
+      'steps.1.title': { zh:'遇見你的需要', zhCN:'遇见你的需要', en:'Meet your need' },
+      'steps.1.desc':  { zh:'從這裡開始，尋找與你當下共鳴的文字。', zhCN:'从这里开始，寻找与你当下共鸣的文字。', en:'Start here and match the reading to your moment.' },
+      'steps.2.title': { zh:'加入購物車', zhCN:'加入购物车', en:'Add to cart' },
+      'steps.2.desc':  { zh:'結帳時可用紅利點數折抵，越逛越划算。', zhCN:'结账时可用红利点数折抵，越逛越划算。', en:'Use reward points at checkout to save more.' },
+      'steps.3.title': { zh:'安心收件', zhCN:'安心收件', en:'Fast shipping' },
+      'steps.3.desc':  { zh:'上班日 10:00 前下單，當日開單出貨。', zhCN:'上班日 10:00 前下单，当日开单出货。', en:'Order before 10:00 on weekdays for same-day dispatch.' },
+      'cats.title':    { zh:'你今天想找什麼？', zhCN:'你今天想找什么？', en:'What are you looking for today?' },
+      'cats.1.title':  { zh:'童書與繪本', zhCN:'童书与绘本', en:'Kids & picture books' },
+      'cats.1.desc':   { zh:'陪孩子在故事裡，種下信仰種子。', zhCN:'陪孩子在故事里，种下信仰种子。', en:'Plant seeds of faith through stories.' },
+      'cats.2.title':  { zh:'百周年紀念禮品', zhCN:'百周年纪念礼品', en:'Centennial gifts' },
+      'cats.2.desc':   { zh:'獨家限定設計，收藏與送禮首選。', zhCN:'独家限定设计，收藏与送礼首选。', en:'Exclusive designs for collection and gifting.' },
+      'cats.3.title':  { zh:'創作詩歌單譜', zhCN:'创作诗歌单谱', en:'Original hymn sheets' },
+      'cats.3.desc':   { zh:'敬拜、詩班練習，一次備齊。', zhCN:'敬拜、诗班练习，一次备齐。', en:'All you need for worship and choir practice.' },
+      'cats.4.title':  { zh:'腓利門本版書', zhCN:'腓利门本版书', en:'Philemon originals' },
+      'cats.4.desc':   { zh:'信仰與生活主題，一次掌握。', zhCN:'信仰与生活主题，一次掌握。', en:'Faith & life themes in one place.' },
+      'faq.title':     { zh:'購物與物流指南', zhCN:'购物与物流指南', en:'Shopping & Shipping Guide' },
+      'faq.ship.title':{ zh:'國內運費與物流怎麼算？', zhCN:'国内运费与物流怎么算？', en:'How are domestic shipping fees calculated?' },
+      'faq.ship.domestic':{ zh:'國內配送：', zhCN:'国内配送：', en:'Domestic:' },
+      'faq.ship.blackcat':{ zh:'黑貓：滿 $2,500 免運；未滿 NT$100。宅配／7-11 門市取貨／貨到付款。', zhCN:'黑猫：满 $2,500 免运；未满 NT$100。宅配／7-11 门市取货／货到付款。', en:'Black Cat: free over $2,500; otherwise NT$100. Home delivery / 7-Eleven store pickup / cash on delivery.' },
+      'faq.ship.post':{ zh:'郵局：滿 $600 免運；未滿 NT$65。全台配送。', zhCN:'邮局：满 $600 免运；未满 NT$65。全台配送。', en:'Post Office: free over $600; otherwise NT$65. Taiwan-wide.' },
+      'faq.ship.cvs':{ zh:'超商取貨：運費 NT$100，需先付款。', zhCN:'超商取货：运费 NT$100，需先付款。', en:'Convenience store pickup: NT$100 (prepaid).' },
+      'faq.overseas.title':{ zh:'海外訂購可寄送哪些國家？', zhCN:'海外订购可寄送哪些国家？', en:'Which countries are available for overseas shipping?' },
+      'faq.ship.overseas.desc1': { zh:'結帳時選擇國家，系統會自動試算空運運費；若找不到你的國家，請聯繫客服。', zhCN:'结账时选择国家，系统会自动试算空运运费；若找不到你的国家，请联系客服。', en:'Select your country at checkout and the system will automatically estimate the air-freight cost. If your country is not listed, please contact support.' },
+      'faq.ship.overseas.desc2': { zh:'目前提供寄送的國家與方式如下：', zhCN:'目前提供寄送的国家与方式如下：', en:'We currently offer shipping to the following destinations and methods:' },
+      'faq.ship.overseas.cn.air': { zh:'中國｜空運', zhCN:'中国｜空运', en:'China | Air freight' },
+      'faq.ship.overseas.jp.air': { zh:'日本｜空運', zhCN:'日本｜空运', en:'Japan | Air freight' },
+      'faq.ship.overseas.ca.air': { zh:'加拿大｜空運', zhCN:'加拿大｜空运', en:'Canada | Air freight' },
+      'faq.ship.overseas.ca.seaair': { zh:'加拿大｜陸空聯運', zhCN:'加拿大｜陆空联运', en:'Canada | Sea-air combined shipping' },
+      'faq.ship.overseas.us.air': { zh:'美國｜空運', zhCN:'美国｜空运', en:'United States | Air freight' },
+      'faq.ship.overseas.us.seaair': { zh:'美國｜陸空聯運', zhCN:'美国｜陆空联运', en:'United States | Sea-air combined shipping' },
+      'faq.ship.overseas.hkmo.air': { zh:'香港／澳門｜空運', zhCN:'香港／澳门｜空运', en:'Hong Kong / Macau | Air freight' },
+      'faq.ship.overseas.au.air': { zh:'紐西蘭／澳洲｜空運', zhCN:'新西兰／澳洲｜空运', en:'New Zealand / Australia | Air freight' },
+      'faq.ship.overseas.sea.air': { zh:'新加坡／馬來西亞／泰國｜空運', zhCN:'新加坡／马来西亚／泰国｜空运', en:'Singapore / Malaysia / Thailand | Air freight' },
+      'faq.ship.overseas.eu.air': { zh:'歐洲｜空運', zhCN:'欧洲｜空运', en:'Europe | Air freight' },
+      'faq.ship.overseas.contact': { zh:'其他國家請直接聯繫書房客服。', zhCN:'其他国家请直接联系书房客服。', en:'For shipping to other countries, please contact bookstore support directly.' },
+      'faq.pay.title':{ zh:'提供哪些付款方式？', zhCN:'提供哪些付款方式？', en:'Payment methods' },
+      'faq.pay.digital':{ zh:'數位支付：LINE Pay、Apple Pay、Google Pay', zhCN:'数位支付：LINE Pay、Apple Pay、Google Pay', en:'Digital pay: LINE Pay, Apple Pay, Google Pay' },
+      'faq.pay.card':{ zh:'刷卡：信用卡、銀聯卡', zhCN:'刷卡：信用卡、银联卡', en:'Cards: credit cards, UnionPay' },
+      'faq.pay.transfer':{ zh:'轉帳/劃撥：虛擬 ATM、銀行轉帳、郵局劃撥', zhCN:'转帐/划拨：虚拟 ATM、银行转帐、邮局划拨', en:'Transfer/remit: virtual ATM, bank transfer, postal remit' },
+      'faq.pay.cod':{ zh:'其他：黑貓貨到付款', zhCN:'其他：黑猫货到付款', en:'Other: Black Cat COD' },
+      'faq.pay.atm':{ zh:'ATM：新光銀行松竹分行 (103) 帳號 0435-10-081028-4', zhCN:'ATM：新光银行松竹分行 (103) 帐号 0435-10-081028-4', en:'ATM: Shin Kong Bank Songzhu (103) acct 0435-10-081028-4' },
+      'faq.pay.remit':{ zh:'劃撥：戶名 腓利門實業股份有限公司；帳號 22178043', zhCN:'划拨：户名 腓利门实业股份有限公司；帐号 22178043', en:'Postal remit: Philemon Corp., acct 22178043' },
+      'faq.dispatch.title':{ zh:'出貨時間與實體書房營業時間？', zhCN:'出货时间与实体书房营业时间？', en:'Dispatch & store hours' },
+      'faq.dispatch.desc':{ zh:'出貨：上班日 10:00 前下單，當日開單出貨；10:00 後隔一工作天（例假日暫停）。急件可電洽 04-22454043。', zhCN:'出货：上班日 10:00 前下单，当日开单出货；10:00 后隔一工作天（例假日暂停）。急件请电洽 04-22454043。', en:'Dispatch: Order before 10:00 (workdays) for same-day; after 10:00 ships next workday. For urgent cases call 04-2245-4043.' },
+      'faq.dispatch.store':{ zh:'實體書房：', zhCN:'实体书房：', en:'Physical store:' },
+      'faq.dispatch.hours1':{ zh:'週一至週五：08:30 - 12:00 ｜ 13:30 - 17:30', zhCN:'周一至周五：08:30 - 12:00 ｜ 13:30 - 17:30', en:'Mon–Fri: 08:30 - 12:00 | 13:30 - 17:30' },
+      'faq.dispatch.hours2':{ zh:'週六：15:30 - 19:00（比照國定假日休）', zhCN:'周六：15:30 - 19:00（比照国定假日休）', en:'Sat: 15:30 - 19:00 (closed on public holidays)' },
+      'faq.rewards.title':{ zh:'紅利點數與訂購須知', zhCN:'红利点数与订购须知', en:'Rewards & ordering notes' },
+      'faq.rewards.pay':{ zh:'個人訂購請先付款；書報組代訂可先收貨後付款。', zhCN:'个人订购请先付款；书报组代订可先收货后付款。', en:'Individuals: pay first; church book reps may pay after receiving.' },
+      'faq.rewards.rule':{ zh:'紅利：每消費 100 元得 1 點，效期一年；部分特價品/教會用品不適用折抵。', zhCN:'红利：每消费 100 元得 1 点，效期一年；部分特价品/教会用品不适用折抵。', en:'Rewards: NT$100 spend = 1 point (1 year validity); some sale/church items excluded.' },
+      'faq.contact.title':{ zh:'需要協助嗎？聯繫客服', zhCN:'需要协助吗？联系客服', en:'Need help? Contact us' },
+      'faq.contact.call':{ zh:'📞 撥打電話 +886-4-2245-4043', zhCN:'📞 拨打电话 +886-4-2245-4043', en:'📞 Call +886-4-2245-4043' },
+      'faq.contact.mail':{ zh:'✉️ 寫信 philemon@tjc.org.tw', zhCN:'✉️ 写信 philemon@tjc.org.tw', en:'✉️ Email philemon@tjc.org.tw' },
+      'faq.contact.form':{ zh:'💬 線上表單／客服', zhCN:'💬 线上表单／客服', en:'💬 Online form / Support' }
+    };
+
+    const langBtns = document.querySelectorAll('.lang-switch button');
+    const els = Array.from(document.querySelectorAll('[data-i18n]'));
+    function setLang(lang){
+      els.forEach(el=>{
+        const key = el.dataset.i18n;
+        const v = i18n[key];
+        if(!v) return;
+        const val = lang==='zh-CN'? v.zhCN : lang==='en'? v.en : v.zh;
+        el.textContent = val;
+      });
+      document.documentElement.lang = lang === 'zh-CN' ? 'zh-CN' : (lang==='en' ? 'en' : 'zh-Hant');
+    }
+    langBtns.forEach(b=> b.onclick = ()=> setLang(b.dataset.lang));
+  </script>
+</body>
+</html>

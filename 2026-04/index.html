@@ -1,0 +1,749 @@
+﻿<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="../favicon-news.svg" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JD1JHF86H1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    const pageLanguage = document.documentElement.lang || 'und';
+    gtag('js', new Date());
+    gtag('config', 'G-JD1JHF86H1', {
+      page_language: pageLanguage
+    });
+  </script>
+  <script>
+    document.addEventListener('click', function(event) {
+      var link = event.target.closest('a[href]');
+      var href = link && link.getAttribute('href');
+      var text = link ? (link.textContent || '').trim() : '';
+      if (!href) return;
+      if (!/pbooks\.com\.tw\/(products\/|cart(?:\/|$))/i.test(href) && !/(購買|商品頁|購物車)/.test(text)) return;
+      gtag('event', 'purchase_link_click', {
+        link_url: href,
+        link_text: text || '(empty)',
+        page_path: location.pathname,
+        page_language: pageLanguage
+      });
+    });
+  </script>
+  <title>腓利門電子報｜2026 四月號</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #eaddc5;
+      --paper-dark: #d4c1a0;
+      --ink: #2b2219;
+      --muted: #4a3e32;
+      --highlight: #7c2d23;
+      --line: #2b2219;
+      --card: rgba(255,255,255,0.9);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Noto Serif TC", serif;
+      color: var(--ink);
+      background-color: var(--paper);
+      background-image:
+        radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.05) 100%),
+        repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(43,34,25,0.03) 3px, rgba(43,34,25,0.03) 4px);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)"/></svg>');
+      opacity: 0.08;
+      pointer-events: none;
+      z-index: 100;
+      mix-blend-mode: multiply;
+    }
+    .page {
+      width: min(1200px, calc(100vw - 20px));
+      margin: 20px auto 60px;
+      padding: 32px clamp(18px, 4vw, 42px) 72px;
+      background: var(--paper);
+      border: 1px solid var(--paper-dark);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+    }
+    .lang-switcher {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 0 0 18px;
+    }
+    .lang-switcher a {
+      border: 1px solid var(--line);
+      padding: 6px 12px;
+      background: rgba(255,255,255,0.34);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .lang-switcher a.active {
+      background: var(--ink);
+      color: var(--paper);
+    }
+    header { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 0 4px; }
+    .logo img { height: 58px; width: auto; display: block; }
+    .brand { font-weight: 800; letter-spacing: 0.08em; font-size: 18px; }
+    .header-right { display:flex; align-items:center; gap:14px; }
+    nav { display: flex; gap: 16px; font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase; }
+    nav a { padding: 6px 0; border-bottom: 1px solid transparent; }
+    nav a:hover { border-color: var(--ink); }
+
+    .hero { margin: 46px 0 38px; display: grid; gap: 12px; }
+    .hero h1 { margin: 0; font-size: clamp(44px, 7vw, 78px); line-height: 1.02; letter-spacing: 0.01em; }
+    .hero p { margin: 6px 0 16px; font-size: 18px; color: var(--muted); line-height: 1.6; }
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; align-items:center; }
+    .btn {
+      padding: 12px 18px;
+      border-radius: 10px;
+      border: 2px solid var(--ink);
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      transition: 0.15s ease;
+      background: #fff7ec;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.7), 2px 4px 0 rgba(43,34,25,0.16);
+    }
+    .btn.primary { background: var(--highlight); color: #fff; border-color: var(--ink); }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.18); }
+    .buy-link {
+      animation: buyFloat 2.6s ease-in-out infinite;
+      will-change: transform, box-shadow;
+    }
+    .buy-link:hover {
+      animation-play-state: paused;
+    }
+
+    .section { margin: 48px 0; }
+    .section h2 { margin: 0 0 12px; font-size: 24px; letter-spacing: 0.04em; text-transform: none; }
+    .section small { color: var(--muted); }
+
+    .flex { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; align-items: center; }
+    .card { border: 2px solid var(--line); background: rgba(255,255,255,0.9); padding: 18px; border-radius: 14px; box-shadow: 4px 6px 0 rgba(43,34,25,0.16); }
+    .card h3 { margin: 0 0 8px; font-size: 20px; }
+    .card p { margin: 0; color: var(--muted); line-height: 1.55; }
+    .pill { display: inline-flex; padding: 6px 10px; border-radius: 999px; background: rgba(124,45,35,0.12); color: var(--highlight); font-weight: 800; font-size: 13px; letter-spacing: 0.08em; }
+
+    .product { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; align-items: center; }
+    .product img { width: 100%; border-radius: 18px; border: 1px solid var(--line); background: #f7f7f7; }
+    .list { margin: 10px 0 0; padding-left: 18px; color: var(--muted); line-height: 1.6; }
+
+    .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
+    .video-card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; box-shadow: 0 12px 28px rgba(0,0,0,0.06); }
+    .video-card iframe { width: 100%; aspect-ratio: 16 / 9; border: none; display: block; }
+    .video-card .meta { padding: 12px 14px; font-weight: 700; }
+    .content-media {
+      opacity: 0;
+      filter: blur(10px);
+      background:
+        linear-gradient(110deg, rgba(255,255,255,0.18) 8%, rgba(255,255,255,0.62) 18%, rgba(255,255,255,0.18) 33%),
+        #e9dcc4;
+      background-size: 220% 100%;
+      animation: mediaShimmer 1.35s linear infinite;
+      transition: opacity 0.35s ease, filter 0.35s ease;
+    }
+    .content-media.is-ready {
+      opacity: 1;
+      filter: none;
+      animation: none;
+    }
+
+    .archive { border: 1px solid var(--line); padding: 16px; border-radius: 14px; background: var(--card); }
+    .row { display: flex; justify-content: space-between; gap: 12px; align-items: center; border-bottom: 1px solid var(--line); padding: 10px 0; }
+    .row:last-child { border-bottom: none; }
+    .lang-row { display:flex; gap:8px; flex-wrap:wrap; }
+    .lang-row a {
+      border: 1px solid var(--line);
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      background: #fff;
+    }
+    .muted { color: var(--muted); }
+    .notebook-section {
+      border: 2px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.86);
+      box-shadow: 4px 6px 0 rgba(43,34,25,0.14);
+      padding: 22px;
+      margin-top: 14px;
+    }
+    .notebook-head {
+      display: grid;
+      grid-template-columns: minmax(280px, 420px) minmax(320px, 1fr);
+      gap: 22px;
+      align-items: start;
+    }
+    .notebook-cover-block { display:flex; flex-direction:column; gap:12px; }
+    .notebook-cover {
+      display: block;
+      border: 2px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 4px 6px 0 rgba(43,34,25,0.12);
+    }
+    .notebook-cover img {
+      width: 100%;
+      display: block;
+    }
+    .notebook-meta .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .note-pill {
+      display: inline-flex;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: rgba(124,45,35,0.12);
+      color: var(--highlight);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+    .notebook-meta h3 {
+      margin: 0 0 10px;
+      font-size: 28px;
+      line-height: 1.25;
+    }
+    .notebook-meta p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .notebook-specs {
+      margin: 14px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .notebook-style-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .notebook-style {
+      border: 1px solid rgba(43,34,25,0.18);
+      border-radius: 12px;
+      padding: 12px;
+      background: rgba(255,255,255,0.75);
+    }
+    .notebook-style strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+    .notebook-price-row {
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .notebook-carousel {
+      margin-top: 22px;
+    }
+    .notebook-carousel-frame {
+      position: relative;
+      border: 2px solid var(--line);
+      border-radius: 16px;
+      overflow: hidden;
+      background: #f8f4ec;
+      box-shadow: 4px 6px 0 rgba(43,34,25,0.12);
+    }
+    .notebook-carousel-viewport {
+      overflow: hidden;
+      background: #f8f4ec;
+      aspect-ratio: 4 / 3;
+    }
+    .notebook-carousel-track {
+      display: flex;
+      height: 100%;
+      transition: transform 0.45s ease;
+    }
+    .notebook-slide {
+      min-width: 100%;
+      height: 100%;
+      display: block;
+      background: #f8f4ec;
+    }
+    .notebook-slide img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+      background: #f8f4ec;
+    }
+    /* 封面輪播改為 1:1，避免外框留白 */
+    .notebook-cover-block .notebook-carousel-viewport {
+      aspect-ratio: 1 / 1;
+      background: #fff;
+    }
+    .notebook-carousel-controls {
+      margin-top: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+    }
+    .notebook-carousel-buttons {
+      display: flex;
+      gap: 10px;
+    }
+    .notebook-carousel-buttons button {
+      padding: 10px 16px;
+      border: 2px solid var(--line);
+      border-radius: 999px;
+      background: #fff7ec;
+      color: var(--ink);
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .notebook-carousel-buttons button:hover {
+      background: var(--highlight);
+      color: #fff;
+    }
+    .notebook-carousel-dots {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .notebook-carousel-dots button {
+      width: 10px;
+      height: 10px;
+      padding: 0;
+      border-radius: 999px;
+      border: none;
+      background: rgba(43,34,25,0.22);
+      cursor: pointer;
+    }
+    .notebook-carousel-dots button.active {
+      background: var(--highlight);
+      transform: scale(1.15);
+    }
+    .gallery-note {
+      margin-top: 10px;
+      font-size: 14px;
+      color: var(--muted);
+      text-align: right;
+    }
+    .price-tag { font-weight: 900; color: var(--highlight); letter-spacing: 0.06em; } /* legacy */
+    .price-line { display:flex; flex-wrap:wrap; gap:10px; margin-top:auto; align-items:center; }
+    .price-capsule {
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 12px;
+      border-radius: 999px;
+      border: 2px solid var(--ink);
+      background: #fff7ec;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      justify-content: center;
+      flex-wrap: wrap;
+      text-align: center;
+    }
+    .price-capsule.sale { background: var(--highlight); color: #fff; }
+    @keyframes buyFloat {
+      0%, 100% {
+        transform: translateY(0);
+        box-shadow: inset 0 0 0 1px rgba(255,255,255,0.7), 2px 4px 0 rgba(43,34,25,0.16);
+      }
+      50% {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 18px rgba(0,0,0,0.14);
+      }
+    }
+
+    /* 三月版式感：仿紙質邊框與卡片 */
+    .vintage-section {
+      position: relative;
+      background: #efe5d3;
+      border: 2px solid #2b2219;
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.18);
+      overflow: hidden;
+    }
+    .vintage-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(0,0,0,0.06), transparent 38%),
+        linear-gradient(135deg, rgba(0,0,0,0.04) 25%, transparent 25%),
+        linear-gradient(45deg, rgba(0,0,0,0.04) 25%, transparent 25%);
+      opacity: 0.5;
+      mix-blend-mode: multiply;
+      pointer-events: none;
+    }
+    .vintage-headline {
+      font-family: "Noto Serif TC", serif;
+      margin: 0 0 10px;
+      font-size: 24px;
+      letter-spacing: 0.04em;
+      text-align: center;
+    }
+    .vintage-sub { text-align: center; color: var(--muted); margin: 0 0 18px; }
+    .vintage-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; position: relative; z-index: 1; }
+    .vintage-card {
+      border: 2px solid #2b2219;
+      background: rgba(255,255,255,0.9);
+      padding: 16px;
+      border-radius: 14px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5), 6px 10px 0 rgba(43,34,25,0.12);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .vintage-card h3 { margin: 6px 0 8px; font-size: 20px; letter-spacing: 0.02em; }
+    .vintage-card p { margin: 0 0 10px; color: #4a3e32; line-height: 1.55; }
+    .vintage-tag {
+      display: inline-flex;
+      padding: 4px 10px;
+      border: 1px solid #2b2219;
+      border-radius: 999px;
+      background: #e7d8bf;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      font-size: 12px;
+    }
+    .photo-frame {
+      border: 2px solid #2b2219;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 4px 6px 0 rgba(43,34,25,0.16);
+      background: #f9f4ea;
+    }
+    .photo-frame img { width: 100%; display: block; height: auto; }
+
+    @media (max-width: 560px) {
+      .price-capsule { width: 100%; }
+    }
+    @media (max-width: 720px) {
+      .notebook-head { grid-template-columns: 1fr; }
+      .notebook-section { padding: 16px; }
+      .notebook-meta h3 { font-size: 24px; }
+    }
+    @media (max-width: 640px) {
+      .vintage-grid,
+      .product { grid-template-columns: 1fr; }
+      .actions { width: 100%; }
+      .actions .price-capsule { width: 100%; }
+      .vintage-card h3,
+      .card h3 { word-break: break-word; }
+      /* 強制商品區改為單欄，蓋過內嵌樣式 */
+      #product .product { grid-template-columns: 1fr !important; }
+      #product .actions .price-capsule { min-width: 0; }
+      #product .product img { width: 100%; height: auto; }
+      #product .card { padding: 12px; }
+    }
+
+    footer { margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+    @keyframes mediaShimmer {
+      from { background-position: 200% 0; }
+      to { background-position: -20% 0; }
+    }
+
+    @media (max-width: 640px) {
+      header { flex-direction: column; align-items: flex-start; }
+      .row { flex-direction: column; align-items: flex-start; }
+      .main-nav { gap: 10px; flex-wrap: wrap; }
+      .main-nav .nav-optional { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="lang-switcher" aria-label="語言切換">
+      <a class="active" href="./">繁體中文</a>
+      <a href="./zh-cn.html">简体中文</a>
+      <a href="./en.html">English</a>
+    </div>
+    <header>
+      <a class="logo" href="https://www.pbooks.com.tw/" target="_blank" rel="noopener" aria-label="前往腓利門書房">
+        <img src="../LOGO.png" alt="PHILEMON LOGO" />
+      </a>
+      <div class="brand" data-i18n="brand">PHILEMON NEWS · 2026 四月號</div>
+      <div class="header-right">
+        <nav class="main-nav">
+          <a href="https://news.pbooks.com.tw/">返回首頁</a>
+          <a class="nav-optional" href="#product">商品</a>
+          <a class="nav-optional" href="#notebook">公益筆記本</a>
+          <a class="nav-optional" href="#stationery">文具</a>
+          <a class="nav-optional" href="#video">影片</a>
+          <a href="#archive">Archive</a>
+        </nav>
+      </div>
+    </header>
+
+    <section class="hero">
+      <h1>有你的百年。那些紀念品</h1>
+      <p>讓走過的日子，留在生活裡惦記。書房整修開張可以看看影片一窺全景，筆記本、修正帶、水滴鋼珠筆、保溫瓶，生活文具禮品陪伴有你；行李箱預計四月中下旬到貨。</p>
+    </section>
+
+    <section id="stationery" class="section">
+      <div class="vintage-section">
+        <h2 class="vintage-headline">紀錄 × 修正 × 保溫</h2>
+        <p class="vintage-sub">有些東西，不會自己留下，它需要被寫下、被修整，也被長久地保守。</p>
+        <div class="vintage-grid">
+          <div class="vintage-card">
+            <h3>暖色系按壓式修正帶</h3>
+            <p>書寫難免筆誤，就像日常偶有的微小偏離。輕輕滑過，把錯誤化為留白。修正帶給予的不是掩飾，而是給自己一個重新下筆的機會，隨時都能再次出發。</p>
+            <div class="photo-frame" style="margin: 10px 0 12px;">
+              <img src="./correction-tape-cover.jpg" alt="暖色系按壓式修正帶" />
+            </div>
+            <div class="actions" style="gap: 10px; flex-wrap: wrap; align-items:center;">
+              <span class="price-capsule">定價 NT$50</span>
+              <span class="price-capsule sale">特價 NT$40</span>
+              <span class="price-capsule buy-link" style="flex:1; min-width:120px; justify-content:center; border-color:var(--ink); background:#fff;"><a href="https://www.pbooks.com.tw/products/pg48" target="_blank" rel="noopener" style="color:inherit; text-decoration:none;">點我購買</a></span>
+            </div>
+          </div>
+
+          <div class="vintage-card">
+            <h3>水滴鋼珠筆</h3>
+            <p>「一筆一劃，記錄百年恩典；一字一句，延續信仰使命。」每一段親手寫下的筆跡，都銘刻著對信仰的堅持與期盼。</p>
+            <div class="photo-frame" style="margin: 10px 0 12px;">
+              <img src="./pen-cover.jpg" alt="水滴鋼珠筆" />
+            </div>
+            <div class="actions" style="gap: 10px; flex-wrap: wrap; align-items:center;">
+              <span class="price-capsule">定價 NT$25</span>
+              <span class="price-capsule sale">特價 NT$20</span>
+              <span class="price-capsule buy-link" style="flex:1; min-width:120px; justify-content:center; border-color:var(--ink); background:#fff;"><a href="https://www.pbooks.com.tw/products/p5p6p7" target="_blank" rel="noopener" style="color:inherit; text-decoration:none;">點我購買</a></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="product" class="section">
+      <h2>漸變保溫瓶（四色）</h2>
+      <div class="card" style="margin-top:14px;">
+        <div class="product" style="margin:0; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));">
+          <img src="./cup-cover.jpg" alt="漸變保溫瓶四色" />
+          <div class="card" style="border:none; box-shadow:none; padding:0; height:100%;">
+            <h3>漸層色彈蓋保溫瓶</h3>
+            <p class="muted" style="margin:0 0 12px;">時間會讓很多東西變淡，但信仰的核心，不該在日常中慢慢冷卻。從記錄、到修復、再到持守，這只彈蓋保溫瓶提醒我們：被保守的，是那一開始願意相信的心。</p>
+            <ul class="list">
+              <li>四款漸層色：米白、冰藍、草綠、玫粉。</li>
+              <li>翻蓋鎖扣、防漏矽膠圈，單手即可開啟。</li>
+              <li>便攜直身瓶身，適合通勤、聚會與露營。</li>
+            </ul>
+            <div class="actions" style="margin-top:14px; gap:10px; flex-wrap:wrap; align-items:center;">
+              <span class="price-capsule">定價 NT$500</span>
+              <span class="price-capsule sale">特價 NT$399</span>
+              <span class="price-capsule buy-link" style="flex:1; min-width:120px; justify-content:center; border-color:var(--ink); background:#fff;"><a data-i18n="cta.buy" href="https://www.pbooks.com.tw/products/cup10" target="_blank" rel="noopener" style="color:inherit; text-decoration:none;">點我購買</a></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="notebook" class="section">
+      <h2>全新公益系列筆記本</h2>
+      <small>腓利門書房發行 × 利河伯社會福利基金會主辦</small>
+      <div class="notebook-section">
+        <div class="notebook-head">
+          <div class="notebook-cover-block" data-carousel>
+            <div class="notebook-carousel-frame">
+              <div class="notebook-carousel-viewport">
+                <div class="notebook-carousel-track">
+                  <a class="notebook-slide" href="./notebook-cover-01.jpg" target="_blank" rel="noopener"><img src="./notebook-cover-01.jpg" alt="公益筆記本封面 1" /></a>
+                  <a class="notebook-slide" href="./notebook-cover-02.jpg" target="_blank" rel="noopener"><img src="./notebook-cover-02.jpg" alt="公益筆記本封面 2" /></a>
+                  <a class="notebook-slide" href="./notebook-cover-03.jpg" target="_blank" rel="noopener"><img src="./notebook-cover-03.jpg" alt="公益筆記本封面 3" /></a>
+                </div>
+              </div>
+            </div>
+            <div class="notebook-carousel-controls">
+              <div class="notebook-carousel-buttons">
+                <button type="button" data-prev>上一張</button>
+                <button type="button" data-next>下一張</button>
+              </div>
+              <div class="notebook-carousel-dots" data-dots></div>
+            </div>
+          </div>
+          <div class="notebook-meta">
+            <div class="pill-row">
+              <span class="note-pill">了解利河伯</span>
+              <span class="note-pill">聯名公益</span>
+              <span class="note-pill">支持社會福利</span>
+            </div>
+            <h3>買筆記本，也能一起做公益</h3>
+            <p>每買一本，書房就幫您奉獻一小部分。公益筆記本由腓利門書房發行、利河伯社會福利基金會主辦，所得扣除成本後捐贈基金會，讓愛繼續傳遞。</p>
+            <ul class="notebook-specs">
+              <li>規格：A5（210mm × 148mm）</li>
+              <li>頁數：48 頁</li>
+              <li>內頁：線條筆記本</li>
+              <li>封面：道林紙</li>
+              <li>五種風格，歡迎通通帶回去</li>
+            </ul>
+            <div class="notebook-style-grid">
+              <div class="notebook-style"><strong>回甘綠</strong><span>簡約線條</span></div>
+              <div class="notebook-style"><strong>鮮榨黃</strong><span>活潑插圖</span></div>
+              <div class="notebook-style"><strong>濃縮棕</strong><span>沉穩質感</span></div>
+              <div class="notebook-style"><strong>聖靈運行</strong><span>在臺灣</span></div>
+              <div class="notebook-style"><strong>人人傳道</strong><span>熱血推廣</span></div>
+            </div>
+            <div class="notebook-price-row">
+              <span class="price-capsule sale">特價 NT$25</span>
+              <span class="price-capsule buy-link"><a class="buy-link" href="https://www.pbooks.com.tw/products/s046f" target="_blank" rel="noopener" style="color:inherit; text-decoration:none; font-weight:900;">點我購買</a></span>
+            </div>
+          </div>
+        </div>
+        <div class="notebook-carousel" data-carousel>
+          <div class="notebook-carousel-frame">
+            <div class="notebook-carousel-viewport">
+              <div class="notebook-carousel-track">
+                <a class="notebook-slide" href="./notebook-01.jpg" target="_blank" rel="noopener"><img src="./notebook-01.jpg" alt="公益筆記本內頁示意 1" /></a>
+                <a class="notebook-slide" href="./notebook-02.jpg" target="_blank" rel="noopener"><img src="./notebook-02.jpg" alt="公益筆記本內頁示意 2" /></a>
+                <a class="notebook-slide" href="./notebook-03.jpg" target="_blank" rel="noopener"><img src="./notebook-03.jpg" alt="公益筆記本內頁示意 3" /></a>
+              </div>
+            </div>
+          </div>
+          <div class="notebook-carousel-controls">
+            <div class="notebook-carousel-buttons">
+              <button type="button" data-prev>上一張</button>
+              <button type="button" data-next>下一張</button>
+            </div>
+            <div class="notebook-carousel-dots" data-dots></div>
+          </div>
+        </div>
+        <div class="gallery-note">點擊圖片查看大圖。</div>
+      </div>
+    </section>
+
+    <section id="video" class="section">
+      <h2>書房整修 × 百年特輯</h2>
+      <small>歡迎親臨，影片先睹為快</small>
+      <div class="video-grid" style="margin-top:14px;">
+        <div class="video-card">
+          <iframe src="https://www.youtube.com/embed/q4xy4MRdrcs" allowfullscreen title="書房整修完成影片"></iframe>
+          <div class="meta">書房整修後影片</div>
+        </div>
+        <div class="video-card">
+          <iframe src="https://www.youtube.com/embed/0g5a9dgRZec" allowfullscreen title="書房沿革介紹"></iframe>
+          <div class="meta">書房沿革介紹</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>百年旅行箱專頁</h2>
+      <small>同場連結：旅行箱，履行愛</small>
+      <div class="flex" style="margin-top:14px;">
+        <div class="card">
+          <div class="pill">特別企劃</div>
+          <h3>旅行箱，履行愛</h3>
+          <p>真耶穌教會專屬系列行李箱，五色三尺寸，專為服事旅程設計。</p>
+          <div class="actions" style="margin-top:12px;">
+            <a class="btn" href="../2026-luggage/" target="_blank" rel="noopener">查看專頁</a>
+          </div>
+        </div>
+        <div class="card">
+          <div class="pill">書房</div>
+          <h3>全新空間，歡迎來逛</h3>
+          <p>為紀念臺灣傳教百年，書房完成整修，提供更舒適的閱讀與交流場域。</p>
+          <div class="actions" style="margin-top:12px;">
+            <a class="btn" href="../bookstore/" target="_blank" rel="noopener">前往書房</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="archive" class="section">
+      <h2>Archive</h2>
+      <div class="archive" style="margin-top:12px;">
+        <div class="row">
+          <div>2026 · 04 四月號</div>
+          <div class="lang-row">
+            <a href="./">繁中</a>
+            <a href="./zh-cn.html">简中</a>
+            <a href="./en.html">EN</a>
+          </div>
+        </div>
+        <div class="row">
+          <div>2026 · 03 三月號</div>
+          <div class="lang-row">
+            <a href="../2026-03/">繁中</a>
+            <a href="../2026-03/zh-cn.html">简中</a>
+            <a href="../2026-03/en.html">EN</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer>
+      PHILEMON NEWS · 2026 年 4 月
+    </footer>
+  </div>
+  <script>
+    document.querySelectorAll(".page img").forEach((img) => {
+      if (img.closest(".logo")) return;
+      img.classList.add("content-media");
+      const ready = () => img.classList.add("is-ready");
+      if (img.complete && img.naturalWidth > 0) {
+        ready();
+      } else {
+        img.addEventListener("load", ready, { once: true });
+        img.addEventListener("error", ready, { once: true });
+      }
+    });
+
+    document.querySelectorAll("[data-carousel]").forEach((carousel) => {
+      const track = carousel.querySelector(".notebook-carousel-track");
+      const slides = Array.from(carousel.querySelectorAll(".notebook-slide"));
+      const prev = carousel.querySelector("[data-prev]");
+      const next = carousel.querySelector("[data-next]");
+      const dotsWrap = carousel.querySelector("[data-dots]");
+      let index = 0;
+
+      function render() {
+        track.style.transform = `translateX(-${index * 100}%)`;
+        dotsWrap.querySelectorAll("button").forEach((dot, i) => {
+          dot.classList.toggle("active", i === index);
+        });
+      }
+
+      slides.forEach((_, i) => {
+        const dot = document.createElement("button");
+        dot.type = "button";
+        dot.setAttribute("aria-label", `查看第 ${i + 1} 張`);
+        dot.addEventListener("click", () => {
+          index = i;
+          render();
+        });
+        dotsWrap.appendChild(dot);
+      });
+
+      prev.addEventListener("click", () => {
+        index = (index - 1 + slides.length) % slides.length;
+        render();
+      });
+
+      next.addEventListener("click", () => {
+        index = (index + 1) % slides.length;
+        render();
+      });
+
+      render();
+    });
+  </script>
+</body>
+</html>
+

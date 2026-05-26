@@ -1,0 +1,409 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="../favicon-news.svg" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JD1JHF86H1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    const pageLanguage = document.documentElement.lang || 'und';
+    gtag('js', new Date());
+    gtag('config', 'G-JD1JHF86H1', {
+      page_language: pageLanguage
+    });
+  </script>
+  <script>
+    document.addEventListener('click', function(event) {
+      var link = event.target.closest('a[href]');
+      var href = link && link.getAttribute('href');
+      var text = link ? (link.textContent || '').trim() : '';
+      if (!href) return;
+      if (!/pbooks\.com\.tw\/(products\/|cart(?:\/|$))/i.test(href) && !/(韐凋僭|??憿稅韐剔頧?/.test(text)) return;
+      gtag('event', 'purchase_link_click', {
+        link_url: href,
+        link_text: text || '(empty)',
+        page_path: location.pathname,
+        page_language: pageLanguage
+      });
+    });
+  </script>
+  <title>??函摮嚚?026 ????/title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #eaddc5;
+      --paper-dark: #d4c1a0;
+      --ink: #2b2219;
+      --muted: #4a3e32;
+      --highlight: #7c2d23;
+      --line: #2b2219;
+      --card: rgba(255,255,255,0.9);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Noto Serif SC", serif;
+      color: var(--ink);
+      background-color: var(--paper);
+      background-image:
+        radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.05) 100%),
+        repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(43,34,25,0.03) 3px, rgba(43,34,25,0.03) 4px);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)"/></svg>');
+      opacity: 0.08;
+      pointer-events: none;
+      z-index: 100;
+      mix-blend-mode: multiply;
+    }
+    .page {
+      width: min(1200px, calc(100vw - 20px));
+      margin: 20px auto 60px;
+      padding: 32px clamp(18px, 4vw, 42px) 72px;
+      background: var(--paper);
+      border: 1px solid var(--paper-dark);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+    }
+    .lang-switcher {
+      display:flex;
+      justify-content:center;
+      gap:10px;
+      flex-wrap:wrap;
+      margin: 0 0 18px;
+    }
+    .lang-switcher a {
+      border: 1px solid var(--line);
+      padding: 6px 12px;
+      background: rgba(255,255,255,0.34);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .lang-switcher a.active {
+      background: var(--ink);
+      color: var(--paper);
+    }
+    header { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 0 4px; }
+    .logo img { height: 58px; width: auto; display: block; }
+    .brand { font-weight: 800; letter-spacing: 0.08em; font-size: 18px; }
+    .header-right { display:flex; align-items:center; gap:14px; }
+    nav { display: flex; gap: 16px; font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase; flex-wrap: wrap; }
+    nav a { padding: 6px 0; border-bottom: 1px solid transparent; }
+    nav a:hover { border-color: var(--ink); }
+    .hero { margin: 46px 0 38px; display: grid; gap: 12px; }
+    .hero h1 { margin: 0; font-size: clamp(44px, 7vw, 78px); line-height: 1.02; letter-spacing: 0.01em; }
+    .hero p { margin: 6px 0 16px; font-size: 18px; color: var(--muted); line-height: 1.6; }
+    .section { margin: 48px 0; }
+    .section h2 { margin: 0 0 12px; font-size: 24px; letter-spacing: 0.04em; }
+    .section small { color: var(--muted); }
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; align-items:center; }
+    .btn {
+      padding: 12px 18px;
+      border-radius: 10px;
+      border: 2px solid var(--ink);
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      transition: 0.15s ease;
+      background: #fff7ec;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.7), 2px 4px 0 rgba(43,34,25,0.16);
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.18); }
+    .buy-link { animation: buyFloat 2.6s ease-in-out infinite; }
+    .buy-link:hover { animation-play-state: paused; }
+    .card { border: 2px solid var(--line); background: rgba(255,255,255,0.9); padding: 18px; border-radius: 14px; box-shadow: 4px 6px 0 rgba(43,34,25,0.16); }
+    .card h3 { margin: 0 0 8px; font-size: 20px; }
+    .card p { margin: 0; color: var(--muted); line-height: 1.6; }
+    .product { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; align-items: center; }
+    .product img, .gallery img { width: 100%; border-radius: 18px; border: 1px solid var(--line); background: #f7f7f7; display: block; }
+    .list { margin: 10px 0 0; padding-left: 18px; color: var(--muted); line-height: 1.6; }
+    .pill, .note-pill {
+      display: inline-flex;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(124,45,35,0.12);
+      color: var(--highlight);
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+    }
+    .notebook-section {
+      border: 2px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.86);
+      box-shadow: 4px 6px 0 rgba(43,34,25,0.14);
+      padding: 22px;
+      margin-top: 14px;
+    }
+    .notebook-head {
+      display: grid;
+      grid-template-columns: minmax(280px, 420px) minmax(320px, 1fr);
+      gap: 22px;
+      align-items: start;
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
+    .video-card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; box-shadow: 0 12px 28px rgba(0,0,0,0.06); }
+    .video-card iframe { width: 100%; aspect-ratio: 16 / 9; border: none; display: block; }
+    .video-card .meta { padding: 12px 14px; font-weight: 700; }
+    .content-media {
+      opacity: 0;
+      filter: blur(10px);
+      background:
+        linear-gradient(110deg, rgba(255,255,255,0.18) 8%, rgba(255,255,255,0.62) 18%, rgba(255,255,255,0.18) 33%),
+        #e9dcc4;
+      background-size: 220% 100%;
+      animation: mediaShimmer 1.35s linear infinite;
+      transition: opacity 0.35s ease, filter 0.35s ease;
+    }
+    .content-media.is-ready {
+      opacity: 1;
+      filter: none;
+      animation: none;
+    }
+    .archive { border: 1px solid var(--line); padding: 16px; border-radius: 14px; background: var(--card); }
+    .row { display: flex; justify-content: space-between; gap: 12px; align-items: center; border-bottom: 1px solid var(--line); padding: 10px 0; flex-wrap: wrap; }
+    .row:last-child { border-bottom: none; }
+    .lang-row { display:flex; gap:8px; flex-wrap:wrap; }
+    .lang-row a {
+      border: 1px solid var(--line);
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      background: #fff;
+    }
+    footer { margin-top: 36px; color: var(--muted); text-align: center; }
+    @keyframes buyFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-3px); }
+    }
+    @keyframes mediaShimmer {
+      from { background-position: 200% 0; }
+      to { background-position: -20% 0; }
+    }
+    @media (max-width: 900px) {
+      .page { padding: 20px 14px 40px; }
+      header, .notebook-head { grid-template-columns: 1fr; display: grid; }
+      nav { gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="lang-switcher" aria-label="霂剛??">
+      <a href="./">蝜?銝剜?</a>
+      <a class="active" href="./zh-cn.html">蝞雿葉??/a>
+      <a href="./en.html">English</a>
+    </div>
+    <header>
+      <a class="logo" href="https://www.pbooks.com.tw/" target="_blank" rel="noopener" aria-label="????其髡??>
+        <img src="../LOGO.png" alt="PHILEMON LOGO" />
+      </a>
+      <div class="brand">PHILEMON NEWS 繚 2026 ????/div>
+      <div class="header-right">
+        <nav class="main-nav">
+          <a href="https://news.pbooks.com.tw/">餈?擐△</a>
+          <a href="#product">靽萱??/a>
+          <a href="#notebook">?祉?蝚扇??/a>
+          <a href="#stationery">?</a>
+          <a href="#video">敶梁?</a>
+          <a href="#archive">Archive</a>
+        </nav>
+      </div>
+    </header>
+
+    <section class="hero">
+      <h1>???撟湛????蝥芸艙??/h1>
+      <p>霈抵粥餈??亙?嚗??函?瘣駁??西扇??銝芣????港耨??銋行???霈唳?耨甇?蒂?偌皛湧??銝?皜拍嚗撟湔?銵拳憸恣鈭??葉銝?啗揮??/p>
+    </section>
+
+    <section id="stationery" class="section">
+      <h2>霈啣? ? 靽格迤 ? 靽萱</h2>
+      <div class="product">
+        <div class="card">
+          <h3>?蝟餅???靽格迤撣?/h3>
+          <p>銋血??曉?蝚秤嚗停?撣詨??蝳颯蝠頧餅?餈???霂臬?銝箇??賬耨甇?蒂蝏????舀擖堆???銝??隡?/p>
+          <div style="margin: 12px 0;">
+            <img src="./correction-tape-cover.jpg" alt="?蝟餅???靽格迤撣? />
+          </div>
+          <div class="actions">
+            <span class="pill">摰遠 NT$50</span>
+            <span class="pill">?嫣遠 NT$40</span>
+            <a class="btn buy-link" href="https://www.pbooks.com.tw/products/pg48" target="_blank" rel="noopener">?寞?韐凋僭</a>
+          </div>
+        </div>
+        <div class="card">
+          <h3>瘞湔輕?Ｙ?蝚?/h3>
+          <p>銝蝚??扇敶撟湔?賂?銝摮??亙辣蝏凋縑隞唬蝙?賬?銝畾萎熔??銝?蝚蕨嚗?剖???銝??/p>
+          <div style="margin: 12px 0;">
+            <img src="./pen-cover.jpg" alt="瘞湔輕?Ｙ?蝚? />
+          </div>
+          <div class="actions">
+            <span class="pill">摰遠 NT$25</span>
+            <span class="pill">?嫣遠 NT$20</span>
+            <a class="btn buy-link" href="https://www.pbooks.com.tw/products/p5p6p7" target="_blank" rel="noopener">?寞?韐凋僭</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="product" class="section">
+      <h2>皜?靽萱??/h2>
+      <div class="card" style="margin-top:14px;">
+        <div class="product">
+          <img src="./cup-cover.jpg" alt="?靽萱?? />
+          <div class="card" style="border:none; box-shadow:none; padding:0; background:transparent;">
+            <h3>皜??脣撕??皜拍</h3>
+            <p>?園隡悟敺?銝正?楚嚗?靽∩趕?敹?銝砲?冽撣訾葉?Ｘ?瑕?????賑嚗◤靽????舫銝撘憪?靽∠?敹?/p>
+            <ul class="list">
+              <li>?皜?嚗掖?賬??蝏踴蝎?/li>
+              <li>蝧餌??銝瞍??嗅?</li>
+              <li>頧颱噶?嗉澈嚗????隡??脰</li>
+            </ul>
+            <div class="actions" style="margin-top:14px;">
+              <span class="pill">摰遠 NT$500</span>
+              <span class="pill">?嫣遠 NT$399</span>
+              <a class="btn buy-link" href="https://www.pbooks.com.tw/products/cup10" target="_blank" rel="noopener">?寞?韐凋僭</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="notebook" class="section">
+      <h2>?冽?祉?蝟餃?蝚扇??/h2>
+      <small>??其髡?踹?銵?? ?拇眾隡舐冗隡??拙??銝餃?</small>
+      <div class="notebook-section">
+        <div class="notebook-head">
+          <div>
+            <img src="./notebook-cover-01.jpg" alt="?祉?蝚扇?砍??? />
+          </div>
+          <div>
+            <div class="actions" style="margin-bottom:12px;">
+              <span class="note-pill">鈭圾?拇眾隡?/span>
+              <span class="note-pill">???祉?</span>
+              <span class="note-pill">?舀?蝷曆?蝳</span>
+            </div>
+            <h3>銋啁?霈唳嚗??賭?韏瑕??祉?</h3>
+            <p>瘥僭銝?穿?銋行撠勗葬?典??桐?撠??斗??砍???敺????粹?隡?霈拍蝏抒賒隡?/p>
+            <ul class="list">
+              <li>閫嚗5嚗?10mm ? 148mm嚗?/li>
+              <li>憿菜嚗?8 憿?/li>
+              <li>?△嚗瑪?∠?霈唳</li>
+              <li>撠嚗??爾</li>
+              <li>?曹?蝘???/li>
+            </ul>
+            <div class="gallery">
+              <div class="card"><strong>??蝏?/strong><br><span>蝞蝥衣瑪??/span></div>
+              <div class="card"><strong>斢成暺?/strong><br><span>瘣餅頃?</span></div>
+              <div class="card"><strong>瘚憬璉?/strong><br><span>瘝迅韐冽?</span></div>
+              <div class="card"><strong>??餈?</strong><br><span>?典皝?/span></div>
+              <div class="card"><strong>鈭箔犖隡?</strong><br><span>?剛??典嘀</span></div>
+            </div>
+            <div class="actions" style="margin-top:16px;">
+              <span class="pill">?嫣遠 NT$25</span>
+              <a class="btn buy-link" href="https://www.pbooks.com.tw/products/s046f" target="_blank" rel="noopener">?寞?韐凋僭</a>
+            </div>
+          </div>
+        </div>
+        <div class="gallery">
+          <img src="./notebook-01.jpg" alt="蝚扇?祉???1" />
+          <img src="./notebook-02.jpg" alt="蝚扇?祉???2" />
+          <img src="./notebook-03.jpg" alt="蝚扇?祉???3" />
+        </div>
+      </div>
+    </section>
+
+    <section id="video" class="section">
+      <h2>銋行?港耨 ? ?曉僑?寡?</h2>
+      <small>甈Ｚ?鈭脖葩嚗蔣???嫣蛹敹?/small>
+      <div class="video-grid" style="margin-top:14px;">
+        <div class="video-card">
+          <iframe src="https://www.youtube.com/embed/q4xy4MRdrcs" allowfullscreen title="銋行?港耨摰?敶梁?"></iframe>
+          <div class="meta">銋行?港耨?蔣??/div>
+        </div>
+        <div class="video-card">
+          <iframe src="https://www.youtube.com/embed/0g5a9dgRZec" allowfullscreen title="銋行瘝輸隞?"></iframe>
+          <div class="meta">銋行瘝輸隞?</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>?曉僑??蝞曹?憿?/h2>
+      <small>?餈?嚗?銵拳嚗悼銵</small>
+      <div class="product" style="margin-top:14px;">
+        <div class="card">
+          <h3>??蝞梧?撅亥???/h3>
+          <p>?嗥見??銝?蝟餃?銵?蝞梧?鈭銝偕撖賂?銝蛹????霈曇恣??/p>
+          <div class="actions" style="margin-top:12px;">
+            <a class="btn" href="../2026-luggage/" target="_blank" rel="noopener">?亦?銝△</a>
+          </div>
+        </div>
+        <div class="card">
+          <h3>?冽蝛粹嚗洽餈??/h3>
+          <p>銝箇漯敹萄皝曆??撟湛?銋行摰??港耨嚗?靘???粉銝漱瘚??/p>
+          <div class="actions" style="margin-top:12px;">
+            <a class="btn" href="../bookstore/" target="_blank" rel="noopener">??銋行</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="archive" class="section">
+      <h2>Archive</h2>
+      <div class="archive" style="margin-top:12px;">
+        <div class="row">
+          <div>2026 繚 04 ?祆?</div>
+          <div class="lang-row">
+            <a href="./">蝜葉</a>
+            <a href="./zh-cn.html">蝞銝?/a>
+            <a href="./en.html">EN</a>
+          </div>
+        </div>
+        <div class="row">
+          <div>2026 繚 03 銝???/div>
+          <div class="lang-row">
+            <a href="../2026-03/">蝜葉</a>
+            <a href="../2026-03/zh-cn.html">蝞銝?/a>
+            <a href="../2026-03/en.html">EN</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer>
+      PHILEMON NEWS 繚 2026 撟?4 ??
+    </footer>
+  </div>
+  <script>
+    document.querySelectorAll(".page img").forEach((img) => {
+      if (img.closest(".logo")) return;
+      img.classList.add("content-media");
+      const ready = () => img.classList.add("is-ready");
+      if (img.complete && img.naturalWidth > 0) {
+        ready();
+      } else {
+        img.addEventListener("load", ready, { once: true });
+        img.addEventListener("error", ready, { once: true });
+      }
+    });
+  </script>
+</body>
+</html>
+
