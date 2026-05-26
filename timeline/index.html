@@ -690,8 +690,8 @@
         }
 
         .board-row {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 12px 14px;
+          grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr);
+          gap: 10px 14px;
           min-width: 0;
           padding: 18px 18px 20px;
           min-height: auto;
@@ -709,12 +709,34 @@
         .board-row > .flight-no,
         .board-row > .board-datetime,
         .board-row > .board-place {
-          grid-column: 1 / -1;
+          min-width: 0;
+        }
+
+        .board-row > .flight-no {
+          grid-column: 1;
+          grid-row: 1;
+        }
+
+        .board-row > .board-datetime {
+          grid-column: 2;
+          grid-row: 1;
+          justify-self: end;
+          align-self: start;
+          text-align: right;
+        }
+
+        .board-row > .board-place {
+          grid-column: 2;
+          grid-row: 2;
+          justify-self: end;
+          align-self: start;
+          text-align: right;
         }
 
         .board-meta {
           display: flex;
           grid-column: 1 / -1;
+          grid-row: 3;
           width: 100%;
           min-width: 0;
           flex-wrap: wrap;
@@ -726,7 +748,7 @@
         .board-row > span::before {
           content: attr(data-label);
           display: block;
-          margin-bottom: 6px;
+          margin-bottom: 5px;
           color: var(--muted);
           font-family: var(--font-mono);
           font-size: 0.64rem;
@@ -742,7 +764,7 @@
         .board-datetime {
           display: flex;
           flex-wrap: wrap;
-          gap: 6px 10px;
+          gap: 4px 8px;
           white-space: normal;
           align-items: baseline;
         }
@@ -755,8 +777,8 @@
         }
 
         .board-place {
-          font-size: 1rem;
-          line-height: 1.35;
+          font-size: 0.96rem;
+          line-height: 1.3;
           overflow: visible;
           text-overflow: unset;
           white-space: normal;
