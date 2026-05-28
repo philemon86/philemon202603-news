@@ -690,7 +690,7 @@
       if (event.key === "Escape" && detailView.classList.contains("active")) closeDetail();
     });
 
-    fetch("./products.json")
+    fetch(`./products.json?ts=${Date.now()}`, { cache: "no-store" })
       .then((response) => response.json())
       .then((data) => {
         state.products = normalizeProducts(data.products || []);
