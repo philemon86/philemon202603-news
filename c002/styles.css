@@ -387,6 +387,10 @@ a {
   text-wrap: balance;
 }
 
+.mobile-break-target {
+  display: inline;
+}
+
 .thesis-section .section-heading h2 {
   max-width: 18ch;
   text-wrap: nowrap;
@@ -620,14 +624,25 @@ a {
   }
 
   .poster-gallery-section {
-    width: min(100vw - 20px, 1160px);
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
   }
 
   .poster-gallery {
     gap: 20px;
   }
 
+  .mobile-break-target {
+    display: block;
+  }
+
+  .poster-card {
+    margin: 0;
+  }
+
   .poster-card img {
     max-width: none;
+    width: 100vw;
   }
 }
