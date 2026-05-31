@@ -568,6 +568,19 @@ a {
 
   .hero-grid {
     padding-top: 36px;
+    gap: 18px;
+  }
+
+  .hero-visual {
+    order: -1;
+  }
+
+  .cover-stage {
+    min-height: 18rem;
+  }
+
+  .hero-book {
+    width: min(100%, 18rem);
   }
 
   .hero h1 {

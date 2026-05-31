@@ -3,21 +3,29 @@ const floatingBuy = document.querySelector(".floating-buy");
 const heroBook = document.querySelector(".hero-book");
 const hero = document.querySelector(".hero");
 
-const revealObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add("is-visible");
-      revealObserver.unobserve(entry.target);
-    });
-  },
-  {
-    threshold: 0.16,
-    rootMargin: "0px 0px -8% 0px",
-  },
-);
+const showRevealNode = (node) => {
+  node.classList.add("is-visible");
+};
 
-revealNodes.forEach((node) => revealObserver.observe(node));
+if ("IntersectionObserver" in window) {
+  const revealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        showRevealNode(entry.target);
+        revealObserver.unobserve(entry.target);
+      });
+    },
+    {
+      threshold: 0.05,
+      rootMargin: "0px 0px 18% 0px",
+    },
+  );
+
+  revealNodes.forEach((node) => revealObserver.observe(node));
+} else {
+  revealNodes.forEach(showRevealNode);
+}
 
 const updateFloatingBuy = () => {
   if (!floatingBuy) return;
