@@ -464,6 +464,11 @@ a {
   box-shadow: none;
 }
 
+.poster-card.reveal {
+  opacity: 1;
+  transform: none;
+}
+
 .poster-card img {
   width: 100%;
   max-width: 920px;
