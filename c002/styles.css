@@ -471,9 +471,10 @@ a {
 
 .poster-card img {
   width: 100%;
-  max-width: 920px;
+  max-width: 760px;
   margin: 0 auto;
   height: auto;
+  border-radius: 18px;
 }
 
 .cta-section {
@@ -628,14 +629,8 @@ a {
     bottom: 14px;
   }
 
-  .poster-gallery-section {
-    width: 100vw;
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
-  }
-
   .poster-gallery {
-    gap: 20px;
+    gap: 18px;
   }
 
   .mobile-break-target {
@@ -647,7 +642,7 @@ a {
   }
 
   .poster-card img {
-    max-width: none;
-    width: 100vw;
+    width: min(100%, calc(100vw - 24px));
+    max-width: 680px;
   }
 }
