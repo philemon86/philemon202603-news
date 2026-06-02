@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>腓利門電子報 | 2026 六月號</title>
+  <meta
+    name="description"
+    content="被愛接住的人，也會被聖靈帶著走。2026 六月腓利門書房選書與海報式優惠整理。"
+  />
+  <link rel="icon" type="image/svg+xml" href="../favicon-book.svg" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JD1JHF86H1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    const pageLanguage = document.documentElement.lang || "und";
+    gtag("js", new Date());
+    gtag("config", "G-JD1JHF86H1", { page_language: pageLanguage });
+  </script>
+  <script>
+    document.addEventListener("click", function(event) {
+      var link = event.target.closest("a[href]");
+      var href = link && link.getAttribute("href");
+      if (!href) return;
+      if (!/pbooks\.com\.tw\/(products\/|collections\/|cart(?:\/|$))|news\.pbooks\.com\.tw\//i.test(href)) return;
+      gtag("event", "newsletter_link_click", {
+        link_url: href,
+        link_text: (link.textContent || "").trim() || "(image)",
+        page_path: location.pathname,
+        page_language: pageLanguage
+      });
+    });
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Manrope:wght@400;500;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --bg: #f3f0e8;
+      --bg-deep: #e6dfd1;
+      --paper: rgba(255, 252, 245, 0.82);
+      --paper-strong: rgba(255, 250, 242, 0.96);
+      --ink: #2c2a27;
+      --muted: #72695d;
+      --line: rgba(91, 73, 48, 0.14);
+      --accent: #8a5a44;
+      --accent-2: #b4875d;
+      --shadow: 0 28px 80px rgba(65, 50, 31, 0.12);
+      --radius: 30px;
+      --content: min(1120px, calc(100vw - 28px));
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Manrope", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(255, 248, 232, 0.9), transparent 28%),
+        radial-gradient(circle at top right, rgba(214, 196, 168, 0.45), transparent 24%),
+        linear-gradient(180deg, #f8f5ef 0%, var(--bg) 42%, var(--bg-deep) 100%);
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    .page {
+      width: var(--content);
+      margin: 14px auto 40px;
+      padding: 22px clamp(16px, 3vw, 34px) 42px;
+      border: 1px solid var(--line);
+      border-radius: 34px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.72), rgba(255,252,247,0.9));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 26px;
+    }
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .brand-logo img {
+      width: 56px;
+      height: 56px;
+      object-fit: contain;
+    }
+    .brand-copy {
+      font-family: "Noto Serif TC", serif;
+      font-size: clamp(18px, 2vw, 24px);
+      font-weight: 700;
+    }
+    .brand-copy small {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-family: "Manrope", sans-serif;
+    }
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    .nav a,
+    .jump-link,
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.7);
+      box-shadow: 0 10px 24px rgba(65, 50, 31, 0.08);
+      font-weight: 700;
+    }
+    .nav a.is-primary,
+    .cta {
+      color: #fff;
+      border-color: transparent;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.06fr) minmax(320px, 0.94fr);
+      gap: 28px;
+      align-items: center;
+      padding: 10px 0 28px;
+    }
+    .eyebrow {
+      display: inline-flex;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(138, 90, 68, 0.12);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      font-family: "Noto Serif TC", serif;
+      line-height: 1.12;
+    }
+    .hero h1 {
+      margin-top: 18px;
+      font-size: clamp(34px, 5.6vw, 64px);
+      text-wrap: balance;
+    }
+    .hero p {
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.9;
+    }
+    .jump-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 22px;
+    }
+    .hero-visual {
+      position: relative;
+      min-height: 100%;
+      padding: 24px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(circle at top, rgba(255,255,255,0.8), transparent 42%),
+        linear-gradient(180deg, rgba(255,249,242,0.94), rgba(244,236,223,0.88));
+      overflow: hidden;
+    }
+    .hero-visual::before {
+      content: "";
+      position: absolute;
+      inset: auto -10% -16% auto;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(180, 143, 103, 0.26), transparent 66%);
+      filter: blur(10px);
+    }
+    .hero-notes {
+      position: relative;
+      display: grid;
+      gap: 12px;
+    }
+    .hero-note {
+      position: relative;
+      padding: 18px 18px 20px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(91, 73, 48, 0.1);
+      box-shadow: 0 20px 36px rgba(65, 50, 31, 0.11);
+    }
+    .hero-note span {
+      display: inline-flex;
+      margin-bottom: 8px;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .hero-note h3 {
+      font-size: 24px;
+    }
+    .hero-note p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.85;
+    }
+
+    .section {
+      margin-top: 54px;
+      scroll-margin-top: 24px;
+    }
+    .section-head {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.9;
+    }
+
+    .focus-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .focus-card {
+      padding: 22px 20px;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background: var(--paper);
+    }
+    .focus-card span {
+      display: inline-flex;
+      margin-bottom: 10px;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .focus-card p {
+      margin: 12px 0 0;
+      color: var(--muted);
+      line-height: 1.85;
+    }
+
+    .poster-list {
+      display: grid;
+      gap: 28px;
+    }
+    .poster-unit {
+      display: grid;
+      gap: 14px;
+    }
+    .poster-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 0 6px;
+    }
+    .poster-title {
+      display: grid;
+      gap: 6px;
+    }
+    .poster-title p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .poster-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .poster-tags span {
+      display: inline-flex;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(138, 90, 68, 0.1);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+    }
+    .poster-link {
+      display: block;
+      overflow: hidden;
+      width: min(100%, 920px);
+      margin: 0 auto;
+      border-radius: 30px;
+      border: 1px solid var(--line);
+      background: var(--paper-strong);
+      box-shadow: 0 24px 54px rgba(65, 50, 31, 0.1);
+    }
+    .poster-link img {
+      width: 100%;
+      height: auto;
+    }
+
+    .extra-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .archive {
+      display: grid;
+      gap: 14px;
+      padding: 22px;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.6);
+    }
+    .archive-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+    .archive-row:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+    .archive-row p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    footer {
+      margin-top: 46px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: 0.06em;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .focus-grid,
+      .extra-grid {
+        grid-template-columns: 1fr;
+      }
+      .poster-meta,
+      .archive-row,
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      .nav {
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        width: 100%;
+        margin: 0;
+        padding: 18px 14px 34px;
+        border-radius: 0;
+        border-left: 0;
+        border-right: 0;
+      }
+      .brand-logo img {
+        width: 48px;
+        height: 48px;
+      }
+      .hero h1 {
+        font-size: clamp(32px, 11vw, 46px);
+      }
+      .hero p,
+      .section-head p,
+      .focus-card p {
+        font-size: 15px;
+      }
+      .poster-link {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+        border-left: 0;
+        border-right: 0;
+        border-radius: 0;
+      }
+      .poster-link img {
+        width: 100vw;
+      }
+      .cta,
+      .nav a,
+      .jump-link {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div class="brand-wrap">
+        <a class="brand-logo" href="https://www.pbooks.com.tw/" target="_blank" rel="noopener" aria-label="Philemon Bookstore">
+          <img src="../LOGO.png" alt="Philemon" />
+        </a>
+        <div class="brand-copy">
+          PHILEMON NEWS | 2026 JUNE
+          <small>被愛接住的人，也會被聖靈帶著走</small>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="https://news.pbooks.com.tw/">返回首頁</a>
+        <a href="#book-posters">六月選書</a>
+        <a href="#extras">六月禮品</a>
+        <a class="is-primary" href="https://www.pbooks.com.tw/collections/%E8%85%93%E5%88%A9%E9%96%80%E6%9C%AC%E7%89%88%E6%9B%B8" target="_blank" rel="noopener">瀏覽出版書籍</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">2026 June Selection</span>
+        <h1>被愛接住的人，<br />也會被聖靈帶著走</h1>
+        <p>六月腓利門書房選書，聚焦在「被安慰、被建立、被差遣」三個信仰面向。本月整理一冊再版書與兩冊新書，從個人生命療癒、傳道人生命見證，到初代教會宣道歷程，呈現信仰如何進入人的內在、家庭、事奉與教會道路之中。</p>
+        <p>《好好接住你》回應教會在關懷事工上的實際需要，提醒我們面對受傷的人，信仰不只是給答案，也要學習如何陪伴與承接。《親身體會神的大愛》讓人看見神如何在真實人生中引領、修補與成全。《使徒行傳釋義》則帶領讀者逐章進入初代教會，理解聖靈如何建立教會、差遣工人，使福音從耶路撒冷走向地極。</p>
+        <div class="jump-links">
+          <a class="jump-link" href="#book-posters">直接看海報</a>
+          <a class="cta" href="https://news.pbooks.com.tw/C002/" target="_blank" rel="noopener">先看《好好接住你》專頁</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-notes">
+          <article class="hero-note">
+            <span>Comfort</span>
+            <h3>被安慰</h3>
+            <p>再版書《好好接住你》，從聖經與輔導知能出發，陪讀者走進憂傷、情緒與牧養陪伴的實際處境。</p>
+          </article>
+          <article class="hero-note">
+            <span>Witness</span>
+            <h3>被建立</h3>
+            <p>新書《親身體會神的大愛》，記錄羅真聲傳道的人生與事奉歷程，讓讀者看見神如何在真實生命中作工。</p>
+          </article>
+          <article class="hero-note">
+            <span>Mission</span>
+            <h3>被差遣</h3>
+            <p>《使徒行傳釋義》帶讀者逐章進入初代教會，思想聖靈如何建立教會，也如何帶領福音往前走。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="book-posters">
+      <div class="section-head">
+        <span class="eyebrow">Poster Browse｜新書優惠報你知</span>
+      </div>
+      <div class="poster-list">
+        <article class="poster-unit">
+          <div class="poster-meta">
+            <div class="poster-title">
+              <h3>好好接住你</h3>
+              <p>再版書。從聖經談憂傷療癒的輔導知能。</p>
+            </div>
+            <div class="poster-tags">
+              <span>79 折</span>
+              <span>商品頁</span>
+            </div>
+          </div>
+          <a class="poster-link" href="https://news.pbooks.com.tw/C002/" target="_blank" rel="noopener">
+            <img src="./assets/catch-you-sale.png" alt="好好接住你 79 折海報" />
+          </a>
+        </article>
+
+        <article class="poster-unit">
+          <div class="poster-meta">
+            <div class="poster-title">
+              <h3>親身體會神的大愛</h3>
+              <p>生命見證新書。從真實人生經歷看見神的大愛。</p>
+            </div>
+            <div class="poster-tags">
+              <span>79 折</span>
+              <span>介紹頁</span>
+            </div>
+          </div>
+          <a class="poster-link" href="https://news.pbooks.com.tw/C293/" target="_blank" rel="noopener">
+            <img src="./assets/love-sale.png" alt="親身體會神的大愛 79 折海報" />
+          </a>
+        </article>
+
+        <article class="poster-unit">
+          <div class="poster-meta">
+            <div class="poster-title">
+              <h3>親身體會神的大愛</h3>
+              <p>同書延伸活動版面，適合放在新書段落後段。</p>
+            </div>
+            <div class="poster-tags">
+              <span>買一送一</span>
+              <span>介紹頁</span>
+            </div>
+          </div>
+          <a class="poster-link" href="https://news.pbooks.com.tw/C293/" target="_blank" rel="noopener">
+            <img src="./assets/love-bogo.png" alt="親身體會神的大愛 買一送一海報" />
+          </a>
+        </article>
+
+        <article class="poster-unit">
+          <div class="poster-meta">
+            <div class="poster-title">
+              <h3>使徒行傳釋義</h3>
+              <p>初代教會與宣道歷程，帶讀者理解聖靈如何建立教會。</p>
+            </div>
+            <div class="poster-tags">
+              <span>79 折</span>
+              <span>介紹頁</span>
+            </div>
+          </div>
+          <a class="poster-link" href="https://news.pbooks.com.tw/C292/" target="_blank" rel="noopener">
+            <img src="./assets/acts-sale.png" alt="使徒行傳釋義 79 折海報" />
+          </a>
+        </article>
+
+        <article class="poster-unit">
+          <div class="poster-meta">
+            <div class="poster-title">
+              <h3>使徒行傳釋義</h3>
+              <p>可作為第二張活動海報，延續六月選書的宣道主題。</p>
+            </div>
+            <div class="poster-tags">
+              <span>買一送一</span>
+              <span>介紹頁</span>
+            </div>
+          </div>
+          <a class="poster-link" href="https://news.pbooks.com.tw/C292/" target="_blank" rel="noopener">
+            <img src="./assets/acts-bogo.png" alt="使徒行傳釋義 買一送一海報" />
+          </a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="extras">
+      <div class="section-head">
+        <span class="eyebrow">Other Items</span>
+        <h2>六月禮品</h2>
+        <p>本月也同步整理兩項禮品資訊，方便讀者一併瀏覽。</p>
+      </div>
+      <div class="extra-grid">
+        <article class="poster-unit">
+          <div class="poster-meta">
+            <div class="poster-title">
+              <h3>播放器到貨通知</h3>
+            </div>
+            <div class="poster-tags">
+              <span>到貨通知</span>
+            </div>
+          </div>
+          <a class="poster-link" href="https://www.pbooks.com.tw/products/pg27" target="_blank" rel="noopener">
+            <img src="./assets/player-restock.png" alt="播放器到貨通知海報" />
+          </a>
+        </article>
+
+        <article class="poster-unit">
+          <div class="poster-meta">
+            <div class="poster-title">
+              <h3>讚美詩布套</h3>
+            </div>
+            <div class="poster-tags">
+              <span>周邊商品</span>
+            </div>
+          </div>
+          <a class="poster-link" href="https://www.pbooks.com.tw/products/pg11" target="_blank" rel="noopener">
+            <img src="./assets/hymn-cover.png" alt="讚美詩布套海報" />
+          </a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="archive">
+      <div class="section-head">
+        <span class="eyebrow">Archive</span>
+        <h2>過往期數</h2>
+      </div>
+      <div class="archive">
+        <div class="archive-row">
+          <div>
+            <h3>2026 | 05 五月電子報</h3>
+          </div>
+          <a class="jump-link" href="../2026-05/">前往五月</a>
+        </div>
+        <div class="archive-row">
+          <div>
+            <h3>2026 | 04 四月電子報</h3>
+          </div>
+          <a class="jump-link" href="../2026-04/">前往四月</a>
+        </div>
+        <div class="archive-row">
+          <div>
+            <h3>2026 | 03 三月電子報</h3>
+          </div>
+          <a class="jump-link" href="../2026-03/">前往三月</a>
+        </div>
+      </div>
+    </section>
+
+    <footer>PHILEMON NEWS | 2026 六月號</footer>
+  </div>
+</body>
+</html>

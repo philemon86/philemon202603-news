@@ -7,6 +7,14 @@
     <script>
       (function () {
         var path = (location.pathname || "").toLowerCase();
+        if (path === "/c002" || path === "/c002/") {
+          location.replace("/c002/");
+          return;
+        }
+        if (path === "/c292" || path === "/c292/") {
+          location.replace("/c292/");
+          return;
+        }
         if (path === "/c293" || path === "/c293/") {
           location.replace("/C293/");
           return;
