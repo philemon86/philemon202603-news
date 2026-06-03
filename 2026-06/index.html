@@ -348,6 +348,38 @@
       gap: 24px;
     }
 
+    .podcast-list {
+      display: grid;
+      gap: 22px;
+    }
+    .podcast-card {
+      padding: 24px;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.72);
+      box-shadow: 0 18px 40px rgba(65, 50, 31, 0.08);
+    }
+    .podcast-card h3 {
+      font-size: clamp(24px, 3vw, 30px);
+      margin-bottom: 10px;
+    }
+    .podcast-card p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+    .podcast-embed {
+      width: 100%;
+      overflow: hidden;
+      border-radius: 20px;
+    }
+    .podcast-embed iframe {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      border: 0;
+    }
+
     .archive {
       display: grid;
       gap: 14px;
@@ -609,6 +641,31 @@
           <a class="poster-link" href="https://www.pbooks.com.tw/products/pg11" target="_blank" rel="noopener">
             <img src="./assets/hymn-cover.png" alt="讚美詩布套海報" />
           </a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="podcast">
+      <div class="section-head">
+        <span class="eyebrow">Podcast</span>
+        <h2>PODCAST 節目更新</h2>
+        <p>六月節目上架，收聽腓利門口最新兩集訪談。</p>
+      </div>
+      <div class="podcast-list">
+        <article class="podcast-card">
+          <h3>腓利門口 EP94｜訪黃基甸傳道｜禱告的壇介紹</h3>
+          <p>節目嵌入播放器如下，可直接在頁面中收聽。</p>
+          <div class="podcast-embed">
+            <iframe title="Firstory 腓利門口 EP94" src="https://open.firstory.me/embed/story/cmpo0o3j2093901rk524t55f2" height="180" width="500" frameborder="0" scrolling="no"></iframe>
+          </div>
+        </article>
+
+        <article class="podcast-card">
+          <h3>腓利門口 EP93｜訪黃基甸傳道｜信仰的根介紹</h3>
+          <p>節目嵌入播放器如下，可直接在頁面中收聽。</p>
+          <div class="podcast-embed">
+            <iframe title="Firstory 腓利門口 EP93" src="https://open.firstory.me/embed/story/cmpnjf4zf05kq01ntg9gyhdzj" height="180" width="500" frameborder="0" scrolling="no"></iframe>
+          </div>
         </article>
       </div>
     </section>
