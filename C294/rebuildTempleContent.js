@@ -1,6 +1,6 @@
 window.rebuildTempleContent = {
   hero: {
-    title: "一起從閱讀本書，開始有料的建造。",
+    title: "從閱讀本書，開始有料的建造。",
     subtitle: "有些工程停下來，不是因為缺材料，而是人先失去建造的料；有些事看似無料，卻因神的靈開始成事。"
   },
   sections: {
