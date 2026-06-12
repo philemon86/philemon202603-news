@@ -281,6 +281,8 @@ function init() {
   setText("#hero-subtitle", content.hero.subtitle);
   if (qs("#primary-cta")) qs("#primary-cta").href = content.excerpts.purchaseUrl;
   if (qs("#primary-cta-top")) qs("#primary-cta-top").href = content.excerpts.purchaseUrl;
+  if (qs("#header-buy-link")) qs("#header-buy-link").href = content.excerpts.purchaseUrl;
+  if (qs("#floating-buy-link")) qs("#floating-buy-link").href = content.excerpts.purchaseUrl;
 
   createRuins();
   createExpandable("#desolation-reading", content.sections.desolation, "深入閱讀");

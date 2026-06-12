@@ -85,7 +85,8 @@ a {
 }
 
 .brand,
-.site-nav a {
+.site-nav a,
+.top-link {
   text-decoration: none;
   font-size: .88rem;
   letter-spacing: .08em;
@@ -95,11 +96,45 @@ a {
   font-family: var(--font-serif);
 }
 
+.header-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
 .site-nav {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: .75rem 1.25rem;
+}
+
+.top-actions {
+  display: flex;
+  gap: .7rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.top-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.6rem;
+  padding: 0 .95rem;
+  border-radius: 999px;
+  border: 1px solid rgba(245, 245, 247, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.top-link-strong {
+  background: var(--pure-gold);
+  border-color: var(--pure-gold);
+  color: var(--pitch-black);
+  font-weight: 700;
 }
 
 .story-section {
@@ -630,8 +665,18 @@ h3 {
     position: absolute;
   }
 
+  .header-right {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
   .site-nav {
     display: none;
+  }
+
+  .top-actions {
+    width: 100%;
+    justify-content: flex-start;
   }
 
   .story-section,
@@ -693,6 +738,12 @@ h3 {
   .book-card,
   .toc-item {
     padding: 1rem;
+  }
+
+  .floating-buy {
+    left: 18px;
+    right: 18px;
+    width: auto;
   }
 }
 
@@ -1243,6 +1294,30 @@ h2 {
 .button:hover {
   transform: scale(1.02);
   opacity: 0.9;
+}
+
+.floating-buy {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 18;
+  min-height: 52px;
+  padding: 0 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--pure-gold);
+  color: var(--pitch-black);
+  text-decoration: none;
+  font-weight: 700;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.28);
+  transition: transform 220ms ease, opacity 220ms ease, box-shadow 220ms ease;
+}
+
+.floating-buy:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 28px 54px rgba(0, 0, 0, 0.34);
 }
 
 .text-button,
