@@ -378,6 +378,41 @@
       color: var(--primary-color);
       border-color: rgba(140, 47, 36, 0.22);
     }
+
+    .report-entry {
+      text-align: center;
+      margin-top: 28px;
+      margin-bottom: 12px;
+    }
+
+    .report-entry p {
+      margin: 0 0 14px;
+      color: var(--accent-color);
+      font-size: 0.95rem;
+    }
+
+    .report-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      max-width: 320px;
+      padding: 16px 22px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #8c2f24 0%, #b64f36 100%);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      box-shadow: 0 16px 34px rgba(140, 47, 36, 0.24);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .report-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px rgba(140, 47, 36, 0.28);
+    }
   </style>
 </head>
 <body>
@@ -412,6 +447,14 @@
     </div>
   </div>
 
+  <div class="card report-entry">
+    <p>想直接看熱門排行，不用再進 GA4。</p>
+    <a class="report-btn" href="./rankings.html">
+      <span>熱門排行報表</span>
+      <span>↗</span>
+    </a>
+  </div>
+
   <div class="back-home-wrap">
     <a class="back-home-btn" href="https://news.pbooks.com.tw/">
       <span>←</span>
@@ -440,6 +483,18 @@
 
 <script>
   const trackedChapterViewKeys = new Set();
+
+  function trackKeywordSearch(rawInput, results) {
+    if (typeof gtag !== 'function' || !rawInput) return;
+
+    gtag('event', 'keyword_search', {
+      event_category: 'SoonSoonBible',
+      event_label: rawInput,
+      keyword_query: rawInput,
+      result_count: Array.isArray(results) ? results.length : 0,
+      page_path: '/soonsoonbible/'
+    });
+  }
 
   function trackChapterViews(query, rawInput, results) {
     if (typeof gtag !== 'function' || !Array.isArray(results) || results.length === 0) return;
@@ -477,6 +532,24 @@
         result_count: results.length,
         page_path: '/soonsoonbible/'
       });
+    });
+  }
+
+  function trackVerseCopy(entry, copyMode = 'single', batchSize = 1) {
+    if (typeof gtag !== 'function' || !entry) return;
+
+    const verseLabel = `${entry.book} 第${entry.chapter}章 第${entry.verse}節`;
+    gtag('event', 'verse_copy', {
+      event_category: 'SoonSoonBible',
+      event_label: verseLabel,
+      bible_book: entry.book,
+      bible_chapter: entry.chapter,
+      bible_verse: entry.verse,
+      verse_key: `${entry.book}-${entry.chapter}-${entry.verse}`,
+      verse_label: verseLabel,
+      copy_mode: copyMode,
+      batch_size: batchSize,
+      page_path: '/soonsoonbible/'
     });
   }
 
@@ -872,7 +945,7 @@
               <span class="verse-text">${e.text}</span>
             </div>
             <div class="action-bar">
-               <button class="copy-btn" onclick='copySingle(event, "${e.text} (${formattedRef})")'>
+               <button class="copy-btn" onclick='copySingle(event, ${idx}, "verse")'>
                  複製
                </button>
             </div>
@@ -925,6 +998,7 @@
     }
     currentPage = 1;
     document.getElementById('pageInput').value = 1; 
+    trackKeywordSearch(input, currentKeywordResults);
     renderKeywordPage();
   }
 
@@ -955,7 +1029,7 @@
             <div class="verse-ref">${formattedRef}</div>
             <div class="verse-text">${highlightedText}</div>
              <div class="action-bar">
-               <button class="copy-btn" onclick='copySingle(event, "${entry.text} (${formattedRef})")'>複製</button>
+               <button class="copy-btn" onclick='copySingle(event, ${idx}, "keyword")'>複製</button>
             </div>
           </div>
         `;
@@ -1021,25 +1095,31 @@
       if (selectedVerses.size === 0) return;
       
       let textBuffer = [];
+      let copiedEntries = [];
       selectedVerses.forEach(jsonStr => {
           try {
             const e = JSON.parse(jsonStr);
             const formattedRef = formatRef(e.book, e.chapter, e.verse);
             textBuffer.push(`${e.text} (${formattedRef})`);
+            copiedEntries.push(e);
           } catch(err) {
             console.warn("Skip invalid");
           }
       });
 
       if (textBuffer.length > 0) {
-        copyToClipboard(textBuffer.join('\n'), true); 
-        clearSelection();
+        const copied = copyToClipboard(textBuffer.join('\n'), { isBatch: true, entries: copiedEntries });
+        if (copied) clearSelection();
       }
   }
 
-  function copySingle(e, text) {
+  function copySingle(e, idx, source = 'verse') {
       e.stopPropagation();
-      copyToClipboard(text);
+      const entry = source === 'keyword' ? currentKeywordPageData[idx] : currentVerseData[idx];
+      if (!entry) return;
+
+      const formattedRef = formatRef(entry.book, entry.chapter, entry.verse);
+      copyToClipboard(`${entry.text} (${formattedRef})`, { entries: [entry] });
   }
 
   function jumpToPage() {
@@ -1060,7 +1140,8 @@
   window.toggleKeywordSelection = toggleKeywordSelection;
   window.clearSelection = clearSelection;
 
-  function copyToClipboard(text, isBatch = false) {
+  function copyToClipboard(text, options = {}) {
+    const { isBatch = false, entries = [] } = options;
     const ta = document.createElement('textarea');
     ta.value = text;
     ta.style.position = 'fixed';
@@ -1070,7 +1151,10 @@
     try {
       const successful = document.execCommand('copy');
       if (successful) {
+          entries.forEach((entry) => trackVerseCopy(entry, isBatch ? 'batch' : 'single', entries.length));
           showToast(isBatch ? `已複製 ${selectedVerses.size} 節` : '已複製');
+          document.body.removeChild(ta);
+          return true;
       } else {
           showToast('複製失敗');
       }
@@ -1078,6 +1162,7 @@
       showToast('複製失敗');
     }
     document.body.removeChild(ta);
+    return false;
   }
 
   function showToast(msg) {
@@ -1090,4 +1175,3 @@
 </script>
 </body>
 </html>
-
