@@ -9,7 +9,6 @@
     :root {
       --primary-color: #8c2f24;
       --accent-color: #6b5e54;
-      --bg-color: #f2eadf;
       --card-bg: rgba(255, 255, 255, 0.88);
       --text-color: #1f1a17;
       --border-color: rgba(31, 26, 23, 0.1);
@@ -62,12 +61,6 @@
       color: var(--primary-color);
     }
 
-    .hero p {
-      margin: 10px 0 0;
-      color: var(--accent-color);
-      font-size: 0.95rem;
-    }
-
     .meta {
       margin-top: 14px;
       display: flex;
@@ -105,7 +98,7 @@
       grid-template-columns: 36px 1fr auto;
       gap: 10px;
       align-items: start;
-      padding: 12px 12px;
+      padding: 12px;
       border-radius: 14px;
       background: rgba(255, 255, 255, 0.74);
       border: 1px solid rgba(31, 26, 23, 0.08);
@@ -188,42 +181,41 @@
   <div class="container">
     <section class="hero">
       <div class="eyebrow">咻咻查聖經</div>
-      <h1>熱門排行報表</h1>
-      <p>直接看最近最常搜尋、最常閱讀、最常複製的內容。</p>
+      <h1>熱門排行</h1>
       <div class="meta">
-        <div id="dateRange">資料區間：載入中…</div>
-        <div id="updatedAt">更新時間：載入中…</div>
+        <div id="dateRange">最近 30 天</div>
+        <div id="updatedAt">更新時間載入中</div>
       </div>
     </section>
 
     <section class="panels">
       <article class="panel">
-        <h2>最多人搜尋關鍵字</h2>
-        <div id="keywordState" class="state">載入中…</div>
+        <h2>最多人搜尋</h2>
+        <div id="keywordState" class="state">載入中...</div>
         <ol id="keywordList" class="ranking-list" hidden></ol>
       </article>
 
       <article class="panel">
-        <h2>最多人看過章節</h2>
-        <div id="chapterState" class="state">載入中…</div>
+        <h2>最多人閱讀</h2>
+        <div id="chapterState" class="state">載入中...</div>
         <ol id="chapterList" class="ranking-list" hidden></ol>
       </article>
 
       <article class="panel">
-        <h2>最多人複製經文</h2>
-        <div id="verseState" class="state">載入中…</div>
+        <h2>最多人複製</h2>
+        <div id="verseState" class="state">載入中...</div>
         <ol id="verseList" class="ranking-list" hidden></ol>
       </article>
     </section>
 
     <div class="actions">
-      <a class="back-btn" href="./index.html">返回咻咻查聖經</a>
+      <a class="back-btn" href="./index.html">返回查詢</a>
     </div>
   </div>
 
   <script>
     function formatUpdatedAt(value) {
-      if (!value) return '尚未更新';
+      if (!value) return '更新時間未提供';
       const date = new Date(value);
       if (Number.isNaN(date.getTime())) return value;
       return date.toLocaleString('zh-TW', {
@@ -240,7 +232,7 @@
       const state = document.getElementById(stateId);
 
       if (!Array.isArray(rows) || rows.length === 0) {
-        state.textContent = '目前還沒有資料';
+        state.textContent = '目前沒有資料';
         list.hidden = true;
         return;
       }
@@ -266,7 +258,7 @@
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();
 
-        document.getElementById('dateRange').textContent = `資料區間：${data.dateRangeLabel || '最近 30 天'}`;
+        document.getElementById('dateRange').textContent = data.dateRangeLabel || '最近 30 天';
         document.getElementById('updatedAt').textContent = `更新時間：${formatUpdatedAt(data.updatedAt)}`;
 
         renderList('keywordList', 'keywordState', data.keywordSearchTop5, ' 次');
@@ -274,9 +266,9 @@
         renderList('verseList', 'verseState', data.verseCopyTop5, ' 次');
       } catch (error) {
         ['keywordState', 'chapterState', 'verseState'].forEach((id) => {
-          document.getElementById(id).textContent = '報表載入失敗，請稍後再試。';
+          document.getElementById(id).textContent = '熱門排行載入失敗，請稍後再試';
         });
-        document.getElementById('updatedAt').textContent = '更新時間：載入失敗';
+        document.getElementById('updatedAt').textContent = '更新時間讀取失敗';
       }
     }
 
