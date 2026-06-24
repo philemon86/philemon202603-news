@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-24T03:26:15.363635+00:00",
+  "updatedAt": "2026-06-24T03:49:15.660287+00:00",
   "dateRangeLabel": "\u6700\u8fd1 30 \u5929",
   "keywordSearchTop5": [],
   "chapterViewTop5": [
@@ -12,15 +12,15 @@
       "value": 3
     },
     {
+      "label": "Job \u7b2c1\u7ae0",
+      "value": 3
+    },
+    {
       "label": "Gen \u7b2c1\u7ae0",
       "value": 2
     },
     {
       "label": "Gen \u7b2c3\u7ae0",
-      "value": 2
-    },
-    {
-      "label": "Job \u7b2c13\u7ae0",
       "value": 2
     }
   ],
