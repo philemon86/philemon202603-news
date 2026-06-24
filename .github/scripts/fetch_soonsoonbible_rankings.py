@@ -3,8 +3,8 @@ import os
 from datetime import datetime, timezone
 
 import requests
-from google.oauth2 import service_account
 from google.auth.transport.requests import Request
+from google.oauth2 import service_account
 
 
 PROPERTY_ID = os.environ["GA4_PROPERTY_ID"]
@@ -22,7 +22,7 @@ def build_access_token():
 
 def run_report(token, dimensions, metrics, event_name=None, limit=5):
     payload = {
-        "dateRanges": [{"startDate": f"{LOOKBACK_DAYS}daysAgo", "endDate": "yesterday"}],
+        "dateRanges": [{"startDate": f"{LOOKBACK_DAYS}daysAgo", "endDate": "today"}],
         "dimensions": [{"name": name} for name in dimensions],
         "metrics": [{"name": name} for name in metrics],
         "limit": limit,
@@ -58,7 +58,8 @@ def map_rows(report, label_index=0, metric_index=0):
     for row in report.get("rows", []):
         label = row["dimensionValues"][label_index]["value"].strip()
         if not label or label == "(not set)":
-          continue
+            continue
+
         value = int(float(row["metricValues"][metric_index]["value"]))
         items.append({"label": label, "value": value})
     return items
@@ -95,7 +96,7 @@ def main():
     }
 
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
-        json.dump(rankings, f, ensure_ascii=False, indent=2)
+        json.dump(rankings, f, ensure_ascii=True, indent=2)
         f.write("\n")
 
 
