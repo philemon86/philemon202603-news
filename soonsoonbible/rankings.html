@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>咻咻查聖經｜熱門排行</title>
+  <title>SoonSoonBible Rankings</title>
   <link rel="icon" type="image/svg+xml" href="./favicon-b.svg">
   <style>
     :root {
@@ -98,7 +98,7 @@
       display: grid;
       grid-template-columns: 36px 1fr auto;
       gap: 10px;
-      align-items: start;
+      align-items: center;
       padding: 12px;
       border-radius: 14px;
       background: rgba(255, 255, 255, 0.74);
@@ -120,12 +120,6 @@
     .rank-label {
       font-weight: 700;
       word-break: break-word;
-    }
-
-    .rank-subtext {
-      margin-top: 2px;
-      font-size: 0.86rem;
-      color: var(--accent-color);
     }
 
     .rank-value {
@@ -181,51 +175,165 @@
 <body>
   <div class="container">
     <section class="hero">
-      <div class="eyebrow">咻咻查聖經</div>
-      <h1>熱門排行</h1>
+      <div id="eyebrow" class="eyebrow"></div>
+      <h1 id="pageTitle"></h1>
       <div class="meta">
-        <div id="dateRange">最近 30 天</div>
-        <div id="updatedAt">更新時間載入中</div>
+        <div id="dateRange"></div>
+        <div id="updatedAt"></div>
       </div>
     </section>
 
     <section class="panels">
       <article class="panel">
-        <h2>最多人搜尋</h2>
-        <div id="keywordState" class="state">載入中...</div>
+        <h2 id="keywordHeading"></h2>
+        <div id="keywordState" class="state"></div>
         <ol id="keywordList" class="ranking-list" hidden></ol>
       </article>
 
       <article class="panel">
-        <h2>最多人閱讀</h2>
-        <div id="chapterState" class="state">載入中...</div>
+        <h2 id="chapterHeading"></h2>
+        <div id="chapterState" class="state"></div>
         <ol id="chapterList" class="ranking-list" hidden></ol>
       </article>
 
       <article class="panel">
-        <h2>最多人複製</h2>
-        <div id="verseState" class="state">載入中...</div>
+        <h2 id="verseHeading"></h2>
+        <div id="verseState" class="state"></div>
         <ol id="verseList" class="ranking-list" hidden></ol>
       </article>
     </section>
 
     <div class="actions">
-      <a class="back-btn" href="./index.html">返回查詢</a>
+      <a id="backBtn" class="back-btn" href="./index.html"></a>
     </div>
   </div>
 
   <script>
+    const text = {
+      title: "\u54bb\u54bb\u67e5\u8056\u7d93\uff5c\u71b1\u9580\u6392\u884c",
+      eyebrow: "\u54bb\u54bb\u67e5\u8056\u7d93",
+      ranking: "\u71b1\u9580\u6392\u884c",
+      dateRangeFallback: "\u6700\u8fd1 30 \u5929",
+      updatedLoading: "\u66f4\u65b0\u6642\u9593\u8f09\u5165\u4e2d",
+      updatedPrefix: "\u66f4\u65b0\u6642\u9593\uff1a",
+      updatedMissing: "\u66f4\u65b0\u6642\u9593\u672a\u63d0\u4f9b",
+      updatedFailed: "\u66f4\u65b0\u6642\u9593\u8b80\u53d6\u5931\u6557",
+      keywordHeading: "\u6700\u591a\u4eba\u641c\u5c0b",
+      chapterHeading: "\u6700\u591a\u4eba\u95b1\u8b80",
+      verseHeading: "\u6700\u591a\u4eba\u8907\u88fd",
+      loading: "\u8f09\u5165\u4e2d...",
+      empty: "\u76ee\u524d\u6c92\u6709\u8cc7\u6599",
+      failed: "\u71b1\u9580\u6392\u884c\u8f09\u5165\u5931\u6557\uff0c\u8acb\u7a0d\u5f8c\u518d\u8a66",
+      back: "\u8fd4\u56de\u67e5\u8a62",
+      times: " \u6b21"
+    };
+
+    const bookNameMap = {
+      Gen: "\u5275\u4e16\u8a18",
+      Exo: "\u51fa\u57c3\u53ca\u8a18",
+      Lev: "\u5229\u672a\u8a18",
+      Num: "\u6c11\u6578\u8a18",
+      Deu: "\u7533\u547d\u8a18",
+      Jos: "\u7d04\u66f8\u4e9e\u8a18",
+      Jug: "\u58eb\u5e2b\u8a18",
+      Rut: "\u8def\u5f97\u8a18",
+      "1Sa": "\u6492\u6bcd\u8033\u8a18\u4e0a",
+      "2Sa": "\u6492\u6bcd\u8033\u8a18\u4e0b",
+      "1Ki": "\u5217\u738b\u7d00\u4e0a",
+      "2Ki": "\u5217\u738b\u7d00\u4e0b",
+      "1Ch": "\u6b77\u4ee3\u5fd7\u4e0a",
+      "2Ch": "\u6b77\u4ee3\u5fd7\u4e0b",
+      Ezr: "\u4ee5\u65af\u62c9\u8a18",
+      Neh: "\u5c3c\u5e0c\u7c73\u8a18",
+      Est: "\u4ee5\u65af\u5e16\u8a18",
+      Job: "\u7d04\u4f2f\u8a18",
+      Psm: "\u8a69\u7bc7",
+      Pro: "\u7bb4\u8a00",
+      Ecc: "\u50b3\u9053\u66f8",
+      Son: "\u96c5\u6b4c",
+      Isa: "\u4ee5\u8cfd\u4e9e\u66f8",
+      Jer: "\u8036\u5229\u7c73\u66f8",
+      Lam: "\u8036\u5229\u7c73\u54c0\u6b4c",
+      Eze: "\u4ee5\u897f\u7d50\u66f8",
+      Dan: "\u4f46\u4ee5\u7406\u66f8",
+      Hos: "\u4f55\u897f\u963f\u66f8",
+      Joe: "\u7d04\u73e5\u66f8",
+      Amo: "\u963f\u6469\u53f8\u66f8",
+      Oba: "\u4fc4\u5df4\u5e95\u4e9e\u66f8",
+      Jon: "\u7d04\u62ff\u66f8",
+      Mic: "\u5f4c\u8fe6\u66f8",
+      Nah: "\u90a3\u9d3b\u66f8",
+      Hab: "\u54c8\u5df4\u8c37\u66f8",
+      Zep: "\u897f\u756a\u96c5\u66f8",
+      Hag: "\u54c8\u8a72\u66f8",
+      Zec: "\u6492\u8fe6\u5229\u4e9e\u66f8",
+      Mal: "\u746a\u62c9\u57fa\u66f8",
+      Mat: "\u99ac\u592a\u798f\u97f3",
+      Mak: "\u99ac\u53ef\u798f\u97f3",
+      Luk: "\u8def\u52a0\u798f\u97f3",
+      Jhn: "\u7d04\u7ff0\u798f\u97f3",
+      Act: "\u4f7f\u5f92\u884c\u50b3",
+      Rom: "\u7f85\u99ac\u66f8",
+      "1Co": "\u54e5\u6797\u591a\u524d\u66f8",
+      "2Co": "\u54e5\u6797\u591a\u5f8c\u66f8",
+      Gal: "\u52a0\u62c9\u592a\u66f8",
+      Eph: "\u4ee5\u5f17\u6240\u66f8",
+      Phl: "\u8153\u7acb\u6bd4\u66f8",
+      Col: "\u6b4c\u7f85\u897f\u66f8",
+      "1Ts": "\u5e16\u6492\u7f85\u5c3c\u8fe6\u524d\u66f8",
+      "2Ts": "\u5e16\u6492\u7f85\u5c3c\u8fe6\u5f8c\u66f8",
+      "1Ti": "\u63d0\u6469\u592a\u524d\u66f8",
+      "2Ti": "\u63d0\u6469\u592a\u5f8c\u66f8",
+      Tit: "\u63d0\u591a\u66f8",
+      Phm: "\u8153\u5229\u9580\u66f8",
+      Heb: "\u5e0c\u4f2f\u4f86\u66f8",
+      Jas: "\u96c5\u5404\u66f8",
+      "1Pe": "\u5f7c\u5f97\u524d\u66f8",
+      "2Pe": "\u5f7c\u5f97\u5f8c\u66f8",
+      "1Jn": "\u7d04\u7ff0\u4e00\u66f8",
+      "2Jn": "\u7d04\u7ff0\u4e8c\u66f8",
+      "3Jn": "\u7d04\u7ff0\u4e09\u66f8",
+      Jud: "\u7336\u5927\u66f8",
+      Rev: "\u555f\u793a\u9304"
+    };
+
+    document.title = text.title;
+    document.getElementById("eyebrow").textContent = text.eyebrow;
+    document.getElementById("pageTitle").textContent = text.ranking;
+    document.getElementById("dateRange").textContent = text.dateRangeFallback;
+    document.getElementById("updatedAt").textContent = text.updatedLoading;
+    document.getElementById("keywordHeading").textContent = text.keywordHeading;
+    document.getElementById("chapterHeading").textContent = text.chapterHeading;
+    document.getElementById("verseHeading").textContent = text.verseHeading;
+    document.getElementById("keywordState").textContent = text.loading;
+    document.getElementById("chapterState").textContent = text.loading;
+    document.getElementById("verseState").textContent = text.loading;
+    document.getElementById("backBtn").textContent = text.back;
+
     function formatUpdatedAt(value) {
-      if (!value) return '更新時間未提供';
+      if (!value) return text.updatedMissing;
       const date = new Date(value);
       if (Number.isNaN(date.getTime())) return value;
-      return date.toLocaleString('zh-TW', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit'
+      return date.toLocaleString("zh-TW", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit"
       });
+    }
+
+    function normalizeLabel(label) {
+      if (!label) return "";
+      const trimmed = String(label).replace(/\s+/g, " ").trim();
+      const match = trimmed.match(/^([1-3]?[A-Za-z]{2,3})\s*(.*)$/);
+      if (!match) return trimmed;
+
+      const bookCode = match[1];
+      const rest = match[2];
+      const bookName = bookNameMap[bookCode] || bookCode;
+      const normalizedRest = rest.replace(/\s+/g, "");
+      return `${bookName}${normalizedRest}`;
     }
 
     function renderList(listId, stateId, rows, suffix) {
@@ -233,7 +341,8 @@
       const state = document.getElementById(stateId);
 
       if (!Array.isArray(rows) || rows.length === 0) {
-        state.textContent = '目前沒有資料';
+        state.textContent = text.empty;
+        state.hidden = false;
         list.hidden = true;
         return;
       }
@@ -241,13 +350,10 @@
       list.innerHTML = rows.map((row, index) => `
         <li class="ranking-item">
           <span class="rank-badge">${index + 1}</span>
-          <div>
-            <div class="rank-label">${row.label}</div>
-            ${row.note ? `<div class="rank-subtext">${row.note}</div>` : ''}
-          </div>
+          <div class="rank-label">${normalizeLabel(row.label)}</div>
           <div class="rank-value">${row.value}${suffix}</div>
         </li>
-      `).join('');
+      `).join("");
 
       state.hidden = true;
       list.hidden = false;
@@ -255,21 +361,21 @@
 
     async function loadRankings() {
       try {
-        const response = await fetch('./rankings.json', { cache: 'no-store' });
+        const response = await fetch("./rankings.json", { cache: "no-store" });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();
 
-        document.getElementById('dateRange').textContent = data.dateRangeLabel || '最近 30 天';
-        document.getElementById('updatedAt').textContent = `更新時間：${formatUpdatedAt(data.updatedAt)}`;
+        document.getElementById("dateRange").textContent = data.dateRangeLabel || text.dateRangeFallback;
+        document.getElementById("updatedAt").textContent = `${text.updatedPrefix}${formatUpdatedAt(data.updatedAt)}`;
 
-        renderList('keywordList', 'keywordState', data.keywordSearchTop5, ' 次');
-        renderList('chapterList', 'chapterState', data.chapterViewTop5, ' 次');
-        renderList('verseList', 'verseState', data.verseCopyTop5, ' 次');
+        renderList("keywordList", "keywordState", data.keywordSearchTop5, text.times);
+        renderList("chapterList", "chapterState", data.chapterViewTop5, text.times);
+        renderList("verseList", "verseState", data.verseCopyTop5, text.times);
       } catch (error) {
-        ['keywordState', 'chapterState', 'verseState'].forEach((id) => {
-          document.getElementById(id).textContent = '熱門排行載入失敗，請稍後再試';
+        ["keywordState", "chapterState", "verseState"].forEach((id) => {
+          document.getElementById(id).textContent = text.failed;
         });
-        document.getElementById('updatedAt').textContent = '更新時間讀取失敗';
+        document.getElementById("updatedAt").textContent = text.updatedFailed;
       }
     }
 
