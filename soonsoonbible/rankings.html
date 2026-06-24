@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>咻咻查聖經｜熱門排行</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon-b.svg">
+  <style>
+    :root {
+      --primary-color: #8c2f24;
+      --accent-color: #6b5e54;
+      --bg-color: #f2eadf;
+      --card-bg: rgba(255, 255, 255, 0.88);
+      --text-color: #1f1a17;
+      --border-color: rgba(31, 26, 23, 0.1);
+      --shadow: 0 24px 60px rgba(32, 23, 17, 0.08);
+      --radius: 20px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 18px 14px 40px;
+      font-family: "Space Grotesk", "Noto Serif TC", "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.6), transparent 32%),
+        linear-gradient(180deg, #f4ede4 0%, #efe3d2 100%);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .hero,
+    .panel {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .hero {
+      padding: 22px 18px;
+      margin-bottom: 18px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      color: var(--accent-color);
+      font-size: 0.9rem;
+      margin-bottom: 6px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.65rem;
+      color: var(--primary-color);
+    }
+
+    .hero p {
+      margin: 10px 0 0;
+      color: var(--accent-color);
+      font-size: 0.95rem;
+    }
+
+    .meta {
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 0.9rem;
+      color: var(--accent-color);
+    }
+
+    .panels {
+      display: grid;
+      gap: 16px;
+    }
+
+    .panel {
+      padding: 18px 16px;
+    }
+
+    .panel h2 {
+      margin: 0 0 12px;
+      font-size: 1.08rem;
+      color: var(--primary-color);
+    }
+
+    .ranking-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .ranking-item {
+      display: grid;
+      grid-template-columns: 36px 1fr auto;
+      gap: 10px;
+      align-items: start;
+      padding: 12px 12px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px solid rgba(31, 26, 23, 0.08);
+    }
+
+    .rank-badge {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(140, 47, 36, 0.12);
+      color: var(--primary-color);
+      font-weight: 700;
+    }
+
+    .rank-label {
+      font-weight: 700;
+      word-break: break-word;
+    }
+
+    .rank-subtext {
+      margin-top: 2px;
+      font-size: 0.86rem;
+      color: var(--accent-color);
+    }
+
+    .rank-value {
+      color: var(--primary-color);
+      font-weight: 700;
+      white-space: nowrap;
+      padding-top: 4px;
+    }
+
+    .state {
+      text-align: center;
+      color: var(--accent-color);
+      padding: 16px 8px;
+    }
+
+    .actions {
+      margin-top: 18px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      max-width: 320px;
+      padding: 15px 20px;
+      border-radius: 16px;
+      text-decoration: none;
+      color: #fff;
+      background: linear-gradient(135deg, #8c2f24 0%, #b64f36 100%);
+      box-shadow: 0 16px 34px rgba(140, 47, 36, 0.24);
+      font-weight: 700;
+    }
+
+    @media (min-width: 720px) {
+      body {
+        padding: 24px 18px 56px;
+      }
+
+      .panels {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .panel {
+        padding: 20px 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="hero">
+      <div class="eyebrow">咻咻查聖經</div>
+      <h1>熱門排行報表</h1>
+      <p>直接看最近最常搜尋、最常閱讀、最常複製的內容。</p>
+      <div class="meta">
+        <div id="dateRange">資料區間：載入中…</div>
+        <div id="updatedAt">更新時間：載入中…</div>
+      </div>
+    </section>
+
+    <section class="panels">
+      <article class="panel">
+        <h2>最多人搜尋關鍵字</h2>
+        <div id="keywordState" class="state">載入中…</div>
+        <ol id="keywordList" class="ranking-list" hidden></ol>
+      </article>
+
+      <article class="panel">
+        <h2>最多人看過章節</h2>
+        <div id="chapterState" class="state">載入中…</div>
+        <ol id="chapterList" class="ranking-list" hidden></ol>
+      </article>
+
+      <article class="panel">
+        <h2>最多人複製經文</h2>
+        <div id="verseState" class="state">載入中…</div>
+        <ol id="verseList" class="ranking-list" hidden></ol>
+      </article>
+    </section>
+
+    <div class="actions">
+      <a class="back-btn" href="./index.html">返回咻咻查聖經</a>
+    </div>
+  </div>
+
+  <script>
+    function formatUpdatedAt(value) {
+      if (!value) return '尚未更新';
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return value;
+      return date.toLocaleString('zh-TW', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
+
+    function renderList(listId, stateId, rows, suffix) {
+      const list = document.getElementById(listId);
+      const state = document.getElementById(stateId);
+
+      if (!Array.isArray(rows) || rows.length === 0) {
+        state.textContent = '目前還沒有資料';
+        list.hidden = true;
+        return;
+      }
+
+      list.innerHTML = rows.map((row, index) => `
+        <li class="ranking-item">
+          <span class="rank-badge">${index + 1}</span>
+          <div>
+            <div class="rank-label">${row.label}</div>
+            ${row.note ? `<div class="rank-subtext">${row.note}</div>` : ''}
+          </div>
+          <div class="rank-value">${row.value}${suffix}</div>
+        </li>
+      `).join('');
+
+      state.hidden = true;
+      list.hidden = false;
+    }
+
+    async function loadRankings() {
+      try {
+        const response = await fetch('./rankings.json', { cache: 'no-store' });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+
+        document.getElementById('dateRange').textContent = `資料區間：${data.dateRangeLabel || '最近 30 天'}`;
+        document.getElementById('updatedAt').textContent = `更新時間：${formatUpdatedAt(data.updatedAt)}`;
+
+        renderList('keywordList', 'keywordState', data.keywordSearchTop5, ' 次');
+        renderList('chapterList', 'chapterState', data.chapterViewTop5, ' 次');
+        renderList('verseList', 'verseState', data.verseCopyTop5, ' 次');
+      } catch (error) {
+        ['keywordState', 'chapterState', 'verseState'].forEach((id) => {
+          document.getElementById(id).textContent = '報表載入失敗，請稍後再試。';
+        });
+        document.getElementById('updatedAt').textContent = '更新時間：載入失敗';
+      }
+    }
+
+    loadRankings();
+  </script>
+</body>
+</html>
