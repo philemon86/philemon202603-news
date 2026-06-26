@@ -481,7 +481,7 @@
   </section>
 
   <script>
-    const state = { products: [], query: "", priceIndex: 0, yearValue: 0, priceOptions: [] };
+    const state = { products: [], query: "", priceIndex: 0, yearValue: 0, allYearValue: 0, priceOptions: [] };
     const grid = document.getElementById("bookGrid");
     const searchInput = document.getElementById("searchInput");
     const priceRange = document.getElementById("priceRange");
@@ -515,6 +515,10 @@
       const date = new Date(value);
       if (Number.isNaN(date.getTime())) return "";
       return date.toLocaleDateString("zh-TW", { year: "numeric", month: "2-digit", day: "2-digit" });
+    }
+
+    function formatYearValue(value) {
+      return value === state.allYearValue ? "ALL" : String(value);
     }
 
     function searchableText(book) {
@@ -567,6 +571,7 @@
 
       state.priceOptions = prices;
       state.priceIndex = 0;
+      state.allYearValue = maxYear + 1;
       state.yearValue = maxYear;
       
       priceRange.min = "0";
@@ -576,9 +581,9 @@
       updateRangeProgress(priceRange); 
 
       yearRange.min = String(minYear);
-      yearRange.max = String(maxYear);
+      yearRange.max = String(state.allYearValue);
       yearRange.value = String(maxYear);
-      yearDisplay.textContent = String(maxYear);
+      yearDisplay.textContent = formatYearValue(state.yearValue);
       updateRangeProgress(yearRange); 
       
       totalCount.textContent = String(state.products.length);
@@ -593,7 +598,7 @@
           const selected = state.priceIndex > 0 ? state.priceOptions[state.priceIndex - 1] : "";
           if (selected && book.price !== selected) return false;
         }
-        if (book.yearNumber !== state.yearValue) return false;
+        if (state.yearValue !== state.allYearValue && book.yearNumber !== state.yearValue) return false;
         return true;
       });
     }
@@ -681,7 +686,7 @@
     yearRange.addEventListener("input", (event) => {
       updateRangeProgress(event.target); 
       state.yearValue = Number(event.target.value);
-      yearDisplay.textContent = String(state.yearValue);
+      yearDisplay.textContent = formatYearValue(state.yearValue);
       renderGrid();
     });
 
