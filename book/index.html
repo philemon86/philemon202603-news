@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
@@ -593,7 +593,7 @@
           const selected = state.priceIndex > 0 ? state.priceOptions[state.priceIndex - 1] : "";
           if (selected && book.price !== selected) return false;
         }
-        if (book.yearNumber && book.yearNumber > state.yearValue) return false;
+        if (book.yearNumber !== state.yearValue) return false;
         return true;
       });
     }
@@ -703,3 +703,4 @@
   </script>
 </body>
 </html>
+
