@@ -1,7 +1,28 @@
 {
-  "updatedAt": "2026-06-24T03:49:15.660287+00:00",
+  "updatedAt": "2026-07-01T02:56:57.127414+00:00",
   "dateRangeLabel": "\u6700\u8fd1 30 \u5929",
-  "keywordSearchTop5": [],
+  "keywordSearchTop5": [
+    {
+      "label": "\u4e0d\u53ef\u505c\u6b62\u805a\u6703",
+      "value": 1
+    },
+    {
+      "label": "\u52dd\u4e86\u4e16\u754c",
+      "value": 1
+    },
+    {
+      "label": "\u540c\u5fc3",
+      "value": 1
+    },
+    {
+      "label": "\u56db",
+      "value": 1
+    },
+    {
+      "label": "\u56db\u5341",
+      "value": 1
+    }
+  ],
   "chapterViewTop5": [
     {
       "label": "Phl \u7b2c4\u7ae0",
@@ -16,13 +37,34 @@
       "value": 3
     },
     {
-      "label": "Gen \u7b2c1\u7ae0",
-      "value": 2
+      "label": "Mat \u7b2c6\u7ae0",
+      "value": 3
     },
     {
-      "label": "Gen \u7b2c3\u7ae0",
+      "label": "Eze \u7b2c10\u7ae0",
       "value": 2
     }
   ],
-  "verseCopyTop5": []
+  "verseCopyTop5": [
+    {
+      "label": "Mat \u7b2c6\u7ae0 \u7b2c33\u7bc0",
+      "value": 3
+    },
+    {
+      "label": "Mat \u7b2c6\u7ae0 \u7b2c32\u7bc0",
+      "value": 2
+    },
+    {
+      "label": "1Jn \u7b2c5\u7ae0 \u7b2c7\u7bc0",
+      "value": 1
+    },
+    {
+      "label": "Heb \u7b2c10\u7ae0 \u7b2c25\u7bc0",
+      "value": 1
+    },
+    {
+      "label": "Mat \u7b2c24\u7ae0 \u7b2c27\u7bc0",
+      "value": 1
+    }
+  ]
 }
