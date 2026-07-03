@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-02T05:10:17.136230+00:00",
+  "updatedAt": "2026-07-03T04:59:33.855667+00:00",
   "dateRangeLabel": "\u6700\u8fd1 30 \u5929",
   "keywordSearchTop5": [
     {
@@ -30,19 +30,19 @@
     },
     {
       "label": "Gen \u7b2c2\u7ae0",
+      "value": 4
+    },
+    {
+      "label": "Gen \u7b2c3\u7ae0",
+      "value": 3
+    },
+    {
+      "label": "Jhn \u7b2c1\u7ae0",
       "value": 3
     },
     {
       "label": "Job \u7b2c1\u7ae0",
       "value": 3
-    },
-    {
-      "label": "Mat \u7b2c6\u7ae0",
-      "value": 3
-    },
-    {
-      "label": "Eze \u7b2c10\u7ae0",
-      "value": 2
     }
   ],
   "verseCopyTop5": [
