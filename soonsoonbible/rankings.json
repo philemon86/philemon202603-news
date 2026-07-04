@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-03T04:59:33.855667+00:00",
+  "updatedAt": "2026-07-04T04:54:13.374892+00:00",
   "dateRangeLabel": "\u6700\u8fd1 30 \u5929",
   "keywordSearchTop5": [
     {
@@ -29,6 +29,10 @@
       "value": 6
     },
     {
+      "label": "2Ti \u7b2c3\u7ae0",
+      "value": 5
+    },
+    {
       "label": "Gen \u7b2c2\u7ae0",
       "value": 4
     },
@@ -38,10 +42,6 @@
     },
     {
       "label": "Jhn \u7b2c1\u7ae0",
-      "value": 3
-    },
-    {
-      "label": "Job \u7b2c1\u7ae0",
       "value": 3
     }
   ],
