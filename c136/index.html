@@ -1,0 +1,788 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>進入聖經的世界｜從副標開始入門</title>
+  <meta name="description" content="以聖經世界探險為核心，從四個副標中尋找每卷經書的入口，作答後閱讀書中導讀，完成 63 卷副標入門挑戰。" />
+  <style>
+    :root{
+      --bg:#070a13;
+      --panel:#11182b;
+      --panel-2:#17213a;
+      --ink:#f7f8ff;
+      --muted:#aeb8d4;
+      --soft:#dce5ff;
+      --line:rgba(255,255,255,.13);
+      --gold:#ffd45f;
+      --gold-2:#fff2b6;
+      --blue:#66b8ff;
+      --blue-2:#9ed3ff;
+      --green:#6ff2bd;
+      --red:#ff667e;
+      --dark:#11131a;
+      --wrap:1180px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      min-height:100vh;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at 50% -10%, rgba(102,184,255,.28), transparent 38%),
+        radial-gradient(circle at 8% 20%, rgba(255,212,95,.12), transparent 28%),
+        radial-gradient(circle at 94% 22%, rgba(111,242,189,.10), transparent 26%),
+        linear-gradient(180deg,#050711 0%, #0b1020 46%, #050711 100%);
+      font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+      line-height:1.6;
+      overflow-x:hidden;
+    }
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:-1;
+      opacity:.35;
+      background-image:
+        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size:28px 28px;
+      mask-image:linear-gradient(180deg,black,transparent 84%);
+    }
+    a{color:inherit;text-decoration:none}
+    button{font-family:inherit}
+    .wrap{width:min(var(--wrap), calc(100% - 28px));margin:0 auto}
+
+    header{
+      position:sticky;
+      top:0;
+      z-index:30;
+      background:rgba(5,7,17,.82);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid rgba(255,255,255,.1);
+    }
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:11px 0}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.04em}
+    .brand-mark{width:18px;height:18px;border-radius:50%;background:radial-gradient(circle,var(--gold) 0 38%,var(--blue) 40% 100%);box-shadow:0 0 20px rgba(255,212,95,.45)}
+    .top-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .small-btn{border:1px solid var(--line);background:rgba(255,255,255,.055);color:var(--soft);padding:8px 12px;border-radius:999px;cursor:pointer;font-weight:900;font-size:13px}
+    .small-btn:hover{border-color:rgba(255,212,95,.55);color:#fff}
+
+    .hero{padding:32px 0 18px}
+    .hero-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(340px,430px);gap:34px;align-items:center}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--gold);font:900 12px/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.12em;border:1px solid rgba(255,212,95,.28);background:rgba(255,212,95,.07);padding:8px 11px;border-radius:999px}
+    h1{margin:15px 0 8px;font-size:clamp(34px,5vw,62px);line-height:1.08;letter-spacing:.03em;text-shadow:0 6px 26px rgba(0,0,0,.55)}
+    .title-line{display:block}
+    .title-subline{color:var(--gold-2);font-size:.72em;letter-spacing:.015em;margin-top:.08em}
+    .hero-sub{margin:0;color:var(--muted);font-size:17px;max-width:800px}
+    .cover-card{position:relative;display:flex;justify-content:center;align-items:center;border:1px solid rgba(255,255,255,.12);background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.025));border-radius:28px;padding:24px;box-shadow:0 26px 64px rgba(0,0,0,.32);justify-self:center;width:100%;max-width:430px}
+    .cover-card::before{content:"";position:absolute;inset:16% 6%;background:rgba(102,184,255,.2);filter:blur(34px);border-radius:50%}
+    .cover{position:relative;width:min(100%,390px);filter:drop-shadow(0 24px 32px rgba(0,0,0,.55))}
+
+
+    .intro-section{padding:8px 0 36px}
+
+    .intro-screen{display:block}
+    .game-screen{display:none}
+    body.game-active .intro-screen{display:none}
+    body.game-active .game-screen{display:block}
+    .start-row{display:flex;flex-direction:column;align-items:center;gap:14px;margin:24px auto 0;text-align:center}
+    .start-btn{border:none;border-radius:999px;background:linear-gradient(90deg,var(--gold),#fff1ad);color:#11131a;padding:15px 28px;font-weight:950;font-size:17px;letter-spacing:.04em;cursor:pointer;box-shadow:0 18px 42px rgba(255,212,95,.22),0 0 0 1px rgba(255,255,255,.12) inset;transition:transform .15s ease,filter .15s ease}
+    .start-btn:hover{transform:translateY(-2px);filter:brightness(1.06)}
+    .start-hint{margin:0;color:var(--muted);font-size:14px;font-weight:800;line-height:1.7;max-width:620px}
+    .expedition-guide{display:grid;gap:22px}
+    .steps-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+    .step-card{
+      position:relative;
+      min-height:210px;
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:28px;
+      background:linear-gradient(180deg,rgba(255,255,255,.078),rgba(255,255,255,.028));
+      box-shadow:0 22px 60px rgba(0,0,0,.22);
+      backdrop-filter:blur(18px);
+      padding:clamp(24px,3vw,32px);
+      overflow:hidden;
+    }
+    .step-card::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 18% 0%,rgba(255,212,95,.16),transparent 38%),radial-gradient(circle at 100% 22%,rgba(102,184,255,.13),transparent 36%)}
+    .step-card > *{position:relative}
+    .step-no{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:999px;background:rgba(255,212,95,.12);border:1px solid rgba(255,212,95,.34);color:var(--gold-2);font:900 14px/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.05em;margin-bottom:26px}
+    .step-card h3{margin:0 0 12px;color:#fff;font-size:clamp(20px,2.2vw,26px);line-height:1.18;letter-spacing:.01em}
+    .step-card p{margin:0;color:var(--muted);font-size:15.5px;line-height:1.86;font-weight:700}
+    .manifesto-card{
+      border:1px solid rgba(255,255,255,.13);
+      border-radius:34px;
+      background:radial-gradient(circle at 50% 0%,rgba(255,212,95,.13),transparent 36%),linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.022));
+      box-shadow:0 26px 70px rgba(0,0,0,.24);
+      padding:clamp(34px,6vw,72px) clamp(22px,5vw,64px);
+      text-align:center;
+      overflow:hidden;
+    }
+    .manifesto-kicker{margin:0 0 16px;color:var(--green);font:900 12px/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.16em}
+    .manifesto-title{margin:0 auto 26px;max-width:900px;color:#fff;font-size:clamp(30px,5vw,58px);line-height:1.08;letter-spacing:.01em;text-shadow:0 10px 32px rgba(0,0,0,.36)}
+    .manifesto-copy{max-width:820px;margin:0 auto;text-align:left;color:var(--muted);font-size:clamp(16px,1.7vw,19px);line-height:1.95;font-weight:650}
+    .manifesto-copy p{margin:0 0 18px}
+    .manifesto-copy p:last-child{margin-bottom:0}
+    .manifesto-copy strong{color:var(--gold-2);font-weight:950}
+    .manifesto-copy .call{color:#fff;font-weight:950}
+
+
+    .quiz-section{padding:8px 0 88px}
+    .quiz-shell{border:1px solid rgba(255,255,255,.14);border-radius:24px;background:linear-gradient(180deg,rgba(17,24,43,.96),rgba(8,11,22,.96));box-shadow:0 24px 68px rgba(0,0,0,.42);padding:20px;overflow:hidden}
+    .score-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:18px}
+    .score-card{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.045);border-radius:16px;padding:12px 14px;min-height:72px}
+    .score-card .label{color:var(--muted);font-size:12px;font-weight:900;letter-spacing:.1em;margin-bottom:4px}
+    .score-card .value{font:900 28px/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#fff}
+    .score-card.good .value{color:var(--green)}
+    .score-card.bad .value{color:var(--red)}
+
+    .question-card{position:relative;border:1px solid rgba(255,212,95,.24);border-radius:24px;background:radial-gradient(circle at 50% -12%, rgba(255,212,95,.16), transparent 40%),linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.025));padding:24px;overflow:hidden}
+    .question-card::before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(255,255,255,.055),transparent);transform:translateX(-100%);animation:sweep 7s linear infinite}
+    @keyframes sweep{0%{transform:translateX(-100%)}45%,100%{transform:translateX(100%)}}
+    .question-top{position:relative;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+    .round-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(255,212,95,.1);border:1px solid rgba(255,212,95,.28);color:var(--gold-2);border-radius:999px;padding:8px 12px;font-weight:900;font-size:13px}
+    .hint-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(102,184,255,.08);border:1px solid rgba(102,184,255,.23);color:var(--blue-2);border-radius:999px;padding:8px 12px;font-weight:900;font-size:13px}
+    .book-display{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:center;padding:12px 0 4px}
+    .book-abbr{display:grid;place-items:center;width:112px;height:112px;border-radius:24px;background:linear-gradient(180deg,rgba(102,184,255,.22),rgba(255,212,95,.12));border:2px solid rgba(255,255,255,.16);font-size:46px;font-weight:900;box-shadow:inset 0 0 0 1px rgba(255,255,255,.05),0 18px 38px rgba(0,0,0,.24)}
+    .book-info h2{margin:0 0 8px;font-size:clamp(25px,4vw,42px);line-height:1.15}
+    .book-info p{margin:0;color:var(--muted);font-size:16px}
+
+    .options{position:relative;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:22px}
+    .option-btn{position:relative;border:1px solid rgba(255,255,255,.16);background:linear-gradient(180deg,rgba(19,30,55,.95),rgba(9,14,28,.95));color:var(--ink);border-radius:18px;padding:16px 16px 16px 58px;min-height:72px;cursor:pointer;text-align:left;font-weight:900;font-size:19px;line-height:1.3;box-shadow:0 12px 24px rgba(0,0,0,.19);transition:transform .14s ease,border-color .14s ease,background .14s ease,filter .14s ease}
+    .option-btn:hover:not(:disabled){transform:translateY(-2px);border-color:rgba(255,212,95,.55);filter:brightness(1.08)}
+    .option-btn:disabled{cursor:default}
+    .option-key{position:absolute;left:16px;top:50%;transform:translateY(-50%);display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);font:900 15px/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--gold)}
+    .option-btn.is-correct{border-color:rgba(111,242,189,.9);background:linear-gradient(180deg,rgba(111,242,189,.25),rgba(20,75,58,.55));box-shadow:0 0 0 2px rgba(111,242,189,.13),0 0 28px rgba(111,242,189,.14)}
+    .option-btn.is-wrong{border-color:rgba(255,102,126,.85);background:linear-gradient(180deg,rgba(255,102,126,.18),rgba(72,25,34,.55));filter:saturate(.9)}
+    .option-btn.is-muted{opacity:.48;filter:saturate(.7)}
+
+    .feedback{display:none}
+    .next-row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:16px}
+    .next-btn{border:0;border-radius:999px;background:linear-gradient(90deg,var(--gold),#ffeaa5);color:#100c02;padding:12px 20px;font-weight:900;font-size:15px;cursor:pointer;box-shadow:0 12px 24px rgba(0,0,0,.26)}
+    .next-btn:hover{transform:translateY(-1px)}
+    .note{color:var(--muted);font-size:14px}
+
+    .answer-modal{position:fixed;inset:0;z-index:80;display:none;align-items:center;justify-content:center;background:rgba(2,4,10,.76);backdrop-filter:blur(9px);padding:18px}
+    .answer-modal.show{display:flex}
+    .answer-card{width:min(760px,100%);max-height:min(88vh,780px);overflow:auto;border:2px solid var(--modal-color,var(--gold));border-radius:26px;background:radial-gradient(circle at top right,var(--modal-glow,rgba(255,212,95,.18)),transparent 42%),linear-gradient(180deg,#111833,#080b15);box-shadow:0 28px 80px rgba(0,0,0,.55),0 0 46px var(--modal-glow,rgba(255,212,95,.2));padding:24px;position:relative}
+    .answer-modal.good{--modal-color:var(--green);--modal-glow:rgba(111,242,189,.20)}
+    .answer-modal.bad{--modal-color:var(--red);--modal-glow:rgba(255,102,126,.18)}
+    .modal-close{position:absolute;right:16px;top:16px;width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.07);color:#fff;cursor:pointer;font-size:22px;line-height:1}
+    .modal-kicker{color:var(--modal-color,var(--gold));font:900 13px/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.14em;margin:4px 46px 12px 0}
+    .modal-title{margin:0 46px 8px 0;font-size:clamp(26px,4vw,42px);line-height:1.18;text-shadow:0 5px 20px rgba(0,0,0,.45)}
+    .modal-meta{color:var(--gold-2);font-size:18px;font-weight:900;margin-bottom:10px}
+    .modal-correct{border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.055);border-radius:16px;padding:12px 14px;color:var(--soft);margin:14px 0}
+    .modal-correct strong{color:#fff}
+    .excerpt-box{border:1px solid rgba(255,255,255,.14);background:rgba(0,0,0,.22);border-radius:18px;padding:16px 18px;margin:14px 0}
+    .excerpt-label{color:var(--modal-color,var(--gold));font-size:13px;font-weight:900;letter-spacing:.12em;margin-bottom:8px}
+    .excerpt-box p{margin:0;color:#f8fbff;font-size:17px;line-height:1.82;font-weight:800}
+    .modal-encourage{margin:14px 0 0;color:var(--muted);font-size:16px;line-height:1.8}
+    .modal-actions{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:18px}
+    .modal-buy{border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:var(--soft);padding:11px 16px;border-radius:999px;font-weight:900}
+
+    .done-panel{display:none;text-align:center;padding:clamp(24px,4vw,42px);border:1px solid rgba(255,212,95,.25);border-radius:28px;background:radial-gradient(circle at 50% 0%,rgba(255,212,95,.20),transparent 38%),rgba(255,255,255,.035)}
+    .done-panel.show{display:block}
+    .done-layout{display:grid;grid-template-columns:minmax(240px,360px) minmax(0,1fr);gap:clamp(24px,5vw,54px);align-items:center;max-width:980px;margin:0 auto}
+    .done-cover-wrap{position:relative;display:flex;justify-content:center;align-items:center;border:1px solid rgba(255,255,255,.12);background:linear-gradient(180deg,rgba(255,255,255,.065),rgba(255,255,255,.025));border-radius:28px;padding:22px;box-shadow:0 24px 60px rgba(0,0,0,.30)}
+    .done-cover-wrap::before{content:"";position:absolute;inset:18% 8%;background:rgba(255,212,95,.19);filter:blur(34px);border-radius:50%}
+    .done-cover{position:relative;width:min(100%,330px);filter:drop-shadow(0 24px 32px rgba(0,0,0,.55))}
+    .done-content{text-align:center}
+    .rank{display:inline-grid;place-items:center;min-width:116px;height:116px;border-radius:28px;background:linear-gradient(180deg,var(--gold),#fff1ad);color:#14100a;font:900 52px/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;box-shadow:0 20px 50px rgba(0,0,0,.34);margin-bottom:18px}
+    .done-panel h2{font-size:clamp(28px,4vw,46px);margin:0 0 10px}
+    .done-panel p{color:var(--muted);font-size:17px;margin:0 auto 18px;max-width:740px}
+    .done-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;max-width:720px;margin:18px auto}
+    .done-stat{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);border-radius:16px;padding:13px}
+    .done-stat .label{color:var(--muted);font-size:12px;font-weight:900;letter-spacing:.1em;margin-bottom:4px}
+    .done-stat .value{font:900 28px/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#fff}
+
+    .done-actions{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:18px}
+    .done-buy-btn{display:inline-flex;align-items:center;justify-content:center;border:1px solid rgba(255,212,95,.42);background:rgba(255,255,255,.065);color:var(--gold-2);padding:12px 20px;border-radius:999px;font-weight:900;font-size:15px;box-shadow:0 12px 24px rgba(0,0,0,.22);transition:transform .14s ease,border-color .14s ease,color .14s ease,background .14s ease}
+    .done-buy-btn:hover{transform:translateY(-1px);border-color:rgba(255,212,95,.72);background:rgba(255,212,95,.09);color:#fff}
+
+    .progress-panel{margin-top:18px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.035);border-radius:18px;padding:14px}
+    .progress-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+    .progress-title{font-weight:900;color:var(--soft)}
+    .legend{display:flex;gap:8px;align-items:center;flex-wrap:wrap;color:var(--muted);font-size:12px;font-weight:800}
+    .legend span{display:inline-flex;align-items:center;gap:5px}
+    .dot{width:10px;height:10px;border-radius:50%;display:inline-block;border:1px solid rgba(255,255,255,.16)}
+    .dot.pending{background:#26334f}.dot.correct{background:var(--green);box-shadow:0 0 14px rgba(111,242,189,.55)}.dot.wrong{background:#343640}
+    .progress-scroller{overflow:visible;padding-bottom:0}
+    .progress-track{display:grid;grid-template-columns:repeat(auto-fit,minmax(30px,1fr));gap:5px;width:100%;overflow:visible}
+    .book-chip{height:32px;min-width:0;border-radius:9px;border:1px solid rgba(255,255,255,.12);display:grid;place-items:center;font-weight:900;font-size:12px;background:#26334f;color:#dbe6ff;position:relative}
+    .book-chip.current{outline:2px solid rgba(255,212,95,.75);outline-offset:2px;color:#fff}
+    .book-chip.correct{background:linear-gradient(180deg,rgba(111,242,189,.9),rgba(35,138,101,.9));color:#06120e;box-shadow:0 0 18px rgba(111,242,189,.36)}
+    .book-chip.wrong{background:#24262f;color:#6f7688;border-color:rgba(255,255,255,.07);box-shadow:inset 0 0 0 1px rgba(0,0,0,.18)}
+
+    @media (max-width:980px){
+      .steps-grid{grid-template-columns:1fr}
+      .step-card{min-height:0}
+    }
+    @media (max-width:860px){
+      .hero-grid{grid-template-columns:1fr}
+      .cover-card{display:flex;max-width:360px;padding:20px}
+      .cover{width:min(100%,320px)}
+      .done-layout{grid-template-columns:1fr}
+      .done-cover-wrap{max-width:360px;margin:0 auto}
+      .done-cover{width:min(100%,300px)}
+      .score-row{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .book-display{grid-template-columns:1fr;text-align:center;justify-items:center;gap:12px}
+      .book-abbr{width:94px;height:94px;font-size:39px;border-radius:22px}
+      .options{grid-template-columns:1fr}
+      .option-btn{font-size:17px;min-height:64px;padding:14px 14px 14px 54px}
+      .quiz-shell{padding:14px;border-radius:20px}
+      .question-card{padding:18px;border-radius:20px}
+      .done-stats{grid-template-columns:1fr}
+      .progress-track{grid-template-columns:repeat(auto-fit,minmax(27px,1fr));gap:4px}
+      .book-chip{height:30px;font-size:11px;border-radius:8px}
+    }
+    @media (max-width:520px){
+      .wrap{width:min(100% - 18px, var(--wrap))}
+      .hero{padding-top:22px}
+      h1{font-size:32px}
+      .title-subline{font-size:.78em}
+      .manifesto-card{border-radius:24px;text-align:left}
+      .manifesto-title{margin-left:0;margin-right:0}
+      .step-card{border-radius:22px}
+      .score-card .value{font-size:24px}
+      .score-card{padding:10px;min-height:64px}
+      .progress-panel{padding:12px}
+      .progress-track{grid-template-columns:repeat(auto-fit,minmax(22px,1fr));gap:3px}
+      .book-chip{height:27px;font-size:10.5px;border-radius:7px}
+      .answer-modal{padding:12px;align-items:flex-end}
+      .answer-card{max-height:88vh;border-radius:22px;padding:20px}
+      .modal-title{margin-right:36px}
+      .excerpt-box p{font-size:15.5px}
+      .topbar{align-items:flex-start}
+      .brand{font-size:14px}
+      .small-btn{font-size:12px;padding:7px 10px}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap topbar">
+      <a class="brand" href="#top"><span class="brand-mark"></span><span>進入聖經的世界｜從副標開始入門</span></a>
+      <div class="top-actions">
+        <a class="small-btn" href="https://www.pbooks.com.tw/products/c136" target="_blank" rel="noopener">購買本書</a>
+        <button class="small-btn" type="button" id="restartTopBtn">重新開始</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero intro-screen">
+      <div class="wrap hero-grid">
+        <div>
+          <span class="eyebrow">BIBLE WORLD EXPEDITION / GENESIS TO REVELATION</span>
+          <h1><span class="title-line">進入聖經的世界</span><span class="title-line title-subline">從副標開始入門</span></h1>
+          <p class="hero-sub">你將從創世記一路走向啟示錄。每一卷經書都是一塊等待進入的領地，副標像地圖與指南針，帶你從入口開始理解聖經世界。</p>
+        </div>
+        <div class="cover-card"><img src="cover.png" alt="進入聖經的世界封面" class="cover" /></div>
+      </div>
+    </section>
+
+    <section class="intro-section intro-screen" aria-labelledby="introTitle">
+      <div class="wrap">
+        <div class="expedition-guide">
+          <div class="steps-grid" aria-label="探險指南">
+            <article class="step-card">
+              <div class="step-no">01</div>
+              <h3>依聖經次序啟程</h3>
+              <p>從創世記一路前行至啟示錄，每一卷都是一塊等待進入的領地。你將按著聖經的路線前進，不跳站，也不迷航。</p>
+            </article>
+            <article class="step-card">
+              <div class="step-no">02</div>
+              <h3>辨認副標指南</h3>
+              <p>每一站會出現四句副標。請選出最能開啟這卷書的一句，讓副標成為你理解經卷地貌的指南針。</p>
+            </article>
+            <article class="step-card">
+              <div class="step-no">03</div>
+              <h3>打開導讀與成就</h3>
+              <p>作答後，閱讀一段書中導讀，再前往下一卷。走完整趟 63 卷旅程，看看你是否能從副標開始，重新入門聖經世界。</p>
+            </article>
+          </div>
+
+          <section class="manifesto-card">
+            <p class="manifesto-kicker">EXPEDITION MANIFESTO</p>
+            <h2 id="introTitle" class="manifesto-title">有了 AI，為何還需要紙本？</h2>
+            <div class="manifesto-copy">
+              <p>AI 可以在數秒之內，為一卷聖經攤開一張空照圖；它能指出山脈、河道與城市的位置，卻不能代替人親自踏上泥土，穿過風沙，聽見神話語在心裡發光的時刻。</p>
+              <p>聖經分為新舊兩約，一脈相承見證基督救恩；然而龐雜的歷史、陌生的律例、漫長的族譜與文化距離，常像迷霧、荒野與迷宮，使人站在入口前，卻遲遲不知如何前行。</p>
+              <p><strong>《進入聖經的世界》</strong>就是為這趟旅程預備的專屬嚮導。它不取代聖經本身，卻在你翻開經文以前，先為你標定地貌、主線與方向，使每一卷書的位置逐漸清晰。</p>
+              <p>帶著指南針進入經文，你不必在陌生地名與複雜脈絡中失去方向，反能更專注於神話語本身，看見救恩如何貫穿全書，也讓真理成為腳前的燈、路上的光。</p>
+              <p class="call">現在，帶上這份地圖。從第一卷開始，踏入聖經的世界。</p>
+            </div>
+          </section>
+          <div class="start-row">
+            <button class="start-btn" type="button" id="startExpeditionBtn">開始入門挑戰</button>
+            <p class="start-hint">四選一，讓你思考經卷！</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="quiz-section game-screen">
+      <div class="wrap">
+        <div class="quiz-shell">
+          <div class="score-row">
+            <div class="score-card"><div class="label">探索進度</div><div class="value"><span id="questionNo">1</span>/63</div></div>
+            <div class="score-card good"><div class="label">成功解鎖</div><div class="value" id="correctCount">0</div></div>
+            <div class="score-card bad"><div class="label">暫時迷航</div><div class="value" id="wrongCount">0</div></div>
+            <div class="score-card"><div class="label">旅程時間</div><div class="value" id="timer">00:00</div></div>
+          </div>
+
+          <div id="questionArea" class="question-card">
+            <div class="question-top">
+              <div class="round-pill" id="roundPill">第 1 題</div>
+              <div class="hint-pill" id="hintPill">這一經卷，哪一句副標才是正確？</div>
+            </div>
+            <div class="book-display">
+              <div class="book-abbr" id="bookAbbr">創</div>
+              <div class="book-info">
+                <h2 id="bookName">創世記</h2>
+                <p id="bookPrompt">四個副標中，哪一個才是進入聖經中的內容。</p>
+              </div>
+            </div>
+            <div class="options" id="options"></div>
+            <div class="feedback" id="feedback"></div>
+            <div class="next-row" id="nextRow" style="display:none">
+              <div class="note" id="nextNote">讀完這段，再前往下一卷。</div>
+              <button class="next-btn" type="button" id="nextBtn">繼續前行</button>
+            </div>
+          </div>
+
+          <div id="donePanel" class="done-panel">
+            <div class="done-layout">
+              <div class="done-cover-wrap"><img src="cover.png" alt="進入聖經的世界封面" class="done-cover" /></div>
+              <div class="done-content">
+                <div class="rank" id="rankBox">S</div>
+                <h2 id="doneTitle">探險完成</h2>
+                <p id="doneText">你已走完 63 卷聖經世界的副標入門旅程。</p>
+                <div class="done-stats">
+                  <div class="done-stat"><div class="label">成功解鎖</div><div class="value" id="finalCorrect">0/63</div></div>
+                  <div class="done-stat"><div class="label">答對率</div><div class="value" id="finalPercent">0%</div></div>
+                  <div class="done-stat"><div class="label">旅程時間</div><div class="value" id="finalTime">00:00</div></div>
+                </div>
+                <div class="done-actions">
+                  <button class="next-btn" type="button" id="restartDoneBtn">再玩一次</button>
+                  <a class="done-buy-btn" href="https://www.pbooks.com.tw/products/c136" target="_blank" rel="noopener">不玩了直接買</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="progress-panel">
+            <div class="progress-head">
+              <div class="progress-title">聖經世界地圖｜從創世記到啟示錄</div>
+              <div class="legend"><span><i class="dot pending"></i>尚未啟程</span><span><i class="dot correct"></i>成功解鎖</span><span><i class="dot wrong"></i>暫時迷航</span></div>
+            </div>
+            <div class="progress-scroller"><div class="progress-track" id="progressTrack"></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="answer-modal" id="answerModal" aria-hidden="true">
+    <div class="answer-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" type="button" id="modalClose" aria-label="關閉">×</button>
+      <div class="modal-kicker" id="modalKicker">ANSWER</div>
+      <h2 class="modal-title" id="modalTitle">探索回聲</h2>
+      <div class="modal-meta" id="modalMeta"></div>
+      <div class="modal-correct" id="modalCorrect"></div>
+      <div class="excerpt-box">
+        <div class="excerpt-label">書中導讀｜地圖註記</div>
+        <p id="modalExcerpt"></p>
+      </div>
+      <p class="modal-encourage" id="modalEncourage"></p>
+      <div class="modal-actions">
+        <a class="modal-buy" href="https://www.pbooks.com.tw/products/c136" target="_blank" rel="noopener">打開這本導覽</a>
+        <button class="next-btn" type="button" id="modalNextBtn">繼續前往下一卷</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const BOOKS = [{"id":"gen","testament":"old","abbr":"創","book":"創世記","subtitle":"全備救恩之始","excerpt":"創世記為聖經之首卷，佔有極其重要之地位。人要明白生存的意義和方向，須先認識人從哪裡來、社會的現象何以會導致如此、神的作為和人類有何相關等問題。"},{"id":"exo","testament":"old","abbr":"出","book":"出埃及記","subtitle":"救贖之恩","excerpt":"以色列人出埃及是人類歷史上奇特且重大的事件。一群在當時世界霸權埃及帝國統治之下的奴隸，兩百萬之眾，一夜之間，從受轄制被奴役變成自由、自主的民族。"},{"id":"lev","testament":"old","abbr":"利","book":"利未記","subtitle":"與神密相契","excerpt":"其實利未記是摩西五經中最短的，而且條理分明，將神對人的心意清楚的闡明出來。"},{"id":"num","testament":"old","abbr":"民","book":"民數記","subtitle":"曠野路難行","excerpt":"民數記的書名是來自希臘文七十士譯本，取其中有兩次數點軍兵，而猶大人則用第一章第一節的「在曠野」一詞為書名。"},{"id":"deu","testament":"old","abbr":"申","book":"申命記","subtitle":"回顧與見證","excerpt":"歲月飄移，以色列民在曠野流蕩的日子滿了，此刻，神將應許之地擺在眾民面前，風雲際會之時，摩西乃登高重申律法。"},{"id":"jos","testament":"old","abbr":"書","book":"約書亞記","subtitle":"面對挑戰","excerpt":"約書亞記是一本描寫逼真生動的書，書中詳細記述以色列人如何過約但河進入迦南，攻取迦南，及佔領迦南分配土地。"},{"id":"jdg","testament":"old","abbr":"士","book":"士師記","subtitle":"偏差與回應","excerpt":"許多人對士師記的印象是由基甸、參孫等數位英雄人物的畫像組成的，而閱讀士師記時，目光也往往集中在風雲故事中。"},{"id":"rut","testament":"old","abbr":"得","book":"路得記","subtitle":"愛的故事","excerpt":"很不容易為愛下定義，因為這是一種表現多於描述的生命特質。告訴別人：「我愛你。」是件簡單的事；付出自己去愛別人，是件不簡單的事。"},{"id":"sam","testament":"old","abbr":"撒","book":"撒母耳記","subtitle":"神是最高的君王","excerpt":"哈拿跪在耶和華面前哭泣祈求，她知道她要的不是深情丈夫的安慰，而是萬軍之神的憐憫，賜給她一個兒子，她許願要將這個孩子獻給神使用。 顧念人的耶和華果真給了哈拿一個兒子。這個名叫撒母耳的嬰孩不但除去了母親的恥辱，日後更成為以色列的先知、士師和祭司。"},{"id":"kgs","testament":"old","abbr":"王","book":"列王紀","subtitle":"榮耀歸真神","excerpt":"列王紀取材相當斟酌，例如其中記載亞哈王，並未將其對外戰爭之豐碩成果記錄下來，卻詳細記載宗教上的敗壞、先知的警告及道德上的缺陷。 列王紀關注的重點是超乎世俗的；它不是只記錄君王成敗，更從信仰與敬拜的角度，指出國家興衰背後的方向偏離。"},{"id":"chr","testament":"old","abbr":"代","book":"歷代志","subtitle":"只有灘聲似舊時","excerpt":"就一個新約的選民，面對經歷了累代時空衝擊的這個大時代，研讀舊約選民的歷史，無疑是深受挑戰的。 讀舊約聖經，除了歷史，還有神學意義；因為耶穌的方法不是金錢、武力或人的聰明，而是神的能力。"},{"id":"ezr","testament":"old","abbr":"拉","book":"以斯拉記","subtitle":"聖殿的重建","excerpt":"聖殿的重建不在乎它的規模，而在於是否按照神的指示重建，以及是否神的榮耀在其中。"},{"id":"neh","testament":"old","abbr":"尼","book":"尼希米記","subtitle":"信仰的重建","excerpt":"我們曾在巴比倫的河邊坐下，一追想錫安就哭了。我們怎能在外邦唱耶和華的歌呢？"},{"id":"est","testament":"old","abbr":"斯","book":"以斯帖記","subtitle":"奇哉！祂的作為","excerpt":"只是，我們可曾在我們這麼熟悉的歷史裡，想想它所要表達的是什麼？神要透過它來教導我們什麼事？讓我們用一顆安靜的心來思想神的話語。"},{"id":"job","testament":"old","abbr":"伯","book":"約伯記","subtitle":"義人受苦之謎","excerpt":"自人類始祖犯罪伊始，全地被神咒詛，世上充滿苦難，故云：「人生在世必遇患難，如同火星飛騰。」"},{"id":"psa","testament":"old","abbr":"詩","book":"詩篇","subtitle":"不廢江河萬古流","excerpt":"很少有人不喜歡詩篇。它沒有複雜抽象的玄想，也沒有令人戰慄的斥責，只是坦白的表露人在不同處境下的感受。"},{"id":"pro","testament":"old","abbr":"箴","book":"箴言","subtitle":"生命的智慧","excerpt":"箴言書是智慧書的第三卷，是智慧書的中心，全書充滿上頭來的智慧，以及智慧人的經驗。書中不但文詞優美，其中之教訓更是價值連城。"},{"id":"ecc","testament":"old","abbr":"傳","book":"傳道書","subtitle":"永恆的豐盛","excerpt":"聖經中，沒有任何一卷像傳道書一樣，千百年來一再地受到人們的爭論與質疑，使這部本已不易理解的經卷，更顯得神祕。"},{"id":"sng","testament":"old","abbr":"歌","book":"雅歌","subtitle":"永遠的依靠","excerpt":"雅歌是屬於詩歌智慧書中的一卷。詩歌智慧書通常代表人向神說話，這種強烈的「個人性」深深觸動人的內心，常令人愛不釋手。"},{"id":"isa","testament":"old","abbr":"賽","book":"以賽亞書","subtitle":"耶和華的救贖","excerpt":"以賽亞書是大先知書中的一卷，可以說是先知書中最重要的一卷。新約聖經中引用詩篇的次數最多，其次就是以賽亞書。"},{"id":"jer","testament":"old","abbr":"耶","book":"耶利米書","subtitle":"暗夜孤燈","excerpt":"有人說，耶利米是叛國賊；也有人說，耶利米是瀆神者；又有人說，耶利米是神經病。他不結婚，常常說奇怪的話，做奇怪的事。"},{"id":"lam","testament":"old","abbr":"哀","book":"耶利米哀歌","subtitle":"等候神","excerpt":"聖經中有一卷是以問號始，以問號終，然而，它不是一篇懷疑論的文章。它藉著「問」來釐清自己的處境，更進一步尋求與神的接觸點。"},{"id":"ezk","testament":"old","abbr":"結","book":"以西結書","subtitle":"神的榮耀","excerpt":"「以西結」在希伯來的意思是「神必賜力量」，他在悖逆的百姓當中，如同是「力量的堡壘」。"},{"id":"dan","testament":"old","abbr":"但","book":"但以理書","subtitle":"神的選民必得勝","excerpt":"先知的信息，一向為神秘的色彩所覆蓋。因這些信息常以異象、詩歌的型式出現，往往令讀者如墜五里雲霧。"},{"id":"hos","testament":"old","abbr":"何","book":"何西阿書","subtitle":"無盡的愛","excerpt":"一般稱為小先知書並非表示其重要性較小，而是指其內容的較短。何西阿書的信息，正是在短小篇幅中顯出神無盡的愛。"},{"id":"joe","testament":"old","abbr":"珥","book":"約珥書","subtitle":"耶和華的日子","excerpt":"對於耶和華的日子，先知約珥巧妙地運用三種不同的角度來詮釋他的觀點。"},{"id":"amo","testament":"old","abbr":"摩","book":"阿摩司書","subtitle":"神已經說話","excerpt":"阿摩司是著作先知的第一人。所謂著作先知，是指那些以自己的名義把信息寫成文字的先知們。"},{"id":"oba","testament":"old","abbr":"俄","book":"俄巴底亞書","subtitle":"起來！與以東爭戰","excerpt":"俄巴底亞書雖然篇幅短小，卻把以東與神選民之間的衝突、驕傲與審判，集中呈現在讀者面前。"},{"id":"jon","testament":"old","abbr":"拿","book":"約拿書","subtitle":"服事者的心境","excerpt":"約拿書全書在描述約拿對神所交託的使命之反應。此書之妙，是作為一位事奉者所當深入思索及探討的。"},{"id":"mic","testament":"old","abbr":"彌","book":"彌迦書","subtitle":"神向你所要的是什麼？","excerpt":"摩利沙人彌迦，為猶大王約坦、亞哈斯、希西家在位時的先知，也就是大約與以賽亞、阿摩斯、何西阿在同一時代之中。"},{"id":"nah","testament":"old","abbr":"鴻","book":"那鴻書","subtitle":"西山薄日尼尼微","excerpt":"那鴻書看似為神審判外邦而歡呼，卻也讓人看見神掌管列國，罪惡與強暴終不能永遠站立。"},{"id":"hab","testament":"old","abbr":"哈","book":"哈巴谷書","subtitle":"義人必因信得生","excerpt":"哈巴谷書教導了我們如何尋求解決困惑的方法，更重要的是它教導我們，在亂世之中如何面對邪惡的挑戰，並且向邪惡誇勝。"},{"id":"zep","testament":"old","abbr":"番","book":"西番雅書","subtitle":"溫柔公義的愛","excerpt":"每當提到神，我們就會聯想到祂的慈愛，其實祂也是一位公義的神。西番雅先知將神那「溫柔而嚴厲的愛」宣講得非常清楚。"},{"id":"hag","testament":"old","abbr":"該","book":"哈該書","subtitle":"先求神國神義","excerpt":"本書神藉哈該先知傳講五篇簡短信息，有責備、有曉諭、有激勵、有應許，其中心意旨為先求神國神義。"},{"id":"zec","testament":"old","abbr":"亞","book":"撒迦利亞書","subtitle":"榮耀的復興","excerpt":"對許多人而言，閱讀素有「舊約啟示錄」之稱的撒迦利亞書並不輕鬆，因為它主要的信息隱藏在難解的異象及默示背後。"},{"id":"mal","testament":"old","abbr":"瑪","book":"瑪拉基書","subtitle":"愛之深，責之切","excerpt":"社會型態是轉變了，但是，神永不改變。奉獻的東西增加了；那顆心卻不知仍否潔白純淨？神要的是心靈與誠實，豈能不再三思！"},{"id":"mat","testament":"new","abbr":"太","book":"馬太福音","subtitle":"耶穌是君王","excerpt":"彌賽亞是猶太人在苦難的世代中所盼望的救主，猶太人心目中所期待的彌賽亞是一位英明強而有力的君王。"},{"id":"mrk","testament":"new","abbr":"可","book":"馬可福音","subtitle":"跟隨祂的腳蹤行","excerpt":"從書名，引言及全書內容都不難看出馬可福音屬於見證信息，而非歷史傳記。「福音」就是「好消息」。"},{"id":"luk","testament":"new","abbr":"路","book":"路加福音","subtitle":"人子的愛","excerpt":"作者以一個外邦人的身分，描寫耶穌基督包含了最大的愛。祂不但愛猶太人，也愛外邦人；愛門徒，更愛罪人。"},{"id":"jhn","testament":"new","abbr":"約","book":"約翰福音","subtitle":"生命之道","excerpt":"耶穌基督復活升天後不久，基督徒所遭受的逼迫逐漸增加，許多門徒遂散居各處，並隨而把福音種子散播。"},{"id":"act","testament":"new","abbr":"徒","book":"使徒行傳","subtitle":"聖靈、教會、傳福音","excerpt":"使徒行傳是一部最早期、最可靠、最詳細、最寶貴的初代教會史。四福音書是主耶穌在世的傳道史，使徒行傳則記錄教會的拓展。"},{"id":"rom","testament":"new","abbr":"羅","book":"羅馬書","subtitle":"奇妙的救贖","excerpt":"在現代的環境下，一個行為完好的基督徒，不能因此稱義，稱義乃源於他對神的信靠服膺，是內心深處面對神的剖白。"},{"id":"1co","testament":"new","abbr":"林前","book":"哥林多前書","subtitle":"問題重重的教會","excerpt":"保羅眼見哥林多教會由一聖潔新婦，漸與當代社會妥協，容忍各種惡事在教會裡發生；其內心之焦急、難過，屢屢可從本書中窺見。"},{"id":"2co","testament":"new","abbr":"林後","book":"哥林多後書","subtitle":"寶貝放在瓦器裡","excerpt":"只有在哥林多後書中，我們可以看到保羅是一個有血有肉的人，他也有憂愁，也有失望，也有被人誤會的時候。"},{"id":"gal","testament":"new","abbr":"加","book":"加拉太書","subtitle":"從律法到因信稱義","excerpt":"加拉太教會內，有人傳揚行割禮、守日子、猶太人飲食規矩的「別的福音」。這種靠律法行為稱義的，與保羅所傳的因信稱義福音互不相容。"},{"id":"eph","testament":"new","abbr":"弗","book":"以弗所書","subtitle":"建立基督的身體","excerpt":"以弗所書的主題就是建立基督的身體。透過以弗所書，我們可以看到教會發展的方向，進而達到榮耀的教會。"},{"id":"php","testament":"new","abbr":"腓","book":"腓利比書","subtitle":"喜樂的人生觀","excerpt":"保羅因傳福音，受人誣告，身處獄中，雖然在孤寂的環境中，他的內心卻充滿了喜樂和平安。"},{"id":"col","testament":"new","abbr":"西","book":"歌羅西書","subtitle":"靜默的激戰","excerpt":"你們要靠著主，倚賴他的大能大力，作剛強的人。要穿戴神所賜的全副軍裝，就能抵擋魔鬼的詭計。"},{"id":"1th","testament":"new","abbr":"帖前","book":"帖撒羅尼迦前書","subtitle":"仰望、儆醒、等候","excerpt":"保羅寫帖撒羅尼迦前書，原不是為建立基督教正典，而是要向他親愛的弟兄說些話；因此，查考此卷可先進入保羅的思維和情感。"},{"id":"2th","testament":"new","abbr":"帖後","book":"帖撒羅尼迦後書","subtitle":"基督徒在世界","excerpt":"保羅與西拉來到帖撒羅尼迦城，短短數周的佈道，帶來了奇妙的效果。但由於不信者阻撓，保羅等人被迫離開。"},{"id":"1ti","testament":"new","abbr":"提前","book":"提摩太前書","subtitle":"愛的叮嚀","excerpt":"時代在變遷，科技的發展更是一日千里。然而，現代文明下物資愈充裕，社會風氣反而每下愈況。"},{"id":"2ti","testament":"new","abbr":"提後","book":"提摩太後書","subtitle":"榮耀的勇士","excerpt":"提摩太後書是保羅四封教牧書信的最後一封。一般相信，這也是保羅的絕筆；比起前三封教牧書信，它顯得更親切、更富人情味。"},{"id":"tit","testament":"new","abbr":"多","book":"提多書","subtitle":"敬虔生活的實踐","excerpt":"保羅殷切地指導提多如何去堵住教會的破口，並且要教導信徒實踐敬虔的生活，始能成為社會的光。"},{"id":"phm","testament":"new","abbr":"門","book":"腓利門書","subtitle":"接納你的弟兄","excerpt":"大部分基督徒對於保羅的書信多少都有幾分認識，但其中有不少是對福音的闡釋，對異端的駁斥，並不是我們很快就能完全明白的。"},{"id":"heb","testament":"new","abbr":"來","book":"希伯來書","subtitle":"仰望信仰的創始成終者","excerpt":"人能尋著福音的門路，並非偶然；救恩原是神為拯救世人靈魂所設立的。「希伯來書」可稱為信心之書。"},{"id":"jas","testament":"new","abbr":"雅","book":"雅各書","subtitle":"表裡一致的信仰生活","excerpt":"雅各書與彼得前後書、約翰壹、貳、參書及猶大書被分類為新約的「一般書信」，因其寫作對象為一般性的教會。"},{"id":"1pe","testament":"new","abbr":"彼前","book":"彼得前書","subtitle":"苦難中的盼望","excerpt":"彼得曾經歷過許多的苦難，也深知如何去面對苦難。因此，他以老牧人的心來預先勉勵年輕一代的信徒。"},{"id":"2pe","testament":"new","abbr":"彼後","book":"彼得後書","subtitle":"在真知識中長進","excerpt":"保羅曾警告以弗所長老們：「必有凶暴的豺狼進入你們中間，不愛惜羊群。」這樣的危機，也正是彼得後書所要提醒的。"},{"id":"1jn","testament":"new","abbr":"約壹","book":"約翰壹書","subtitle":"愛就是與神相交","excerpt":"人在世上對於未來常懷著美麗的憧憬，卻常事與願違。若非基督道成了肉身，為黑暗的世代帶來曙光，人們將一直處在絕望的地步。"},{"id":"2jn","testament":"new","abbr":"約貳","book":"約翰貳書","subtitle":"愛就是遵行真理","excerpt":"打開電視、翻閱報章雜誌，我們不難發現諸多混亂的現象，這是一個「失序」且沒有正確「愛心」的社會。"},{"id":"3jn","testament":"new","abbr":"約參","book":"約翰參書","subtitle":"愛就是與真理同行","excerpt":"這時期教會所面臨到的，不再只是教會外部人士對基督教信仰之破壞，那些來自教會內部、欲導入知識及潮流來改良信仰的人，使教會陷入更深的危機中。"},{"id":"jud","testament":"new","abbr":"猶","book":"猶大書","subtitle":"為真道爭辯","excerpt":"猶大寫這封信想盡心盡力地斥責當代異端的神學理論；有人假意高舉神的恩典，卻將神的恩典變作放縱情慾的機會。"},{"id":"rev","testament":"new","abbr":"啟","book":"啟示錄","subtitle":"末日的真象","excerpt":"啟示錄是「耶穌基督的啟示」。使徒約翰被放逐到拔摩海島上，主在那裡向他顯現，把現在的事和將來必成的事指示他。"}];
+    const TOTAL = BOOKS.length;
+    const STORE_KEY = 'enter_bible_world_from_subtitle_v5_ordered';
+    const $ = id => document.getElementById(id);
+    const findBook = id => BOOKS.find(book => book.id === id);
+    const fmt = n => String(n).padStart(2, '0');
+    const letters = ['A','B','C','D'];
+    let timerInterval = null;
+    let state = loadState();
+
+    function shuffle(arr){
+      const copy = [...arr];
+      for(let i = copy.length - 1; i > 0; i--){
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function sampleUnique(arr, count){
+      const unique = [...new Set(arr)];
+      return shuffle(unique).slice(0, count);
+    }
+
+    function defaultState(){
+      return {
+        order: BOOKS.map(book => book.id),
+        index: 0,
+        results: {},
+        optionCache: {},
+        startedAt: null,
+        completedAt: null
+      };
+    }
+
+    function loadState(){
+      try{
+        const raw = localStorage.getItem(STORE_KEY);
+        if(!raw) return defaultState();
+        const saved = JSON.parse(raw);
+        const validOrder = Array.isArray(saved.order) && saved.order.length === TOTAL && saved.order.every(id => findBook(id));
+        return {
+          ...defaultState(),
+          ...saved,
+          order: BOOKS.map(book => book.id),
+          results: saved.results && typeof saved.results === 'object' ? saved.results : {},
+          optionCache: saved.optionCache && typeof saved.optionCache === 'object' ? saved.optionCache : {},
+          index: Number.isFinite(saved.index) ? Math.max(0, Math.min(TOTAL, saved.index)) : 0
+        };
+      }catch(e){
+        return defaultState();
+      }
+    }
+
+    function saveState(){
+      localStorage.setItem(STORE_KEY, JSON.stringify(state));
+    }
+
+    function restartGame(){
+      closeAnswerModal();
+      stopTick();
+      state = defaultState();
+      saveState();
+      document.body.classList.remove('game-active');
+      render();
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+
+    function enterGame(){
+      document.body.classList.add('game-active');
+      startTimerIfNeeded();
+      render();
+      const quiz = document.querySelector('.quiz-section');
+      if(quiz) window.scrollTo({top:quiz.offsetTop - 70, behavior:'smooth'});
+    }
+
+    function startTimerIfNeeded(){
+      if(!state.startedAt){
+        state.startedAt = Date.now();
+        saveState();
+      }
+      startTick();
+    }
+
+    function getElapsedMs(){
+      if(!state.startedAt) return 0;
+      const end = state.completedAt || Date.now();
+      return Math.max(0, end - state.startedAt);
+    }
+
+    function formatTime(ms){
+      const total = Math.floor(ms / 1000);
+      const h = Math.floor(total / 3600);
+      const m = Math.floor((total % 3600) / 60);
+      const s = total % 60;
+      return h ? `${fmt(h)}:${fmt(m)}:${fmt(s)}` : `${fmt(m)}:${fmt(s)}`;
+    }
+
+    function startTick(){
+      if(timerInterval) return;
+      timerInterval = setInterval(updateHud, 500);
+    }
+
+    function stopTick(){
+      if(timerInterval) clearInterval(timerInterval);
+      timerInterval = null;
+    }
+
+    function currentBook(){
+      return findBook(state.order[state.index]);
+    }
+
+    function answeredCount(){
+      return Object.keys(state.results).length;
+    }
+
+    function correctCount(){
+      return Object.values(state.results).filter(result => result.status === 'correct').length;
+    }
+
+    function wrongCount(){
+      return Object.values(state.results).filter(result => result.status === 'wrong').length;
+    }
+
+    function getOptions(book){
+      if(state.optionCache[book.id]) return state.optionCache[book.id];
+      const correct = book.subtitle;
+      const answered = new Set(Object.keys(state.results));
+      const freshSubtitles = BOOKS
+        .filter(item => item.id !== book.id && !answered.has(item.id))
+        .map(item => item.subtitle);
+      let distractors = sampleUnique(freshSubtitles.filter(s => s !== correct), 3);
+      if(distractors.length < 3){
+        const answeredSubtitles = BOOKS
+          .filter(item => item.id !== book.id && answered.has(item.id))
+          .map(item => item.subtitle)
+          .filter(s => s !== correct && !distractors.includes(s));
+        distractors = distractors.concat(sampleUnique(answeredSubtitles, 3 - distractors.length));
+      }
+      if(distractors.length < 3){
+        const fallback = BOOKS
+          .map(item => item.subtitle)
+          .filter(s => s !== correct && !distractors.includes(s));
+        distractors = distractors.concat(sampleUnique(fallback, 3 - distractors.length));
+      }
+      const options = shuffle([correct, ...distractors]).slice(0, 4);
+      state.optionCache[book.id] = options;
+      saveState();
+      return options;
+    }
+
+    function updateHud(){
+      const shownNo = Math.min(state.index + 1, TOTAL);
+      $('questionNo').textContent = String(shownNo);
+      $('correctCount').textContent = String(correctCount());
+      $('wrongCount').textContent = String(wrongCount());
+      $('timer').textContent = formatTime(getElapsedMs());
+    }
+
+    function render(){
+      updateHud();
+      renderProgress();
+      if(answeredCount() >= TOTAL || state.index >= TOTAL){
+        completeGame();
+        return;
+      }
+      $('questionArea').style.display = '';
+      $('donePanel').classList.remove('show');
+      const book = currentBook();
+      if(!book){
+        completeGame();
+        return;
+      }
+      const result = state.results[book.id];
+      $('roundPill').textContent = `第 ${state.index + 1} 站 / 共 ${TOTAL} 站`;
+      const remaining = TOTAL - answeredCount();
+      $('hintPill').textContent = remaining <= 3 ? '旅程已近終點，最後幾塊領地更需要穩住方向。' : '在這經卷中，選出目錄中的副標。';
+      $('bookAbbr').textContent = book.abbr;
+      $('bookName').textContent = book.book;
+      $('bookPrompt').textContent = '從四個副標中，選出最能開啟這卷書的一句。';
+      renderOptions(book, result);
+      renderFeedback(book, result);
+      renderNextRow(result);
+      startTick();
+    }
+
+    function renderOptions(book, result){
+      const optionsEl = $('options');
+      optionsEl.innerHTML = '';
+      getOptions(book).forEach((option, idx) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'option-btn';
+        btn.dataset.option = option;
+        btn.innerHTML = `<span class="option-key">${letters[idx]}</span><span>${option}</span>`;
+        if(result){
+          btn.disabled = true;
+          if(option === book.subtitle) btn.classList.add('is-correct');
+          else if(option === result.selected) btn.classList.add('is-wrong');
+          else btn.classList.add('is-muted');
+        }
+        btn.addEventListener('click', () => chooseOption(option));
+        optionsEl.appendChild(btn);
+      });
+    }
+
+    function renderFeedback(book, result){
+      const box = $('feedback');
+      if(!box) return;
+      box.className = 'feedback';
+      box.innerHTML = '';
+    }
+
+    function renderNextRow(result){
+      const row = $('nextRow');
+      if(!result){
+        row.style.display = 'none';
+        return;
+      }
+      row.style.display = 'flex';
+      const nextNo = state.index + 2;
+      $('nextBtn').textContent = nextNo > TOTAL ? '查看探險成就' : `前往第 ${nextNo} 站`;
+      $('nextNote').textContent = '讀完這段導讀，再啟程前往下一卷。';
+    }
+
+    function chooseOption(option){
+      const book = currentBook();
+      if(!book || state.results[book.id]) return;
+      startTimerIfNeeded();
+      const status = option === book.subtitle ? 'correct' : 'wrong';
+      const result = {
+        status,
+        selected: option,
+        correct: book.subtitle,
+        answeredAt: Date.now()
+      };
+      state.results[book.id] = result;
+      saveState();
+      render();
+      showAnswerModal(book, result);
+    }
+
+    function nextQuestion(){
+      const book = currentBook();
+      if(book && !state.results[book.id]) return;
+      closeAnswerModal();
+      state.index += 1;
+      saveState();
+      if(state.index >= TOTAL || answeredCount() >= TOTAL){
+        completeGame();
+      }else{
+        render();
+        window.scrollTo({top: document.querySelector('.quiz-section').offsetTop - 70, behavior: 'smooth'});
+      }
+    }
+
+    function rankFromScore(correct){
+      if(correct === TOTAL) return 'SS';
+      const percent = correct / TOTAL * 100;
+      if(percent >= 95) return 'S';
+      if(percent >= 85) return 'A';
+      if(percent >= 75) return 'B';
+      if(percent >= 60) return 'C';
+      if(percent >= 40) return 'D';
+      return 'E';
+    }
+
+    function rankLabel(rank){
+      return {
+        SS:'全卷入門者',
+        S:'深度入門者',
+        A:'穩健入門者',
+        B:'地圖熟手',
+        C:'讀經旅人',
+        D:'方向校準者',
+        E:'啟程初探者'
+      }[rank] || '副標入門者';
+    }
+
+    function completeGame(){
+      if(!state.completedAt){
+        state.completedAt = Date.now();
+        saveState();
+      }
+      closeAnswerModal();
+      stopTick();
+      updateHud();
+      renderProgress();
+      $('questionArea').style.display = 'none';
+      const c = correctCount();
+      const w = wrongCount();
+      const percent = c / TOTAL * 100;
+      const percentText = percent % 1 === 0 ? `${percent.toFixed(0)}%` : `${percent.toFixed(1)}%`;
+      const rank = rankFromScore(c);
+      $('rankBox').textContent = rank;
+      $('doneTitle').textContent = `探險完成：解鎖 ${rank} 級 ${rankLabel(rank)}`;
+      $('doneText').textContent = `你走完 63 卷聖經世界的副標入門旅程，成功解鎖 ${c} 卷，暫時迷航 ${w} 卷，答對率 ${percentText}，旅程時間 ${formatTime(getElapsedMs())}。副標只是入口，真正的世界仍在每一卷書的內文裡等待被打開。`;
+      $('finalCorrect').textContent = `${c}/${TOTAL}`;
+      $('finalPercent').textContent = percentText;
+      $('finalTime').textContent = formatTime(getElapsedMs());
+      $('donePanel').classList.add('show');
+    }
+
+    function renderProgress(){
+      const track = $('progressTrack');
+      track.innerHTML = '';
+      const activeId = state.order[state.index];
+      BOOKS.forEach(book => {
+        const chip = document.createElement('div');
+        const result = state.results[book.id];
+        chip.className = 'book-chip';
+        if(result?.status === 'correct') chip.classList.add('correct');
+        if(result?.status === 'wrong') chip.classList.add('wrong');
+        if(book.id === activeId && !result && state.index < TOTAL) chip.classList.add('current');
+        chip.textContent = book.abbr;
+        chip.title = result ? `${book.book}｜${result.status === 'correct' ? '成功解鎖' : '暫時迷航'}｜副標指南：${book.subtitle}` : `${book.book}｜等待探索`;
+        track.appendChild(chip);
+      });
+    }
+
+    function showAnswerModal(book, result){
+      const modal = $('answerModal');
+      const isCorrect = result.status === 'correct';
+      modal.className = `answer-modal show ${isCorrect ? 'good' : 'bad'}`;
+      modal.setAttribute('aria-hidden', 'false');
+      $('modalKicker').textContent = isCorrect ? 'LAND UNLOCKED' : 'ROUTE REVISED';
+      $('modalTitle').textContent = isCorrect ? '入口已開，這卷書的地貌被點亮。' : '路徑稍有偏差，地圖在此校正。';
+      $('modalMeta').textContent = `${book.book}／${book.subtitle}`;
+      if(isCorrect){
+        $('modalCorrect').innerHTML = `探險家，你找到了 <strong>${book.subtitle}</strong>。這句副標像指南針，帶你對準 <strong>${book.book}</strong> 的入口。`;
+        $('modalEncourage').textContent = '先讀這段導讀，再回到經文本身。你會更清楚看見這卷書在整本聖經中的位置，也更容易把零散印象連成完整路線。';
+      }else{
+        $('modalCorrect').innerHTML = `探險家，你剛才走向 <strong>${result.selected}</strong>；但 <strong>${book.book}</strong> 的指南是 <strong>${book.subtitle}</strong>。`;
+        $('modalEncourage').textContent = '偏離一次並不可惜，真正重要的是重新看見入口。這正是《進入聖經的世界》的價值：先給你地圖，再陪你走進經文本身。';
+      }
+      $('modalExcerpt').textContent = book.excerpt;
+      const nextNo = state.index + 2;
+      $('modalNextBtn').textContent = nextNo > TOTAL ? '查看探險成就' : `前往第 ${nextNo} 站`;
+      setTimeout(() => $('modalNextBtn').focus(), 60);
+    }
+
+    function closeAnswerModal(){
+      const modal = $('answerModal');
+      modal.className = 'answer-modal';
+      modal.setAttribute('aria-hidden', 'true');
+    }
+
+    document.addEventListener('keydown', e => {
+      const modalOpen = $('answerModal').classList.contains('show');
+      if(modalOpen && e.key === 'Escape'){
+        closeAnswerModal();
+        return;
+      }
+      if(modalOpen && e.key === 'Enter'){
+        $('modalNextBtn').click();
+        return;
+      }
+      const keyIndex = ['1','2','3','4'].indexOf(e.key);
+      if(keyIndex >= 0){
+        const btn = [...document.querySelectorAll('.option-btn')][keyIndex];
+        if(btn && !btn.disabled) btn.click();
+      }
+      if(e.key === 'Enter' && $('nextRow').style.display !== 'none'){
+        $('nextBtn').click();
+      }
+    });
+
+    $('nextBtn').addEventListener('click', nextQuestion);
+    $('modalNextBtn').addEventListener('click', nextQuestion);
+    $('modalClose').addEventListener('click', closeAnswerModal);
+    $('answerModal').addEventListener('click', e => {
+      if(e.target.id === 'answerModal') closeAnswerModal();
+    });
+    $('restartTopBtn').addEventListener('click', restartGame);
+    $('restartDoneBtn').addEventListener('click', restartGame);
+    const startBtn = $('startExpeditionBtn');
+    if(startBtn) startBtn.addEventListener('click', enterGame);
+    if(state.startedAt) document.body.classList.add('game-active');
+    render();
+  </script>
+</body>
+</html>
