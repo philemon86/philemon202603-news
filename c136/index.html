@@ -153,8 +153,29 @@
     .option-btn:hover:not(:disabled){transform:translateY(-2px);border-color:rgba(255,212,95,.55);filter:brightness(1.08)}
     .option-btn:disabled{cursor:default}
     .option-key{position:absolute;left:16px;top:50%;transform:translateY(-50%);display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);font:900 15px/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--gold)}
-    .option-btn.is-correct{border-color:rgba(111,242,189,.9);background:linear-gradient(180deg,rgba(111,242,189,.25),rgba(20,75,58,.55));box-shadow:0 0 0 2px rgba(111,242,189,.13),0 0 28px rgba(111,242,189,.14)}
-    .option-btn.is-wrong{border-color:rgba(255,102,126,.85);background:linear-gradient(180deg,rgba(255,102,126,.18),rgba(72,25,34,.55));filter:saturate(.9)}
+    .option-btn.is-correct{
+      border-color:rgba(255,221,131,.95);
+      background:linear-gradient(180deg,rgba(255,246,198,.98),rgba(255,214,114,.9));
+      color:#1d1507;
+      box-shadow:0 0 0 2px rgba(255,221,131,.18),0 18px 34px rgba(255,204,92,.24),0 0 30px rgba(255,221,131,.14);
+    }
+    .option-btn.is-correct .option-key{
+      background:rgba(255,255,255,.7);
+      color:#8a5800;
+      border-color:rgba(255,255,255,.36);
+    }
+    .option-btn.is-wrong{
+      border-color:rgba(25,31,43,.96);
+      background:linear-gradient(180deg,rgba(31,36,50,.95),rgba(10,13,20,.98));
+      color:#7f899d;
+      filter:saturate(.78) brightness(.9);
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.03);
+    }
+    .option-btn.is-wrong .option-key{
+      background:rgba(255,255,255,.05);
+      color:#5f6878;
+      border-color:rgba(255,255,255,.08);
+    }
     .option-btn.is-muted{opacity:.48;filter:saturate(.7)}
 
     .feedback{display:none}
