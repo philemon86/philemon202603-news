@@ -320,6 +320,12 @@
       border: 1px solid rgba(31,26,23,0.08);
     }
 
+    .book-card.book-card-c136 {
+      grid-template-columns: 82px minmax(0, 1fr);
+      gap: 14px;
+      align-items: center;
+    }
+
     .book-card:hover {
       transform: translateY(-4px);
       box-shadow: 0 18px 36px rgba(31, 26, 23, 0.08);
@@ -340,8 +346,45 @@
       box-shadow: 0 14px 28px rgba(31, 26, 23, 0.12);
     }
 
+    .book-card-c136 .book-cover {
+      width: 82px;
+      box-shadow: none;
+    }
+
+    .book-cover-carousel {
+      position: relative;
+      width: 82px;
+      aspect-ratio: 3 / 4;
+      overflow: hidden;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.72);
+      box-shadow: 0 14px 28px rgba(31, 26, 23, 0.10);
+    }
+
+    .book-cover-carousel .cover-slide {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      opacity: 0;
+      transform: scale(0.985);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .book-cover-carousel .cover-slide.is-active {
+      opacity: 1;
+      transform: scale(1);
+      z-index: 1;
+    }
+
+    .book-cover-carousel img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 5px;
+    }
+
     .book-cover.cover-c294 { background-image: url('./home-cover-c294.jpg'); }
-    .book-cover.cover-c136 { background-image: url('./c136/cover.png'); }
     .book-cover.cover-c292 { background-image: url('./home-cover-c292.jpg'); }
     .book-cover.cover-c291 { background-image: url('./home-cover-c291.jpg'); }
     .book-cover.cover-c290 { background-image: url('./home-cover-c290.jpg'); }
@@ -885,8 +928,15 @@
             </div>
 
             <div class="book-sequence">
-              <a class="book-card" href="./c136/">
-                <div class="book-cover cover-c136" aria-hidden="true"></div>
+              <a class="book-card book-card-c136" href="./c136/">
+                <div class="book-cover-carousel" data-cover-carousel aria-label="C136 舊約與新約封面輪播">
+                  <div class="cover-slide is-active">
+                    <img src="./c136/old-testament.png" alt="C136 舊約封面" />
+                  </div>
+                  <div class="cover-slide">
+                    <img src="./c136/new-testament.png" alt="C136 新約封面" />
+                  </div>
+                </div>
                 <div class="book-meta">
                   <span class="book-order">01</span>
                   <h3>C136 進入聖經的世界</h3>
@@ -1214,6 +1264,26 @@
         event.preventDefault();
         longPressTriggered = false;
       });
+    });
+
+    const coverCarousels = document.querySelectorAll('[data-cover-carousel]');
+
+    coverCarousels.forEach((carousel) => {
+      const slides = Array.from(carousel.querySelectorAll('.cover-slide'));
+      if (slides.length < 2) return;
+
+      let activeIndex = Math.max(0, slides.findIndex((slide) => slide.classList.contains('is-active')));
+      if (activeIndex < 0) activeIndex = 0;
+
+      const showSlide = (nextIndex) => {
+        slides[activeIndex].classList.remove('is-active');
+        activeIndex = nextIndex;
+        slides[activeIndex].classList.add('is-active');
+      };
+
+      window.setInterval(() => {
+        showSlide((activeIndex + 1) % slides.length);
+      }, 3000);
     });
 
   </script>
