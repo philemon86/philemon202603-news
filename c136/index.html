@@ -775,7 +775,7 @@
       $('modalMeta').textContent = `${book.book}／${book.subtitle}`;
       $('modalCorrect').innerHTML = isCorrect
         ? '恭喜你找到了！'
-        : `${book.book}副標對應是 ${book.subtitle}。`;
+        : `<strong>${book.book}</strong>副標對應是 <strong>${book.subtitle}</strong>。`;
       $('modalEncourage').textContent = '';
       $('modalExcerpt').textContent = book.excerpt;
       const nextNo = state.index + 2;
