@@ -773,13 +773,10 @@
       $('modalKicker').textContent = isCorrect ? 'LAND UNLOCKED' : 'ROUTE REVISED';
       $('modalTitle').textContent = isCorrect ? '入口已開，這卷書的地貌被點亮。' : '路徑稍有偏差，地圖在此校正。';
       $('modalMeta').textContent = `${book.book}／${book.subtitle}`;
-      if(isCorrect){
-        $('modalCorrect').innerHTML = `探險家，你找到了 <strong>${book.subtitle}</strong>。這句副標像指南針，帶你對準 <strong>${book.book}</strong> 的入口。`;
-        $('modalEncourage').textContent = '先讀這段導讀，再回到經文本身。你會更清楚看見這卷書在整本聖經中的位置，也更容易把零散印象連成完整路線。';
-      }else{
-        $('modalCorrect').innerHTML = `探險家，你剛才走向 <strong>${result.selected}</strong>；但 <strong>${book.book}</strong> 的指南是 <strong>${book.subtitle}</strong>。`;
-        $('modalEncourage').textContent = '偏離一次並不可惜，真正重要的是重新看見入口。這正是《進入聖經的世界》的價值：先給你地圖，再陪你走進經文本身。';
-      }
+      $('modalCorrect').innerHTML = isCorrect
+        ? '恭喜你找到了！'
+        : `${book.book}副標對應是 ${book.subtitle}。`;
+      $('modalEncourage').textContent = '';
       $('modalExcerpt').textContent = book.excerpt;
       const nextNo = state.index + 2;
       $('modalNextBtn').textContent = nextNo > TOTAL ? '查看探險成就' : `前往第 ${nextNo} 站`;
