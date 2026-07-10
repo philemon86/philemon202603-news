@@ -188,8 +188,28 @@
     .answer-modal{position:fixed;inset:0;z-index:80;display:none;align-items:center;justify-content:center;background:rgba(2,4,10,.76);backdrop-filter:blur(9px);padding:18px}
     .answer-modal.show{display:flex}
     .answer-card{width:min(760px,100%);max-height:min(88vh,780px);overflow:auto;border:2px solid var(--modal-color,var(--gold));border-radius:26px;background:radial-gradient(circle at top right,var(--modal-glow,rgba(255,212,95,.18)),transparent 42%),linear-gradient(180deg,#111833,#080b15);box-shadow:0 28px 80px rgba(0,0,0,.55),0 0 46px var(--modal-glow,rgba(255,212,95,.2));padding:24px;position:relative}
-    .answer-modal.good{--modal-color:var(--green);--modal-glow:rgba(111,242,189,.20)}
-    .answer-modal.bad{--modal-color:var(--red);--modal-glow:rgba(255,102,126,.18)}
+    .answer-modal.good{
+      --modal-color:var(--green);
+      --modal-glow:rgba(111,242,189,.26);
+    }
+    .answer-modal.good .answer-card{
+      background:
+        radial-gradient(circle at 20% 8%, rgba(111,242,189,.22), transparent 34%),
+        radial-gradient(circle at 100% 0%, rgba(255,212,95,.18), transparent 34%),
+        linear-gradient(180deg,#183037 0%, #0d1620 54%, #081017 100%);
+      box-shadow:0 28px 80px rgba(0,0,0,.55),0 0 58px rgba(111,242,189,.18);
+    }
+    .answer-modal.bad{
+      --modal-color:var(--red);
+      --modal-glow:rgba(255,102,126,.22);
+    }
+    .answer-modal.bad .answer-card{
+      background:
+        radial-gradient(circle at 18% 8%, rgba(255,102,126,.20), transparent 32%),
+        radial-gradient(circle at 100% 0%, rgba(122,92,255,.16), transparent 35%),
+        linear-gradient(180deg,#2a1220 0%, #16101f 56%, #090913 100%);
+      box-shadow:0 28px 80px rgba(0,0,0,.58),0 0 58px rgba(255,102,126,.16);
+    }
     .modal-close{position:absolute;right:16px;top:16px;width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.07);color:#fff;cursor:pointer;font-size:22px;line-height:1}
     .modal-kicker{color:var(--modal-color,var(--gold));font:900 13px/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.14em;margin:4px 46px 12px 0}
     .modal-title{margin:0 46px 8px 0;font-size:clamp(26px,4vw,42px);line-height:1.18;text-shadow:0 5px 20px rgba(0,0,0,.45)}
