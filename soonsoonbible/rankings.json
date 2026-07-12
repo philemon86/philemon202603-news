@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-11T04:30:37.643163+00:00",
+  "updatedAt": "2026-07-12T04:42:12.970370+00:00",
   "dateRangeLabel": "\u6700\u8fd1 30 \u5929",
   "keywordSearchTop5": [
     {
@@ -33,15 +33,15 @@
       "value": 4
     },
     {
-      "label": "Gen \u7b2c2\u7ae0",
-      "value": 3
-    },
-    {
       "label": "Jhn \u7b2c1\u7ae0",
-      "value": 3
+      "value": 4
     },
     {
       "label": "Job \u7b2c1\u7ae0",
+      "value": 3
+    },
+    {
+      "label": "Jug \u7b2c21\u7ae0",
       "value": 3
     }
   ],
@@ -49,6 +49,10 @@
     {
       "label": "Mat \u7b2c6\u7ae0 \u7b2c33\u7bc0",
       "value": 3
+    },
+    {
+      "label": "Jhn \u7b2c17\u7ae0 \u7b2c16\u7bc0",
+      "value": 2
     },
     {
       "label": "Mat \u7b2c6\u7ae0 \u7b2c32\u7bc0",
@@ -60,10 +64,6 @@
     },
     {
       "label": "1Pe \u7b2c3\u7ae0 \u7b2c7\u7bc0",
-      "value": 1
-    },
-    {
-      "label": "Gal \u7b2c6\u7ae0 \u7b2c2\u7bc0",
       "value": 1
     }
   ]
