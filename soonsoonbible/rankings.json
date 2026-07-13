@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-12T04:42:12.970370+00:00",
+  "updatedAt": "2026-07-13T04:49:40.865714+00:00",
   "dateRangeLabel": "\u6700\u8fd1 30 \u5929",
   "keywordSearchTop5": [
     {
@@ -51,6 +51,10 @@
       "value": 3
     },
     {
+      "label": "Psm \u7b2c33\u7ae0 \u7b2c20\u7bc0",
+      "value": 3
+    },
+    {
       "label": "Jhn \u7b2c17\u7ae0 \u7b2c16\u7bc0",
       "value": 2
     },
@@ -60,10 +64,6 @@
     },
     {
       "label": "1Jn \u7b2c5\u7ae0 \u7b2c7\u7bc0",
-      "value": 1
-    },
-    {
-      "label": "1Pe \u7b2c3\u7ae0 \u7b2c7\u7bc0",
       "value": 1
     }
   ]
