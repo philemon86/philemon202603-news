@@ -1,25 +1,25 @@
 {
-  "updatedAt": "2026-07-13T04:49:40.865714+00:00",
+  "updatedAt": "2026-07-14T04:18:13.220340+00:00",
   "dateRangeLabel": "\u6700\u8fd1 30 \u5929",
   "keywordSearchTop5": [
+    {
+      "label": "\u6182\u50b7",
+      "value": 2
+    },
     {
       "label": "\u4e0d\u53ef\u505c\u6b62\u805a\u6703",
       "value": 1
     },
     {
+      "label": "\u4f60\u770b",
+      "value": 1
+    },
+    {
+      "label": "\u51e1\u7a31\u547c",
+      "value": 1
+    },
+    {
       "label": "\u52dd\u4e86\u4e16\u754c",
-      "value": 1
-    },
-    {
-      "label": "\u540c\u5fc3",
-      "value": 1
-    },
-    {
-      "label": "\u56db",
-      "value": 1
-    },
-    {
-      "label": "\u56db\u5341",
       "value": 1
     }
   ],
@@ -63,8 +63,8 @@
       "value": 2
     },
     {
-      "label": "1Jn \u7b2c5\u7ae0 \u7b2c7\u7bc0",
-      "value": 1
+      "label": "Rom \u7b2c16\u7ae0 \u7b2c25\u7bc0",
+      "value": 2
     }
   ]
 }
