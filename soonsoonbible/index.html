@@ -351,16 +351,16 @@
       #keywordBtn { width: 100%; }
     }
 
-    .bottom-actions {
+    .back-home-wrap {
       display: flex;
       justify-content: center;
-      gap: 12px;
+      align-items: center;
+      gap: 14px;
       flex-wrap: wrap;
       margin: 28px 0 72px;
     }
 
-    .back-home-btn,
-    .report-link-btn {
+    .back-home-btn {
       display: inline-flex;
       align-items: center;
       gap: 10px;
@@ -376,11 +376,31 @@
       transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease;
     }
 
-    .back-home-btn:hover,
-    .report-link-btn:hover {
+    .back-home-btn:hover {
       transform: translateY(-2px);
       color: var(--primary-color);
       border-color: rgba(140, 47, 36, 0.22);
+    }
+
+    .visitor-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 14px 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(140, 47, 36, 0.16);
+      background: linear-gradient(180deg, rgba(255, 249, 240, 0.96), rgba(255, 240, 224, 0.92));
+      color: var(--primary-color);
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      box-shadow: var(--shadow);
+      white-space: nowrap;
+    }
+
+    .visitor-pill.loading {
+      color: var(--accent-color);
+      font-weight: 700;
     }
   </style>
 </head>
@@ -416,13 +436,15 @@
     </div>
   </div>
 
-  <div class="bottom-actions">
+  <div class="back-home-wrap">
     <a class="back-home-btn" href="https://news.pbooks.com.tw/">
       <span>←</span>
       <span>返回首頁</span>
     </a>
-    <a class="report-link-btn" href="./rankings.html">
-      <span>熱門關鍵字→</span>
+    <div class="visitor-pill loading" id="visitorPill" aria-live="polite">使用人數：讀取中</div>
+    <a class="back-home-btn" href="https://news.pbooks.com.tw/soonsoonbible/rankings.html">
+      <span>熱門關鍵字</span>
+      <span>→</span>
     </a>
   </div>
 </div>
@@ -446,18 +468,102 @@
 </div>
 
 <script>
+  const VISITOR_COUNTER_KEY = 'pbooks_news_soonsoonbible_engaged_visitors_v1';
+  const VISITOR_LOCAL_KEY = 'pbooks_news_soonsoonbible_engaged_visitor_recorded_v1';
+  const VISITOR_API_BASE = 'https://countapi.mileshilliard.com/api/v1';
+  const QUALIFIED_VISITOR_MS = 10000;
   const trackedChapterViewKeys = new Set();
+  let qualifiedVisibleMs = 0;
+  let qualifiedVisibleStartedAt = null;
+  let qualifiedVisitorTimer = null;
 
-  function trackKeywordSearch(rawInput, results) {
-    if (typeof gtag !== 'function' || !rawInput) return;
+  async function fetchVisitorCount() {
+    const pill = document.getElementById('visitorPill');
+    if (!pill) return;
 
-    gtag('event', 'keyword_search', {
-      event_category: 'SoonSoonBible',
-      event_label: rawInput,
-      keyword_query: rawInput,
-      result_count: Array.isArray(results) ? results.length : 0,
-      page_path: '/soonsoonbible/'
-    });
+    try {
+      const response = await fetch(`${VISITOR_API_BASE}/get/${VISITOR_COUNTER_KEY}`);
+      if (response.status === 404) {
+        const initResponse = await fetch(`${VISITOR_API_BASE}/set/${VISITOR_COUNTER_KEY}?value=0`);
+        const initData = await initResponse.json();
+        updateVisitorPill(initData.value || 0);
+        return;
+      }
+
+      const data = await response.json();
+      updateVisitorPill(data.value || 0);
+    } catch (error) {
+      pill.classList.remove('loading');
+      pill.textContent = '使用人數：--人';
+    }
+  }
+
+  function updateVisitorPill(value) {
+    const pill = document.getElementById('visitorPill');
+    if (!pill) return;
+    const count = Number.parseInt(value, 10);
+    pill.classList.remove('loading');
+    pill.textContent = `使用人數：${Number.isNaN(count) ? 0 : count}人`;
+  }
+
+  async function countQualifiedVisitor() {
+    const currentState = localStorage.getItem(VISITOR_LOCAL_KEY);
+    if (currentState === '1' || currentState === 'pending') return;
+
+    localStorage.setItem(VISITOR_LOCAL_KEY, 'pending');
+
+    try {
+      const response = await fetch(`${VISITOR_API_BASE}/hit/${VISITOR_COUNTER_KEY}`);
+      const data = await response.json();
+      localStorage.setItem(VISITOR_LOCAL_KEY, '1');
+      updateVisitorPill(data.value || 0);
+
+      if (typeof gtag === 'function') {
+        gtag('event', 'qualified_visitor_counted', {
+          event_category: 'SoonSoonBible',
+          event_label: '10s engaged visitor',
+          page_path: '/soonsoonbible/'
+        });
+      }
+    } catch (error) {
+      localStorage.removeItem(VISITOR_LOCAL_KEY);
+      // Keep the page functional even if the counter API is temporarily unavailable.
+    }
+  }
+
+  function clearQualifiedVisitorTimer() {
+    if (qualifiedVisitorTimer) {
+      clearTimeout(qualifiedVisitorTimer);
+      qualifiedVisitorTimer = null;
+    }
+  }
+
+  function scheduleQualifiedVisitorTimer() {
+    clearQualifiedVisitorTimer();
+    if (localStorage.getItem(VISITOR_LOCAL_KEY) === '1' || localStorage.getItem(VISITOR_LOCAL_KEY) === 'pending') return;
+    if (document.visibilityState !== 'visible') return;
+
+    qualifiedVisibleStartedAt = Date.now();
+    const remainingMs = Math.max(0, QUALIFIED_VISITOR_MS - qualifiedVisibleMs);
+    qualifiedVisitorTimer = setTimeout(() => {
+      qualifiedVisibleMs = QUALIFIED_VISITOR_MS;
+      qualifiedVisibleStartedAt = null;
+      countQualifiedVisitor();
+    }, remainingMs);
+  }
+
+  function handleQualifiedVisitorVisibility() {
+    if (document.visibilityState === 'visible') {
+      scheduleQualifiedVisitorTimer();
+      return;
+    }
+
+    if (qualifiedVisibleStartedAt) {
+      qualifiedVisibleMs += Date.now() - qualifiedVisibleStartedAt;
+      qualifiedVisibleStartedAt = null;
+    }
+
+    clearQualifiedVisitorTimer();
   }
 
   function trackChapterViews(query, rawInput, results) {
@@ -496,24 +602,6 @@
         result_count: results.length,
         page_path: '/soonsoonbible/'
       });
-    });
-  }
-
-  function trackVerseCopy(entry, copyMode = 'single', batchSize = 1) {
-    if (typeof gtag !== 'function' || !entry) return;
-
-    const verseLabel = `${entry.book} 第${entry.chapter}章 第${entry.verse}節`;
-    gtag('event', 'verse_copy', {
-      event_category: 'SoonSoonBible',
-      event_label: verseLabel,
-      bible_book: entry.book,
-      bible_chapter: entry.chapter,
-      bible_verse: entry.verse,
-      verse_key: `${entry.book}-${entry.chapter}-${entry.verse}`,
-      verse_label: verseLabel,
-      copy_mode: copyMode,
-      batch_size: batchSize,
-      page_path: '/soonsoonbible/'
     });
   }
 
@@ -622,6 +710,9 @@
     keywordInput.addEventListener('keydown', e => { if (e.key === 'Enter') initKeywordSearch(); });
     document.getElementById('pageInput').addEventListener('keydown', e => { if (e.key === 'Enter') jumpToPage(); });
 
+    fetchVisitorCount();
+    handleQualifiedVisitorVisibility();
+    document.addEventListener('visibilitychange', handleQualifiedVisitorVisibility);
     loadCSVWithRetry();
   });
 
@@ -909,7 +1000,7 @@
               <span class="verse-text">${e.text}</span>
             </div>
             <div class="action-bar">
-               <button class="copy-btn" onclick='copySingle(event, ${idx}, "verse")'>
+               <button class="copy-btn" onclick='copySingle(event, "${e.text} (${formattedRef})")'>
                  複製
                </button>
             </div>
@@ -962,7 +1053,6 @@
     }
     currentPage = 1;
     document.getElementById('pageInput').value = 1; 
-    trackKeywordSearch(input, currentKeywordResults);
     renderKeywordPage();
   }
 
@@ -993,7 +1083,7 @@
             <div class="verse-ref">${formattedRef}</div>
             <div class="verse-text">${highlightedText}</div>
              <div class="action-bar">
-               <button class="copy-btn" onclick='copySingle(event, ${idx}, "keyword")'>複製</button>
+               <button class="copy-btn" onclick='copySingle(event, "${entry.text} (${formattedRef})")'>複製</button>
             </div>
           </div>
         `;
@@ -1059,31 +1149,25 @@
       if (selectedVerses.size === 0) return;
       
       let textBuffer = [];
-      let copiedEntries = [];
       selectedVerses.forEach(jsonStr => {
           try {
             const e = JSON.parse(jsonStr);
             const formattedRef = formatRef(e.book, e.chapter, e.verse);
             textBuffer.push(`${e.text} (${formattedRef})`);
-            copiedEntries.push(e);
           } catch(err) {
             console.warn("Skip invalid");
           }
       });
 
       if (textBuffer.length > 0) {
-        const copied = copyToClipboard(textBuffer.join('\n'), { isBatch: true, entries: copiedEntries });
-        if (copied) clearSelection();
+        copyToClipboard(textBuffer.join('\n'), true); 
+        clearSelection();
       }
   }
 
-  function copySingle(e, idx, source = 'verse') {
+  function copySingle(e, text) {
       e.stopPropagation();
-      const entry = source === 'keyword' ? currentKeywordPageData[idx] : currentVerseData[idx];
-      if (!entry) return;
-
-      const formattedRef = formatRef(entry.book, entry.chapter, entry.verse);
-      copyToClipboard(`${entry.text} (${formattedRef})`, { entries: [entry] });
+      copyToClipboard(text);
   }
 
   function jumpToPage() {
@@ -1104,8 +1188,7 @@
   window.toggleKeywordSelection = toggleKeywordSelection;
   window.clearSelection = clearSelection;
 
-  function copyToClipboard(text, options = {}) {
-    const { isBatch = false, entries = [] } = options;
+  function copyToClipboard(text, isBatch = false) {
     const ta = document.createElement('textarea');
     ta.value = text;
     ta.style.position = 'fixed';
@@ -1115,10 +1198,7 @@
     try {
       const successful = document.execCommand('copy');
       if (successful) {
-          entries.forEach((entry) => trackVerseCopy(entry, isBatch ? 'batch' : 'single', entries.length));
           showToast(isBatch ? `已複製 ${selectedVerses.size} 節` : '已複製');
-          document.body.removeChild(ta);
-          return true;
       } else {
           showToast('複製失敗');
       }
@@ -1126,7 +1206,6 @@
       showToast('複製失敗');
     }
     document.body.removeChild(ta);
-    return false;
   }
 
   function showToast(msg) {
@@ -1139,3 +1218,4 @@
 </script>
 </body>
 </html>
+

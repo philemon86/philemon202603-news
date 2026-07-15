@@ -1,70 +1,28 @@
 {
-  "updatedAt": "2026-07-14T04:18:13.220340+00:00",
+  "updatedAt": "2026-06-24T03:49:15.660287+00:00",
   "dateRangeLabel": "\u6700\u8fd1 30 \u5929",
-  "keywordSearchTop5": [
-    {
-      "label": "\u6182\u50b7",
-      "value": 2
-    },
-    {
-      "label": "\u4e0d\u53ef\u505c\u6b62\u805a\u6703",
-      "value": 1
-    },
-    {
-      "label": "\u4f60\u770b",
-      "value": 1
-    },
-    {
-      "label": "\u51e1\u7a31\u547c",
-      "value": 1
-    },
-    {
-      "label": "\u52dd\u4e86\u4e16\u754c",
-      "value": 1
-    }
-  ],
+  "keywordSearchTop5": [],
   "chapterViewTop5": [
     {
-      "label": "2Ti \u7b2c3\u7ae0",
-      "value": 7
+      "label": "Phl \u7b2c4\u7ae0",
+      "value": 6
     },
     {
-      "label": "Jhn \u7b2c11\u7ae0",
-      "value": 4
-    },
-    {
-      "label": "Jhn \u7b2c1\u7ae0",
-      "value": 4
+      "label": "Gen \u7b2c2\u7ae0",
+      "value": 3
     },
     {
       "label": "Job \u7b2c1\u7ae0",
       "value": 3
     },
     {
-      "label": "Jug \u7b2c21\u7ae0",
-      "value": 3
+      "label": "Gen \u7b2c1\u7ae0",
+      "value": 2
+    },
+    {
+      "label": "Gen \u7b2c3\u7ae0",
+      "value": 2
     }
   ],
-  "verseCopyTop5": [
-    {
-      "label": "Mat \u7b2c6\u7ae0 \u7b2c33\u7bc0",
-      "value": 3
-    },
-    {
-      "label": "Psm \u7b2c33\u7ae0 \u7b2c20\u7bc0",
-      "value": 3
-    },
-    {
-      "label": "Jhn \u7b2c17\u7ae0 \u7b2c16\u7bc0",
-      "value": 2
-    },
-    {
-      "label": "Mat \u7b2c6\u7ae0 \u7b2c32\u7bc0",
-      "value": 2
-    },
-    {
-      "label": "Rom \u7b2c16\u7ae0 \u7b2c25\u7bc0",
-      "value": 2
-    }
-  ]
+  "verseCopyTop5": []
 }
