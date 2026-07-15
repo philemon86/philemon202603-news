@@ -1,11 +1,7 @@
-{
-  "updatedAt": "2026-07-15T04:18:27.283008+00:00",
+﻿{
+  "updatedAt": "2026-07-14T04:18:13.220340+00:00",
   "dateRangeLabel": "\u6700\u8fd1 30 \u5929",
   "keywordSearchTop5": [
-    {
-      "label": "\u798f\u97f3",
-      "value": 6
-    },
     {
       "label": "\u6182\u50b7",
       "value": 2
@@ -15,11 +11,15 @@
       "value": 1
     },
     {
-      "label": "\u4f5c\u5de5",
+      "label": "\u4f60\u770b",
       "value": 1
     },
     {
-      "label": "\u4f60\u770b",
+      "label": "\u51e1\u7a31\u547c",
+      "value": 1
+    },
+    {
+      "label": "\u52dd\u4e86\u4e16\u754c",
       "value": 1
     }
   ],
@@ -55,15 +55,15 @@
       "value": 3
     },
     {
-      "label": "Rom \u7b2c16\u7ae0 \u7b2c25\u7bc0",
-      "value": 3
-    },
-    {
       "label": "Jhn \u7b2c17\u7ae0 \u7b2c16\u7bc0",
       "value": 2
     },
     {
       "label": "Mat \u7b2c6\u7ae0 \u7b2c32\u7bc0",
+      "value": 2
+    },
+    {
+      "label": "Rom \u7b2c16\u7ae0 \u7b2c25\u7bc0",
       "value": 2
     }
   ]
