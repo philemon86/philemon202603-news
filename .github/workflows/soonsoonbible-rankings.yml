@@ -1,6 +1,15 @@
 name: Update SoonSoonBible Rankings
 
 on:
+  push:
+    branches:
+      - master
+    paths:
+      - ".github/scripts/fetch_soonsoonbible_rankings.py"
+      - ".github/workflows/soonsoonbible-rankings.yml"
+      - "soonsoonbible/index.html"
+      - "soonsoonbible/rankings.json"
+      - "soonsoonbible/visitor-count.json"
   workflow_dispatch:
   schedule:
     - cron: "15 1 * * *"
@@ -29,15 +38,19 @@ jobs:
         env:
           GA4_PROPERTY_ID: "537269601"
           GA4_LOOKBACK_DAYS: "30"
+          GA4_VISITOR_COUNT_START_DATE: "2026-05-12"
+          GA4_QUALIFIED_VISITOR_START_DATE: "2026-07-15"
+          GA4_SOONSOON_PAGE_PATH: "/soonsoonbible/"
           GA4_SERVICE_ACCOUNT_JSON: ${{ secrets.GA4_SERVICE_ACCOUNT_JSON }}
           RANKINGS_OUTPUT_PATH: "soonsoonbible/rankings.json"
+          VISITOR_COUNT_OUTPUT_PATH: "soonsoonbible/visitor-count.json"
         run: python .github/scripts/fetch_soonsoonbible_rankings.py
 
       - name: Commit rankings update
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add soonsoonbible/rankings.json
+          git add soonsoonbible/rankings.json soonsoonbible/visitor-count.json
           git diff --cached --quiet && exit 0
           git commit -m "chore: update soonsoonbible rankings"
           git push
