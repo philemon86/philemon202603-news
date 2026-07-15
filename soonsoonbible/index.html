@@ -468,67 +468,53 @@
 </div>
 
 <script>
-  const VISITOR_COUNTER_KEY = 'pbooks_news_soonsoonbible_engaged_visitors_v1';
-  const VISITOR_LOCAL_KEY = 'pbooks_news_soonsoonbible_engaged_visitor_recorded_v1';
-  const VISITOR_API_BASE = 'https://countapi.mileshilliard.com/api/v1';
+  const VISITOR_COUNT_PATH = './visitor-count.json';
   const QUALIFIED_VISITOR_MS = 10000;
   const trackedChapterViewKeys = new Set();
   let qualifiedVisibleMs = 0;
   let qualifiedVisibleStartedAt = null;
   let qualifiedVisitorTimer = null;
+  let qualifiedVisitorSent = false;
 
   async function fetchVisitorCount() {
     const pill = document.getElementById('visitorPill');
     if (!pill) return;
 
     try {
-      const response = await fetch(`${VISITOR_API_BASE}/get/${VISITOR_COUNTER_KEY}`);
-      if (response.status === 404) {
-        const initResponse = await fetch(`${VISITOR_API_BASE}/set/${VISITOR_COUNTER_KEY}?value=0`);
-        const initData = await initResponse.json();
-        updateVisitorPill(initData.value || 0);
-        return;
-      }
-
+      const response = await fetch(VISITOR_COUNT_PATH, { cache: 'no-store' });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const data = await response.json();
-      updateVisitorPill(data.value || 0);
+      updateVisitorPill(data);
     } catch (error) {
       pill.classList.remove('loading');
       pill.textContent = '使用人數：--人';
     }
   }
 
-  function updateVisitorPill(value) {
+  function updateVisitorPill(data) {
     const pill = document.getElementById('visitorPill');
     if (!pill) return;
-    const count = Number.parseInt(value, 10);
+
+    if (!data || !data.updatedAt) {
+      pill.classList.remove('loading');
+      pill.textContent = '使用人數：更新中';
+      return;
+    }
+
+    const count = Number.parseInt(data.value, 10);
     pill.classList.remove('loading');
     pill.textContent = `使用人數：${Number.isNaN(count) ? 0 : count}人`;
   }
 
-  async function countQualifiedVisitor() {
-    const currentState = localStorage.getItem(VISITOR_LOCAL_KEY);
-    if (currentState === '1' || currentState === 'pending') return;
+  function sendQualifiedVisitorEvent() {
+    if (qualifiedVisitorSent || typeof gtag !== 'function') return;
 
-    localStorage.setItem(VISITOR_LOCAL_KEY, 'pending');
-
-    try {
-      const response = await fetch(`${VISITOR_API_BASE}/hit/${VISITOR_COUNTER_KEY}`);
-      const data = await response.json();
-      localStorage.setItem(VISITOR_LOCAL_KEY, '1');
-      updateVisitorPill(data.value || 0);
-
-      if (typeof gtag === 'function') {
-        gtag('event', 'qualified_visitor_counted', {
-          event_category: 'SoonSoonBible',
-          event_label: '10s engaged visitor',
-          page_path: '/soonsoonbible/'
-        });
-      }
-    } catch (error) {
-      localStorage.removeItem(VISITOR_LOCAL_KEY);
-      // Keep the page functional even if the counter API is temporarily unavailable.
-    }
+    qualifiedVisitorSent = true;
+    gtag('event', 'qualified_visitor_counted', {
+      event_category: 'SoonSoonBible',
+      event_label: '10s engaged visitor',
+      page_path: '/soonsoonbible/'
+    });
   }
 
   function clearQualifiedVisitorTimer() {
@@ -540,15 +526,14 @@
 
   function scheduleQualifiedVisitorTimer() {
     clearQualifiedVisitorTimer();
-    if (localStorage.getItem(VISITOR_LOCAL_KEY) === '1' || localStorage.getItem(VISITOR_LOCAL_KEY) === 'pending') return;
-    if (document.visibilityState !== 'visible') return;
+    if (qualifiedVisitorSent || document.visibilityState !== 'visible') return;
 
     qualifiedVisibleStartedAt = Date.now();
     const remainingMs = Math.max(0, QUALIFIED_VISITOR_MS - qualifiedVisibleMs);
     qualifiedVisitorTimer = setTimeout(() => {
       qualifiedVisibleMs = QUALIFIED_VISITOR_MS;
       qualifiedVisibleStartedAt = null;
-      countQualifiedVisitor();
+      sendQualifiedVisitorEvent();
     }, remainingMs);
   }
 
