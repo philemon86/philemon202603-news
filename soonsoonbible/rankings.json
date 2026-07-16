@@ -1,10 +1,10 @@
 {
-  "updatedAt": "2026-07-15T05:01:29.193696+00:00",
+  "updatedAt": "2026-07-16T04:27:28.790456+00:00",
   "dateRangeLabel": "\u6700\u8fd1 30 \u5929",
   "keywordSearchTop5": [
     {
       "label": "\u798f\u97f3",
-      "value": 6
+      "value": 7
     },
     {
       "label": "\u6182\u50b7",
@@ -47,6 +47,14 @@
   ],
   "verseCopyTop5": [
     {
+      "label": "Rom \u7b2c16\u7ae0 \u7b2c25\u7bc0",
+      "value": 4
+    },
+    {
+      "label": "Rom \u7b2c1\u7ae0 \u7b2c1\u7bc0",
+      "value": 4
+    },
+    {
       "label": "Mat \u7b2c6\u7ae0 \u7b2c33\u7bc0",
       "value": 3
     },
@@ -55,16 +63,8 @@
       "value": 3
     },
     {
-      "label": "Rom \u7b2c16\u7ae0 \u7b2c25\u7bc0",
+      "label": "Rom \u7b2c1\u7ae0 \u7b2c2\u7bc0",
       "value": 3
-    },
-    {
-      "label": "Jhn \u7b2c17\u7ae0 \u7b2c16\u7bc0",
-      "value": 2
-    },
-    {
-      "label": "Mat \u7b2c6\u7ae0 \u7b2c32\u7bc0",
-      "value": 2
     }
   ]
 }
