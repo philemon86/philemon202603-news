@@ -241,6 +241,38 @@
         .article-title span { font-family: "Cinzel", serif; color: var(--accent-color); margin-right: 15px; font-size: 0.9em; }
         .article-page { font-family: "Cinzel", serif; color: var(--text-muted); font-size: 1rem; flex-shrink: 0; }
 
+        @media (max-width: 600px) {
+            .modal-overlay { overflow: hidden; }
+            .modal-content {
+                max-height: calc(100dvh - 48px);
+                padding: 0 24px;
+            }
+            .modal-close {
+                top: max(22px, env(safe-area-inset-top));
+                right: 20px;
+            }
+            .anim-wrapper {
+                width: 89%;
+                height: 42dvh;
+                transform: scale(1.12);
+            }
+            .modal-pane.show-list .anim-wrapper {
+                width: 100%;
+                height: 112px;
+            }
+            .anim-title {
+                width: 100%;
+                min-width: 0;
+                margin-top: 24px;
+                padding: 0 4px;
+                font-size: clamp(0.9rem, 4vw, 1rem);
+                line-height: 1.55;
+                letter-spacing: 0.08em;
+                overflow-wrap: anywhere;
+                text-wrap: balance;
+            }
+        }
+
         /* ================= 7 大物理主題 CSS 動畫 (強化發光版) ================= */
         
         /* Ch1: 力學 (單擺) */
