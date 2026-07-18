@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>物理學×主裡學｜高春霖｜腓利門書房</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Noto+Serif+TC:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ================= 極簡深色主題設定 ================= */
+        :root {
+            --bg-color: #0b0c10;
+            --text-primary: rgba(255, 255, 255, 0.95);
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-muted: rgba(255, 255, 255, 0.4);
+            --accent-color: #c5a880; /* 香檳金 */
+            --accent-glow: rgba(197, 168, 128, 0.6);
+            --border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body, html {
+            width: 100%;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: "Noto Serif TC", serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* 隱藏彈窗開啟時的背景滾動 */
+        body.modal-open { overflow: hidden; }
+
+        canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+
+        .content-wrapper { position: relative; z-index: 10; width: 100%; display: flex; flex-direction: column; align-items: center; }
+
+        section { width: 100%; max-width: 900px; padding: 10vh 20px; display: flex; flex-direction: column; justify-content: center; }
+
+        /* ================= 滿版首頁 ================= */
+        .hero { min-height: 100vh; text-align: center; align-items: center; justify-content: center; padding-top: 10vh; }
+        .book-wrapper { perspective: 1000px; margin-bottom: 40px; opacity: 0; animation: fadeIn 2s ease forwards; z-index: 20; }
+        .floating-book { width: 100%; max-width: 280px; height: auto; animation: float 6s ease-in-out infinite; filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.8)) drop-shadow(0 10px 15px rgba(197, 168, 128, 0.1)); }
+        
+        @keyframes float { 0% { transform: translateY(0px) rotateX(0deg); } 50% { transform: translateY(-20px) rotateX(2deg); } 100% { transform: translateY(0px) rotateX(0deg); } }
+        
+        .kicker { font-family: "Cinzel", serif; color: var(--accent-color); letter-spacing: 0.3em; font-size: 0.9rem; margin-bottom: 15px; opacity: 0; animation: fadeIn 2s 0.5s ease forwards; }
+        .hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 400; letter-spacing: 0.1em; margin-bottom: 30px; opacity: 0; animation: fadeIn 2s 0.8s ease forwards; }
+        .hero h1 i { font-style: normal; color: var(--accent-color); margin: 0 10px; }
+        .hero-quote { font-size: clamp(1.1rem, 2vw, 1.3rem); line-height: 2.2; letter-spacing: 0.2em; color: var(--text-secondary); margin-bottom: 40px; opacity: 0; animation: fadeIn 2s 1.2s ease forwards; }
+        .hero-author { font-size: 1rem; letter-spacing: 0.1em; margin-bottom: 50px; opacity: 0; animation: fadeIn 2s 1.5s ease forwards; }
+        .btn { display: inline-block; padding: 15px 40px; border: 1px solid var(--text-secondary); color: var(--text-primary); text-decoration: none; letter-spacing: 0.15em; font-size: 0.9rem; transition: all 0.4s ease; backdrop-filter: blur(5px); background: rgba(255, 255, 255, 0.03); cursor: pointer; }
+        .btn:hover { background: var(--text-primary); color: var(--bg-color); border-color: var(--text-primary); }
+        .hero .btn { opacity: 0; animation: fadeIn 2s 1.8s ease forwards; }
+
+        /* ================= 區塊公用 ================= */
+        .section-header { margin-bottom: 60px; text-align: center; }
+        .section-index { font-family: "Cinzel", serif; color: var(--accent-color); font-size: 1.5rem; margin-bottom: 15px; }
+        h2 { font-size: clamp(1.5rem, 3vw, 2.5rem); font-weight: 400; line-height: 1.6; letter-spacing: 0.1em; margin-bottom: 30px; }
+        .about-content { max-width: 750px; margin: 0 auto; }
+        .about-content p { font-size: 1.1rem; line-height: 2.2; letter-spacing: 0.06em; color: var(--text-secondary); margin-bottom: 25px; text-align: justify; }
+        .about-content p:first-child { font-size: 1.25rem; color: var(--text-primary); border-left: 3px solid var(--accent-color); padding-left: 20px; margin-bottom: 40px; }
+        
+        .cross-section { display: flex; flex-direction: column; gap: 40px; text-align: center; margin: 60px auto 20px auto; padding: 50px 0; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); max-width: 750px; width: 100%; }
+        @media (min-width: 768px) { .cross-section { flex-direction: row; justify-content: space-between; align-items: center; text-align: left; } .cross-word { flex: 1; } .cross-word-right { text-align: right; } }
+        .cross-word span { display: block; font-family: "Cinzel", serif; color: var(--accent-color); font-size: 0.9rem; letter-spacing: 0.2em; margin-bottom: 10px; }
+        .cross-word strong { display: block; font-size: 1.8rem; font-weight: 400; letter-spacing: 0.1em; margin-bottom: 15px; color: var(--text-primary); }
+        .cross-word p { color: var(--text-secondary); line-height: 1.8; letter-spacing: 0.05em; }
+        .cross-mark { font-size: 2rem; color: var(--accent-color); font-weight: 300; }
+
+        /* ================= 7 大主題網格 (Grid) ================= */
+        .themes-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 600px) {
+            .themes-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (min-width: 850px) {
+            .themes-grid { grid-template-columns: repeat(3, 1fr); }
+            /* 讓第七個跨欄居中 */
+            .theme-card:last-child { grid-column: 2 / 3; }
+        }
+
+        .theme-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .theme-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: var(--accent-color);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .theme-card .num {
+            font-family: "Cinzel", serif;
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            letter-spacing: 0.1em;
+        }
+
+        .theme-card .title {
+            font-size: 1.15rem;
+            color: var(--text-primary);
+            letter-spacing: 0.1em;
+        }
+
+        /* ================= 全螢幕彈窗 (Modal) ================= */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(8, 9, 12, 0.85);
+            backdrop-filter: blur(12px); /* 強烈模糊，壓暗背景 */
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 2.5rem;
+            cursor: pointer;
+            z-index: 1010;
+            transition: color 0.3s ease;
+            line-height: 1;
+        }
+
+        .modal-close:hover { color: var(--accent-color); }
+
+        .modal-content {
+            width: 100%;
+            max-width: 700px;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            padding: 0 20px;
+        }
+
+        .modal-pane {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .modal-pane.active { display: flex; }
+
+        /* 動畫展示區 (先放大置中，後縮小上移) */
+        .anim-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 40vh; /* 初始佔據較大空間 */
+            transform: scale(1.5);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .modal-pane.show-list .anim-wrapper {
+            height: 120px;
+            transform: scale(1);
+            margin-bottom: 20px;
+        }
+
+        .anim-title {
+            margin-top: 30px;
+            font-size: 1.2rem;
+            letter-spacing: 0.15em;
+            color: var(--accent-color);
+            font-family: "Cinzel", "Noto Serif TC", serif;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(197, 168, 128, 0.3);
+        }
+
+        /* 列表區 (初始隱藏，後浮現並可滾動) */
+        .list-wrapper {
+            width: 100%;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 10px;
+            /* 自訂滾動條 */
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent-color) transparent;
+        }
+
+        .list-wrapper::-webkit-scrollbar { width: 4px; }
+        .list-wrapper::-webkit-scrollbar-thumb { background: var(--accent-color); border-radius: 4px; }
+
+        .modal-pane.show-list .list-wrapper {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .article-list { list-style: none; display: flex; flex-direction: column; gap: 20px; padding-bottom: 40px;}
+        .article-item { display: flex; align-items: baseline; justify-content: space-between; border-bottom: 1px dotted rgba(255, 255, 255, 0.15); padding-bottom: 15px; }
+        .article-item:hover { border-bottom-color: var(--accent-color); }
+        .article-title { font-size: 1.1rem; color: var(--text-primary); letter-spacing: 0.05em; line-height: 1.6; padding-right: 20px; }
+        .article-title span { font-family: "Cinzel", serif; color: var(--accent-color); margin-right: 15px; font-size: 0.9em; }
+        .article-page { font-family: "Cinzel", serif; color: var(--text-muted); font-size: 1rem; flex-shrink: 0; }
+
+        /* ================= 7 大物理主題 CSS 動畫 (強化發光版) ================= */
+        
+        /* Ch1: 力學 (單擺) */
+        .icon-ch1 { height: 70px; width: 3px; background: rgba(255,255,255,0.3); transform-origin: top; animation: swing 1.5s ease-in-out infinite alternate; position: relative; }
+        .icon-ch1::after { content: ''; position: absolute; bottom: -10px; left: -8.5px; width: 20px; height: 20px; background: var(--accent-color); border-radius: 50%; box-shadow: 0 0 20px var(--accent-glow); }
+        @keyframes swing { 0% { transform: rotate(-45deg); } 100% { transform: rotate(45deg); } }
+
+        /* Ch2: 波動 (漣漪) */
+        .icon-ch2 { position: relative; width: 70px; height: 70px; }
+        .icon-ch2 div { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 2px solid var(--accent-color); border-radius: 50%; animation: ripple 2s linear infinite; box-shadow: 0 0 10px var(--accent-glow) inset, 0 0 10px var(--accent-glow); }
+        .icon-ch2 div:nth-child(2) { animation-delay: 0.6s; }
+        .icon-ch2 div:nth-child(3) { animation-delay: 1.2s; }
+        @keyframes ripple { 0% { width: 0; height: 0; opacity: 1; } 100% { width: 90px; height: 90px; opacity: 0; } }
+
+        /* Ch3: 電磁 (磁場旋轉) */
+        .icon-ch3 { width: 60px; height: 60px; border: 3px dashed var(--accent-color); border-radius: 50%; animation: spin 4s linear infinite; position: relative; filter: drop-shadow(0 0 8px var(--accent-glow));}
+        .icon-ch3::before { content: ''; position: absolute; top: 12px; left: 12px; right: 12px; bottom: 12px; border: 3px solid rgba(255,255,255,0.8); border-radius: 50%; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* Ch4: 宇宙 (星軌) */
+        .icon-ch4 { width: 90px; height: 30px; border: 1px solid rgba(197, 168, 128, 0.5); border-radius: 50%; position: relative; animation: spin-slow 4s linear infinite; box-shadow: 0 0 15px rgba(197, 168, 128, 0.2) inset;}
+        .icon-ch4::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 16px; height: 16px; background: #fff; border-radius: 50%; box-shadow: 0 0 25px rgba(255,255,255,0.8); }
+        .icon-ch4::after { content: ''; position: absolute; top: -6px; left: 40px; width: 12px; height: 12px; background: var(--accent-color); border-radius: 50%; box-shadow: 0 0 10px var(--accent-glow);}
+        @keyframes spin-slow { 100% { transform: rotate(360deg); } }
+
+        /* Ch5: 熱學 (分子振動) */
+        .icon-ch5 { display: flex; gap: 10px; align-items: center; height: 60px; }
+        .icon-ch5 div { width: 8px; background: var(--accent-color); border-radius: 4px; animation: thermo 0.5s ease-in-out infinite alternate; box-shadow: 0 0 12px var(--accent-glow);}
+        .icon-ch5 div:nth-child(1) { height: 20px; animation-delay: 0s; }
+        .icon-ch5 div:nth-child(2) { height: 50px; animation-delay: 0.2s; }
+        .icon-ch5 div:nth-child(3) { height: 30px; animation-delay: 0.4s; }
+        @keyframes thermo { 0% { transform: scaleY(0.6); opacity: 0.5; } 100% { transform: scaleY(1.4); opacity: 1; } }
+
+        /* Ch6: 方法 (聚焦/觀測) */
+        .icon-ch6 { width: 60px; height: 60px; position: relative; }
+        .icon-ch6::before, .icon-ch6::after { content: ''; position: absolute; border: 3px solid var(--accent-color); width: 20px; height: 20px; animation: measure 1.5s ease-in-out infinite alternate; filter: drop-shadow(0 0 5px var(--accent-glow));}
+        .icon-ch6::before { top: 0; left: 0; border-right: none; border-bottom: none; }
+        .icon-ch6::after { bottom: 0; right: 0; border-left: none; border-top: none; }
+        .icon-ch6 div { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 14px; height: 14px; background: #fff; border-radius: 50%; animation: pulse 1.5s infinite alternate; box-shadow: 0 0 15px rgba(255,255,255,0.8);}
+        @keyframes measure { 0% { width: 15px; height: 15px; } 100% { width: 28px; height: 28px; } }
+        @keyframes pulse { 0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; } 100% { transform: translate(-50%, -50%) scale(1.3); opacity: 1;} }
+
+        /* Ch7: 生命 (細胞分裂) */
+        .icon-ch7 { width: 60px; height: 60px; position: relative; }
+        .icon-ch7::before, .icon-ch7::after { content: ''; position: absolute; width: 26px; height: 26px; background: var(--accent-color); border-radius: 50%; top: 17px; animation: mitosis 1.5s ease-in-out infinite alternate; mix-blend-mode: screen; box-shadow: 0 0 15px var(--accent-glow);}
+        .icon-ch7::before { left: 15px; }
+        .icon-ch7::after { right: 15px; animation-direction: alternate-reverse; }
+        @keyframes mitosis { 0% { transform: translateX(10px); opacity: 0.7; } 100% { transform: translateX(-10px); opacity: 1; } }
+
+        /* ================= 頁尾 ================= */
+        .site-footer { width: 100%; text-align: center; padding: 60px 20px; border-top: 1px solid var(--border-color); font-size: 0.9rem; color: var(--text-secondary); letter-spacing: 0.1em; margin-top: 50px; }
+        .footer-home { margin-top: 30px; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <canvas id="universe"></canvas>
+
+    <div class="content-wrapper">
+        <section class="hero" id="top">
+            <div class="book-wrapper">
+                <img src="C295-1.png" alt="物理學×主裡學 書籍" class="floating-book">
+            </div>
+            <p class="kicker">PHYSICS & THEOLOGY</p>
+            <h1>物理學<i>×</i>主裡學</h1>
+            <p class="hero-quote">力看不見，卻決定了萬物的運動；<br>主看不見，卻支撐著生命的軌跡。</p>
+            <p class="hero-author">高春霖 著</p>
+            <a class="btn" href="https://www.pbooks.com.tw/products/C295" target="_blank">立即購買 (現貨供應)</a>
+        </section>
+
+        <section id="about">
+            <div class="section-header">
+                <p class="section-index">01</p>
+                <p class="kicker">ABOUT THE BOOK</p>
+                <h2>從自然現象，<br>回望信仰與生命。</h2>
+            </div>
+            <div class="about-content">
+                <p>一位長年站在國中物理教學現場的教師，退休之後，仍然持續思想、持續書寫，並將多年來對物理現象的觀察，轉化為屬靈的反省與信仰的體會，這是本書最鮮明、也最可貴的地方。</p>
+                <p>高春霖執事，高雄師範大學物理學系畢業，曾任國中物理教師，長年深耕基礎科學教育。物理學對他而言，不只是教室裡的課程內容，也不只是公式、定律與實驗，更是一扇認識世界秩序的窗口。正因為多年與物理為伍，他在受造世界的規律之中，看見的不只是知識的架構，更是值得人停下來思想的生命提醒。</p>
+                <p>除了教學與專業之外，高春霖執事多年來也十分重視讀經生活。閱讀聖經對他而言，是每日信仰生活中不可缺少的一部分。即便退休之後，這樣的習慣依然沒有改變，他仍然持續讀經、默想聖經的信息，讓神的話成為思想與生命的重要根基。這樣長年累積的讀經生活，也自然成為他書寫與反省的重要來源。</p>
+                <p>本書所收錄的文章，正是從這樣的生命背景中自然發展出來的。作者以物理教師特有的眼光，從壓力、浮力、反作用力、摩擦力、光、磁、波、熱、電、時間、空間，甚至黑洞、超導體等主題出發，從這些自然現象若放在信仰裡來看，能否成為幫助我們認識神、認識人、認識自己屬靈光景的一面鏡子？</p>
+                <p>這樣的寫作方式並不常見。它既不是學術論文，也不是單純的科普文章，更不是把科學名詞表面套進宗教語言裡而已。作者以教師長年累積的表達能力，把原本較抽象的物理概念講得清楚、講得生活化，再順勢轉入信仰上的聯想與反省，使讀者讀來不覺生硬，反而常有一種豁然開朗之感。</p>
+            </div>
+            <div class="cross-section">
+                <div class="cross-word cross-word-left"><span>PHYSICS</span><strong>物理學</strong><p>觀察物質、能量、運動與自然規律。</p></div>
+                <div class="cross-mark">×</div>
+                <div class="cross-word cross-word-right"><span>THEOLOGY IN LIFE</span><strong>主裡學</strong><p>從受造世界回望神、人與生命。</p></div>
+            </div>
+        </section>
+
+        <!-- 區塊 2：書籍目錄 (主題卡片網格) -->
+        <section id="chapters">
+            <div class="section-header">
+                <p class="section-index">02</p>
+                <p class="kicker">TABLE OF CONTENTS</p>
+                <h2>七大主題目錄</h2>
+            </div>
+            
+            <div class="themes-grid">
+                <button class="theme-card" data-target="ch1">
+                    <span class="num">01</span><span class="title">力學與運動</span>
+                </button>
+                <button class="theme-card" data-target="ch2">
+                    <span class="num">02</span><span class="title">波動、聲學與光學</span>
+                </button>
+                <button class="theme-card" data-target="ch3">
+                    <span class="num">03</span><span class="title">電磁學</span>
+                </button>
+                <button class="theme-card" data-target="ch4">
+                    <span class="num">04</span><span class="title">近代宇宙與物理</span>
+                </button>
+                <button class="theme-card" data-target="ch5">
+                    <span class="num">05</span><span class="title">熱學與物質性質</span>
+                </button>
+                <button class="theme-card" data-target="ch6">
+                    <span class="num">06</span><span class="title">方法與科學思維</span>
+                </button>
+                <button class="theme-card" data-target="ch7">
+                    <span class="num">07</span><span class="title">跨域生命科學與物理聯想</span>
+                </button>
+            </div>
+        </section>
+
+        <footer class="site-footer">
+            <p><strong>物理學×主裡學</strong>｜高春霖 著／腓利門書房出版</p>
+            <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.5;">© 2026 Philemon Books. All rights reserved.</p>
+            <a class="btn footer-home" href="https://news.pbooks.com.tw/">返回首頁</a>
+        </footer>
+    </div>
+
+    <!-- 全螢幕目錄彈窗 (Modal) -->
+    <div class="modal-overlay" id="chapterModal">
+        <button class="modal-close" id="closeModal">&times;</button>
+        
+        <div class="modal-content" id="modalContent">
+            
+            <!-- Chapter 1 -->
+            <div class="modal-pane" id="ch1">
+                <div class="anim-wrapper">
+                    <div class="icon-ch1"></div>
+                    <div class="anim-title">CH 01. 力學與運動</div>
+                </div>
+                <div class="list-wrapper">
+                    <ul class="article-list">
+                        <li class="article-item"><span class="article-title"><span>1.1</span>喜樂的心、憂傷的靈</span><span class="article-page">11</span></li>
+                        <li class="article-item"><span class="article-title"><span>1.2</span>從反作用力定律看做人道理</span><span class="article-page">16</span></li>
+                        <li class="article-item"><span class="article-title"><span>1.3</span>摩擦力的聯想──享受聖靈充滿的喜悅</span><span class="article-page">20</span></li>
+                        <li class="article-item"><span class="article-title"><span>1.4</span>摩擦力的聯想──信仰根基穩固嗎？</span><span class="article-page">25</span></li>
+                        <li class="article-item"><span class="article-title"><span>1.5</span>新約聖經中的天平</span><span class="article-page">30</span></li>
+                        <li class="article-item"><span class="article-title"><span>1.6</span>智慧的摘脱與卸載</span><span class="article-page">36</span></li>
+                        <li class="article-item"><span class="article-title"><span>1.7</span>木頭沉、斧頭浮之間</span><span class="article-page">42</span></li>
+                        <li class="article-item"><span class="article-title"><span>1.8</span>樂於與人同工的真神</span><span class="article-page">46</span></li>
+                        <li class="article-item"><span class="article-title"><span>1.9</span>正功、負功，還是作虛功？</span><span class="article-page">50</span></li>
+                        <li class="article-item"><span class="article-title"><span>1.10</span>由壓力的公式來學靠主</span><span class="article-page">55</span></li>
+                        <li class="article-item"><span class="article-title"><span>1.11</span>耐心等候熱氣流如鷹展翅上騰</span><span class="article-page">59</span></li>
+                        <li class="article-item"><span class="article-title"><span>1.12</span>舊約聖經中的天平</span><span class="article-page">64</span></li>
+                        <li class="article-item"><span class="article-title"><span>1.13</span>跟隨耶穌行走海面之上</span><span class="article-page">69</span></li>
+                        <li class="article-item"><span class="article-title"><span>1.14</span>錯過牛頓錯過保羅</span><span class="article-page">74</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Chapter 2 -->
+            <div class="modal-pane" id="ch2">
+                <div class="anim-wrapper">
+                    <div class="icon-ch2"><div></div><div></div><div></div></div>
+                    <div class="anim-title">CH 02. 波動、聲學與光學</div>
+                </div>
+                <div class="list-wrapper">
+                    <ul class="article-list">
+                        <li class="article-item"><span class="article-title"><span>2.1</span>從共鳴現象談同理心</span><span class="article-page">79</span></li>
+                        <li class="article-item"><span class="article-title"><span>2.2</span>每當看見那道神憐憫的記號──彩虹</span><span class="article-page">82</span></li>
+                        <li class="article-item"><span class="article-title"><span>2.3</span>神就是光</span><span class="article-page">87</span></li>
+                        <li class="article-item"><span class="article-title"><span>2.4</span>聖經中的鏡子</span><span class="article-page">90</span></li>
+                        <li class="article-item"><span class="article-title"><span>2.5</span>藍色代表屬天</span><span class="article-page">95</span></li>
+                        <li class="article-item"><span class="article-title"><span>2.6</span>閃電、雷轟，傳真道</span><span class="article-page">98</span></li>
+                        <li class="article-item"><span class="article-title"><span>2.7</span>鬆弦與細拉</span><span class="article-page">104</span></li>
+                        <li class="article-item"><span class="article-title"><span>2.8</span>鋼琴</span><span class="article-page">109</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Chapter 3 -->
+            <div class="modal-pane" id="ch3">
+                <div class="anim-wrapper">
+                    <div class="icon-ch3"></div>
+                    <div class="anim-title">CH 03. 電磁學</div>
+                </div>
+                <div class="list-wrapper">
+                    <ul class="article-list">
+                        <li class="article-item"><span class="article-title"><span>3.1</span>消磁的磁鐵與失了味的鹽</span><span class="article-page">115</span></li>
+                        <li class="article-item"><span class="article-title"><span>3.2</span>超導體的聯想</span><span class="article-page">120</span></li>
+                        <li class="article-item"><span class="article-title"><span>3.3</span>電學之父法拉第</span><span class="article-page">125</span></li>
+                        <li class="article-item"><span class="article-title"><span>3.4</span>摩擦力的聯想──信仰根基穩固嗎？</span><span class="article-page">128</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Chapter 4 -->
+            <div class="modal-pane" id="ch4">
+                <div class="anim-wrapper">
+                    <div class="icon-ch4"></div>
+                    <div class="anim-title">CH 04. 近代宇宙與物理</div>
+                </div>
+                <div class="list-wrapper">
+                    <ul class="article-list">
+                        <li class="article-item"><span class="article-title"><span>4.1</span>人算什麼？</span><span class="article-page">135</span></li>
+                        <li class="article-item"><span class="article-title"><span>4.2</span>光有波、粒二象性的聯想</span><span class="article-page">140</span></li>
+                        <li class="article-item"><span class="article-title"><span>4.3</span>是古典力學還是量子力學？</span><span class="article-page">144</span></li>
+                        <li class="article-item"><span class="article-title"><span>4.4</span>坐在大圈之上的神</span><span class="article-page">149</span></li>
+                        <li class="article-item"><span class="article-title"><span>4.5</span>看清虛空、追求真實</span><span class="article-page">154</span></li>
+                        <li class="article-item"><span class="article-title"><span>4.6</span>神的旨意沒有機率問題</span><span class="article-page">159</span></li>
+                        <li class="article-item"><span class="article-title"><span>4.7</span>追求超越時間與空間的信心</span><span class="article-page">165</span></li>
+                        <li class="article-item"><span class="article-title"><span>4.8</span>黑洞的聯想</span><span class="article-page">169</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Chapter 5 -->
+            <div class="modal-pane" id="ch5">
+                <div class="anim-wrapper">
+                    <div class="icon-ch5"><div></div><div></div><div></div></div>
+                    <div class="anim-title">CH 05. 熱學與物質性質</div>
+                </div>
+                <div class="list-wrapper">
+                    <ul class="article-list">
+                        <li class="article-item"><span class="article-title"><span>5.1</span>人以皮代皮，談皮膚的聯想</span><span class="article-page">175</span></li>
+                        <li class="article-item"><span class="article-title"><span>5.2</span>新酒與新皮袋</span><span class="article-page">180</span></li>
+                        <li class="article-item"><span class="article-title"><span>5.3</span>老底嘉咖啡，躺平的信仰？</span><span class="article-page">185</span></li>
+                        <li class="article-item"><span class="article-title"><span>5.4</span>聖經中的金鋼石</span><span class="article-page">190</span></li>
+                        <li class="article-item"><span class="article-title"><span>5.5</span>腹中的活水江河</span><span class="article-page">195</span></li>
+                        <li class="article-item"><span class="article-title"><span>5.6</span>黑暗與寒冷的真相</span><span class="article-page">201</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Chapter 6 -->
+            <div class="modal-pane" id="ch6">
+                <div class="anim-wrapper">
+                    <div class="icon-ch6"><div></div></div>
+                    <div class="anim-title">CH 06. 方法與科學思維</div>
+                </div>
+                <div class="list-wrapper">
+                    <ul class="article-list">
+                        <li class="article-item"><span class="article-title"><span>6.1</span>人為的測量必有誤差</span><span class="article-page">207</span></li>
+                        <li class="article-item"><span class="article-title"><span>6.2</span>教育真理盡在聖經</span><span class="article-page">212</span></li>
+                        <li class="article-item"><span class="article-title"><span>6.3</span>是實驗組還是對照組？</span><span class="article-page">217</span></li>
+                        <li class="article-item"><span class="article-title"><span>6.4</span>生命的導航系統</span><span class="article-page">222</span></li>
+                        <li class="article-item"><span class="article-title"><span>6.5</span>給文士般的天國使徒們</span><span class="article-page">226</span></li>
+                        <li class="article-item"><span class="article-title"><span>6.6</span>豈不是應當的嗎？</span><span class="article-page">230</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Chapter 7 -->
+            <div class="modal-pane" id="ch7">
+                <div class="anim-wrapper">
+                    <div class="icon-ch7"></div>
+                    <div class="anim-title">CH 07. 跨域生命科學</div>
+                </div>
+                <div class="list-wrapper">
+                    <ul class="article-list">
+                        <li class="article-item"><span class="article-title"><span>7.1</span>有一種細胞稱為幹細胞</span><span class="article-page">237</span></li>
+                    </ul>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- 背景粒子與彈窗互動邏輯 -->
+    <script>
+        // --- 彈窗 (Modal) 邏輯 ---
+        const themeCards = document.querySelectorAll('.theme-card');
+        const modal = document.getElementById('chapterModal');
+        const closeModalBtn = document.getElementById('closeModal');
+        const panes = document.querySelectorAll('.modal-pane');
+        let animTimeout;
+
+        function openModal(targetId) {
+            // 隱藏所有面板，移除顯示狀態
+            panes.forEach(p => {
+                p.classList.remove('active');
+                p.classList.remove('show-list');
+            });
+            
+            // 鎖定背景滾動
+            document.body.classList.add('modal-open');
+            
+            // 顯示當前面板並開啟彈窗
+            const targetPane = document.getElementById(targetId);
+            targetPane.classList.add('active');
+            modal.classList.add('open');
+
+            // 1.2 秒後觸發展開目錄清單的動畫
+            animTimeout = setTimeout(() => {
+                targetPane.classList.add('show-list');
+            }, 1200);
+        }
+
+        function closeModal() {
+            modal.classList.remove('open');
+            document.body.classList.remove('modal-open');
+            clearTimeout(animTimeout);
+        }
+
+        themeCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const targetId = card.getAttribute('data-target');
+                openModal(targetId);
+            });
+        });
+
+        closeModalBtn.addEventListener('click', closeModal);
+
+        // 點擊遮罩背景也能關閉
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // --- 宇宙引力粒子系統 ---
+        const canvas = document.getElementById('universe');
+        const ctx = canvas.getContext('2d');
+
+        function resize() {
+            canvas.width = window.innerWidth * window.devicePixelRatio;
+            canvas.height = window.innerHeight * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        let attractor = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+
+        window.addEventListener('touchmove', (e) => { if(e.touches.length > 0) { attractor.x = e.touches[0].clientX; attractor.y = e.touches[0].clientY; } });
+        window.addEventListener('mousemove', (e) => { attractor.x = e.clientX; attractor.y = e.clientY; });
+
+        class Particle {
+            constructor() { this.reset(true); }
+            reset(initial = false) {
+                this.x = initial ? Math.random() * window.innerWidth : attractor.x + (Math.random() - 0.5) * window.innerWidth;
+                this.y = initial ? Math.random() * window.innerHeight : attractor.y + (Math.random() - 0.5) * window.innerHeight;
+                this.vx = (Math.random() - 0.5) * 1.5;
+                this.vy = (Math.random() - 0.5) * 1.5;
+                this.radius = Math.random() * 1.2 + 0.4;
+                this.alpha = Math.random() * 0.6 + 0.1;
+                this.gravityStrength = Math.random() * 0.02 + 0.005;
+            }
+            update() {
+                const dx = attractor.x - this.x;
+                const dy = attractor.y - this.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance < 10) { this.reset(); } else {
+                    const force = this.gravityStrength * (100 / distance);
+                    this.vx += (dx / distance) * force;
+                    this.vy += (dy / distance) * force;
+                }
+                this.vx *= 0.98; this.vy *= 0.98; this.x += this.vx; this.y += this.vy;
+            }
+            draw() {
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(197, 168, 128, ${this.alpha})`; ctx.fill();
+            }
+        }
+
+        const particleCount = Math.min(window.innerWidth / 4, 200); 
+        const particles = [];
+        for (let i = 0; i < particleCount; i++) { particles.push(new Particle()); }
+
+        function animate() {
+            ctx.fillStyle = 'rgba(11, 12, 16, 0.1)';
+            ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+</html>
