@@ -112,6 +112,10 @@
       grid-template-rows: repeat(3, minmax(98px, 1fr)) minmax(74px, .72fr) minmax(98px, .86fr);
     }
 
+    .schedule.no-prayer {
+      grid-template-rows: repeat(3, minmax(98px, 1fr)) minmax(98px, .9fr);
+    }
+
     .item {
       min-width: 0;
       display: flex;
@@ -227,10 +231,100 @@
       .shell { padding-inline: 32px; padding-top: 28px; }
       .topbar { min-height: 74px; }
       .schedule { grid-template-rows: repeat(3, minmax(118px, 1fr)) minmax(90px, .72fr) minmax(112px, .86fr); }
+      .schedule.no-prayer { grid-template-rows: repeat(3, minmax(118px, 1fr)) minmax(112px, .86fr); }
       .label { margin-bottom: 12px; }
     }
 
-    @media (max-height: 660px) {
+    @media (max-width: 480px) {
+      .topbar { gap: 8px; }
+
+      .now {
+        display: block;
+        overflow: hidden;
+      }
+
+      .date { font-size: clamp(1.55rem, 7.2vw, 1.85rem); }
+
+      .time {
+        display: block;
+        margin-top: 5px;
+        font-size: .78rem;
+      }
+
+      .live {
+        min-height: 36px;
+        gap: 6px;
+        padding: 0 11px;
+        font-size: .68rem;
+        letter-spacing: .14em;
+      }
+
+      .people .value { font-size: clamp(1.85rem, 8vw, 3.5rem); }
+    }
+
+    @media (min-width: 820px) {
+      body {
+        display: grid;
+        place-items: center;
+        background: var(--soft);
+        padding: 24px;
+      }
+
+      .shell {
+        width: min(calc(100vw - 48px), calc((100svh - 48px) * 4 / 3), 1120px);
+        height: min(calc(100svh - 48px), calc((100vw - 48px) * 3 / 4), 840px);
+        min-height: 0;
+        max-width: none;
+        padding: 26px 34px 28px;
+        border-radius: 28px;
+        background: #fff;
+        box-shadow: 0 18px 60px rgba(0, 0, 0, .06);
+        overflow: hidden;
+      }
+
+      .topbar {
+        min-height: 72px;
+        padding: 0 4px 8px;
+      }
+
+      .date { font-size: clamp(2rem, 3vw, 2.65rem); }
+      .time { font-size: clamp(1rem, 1.5vw, 1.2rem); }
+
+      .schedule,
+      .schedule.no-prayer {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: repeat(3, minmax(0, 1fr));
+      }
+
+      .duty-morning { grid-column: 1; grid-row: 1; }
+      .duty-afternoon { grid-column: 1; grid-row: 2; }
+      .duty-night { grid-column: 1; grid-row: 3; border-bottom: 0; }
+
+      .reading {
+        grid-column: 2;
+        grid-row: 1 / span 2;
+        border-left: 1px solid var(--line);
+      }
+
+      .people {
+        grid-column: 2;
+        grid-row: 3;
+        border-left: 1px solid var(--line);
+      }
+
+      .value { font-size: clamp(3.2rem, 5.2vw, 5.5rem); }
+      .reading .value { font-size: clamp(2.2rem, 3.6vw, 3.8rem); }
+      .people .value { font-size: clamp(2.2rem, 3.45vw, 3.65rem); }
+
+      .schedule.no-prayer .piano-only {
+        grid-column: 2;
+        grid-row: 1 / span 3;
+        border-left: 1px solid var(--line);
+        border-bottom: 0;
+      }
+    }
+
+    @media (max-width: 819px) and (max-height: 660px) {
       .shell { padding-top: max(10px, env(safe-area-inset-top)); padding-bottom: max(6px, env(safe-area-inset-bottom)); }
       .topbar { min-height: 50px; }
       .schedule { grid-template-rows: repeat(3, minmax(78px, 1fr)) minmax(62px, .7fr) minmax(78px, .82fr); }
@@ -255,9 +349,9 @@
     </header>
 
     <section class="schedule loading" id="schedule" aria-live="polite" aria-busy="true">
-      <article class="item"><p class="label">上午值日</p><p class="value">讀取中</p></article>
-      <article class="item"><p class="label">下午值日</p><p class="value">讀取中</p></article>
-      <article class="item"><p class="label">值夜</p><p class="value">讀取中</p></article>
+      <article class="item duty-morning"><p class="label">上午值日</p><p class="value">讀取中</p></article>
+      <article class="item duty-afternoon"><p class="label">下午值日</p><p class="value">讀取中</p></article>
+      <article class="item duty-night"><p class="label">值夜</p><p class="value">讀取中</p></article>
       <article class="item reading"><p class="label">讀經進度</p><p class="value">讀取中</p></article>
       <div class="people">
         <article class="item"><p class="label">主領</p><p class="value">讀取中</p></article>
@@ -470,17 +564,17 @@
 
       function render(duty, prayer) {
         const dutyRows = [
-          item('上午值日', duty.morning),
-          item('下午值日', duty.afternoon),
-          item('值夜', duty.night)
+          item('上午值日', duty.morning, 'duty-morning'),
+          item('下午值日', duty.afternoon, 'duty-afternoon'),
+          item('值夜', duty.night, 'duty-night')
         ];
         if (prayer) {
           dutyRows.push(item('讀經進度', prayer.reading, 'reading'));
           dutyRows.push(`<div class="people">${item('主領', prayer.leader)}${item('司琴', duty.piano)}</div>`);
-          scheduleEl.style.gridTemplateRows = '';
+          scheduleEl.classList.remove('no-prayer');
         } else {
           dutyRows.push(item('司琴', duty.piano, 'piano-only'));
-          scheduleEl.style.gridTemplateRows = 'repeat(3, minmax(98px, 1fr)) minmax(98px, .9fr)';
+          scheduleEl.classList.add('no-prayer');
         }
         scheduleEl.classList.remove('loading');
         scheduleEl.setAttribute('aria-busy', 'false');
