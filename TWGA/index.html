@@ -50,9 +50,9 @@
     .now {
       min-width: 0;
       display: flex;
-      align-items: baseline;
-      gap: 10px;
-      white-space: nowrap;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 7px;
     }
 
     .date {
@@ -61,13 +61,33 @@
       line-height: 1.05;
       font-weight: 650;
       letter-spacing: -.04em;
+      white-space: nowrap;
+    }
+
+    .date-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: clamp(.76rem, 3.2vw, .95rem);
+      font-weight: 550;
+      letter-spacing: .08em;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .meta-dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: #c7c7cc;
     }
 
     .time {
-      color: var(--muted);
-      font-size: clamp(.9rem, 3.7vw, 1.1rem);
-      font-weight: 550;
-      letter-spacing: .02em;
+      color: #515154;
+      font-weight: 650;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: .04em;
     }
 
     .live {
@@ -237,19 +257,9 @@
 
     @media (max-width: 480px) {
       .topbar { gap: 8px; }
-
-      .now {
-        display: block;
-        overflow: hidden;
-      }
-
       .date { font-size: clamp(1.55rem, 7.2vw, 1.85rem); }
-
-      .time {
-        display: block;
-        margin-top: 5px;
-        font-size: .78rem;
-      }
+      .now { gap: 6px; }
+      .date-meta { font-size: .74rem; gap: 7px; }
 
       .live {
         min-height: 36px;
@@ -288,7 +298,7 @@
       }
 
       .date { font-size: clamp(2rem, 3vw, 2.65rem); }
-      .time { font-size: clamp(1rem, 1.5vw, 1.2rem); }
+      .date-meta { font-size: clamp(.82rem, 1.2vw, 1rem); }
 
       .schedule,
       .schedule.no-prayer {
@@ -340,7 +350,11 @@
     <header class="topbar">
       <div class="now">
         <h1 class="date" id="page-date">日期讀取中</h1>
-        <time class="time" id="page-time">--:--</time>
+        <div class="date-meta">
+          <span id="page-weekday">星期－</span>
+          <span class="meta-dot" aria-hidden="true"></span>
+          <time class="time" id="page-time">--:--</time>
+        </div>
       </div>
       <a class="live" href="https://docs.google.com/spreadsheets/d/1Q0NQVNXnevAjlyvfmEHiy585aqqx-079JN-fJ4HuW7I/edit?gid=1608611473#gid=1608611473" target="_blank" rel="noopener noreferrer" aria-label="開啟值班表">
         <span class="live-dot" aria-hidden="true"></span>
@@ -374,6 +388,7 @@
       const scheduleEl = document.getElementById('schedule');
       const errorEl = document.getElementById('error');
       const dateEl = document.getElementById('page-date');
+      const weekdayEl = document.getElementById('page-weekday');
       const timeEl = document.getElementById('page-time');
       const retryEl = document.getElementById('retry');
       let callbackSequence = 0;
@@ -410,7 +425,8 @@
 
       function updateClock() {
         const now = taipeiNow();
-        dateEl.textContent = `${now.month}月${now.day}日 星期${weekdayLabel(now.weekday)}`;
+        dateEl.textContent = `${now.month}月${now.day}日`;
+        weekdayEl.textContent = `星期${weekdayLabel(now.weekday)}`;
         timeEl.textContent = timeFormatter.format(new Date());
       }
 
