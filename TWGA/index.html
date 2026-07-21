@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <title>今天誰值班？</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #1d1d1f;
+      --muted: #86868b;
+      --line: #eeeeef;
+      --soft: #f5f5f7;
+      --live: #34c759;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { margin: 0; min-height: 100%; }
+
+    body {
+      min-height: 100svh;
+      background: #fff;
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro TC", "SF Pro Display", "Helvetica Neue", "PingFang TC", "Noto Sans TC", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, a { font: inherit; }
+
+    .shell {
+      width: min(100%, 768px);
+      min-height: 100svh;
+      margin: 0 auto;
+      padding: max(18px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      min-height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex: 0 0 auto;
+    }
+
+    .now {
+      min-width: 0;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      white-space: nowrap;
+    }
+
+    .date {
+      margin: 0;
+      font-size: clamp(1.65rem, 7.3vw, 2.5rem);
+      line-height: 1.05;
+      font-weight: 650;
+      letter-spacing: -.04em;
+    }
+
+    .time {
+      color: var(--muted);
+      font-size: clamp(.9rem, 3.7vw, 1.1rem);
+      font-weight: 550;
+      letter-spacing: .02em;
+    }
+
+    .live {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 40px;
+      padding: 0 15px;
+      border-radius: 999px;
+      background: var(--soft);
+      color: var(--muted);
+      text-decoration: none;
+      font-size: .76rem;
+      font-weight: 650;
+      letter-spacing: .18em;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform .15s ease, background .15s ease;
+    }
+
+    .live:active { transform: scale(.96); }
+    .live:hover { background: #ececef; }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--live);
+      box-shadow: 0 0 0 4px rgba(52, 199, 89, .09);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: .45; }
+      50% { opacity: 1; }
+    }
+
+    .schedule {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: grid;
+      grid-template-rows: repeat(3, minmax(98px, 1fr)) minmax(74px, .72fr) minmax(98px, .86fr);
+    }
+
+    .item {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 9px 8px;
+      border-bottom: 1px solid var(--line);
+      overflow: hidden;
+    }
+
+    .item:last-child { border-bottom: 0; }
+
+    .label {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-size: clamp(.76rem, 3.1vw, .92rem);
+      line-height: 1;
+      font-weight: 550;
+      letter-spacing: .22em;
+      padding-left: .22em;
+      white-space: nowrap;
+    }
+
+    .value {
+      max-width: 100%;
+      margin: 0;
+      font-size: clamp(2.75rem, 13vw, 5.75rem);
+      line-height: 1;
+      font-weight: 650;
+      letter-spacing: -.055em;
+      white-space: nowrap;
+    }
+
+    .value.empty {
+      color: #c7c7cc;
+      font-size: clamp(1.9rem, 8.5vw, 4rem);
+      letter-spacing: -.04em;
+    }
+
+    .reading .value {
+      width: 100%;
+      padding: 0 4px;
+      font-size: clamp(1.65rem, 7.3vw, 3.7rem);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      letter-spacing: -.035em;
+    }
+
+    .people {
+      min-width: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .people .item {
+      border-bottom: 0;
+    }
+
+    .people .item + .item {
+      border-left: 1px solid var(--line);
+    }
+
+    .people .value {
+      font-size: clamp(2rem, 9.3vw, 4.6rem);
+    }
+
+    .piano-only .value {
+      font-size: clamp(2.75rem, 13vw, 5.75rem);
+    }
+
+    .loading .value {
+      width: min(55%, 250px);
+      height: clamp(42px, 10vw, 70px);
+      border-radius: 12px;
+      color: transparent;
+      background: linear-gradient(90deg, #f5f5f7 25%, #ececef 40%, #f5f5f7 65%);
+      background-size: 300% 100%;
+      animation: shimmer 1.35s infinite;
+    }
+
+    .loading .reading .value { width: min(75%, 400px); height: 40px; }
+    .loading .people .value { width: min(66%, 180px); height: 46px; }
+
+    @keyframes shimmer {
+      0% { background-position: 100% 0; }
+      100% { background-position: 0 0; }
+    }
+
+    .error {
+      flex: 1 1 auto;
+      display: grid;
+      place-content: center;
+      gap: 14px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .error[hidden] { display: none; }
+
+    .retry {
+      justify-self: center;
+      border: 0;
+      border-radius: 999px;
+      padding: 10px 18px;
+      background: var(--ink);
+      color: #fff;
+      cursor: pointer;
+    }
+
+    @media (min-width: 600px) {
+      .shell { padding-inline: 32px; padding-top: 28px; }
+      .topbar { min-height: 74px; }
+      .schedule { grid-template-rows: repeat(3, minmax(118px, 1fr)) minmax(90px, .72fr) minmax(112px, .86fr); }
+      .label { margin-bottom: 12px; }
+    }
+
+    @media (max-height: 660px) {
+      .shell { padding-top: max(10px, env(safe-area-inset-top)); padding-bottom: max(6px, env(safe-area-inset-bottom)); }
+      .topbar { min-height: 50px; }
+      .schedule { grid-template-rows: repeat(3, minmax(78px, 1fr)) minmax(62px, .7fr) minmax(78px, .82fr); }
+      .label { margin-bottom: 5px; }
+      .value { font-size: clamp(2.25rem, 10.5vw, 4.8rem); }
+      .reading .value { font-size: clamp(1.45rem, 6.5vw, 3.2rem); }
+      .people .value { font-size: clamp(1.8rem, 8.2vw, 4rem); }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="now">
+        <h1 class="date" id="page-date">日期讀取中</h1>
+        <time class="time" id="page-time">--:--</time>
+      </div>
+      <a class="live" href="https://docs.google.com/spreadsheets/d/1Q0NQVNXnevAjlyvfmEHiy585aqqx-079JN-fJ4HuW7I/edit?gid=1608611473#gid=1608611473" target="_blank" rel="noopener noreferrer" aria-label="開啟值班表">
+        <span class="live-dot" aria-hidden="true"></span>
+        LIVE
+      </a>
+    </header>
+
+    <section class="schedule loading" id="schedule" aria-live="polite" aria-busy="true">
+      <article class="item"><p class="label">上午值日</p><p class="value">讀取中</p></article>
+      <article class="item"><p class="label">下午值日</p><p class="value">讀取中</p></article>
+      <article class="item"><p class="label">值夜</p><p class="value">讀取中</p></article>
+      <article class="item reading"><p class="label">讀經進度</p><p class="value">讀取中</p></article>
+      <div class="people">
+        <article class="item"><p class="label">主領</p><p class="value">讀取中</p></article>
+        <article class="item"><p class="label">司琴</p><p class="value">讀取中</p></article>
+      </div>
+    </section>
+
+    <section class="error" id="error" hidden>
+      <div>目前無法讀取值班表</div>
+      <button class="retry" id="retry" type="button">重新整理</button>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      'use strict';
+
+      const SPREADSHEET_ID = '1Q0NQVNXnevAjlyvfmEHiy585aqqx-079JN-fJ4HuW7I';
+      const TIME_ZONE = 'Asia/Taipei';
+      const scheduleEl = document.getElementById('schedule');
+      const errorEl = document.getElementById('error');
+      const dateEl = document.getElementById('page-date');
+      const timeEl = document.getElementById('page-time');
+      const retryEl = document.getElementById('retry');
+      let callbackSequence = 0;
+      let isLoading = false;
+
+      const datePartsFormatter = new Intl.DateTimeFormat('en-CA', {
+        timeZone: TIME_ZONE,
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        weekday: 'short'
+      });
+
+      const timeFormatter = new Intl.DateTimeFormat('zh-TW', {
+        timeZone: TIME_ZONE,
+        hour: '2-digit',
+        minute: '2-digit',
+        hourCycle: 'h23'
+      });
+
+      function taipeiNow() {
+        const parts = Object.fromEntries(datePartsFormatter.formatToParts(new Date()).map(part => [part.type, part.value]));
+        return {
+          year: Number(parts.year),
+          month: Number(parts.month),
+          day: Number(parts.day),
+          weekday: parts.weekday
+        };
+      }
+
+      function weekdayLabel(shortName) {
+        return ({ Sun: '日', Mon: '一', Tue: '二', Wed: '三', Thu: '四', Fri: '五', Sat: '六' })[shortName] || '';
+      }
+
+      function updateClock() {
+        const now = taipeiNow();
+        dateEl.textContent = `${now.month}月${now.day}日 星期${weekdayLabel(now.weekday)}`;
+        timeEl.textContent = timeFormatter.format(new Date());
+      }
+
+      function clean(value) {
+        return String(value == null ? '' : value).replace(/\s+/g, ' ').trim();
+      }
+
+      function escapeHtml(value) {
+        return clean(value).replace(/[&<>'"]/g, char => ({
+          '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+        })[char]);
+      }
+
+      function dateKey(value) {
+        const text = clean(value);
+        let match = text.match(/Date\((\d{4}),\s*(\d{1,2}),\s*(\d{1,2})\)/);
+        if (match) return `${Number(match[2]) + 1}/${Number(match[3])}`;
+        match = text.match(/(?:\d{2,4}[年/.\-])?(\d{1,2})[月/.\-](\d{1,2})/);
+        return match ? `${Number(match[1])}/${Number(match[2])}` : '';
+      }
+
+      function effective(original, replacement) {
+        return clean(replacement) || clean(original) || '尚未安排';
+      }
+
+      function rowsFromPayload(payload) {
+        if (!payload || payload.status !== 'ok' || !payload.table) {
+          throw new Error(payload && payload.errors && payload.errors[0] ? payload.errors[0].detailed_message : '試算表回應錯誤');
+        }
+        return (payload.table.rows || []).map(row => (row.c || []).map(cell => clean(cell ? (cell.f ?? cell.v ?? '') : '')));
+      }
+
+      function querySheet(sheetName, range) {
+        return new Promise((resolve, reject) => {
+          const callback = `__twga_${Date.now()}_${callbackSequence++}`;
+          const script = document.createElement('script');
+          let finished = false;
+
+          const cleanup = () => {
+            if (finished) return;
+            finished = true;
+            clearTimeout(timeout);
+            delete window[callback];
+            script.remove();
+          };
+
+          const timeout = setTimeout(() => {
+            cleanup();
+            reject(new Error(`讀取 ${sheetName} 逾時`));
+          }, 12000);
+
+          window[callback] = payload => {
+            try {
+              const rows = rowsFromPayload(payload);
+              cleanup();
+              resolve(rows);
+            } catch (error) {
+              cleanup();
+              reject(error);
+            }
+          };
+
+          script.onerror = () => {
+            cleanup();
+            reject(new Error(`無法讀取 ${sheetName}`));
+          };
+
+          const params = new URLSearchParams({
+            sheet: sheetName,
+            range,
+            tqx: `out:json;responseHandler:${callback}`
+          });
+          script.src = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?${params}`;
+          document.head.appendChild(script);
+        });
+      }
+
+      async function firstAvailableSheet(candidates, range) {
+        let lastError;
+        for (const name of [...new Set(candidates)]) {
+          try {
+            return { name, rows: await querySheet(name, range) };
+          } catch (error) {
+            lastError = error;
+          }
+        }
+        throw lastError || new Error('找不到指定分頁');
+      }
+
+      function dutySheetNames(now) {
+        const yy = String(now.year).slice(-2);
+        const month = String(now.month);
+        const padded = month.padStart(2, '0');
+        return [
+          `${yy}_${month}`,
+          `${yy}_${month}值班`,
+          `${yy}_${month}值班表`,
+          `${yy}_${padded}`,
+          `${yy}_${padded}值班`,
+          `${yy}_${padded}值班表`
+        ];
+      }
+
+      function prayerSheetNames(now) {
+        const yy = String(now.year).slice(-2);
+        const pairStart = now.month % 2 === 1 ? now.month : now.month - 1;
+        const pairEnd = pairStart + 1;
+        return [
+          `${yy} ${pairStart}-${pairEnd}早禱`,
+          `${yy} ${pairStart}-${pairEnd}月早禱`,
+          `${now.year} ${pairStart}-${pairEnd}早禱`,
+          `${now.year} ${pairStart}-${pairEnd}月早禱`,
+          `${yy}' ${pairStart}-${pairEnd}早禱`,
+          `${yy}' ${pairStart}-${pairEnd}月早禱`
+        ];
+      }
+
+      function findToday(rows, column, now) {
+        const target = `${now.month}/${now.day}`;
+        return rows.find(row => dateKey(row[column]) === target);
+      }
+
+      function parseDuty(rows, now) {
+        const row = findToday(rows, 0, now);
+        if (!row) throw new Error('今天沒有值班資料');
+        return {
+          morning: effective(row[2], row[3]),
+          afternoon: effective(row[4], row[5]),
+          night: effective(row[6], row[7]),
+          piano: effective(row[8], row[9])
+        };
+      }
+
+      function parsePrayer(rows, now) {
+        const firstMonth = now.month % 2 === 1;
+        const dateColumn = firstMonth ? 0 : 5;
+        const leaderColumn = firstMonth ? 2 : 7;
+        const readingColumn = firstMonth ? 3 : 8;
+        const row = findToday(rows, dateColumn, now);
+        if (!row) return null;
+        const leader = clean(row[leaderColumn]);
+        const reading = clean(row[readingColumn]);
+        if (!leader || !reading || /安\s*息\s*日|例\s*假\s*日/.test(leader)) return null;
+        return { leader, reading };
+      }
+
+      function item(label, value, className = '') {
+        const isEmpty = value === '尚未安排';
+        return `<article class="item ${className}"><p class="label">${escapeHtml(label)}</p><p class="value${isEmpty ? ' empty' : ''}">${escapeHtml(value)}</p></article>`;
+      }
+
+      function render(duty, prayer) {
+        const dutyRows = [
+          item('上午值日', duty.morning),
+          item('下午值日', duty.afternoon),
+          item('值夜', duty.night)
+        ];
+        if (prayer) {
+          dutyRows.push(item('讀經進度', prayer.reading, 'reading'));
+          dutyRows.push(`<div class="people">${item('主領', prayer.leader)}${item('司琴', duty.piano)}</div>`);
+          scheduleEl.style.gridTemplateRows = '';
+        } else {
+          dutyRows.push(item('司琴', duty.piano, 'piano-only'));
+          scheduleEl.style.gridTemplateRows = 'repeat(3, minmax(98px, 1fr)) minmax(98px, .9fr)';
+        }
+        scheduleEl.classList.remove('loading');
+        scheduleEl.setAttribute('aria-busy', 'false');
+        scheduleEl.innerHTML = dutyRows.join('');
+      }
+
+      async function loadSchedule() {
+        if (isLoading) return;
+        isLoading = true;
+        updateClock();
+        const now = taipeiNow();
+        try {
+          const dutyResult = await firstAvailableSheet(dutySheetNames(now), 'B:K');
+          const duty = parseDuty(dutyResult.rows, now);
+          let prayer = null;
+          try {
+            const prayerResult = await firstAvailableSheet(prayerSheetNames(now), 'B:K');
+            prayer = parsePrayer(prayerResult.rows, now);
+          } catch (_) {
+            prayer = null;
+          }
+          render(duty, prayer);
+          errorEl.hidden = true;
+          scheduleEl.hidden = false;
+        } catch (error) {
+          console.error(error);
+          scheduleEl.hidden = true;
+          errorEl.hidden = false;
+        } finally {
+          isLoading = false;
+        }
+      }
+
+      retryEl.addEventListener('click', loadSchedule);
+      window.addEventListener('focus', loadSchedule);
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') loadSchedule();
+      });
+
+      updateClock();
+      loadSchedule();
+      setInterval(updateClock, 1000);
+      setInterval(loadSchedule, 60000);
+    })();
+  </script>
+</body>
+</html>
