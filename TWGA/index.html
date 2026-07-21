@@ -277,28 +277,35 @@
         display: grid;
         place-items: center;
         background: var(--soft);
-        padding: 24px;
+        padding: 16px;
       }
 
       .shell {
-        width: min(calc(100vw - 48px), calc((100svh - 48px) * 4 / 3), 1120px);
-        height: min(calc(100svh - 48px), calc((100vw - 48px) * 3 / 4), 840px);
+        width: min(calc(100vw - 32px), calc((100svh - 32px) * 4 / 3), 1680px);
+        height: min(calc(100svh - 32px), calc((100vw - 32px) * 3 / 4), 1260px);
         min-height: 0;
         max-width: none;
-        padding: 26px 34px 28px;
-        border-radius: 28px;
+        padding: clamp(28px, 2.6vw, 48px) clamp(34px, 3.2vw, 60px) clamp(30px, 2.8vw, 52px);
+        border-radius: clamp(26px, 2vw, 36px);
         background: #fff;
-        box-shadow: 0 18px 60px rgba(0, 0, 0, .06);
+        box-shadow: 0 22px 72px rgba(0, 0, 0, .065);
         overflow: hidden;
       }
 
       .topbar {
-        min-height: 72px;
-        padding: 0 4px 8px;
+        min-height: clamp(78px, 8svh, 108px);
+        padding: 0 4px clamp(10px, 1.2vh, 16px);
       }
 
-      .date { font-size: clamp(2rem, 3vw, 2.65rem); }
-      .date-meta { font-size: clamp(.82rem, 1.2vw, 1rem); }
+      .date { font-size: clamp(2.2rem, 2.7vw, 3.25rem); }
+      .date-meta { font-size: clamp(.9rem, 1.05vw, 1.15rem); }
+      .live {
+        min-height: clamp(42px, 3.4vw, 52px);
+        padding-inline: clamp(16px, 1.4vw, 22px);
+        font-size: clamp(.78rem, .8vw, .94rem);
+      }
+      .live-dot { width: 9px; height: 9px; }
+      .label { font-size: clamp(.86rem, 1vw, 1.1rem); }
 
       .schedule,
       .schedule.no-prayer {
@@ -322,9 +329,9 @@
         border-left: 1px solid var(--line);
       }
 
-      .value { font-size: clamp(3.2rem, 5.2vw, 5.5rem); }
-      .reading .value { font-size: clamp(2.2rem, 3.6vw, 3.8rem); }
-      .people .value { font-size: clamp(2.2rem, 3.45vw, 3.65rem); }
+      .value { font-size: clamp(3.5rem, 5.4vw, 7.25rem); }
+      .reading .value { font-size: clamp(2.5rem, 3.7vw, 4.8rem); }
+      .people .value { font-size: clamp(2.45rem, 3.55vw, 4.6rem); }
 
       .schedule.no-prayer .piano-only {
         grid-column: 2;
