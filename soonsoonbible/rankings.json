@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-21T04:34:26.034197+00:00",
+  "updatedAt": "2026-07-22T04:36:22.160347+00:00",
   "dateRangeLabel": "\u6700\u8fd1 30 \u5929",
   "keywordSearchTop5": [
     {
@@ -29,20 +29,20 @@
       "value": 7
     },
     {
+      "label": "Mat \u7b2c16\u7ae0",
+      "value": 6
+    },
+    {
+      "label": "Mat \u7b2c6\u7ae0",
+      "value": 6
+    },
+    {
       "label": "Jhn \u7b2c11\u7ae0",
       "value": 4
     },
     {
       "label": "Jhn \u7b2c1\u7ae0",
       "value": 4
-    },
-    {
-      "label": "Jug \u7b2c21\u7ae0",
-      "value": 3
-    },
-    {
-      "label": "Mat \u7b2c10\u7ae0",
-      "value": 3
     }
   ],
   "verseCopyTop5": [
