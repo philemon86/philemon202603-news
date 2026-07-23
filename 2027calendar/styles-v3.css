@@ -455,6 +455,12 @@ h1 span {
   line-height: 1.45;
 }
 
+.previous-grid .quantity-item > span {
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
 .quantity-item b {
   color: var(--ink);
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;

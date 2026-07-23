@@ -3,10 +3,10 @@ const statusApiUrl =
 const earlyBirdDeadline = new Date("2026-09-10T23:59:59+08:00").getTime();
 
 const previousProducts = [
-  { key: "a", letter: "A", label: "A款月曆" },
-  { key: "b", letter: "B", label: "B款月曆" },
-  { key: "c", letter: "C", label: "C款週曆手冊" },
-  { key: "d", letter: "D", label: "D款週曆手冊" },
+  { key: "a", label: "A款月曆" },
+  { key: "b", label: "B款月曆" },
+  { key: "c", label: "C款週曆手冊" },
+  { key: "d", label: "D款週曆手冊" },
 ];
 
 const currentProducts = [
@@ -82,9 +82,7 @@ function createQuantityGrid(order, products, className) {
     item.className = "quantity-item";
 
     const label = document.createElement("span");
-    const letter = document.createElement("b");
-    letter.textContent = product.letter;
-    label.append(letter, product.label);
+    label.textContent = product.label;
 
     const quantity = document.createElement("strong");
     quantity.textContent = Number(order[product.key] ?? 0).toLocaleString(
