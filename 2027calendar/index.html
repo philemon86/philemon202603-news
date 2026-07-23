@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>2027 月曆與週曆手冊預購｜腓利門書房</title>
+    <meta
+      name="description"
+      content="查詢各教會 A、B 款月曆及 C、D 款週曆手冊數量，並完成 2027 年預購表單。"
+    />
+    <meta property="og:title" content="2027 月曆與週曆手冊預購" />
+    <meta
+      property="og:description"
+      content="查詢教會訂購數量，並完成線上預購表單。"
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="https://news.pbooks.com.tw/2027calendar/"
+    />
+    <meta
+      property="og:image"
+      content="https://news.pbooks.com.tw/2027calendar/og.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="./favicon.svg" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <header class="site-header">
+        <a class="brand" href="https://news.pbooks.com.tw/">
+          <span class="brand-dot" aria-hidden="true"></span>
+          PHILEMON NEWS
+        </a>
+        <span class="season">2027 CALENDAR</span>
+      </header>
+
+      <section class="hero" aria-labelledby="page-title">
+        <div class="hero-copy">
+          <p class="eyebrow">2027 年度預購</p>
+          <h1 id="page-title">月曆與週曆手冊<span>預購查詢</span></h1>
+          <p class="hero-lead">
+            先查詢教會目前的訂購數量，再於下方完成預購表單。
+          </p>
+        </div>
+        <div class="edition-mark" aria-hidden="true">
+          <strong>27</strong>
+          <span>YEAR</span>
+        </div>
+      </section>
+
+      <section class="lookup-section" aria-labelledby="lookup-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">STEP 01</p>
+            <h2 id="lookup-title">查詢教會訂購數量</h2>
+          </div>
+          <span class="record-count" id="record-count">載入資料中</span>
+        </div>
+
+        <div class="lookup-card">
+          <form class="search-form" id="search-form">
+            <label for="church-search">教會／單位名稱</label>
+            <div class="search-row">
+              <div class="search-box">
+                <span class="search-icon" aria-hidden="true">⌕</span>
+                <input
+                  id="church-search"
+                  type="search"
+                  placeholder="例如：台北教會"
+                  autocomplete="off"
+                  role="combobox"
+                  aria-autocomplete="list"
+                  aria-expanded="false"
+                  aria-controls="church-suggestions"
+                />
+                <div
+                  id="church-suggestions"
+                  class="suggestions"
+                  role="listbox"
+                  hidden
+                ></div>
+              </div>
+              <button class="search-button" type="submit">查詢</button>
+            </div>
+          </form>
+
+          <p class="lookup-message" id="lookup-message" role="status" hidden></p>
+
+          <div id="result-area">
+            <div class="lookup-placeholder">
+              <span aria-hidden="true">01—04</span>
+              <p>輸入名稱後，即可一次查看 A、B、C、D 四款數量。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="form-section"
+        id="preorder-form"
+        aria-labelledby="form-title"
+      >
+        <div class="section-heading form-heading">
+          <div>
+            <p class="section-kicker">STEP 02</p>
+            <h2 id="form-title">填寫 2027 預購表單</h2>
+          </div>
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSdpO4tY6VHHhLWLpxbgnBea-atV2p2_T04Nap79WZiRvMoshQ/viewform"
+            target="_blank"
+            rel="noreferrer"
+          >
+            另開表單 ↗
+          </a>
+        </div>
+        <div class="form-frame">
+          <iframe
+            src="https://docs.google.com/forms/d/e/1FAIpQLSdpO4tY6VHHhLWLpxbgnBea-atV2p2_T04Nap79WZiRvMoshQ/viewform?embedded=true"
+            title="2027年月曆、週曆手冊暨臺灣傳教100周年見證集預購表單"
+            loading="lazy"
+          >
+            載入中…
+          </iframe>
+        </div>
+      </section>
+
+      <footer>
+        <span>腓利門實業股份有限公司</span>
+        <a href="https://news.pbooks.com.tw/">返回 PHILEMON NEWS</a>
+      </footer>
+    </main>
+  </body>
+</html>
