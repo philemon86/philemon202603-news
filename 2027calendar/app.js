@@ -351,7 +351,7 @@ function handleStatusInput() {
     } catch (error) {
       if (error.name !== "AbortError") renderOrderStatus("error");
     }
-  }, 700);
+  }, 200);
 }
 
 searchInput.addEventListener("input", renderPreviousResults);
