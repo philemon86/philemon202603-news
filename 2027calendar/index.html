@@ -8,7 +8,7 @@
     </title>
     <meta
       name="description"
-      content="輸入教會或祈禱所名稱，即時查詢 A、B 款月曆及 C、D 款週曆手冊訂購數量，並完成 2027 年預購表單。"
+      content="查詢去年訂購量、填寫 2027 預購表單，並安全確認本次月曆、週曆手冊與見證集的預購狀態。"
     />
     <meta
       property="og:title"
@@ -16,7 +16,7 @@
     />
     <meta
       property="og:description"
-      content="即時查詢教會或祈禱所訂購數量，並完成線上預購表單。"
+      content="查詢去年訂購量、填寫線上表單，並確認本次預購是否成功。"
     />
     <meta property="og:type" content="website" />
     <meta
@@ -29,68 +29,79 @@
     />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="./favicon.svg" />
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles-v3.css" />
     <script src="./app.js" defer></script>
   </head>
   <body>
-    <main>
-      <header class="site-header">
-        <a class="brand" href="https://news.pbooks.com.tw/">
-          <span class="brand-dot" aria-hidden="true"></span>
-          PHILEMON NEWS
-        </a>
-        <span class="season">2027 PREORDER</span>
-      </header>
+    <aside class="early-bird-bar" aria-live="polite">
+      <div class="early-bird-inner">
+        <span class="early-label">見證集早鳥</span>
+        <strong>2026.09.10 截止</strong>
+        <div
+          class="countdown"
+          id="countdown"
+          aria-label="距離早鳥截止時間"
+        >
+          <span><b id="countdown-days">--</b>天</span>
+          <span><b id="countdown-hours">--</b>時</span>
+          <span><b id="countdown-minutes">--</b>分</span>
+          <span><b id="countdown-seconds">--</b>秒</span>
+        </div>
+        <span class="countdown-expired" id="countdown-expired" hidden>
+          早鳥預購已截止
+        </span>
+      </div>
+    </aside>
 
+    <header class="site-header">
+      <div class="site-header-inner">
+        <a class="brand" href="https://news.pbooks.com.tw/">
+          PHILEMON NEWS // 腓利門
+        </a>
+        <span class="season">
+          <i aria-hidden="true"></i> 2027 PRE-ORDER INDEX
+        </span>
+      </div>
+    </header>
+
+    <main>
       <section class="hero" aria-labelledby="page-title">
-        <div class="hero-copy">
-          <p class="eyebrow">2027 預購說明</p>
-          <h1 id="page-title" class="long-title">
-            2027年月曆、週曆手冊
-            <span>
-              暨《臺灣傳教100周年見證集》<br />
-              預購說明
-            </span>
-          </h1>
-          <p class="hero-lead">
-            輸入教會或祈禱所名稱，即時查看目前訂購數量，再於下方完成預購表單。
-          </p>
-        </div>
-        <div class="edition-mark" aria-hidden="true">
-          <strong>27</strong>
-          <span>YEAR</span>
-        </div>
+        <p class="issue-line">VOL. 2027 / ANNUAL CALENDAR &amp; BOOK</p>
+        <h1 id="page-title">
+          2027 年月曆、週曆手冊
+          <span>暨《臺灣傳教100周年見證集》預購</span>
+        </h1>
+        <p class="hero-lead">
+          先查詢去年訂購量，再填寫預購表單。送出後可於第三步確認是否預購成功，以及本次各品項的訂購數量。
+        </p>
       </section>
 
-      <section class="lookup-section" aria-labelledby="lookup-title">
-        <div class="section-heading">
+      <section class="step-section" aria-labelledby="lookup-title">
+        <div class="step-heading">
           <div>
-            <p class="section-kicker">STEP 01</p>
+            <span class="step-number">STEP 01</span>
             <h2 id="lookup-title">查詢去年月曆訂購量</h2>
           </div>
-          <span class="record-count" id="record-count">載入資料中</span>
+          <span class="step-code" id="record-count">LOADING RECORDS</span>
         </div>
 
-        <div class="lookup-card">
-          <label class="search-label" for="church-search">
-            輸入教會或祈禱所關鍵字
+        <div class="paper-card">
+          <label class="field-label" for="church-search">
+            CHURCH NAME SEARCH / 教會名稱關鍵字
           </label>
-          <div class="search-box">
-            <span class="search-icon" aria-hidden="true">⌕</span>
+          <div class="input-wrap">
             <input
               id="church-search"
               type="search"
-              placeholder="例如：台北、臺北、台北教会"
+              placeholder="至少輸入兩個字，例如：台北"
               autocomplete="off"
-              autofocus
             />
+            <span>LIVE SEARCH</span>
           </div>
 
-          <p class="lookup-message" id="lookup-message" role="status" hidden></p>
-
           <div id="result-area">
-            <div class="lookup-placeholder">
-              <span aria-hidden="true">A—D</span>
+            <div class="status-panel status-ready">
+              <small>[ STATUS: READY ]</small>
               <p>請輸入至少兩個字，查看四款商品的去年訂購量。</p>
             </div>
           </div>
@@ -98,21 +109,22 @@
       </section>
 
       <section
-        class="form-section"
+        class="step-section"
         id="preorder-form"
         aria-labelledby="form-title"
       >
-        <div class="section-heading form-heading">
+        <div class="step-heading">
           <div>
-            <p class="section-kicker">STEP 02</p>
+            <span class="step-number">STEP 02</span>
             <h2 id="form-title">填寫 2027 預購表單</h2>
           </div>
           <a
+            class="step-code step-link"
             href="https://docs.google.com/forms/d/e/1FAIpQLSdpO4tY6VHHhLWLpxbgnBea-atV2p2_T04Nap79WZiRvMoshQ/viewform"
             target="_blank"
             rel="noreferrer"
           >
-            另開表單 ↗
+            OPEN FORM ↗
           </a>
         </div>
         <div class="form-frame">
@@ -126,10 +138,47 @@
         </div>
       </section>
 
-      <footer>
-        <span>腓利門實業股份有限公司</span>
-        <a href="https://news.pbooks.com.tw/">返回 PHILEMON NEWS</a>
-      </footer>
+      <section class="step-section" aria-labelledby="status-title">
+        <div class="step-heading">
+          <div>
+            <span class="step-number">STEP 03</span>
+            <h2 id="status-title">確認是否預購成功</h2>
+          </div>
+          <span class="step-code">PRIVATE LOOKUP</span>
+        </div>
+
+        <div class="paper-card">
+          <label class="field-label" for="status-search">
+            ORDER STATUS / 輸入完整教會或祈禱所名稱
+          </label>
+          <div class="input-wrap">
+            <input
+              id="status-search"
+              type="search"
+              placeholder="例如：台北教會"
+              autocomplete="off"
+            />
+            <span>AUTO CHECK</span>
+          </div>
+          <p class="privacy-note">
+            僅核對教會名稱與五項訂購數量；地址、聯絡資料及其他表單內容不會顯示。
+          </p>
+
+          <div id="status-result">
+            <div class="status-panel status-ready">
+              <small>[ STATUS: WAITING ]</small>
+              <p>輸入完整名稱後，系統會自動確認預購狀態。</p>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
+
+    <footer>
+      <div>
+        <span>© 2027 PHILEMON ENTERPRISE CO., LTD.</span>
+        <a href="https://news.pbooks.com.tw/">RETURN TO MAIN SITE</a>
+      </div>
+    </footer>
   </body>
 </html>

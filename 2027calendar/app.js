@@ -1,16 +1,33 @@
-const products = [
-  { key: "a", letter: "A", code: "S040A", label: "A款月曆" },
-  { key: "b", letter: "B", code: "S040B", label: "B款月曆" },
-  { key: "c", letter: "C", code: "S040C", label: "C款週曆手冊" },
-  { key: "d", letter: "D", code: "S040D", label: "D款週曆手冊" },
+const statusApiUrl =
+  "https://philemon-2027-calendar.ppss10103s.chatgpt.site/api/order-status";
+const earlyBirdDeadline = new Date("2026-09-10T23:59:59+08:00").getTime();
+
+const previousProducts = [
+  { key: "a", letter: "A", label: "A款月曆" },
+  { key: "b", letter: "B", label: "B款月曆" },
+  { key: "c", letter: "C", label: "C款週曆手冊" },
+  { key: "d", letter: "D", label: "D款週曆手冊" },
+];
+
+const currentProducts = [
+  { key: "calendarA", letter: "A", label: "2027月曆 A款" },
+  { key: "calendarB", letter: "B", label: "2027月曆 B款" },
+  { key: "weeklyClassic", letter: "C", label: "週曆手冊・經典款" },
+  { key: "weeklyTrack", letter: "D", label: "週曆手冊・跑道款" },
+  { key: "testimony", letter: "E", label: "臺灣傳教100周年見證集" },
 ];
 
 const searchInput = document.querySelector("#church-search");
-const message = document.querySelector("#lookup-message");
 const resultArea = document.querySelector("#result-area");
 const recordCount = document.querySelector("#record-count");
+const statusInput = document.querySelector("#status-search");
+const statusResult = document.querySelector("#status-result");
+const countdown = document.querySelector("#countdown");
+const countdownExpired = document.querySelector("#countdown-expired");
 
 let orders = [];
+let statusTimer;
+let statusController;
 
 function normalizeSearch(value) {
   return value
@@ -21,53 +38,80 @@ function normalizeSearch(value) {
     .replace(/\s+/g, "");
 }
 
-function setMessage(text = "") {
-  message.textContent = text;
-  message.hidden = !text;
+function formatTime(value) {
+  return String(value).padStart(2, "0");
 }
 
-function renderPlaceholder(text = "請輸入至少兩個字，查看四款商品的去年訂購量。") {
+function updateCountdown() {
+  const remaining = Math.max(0, earlyBirdDeadline - Date.now());
+
+  if (remaining === 0) {
+    countdown.hidden = true;
+    countdownExpired.hidden = false;
+    return;
+  }
+
+  const days = Math.floor(remaining / 86_400_000);
+  const hours = Math.floor((remaining % 86_400_000) / 3_600_000);
+  const minutes = Math.floor((remaining % 3_600_000) / 60_000);
+  const seconds = Math.floor((remaining % 60_000) / 1_000);
+
+  document.querySelector("#countdown-days").textContent = days;
+  document.querySelector("#countdown-hours").textContent = formatTime(hours);
+  document.querySelector("#countdown-minutes").textContent =
+    formatTime(minutes);
+  document.querySelector("#countdown-seconds").textContent =
+    formatTime(seconds);
+}
+
+function renderStatusPanel(status, text, extraClass = "") {
   resultArea.innerHTML = `
-    <div class="lookup-placeholder">
-      <span aria-hidden="true">A—D</span>
+    <div class="status-panel ${extraClass}">
+      <small>[ STATUS: ${status} ]</small>
       <p>${text}</p>
     </div>
   `;
 }
 
-function createChurchResult(order) {
-  const article = document.createElement("article");
-  article.className = "church-result";
-
-  const heading = document.createElement("h3");
-  heading.textContent = order.name;
-
+function createQuantityGrid(order, products, className) {
   const grid = document.createElement("div");
-  grid.className = "quantity-grid";
+  grid.className = `quantity-grid ${className}`;
+
   products.forEach((product) => {
     const item = document.createElement("div");
     item.className = "quantity-item";
-    item.innerHTML = `
-      <span><b>${product.letter}</b>${product.label}</span>
-      <strong>${Number(order[product.key]).toLocaleString("zh-TW")}<small>份</small></strong>
-    `;
+
+    const label = document.createElement("span");
+    const letter = document.createElement("b");
+    letter.textContent = product.letter;
+    label.append(letter, product.label);
+
+    const quantity = document.createElement("strong");
+    quantity.textContent = Number(order[product.key] ?? 0).toLocaleString(
+      "zh-TW",
+    );
+    const unit = document.createElement("small");
+    unit.textContent = "份";
+    quantity.append(unit);
+
+    item.append(label, quantity);
     grid.append(item);
   });
 
-  article.append(heading, grid);
-  return article;
+  return grid;
 }
 
-function renderResults() {
+function renderPreviousResults() {
   const query = normalizeSearch(searchInput.value);
   const queryLength = Array.from(query).length;
-  setMessage();
 
   if (queryLength < 2) {
-    renderPlaceholder(
+    renderStatusPanel(
+      "READY",
       queryLength === 1
         ? "請再輸入一個字，即可開始查詢。"
-        : undefined,
+        : "請輸入至少兩個字，查看四款商品的去年訂購量。",
+      "status-ready",
     );
     return;
   }
@@ -79,14 +123,17 @@ function renderResults() {
   );
 
   if (matches.length === 0) {
-    renderPlaceholder();
-    setMessage("查無符合的教會或祈禱所，請換一個關鍵字再試一次。");
+    renderStatusPanel(
+      "NO MATCH",
+      "查無符合的教會或祈禱所，請換一個關鍵字再試一次。",
+      "status-warning",
+    );
     return;
   }
 
   const visibleMatches = matches.slice(0, 24);
   const wrapper = document.createElement("div");
-  wrapper.className = "result";
+  wrapper.className = "results";
   wrapper.setAttribute("aria-live", "polite");
 
   const summary = document.createElement("div");
@@ -97,28 +144,169 @@ function renderResults() {
 
   if (matches.length > visibleMatches.length) {
     const hint = document.createElement("span");
-    hint.textContent = `目前顯示前 ${visibleMatches.length} 筆，請再多輸入一個字縮小範圍。`;
+    hint.textContent = `顯示前 ${visibleMatches.length} 筆，請多輸入一字縮小範圍`;
     summary.append(hint);
   }
 
   const list = document.createElement("div");
   list.className = "church-results";
-  visibleMatches.forEach((order) => list.append(createChurchResult(order)));
+  visibleMatches.forEach((order) => {
+    const article = document.createElement("article");
+    article.className = "church-result";
+    const heading = document.createElement("h3");
+    heading.textContent = order.name;
+    article.append(
+      heading,
+      createQuantityGrid(order, previousProducts, "previous-grid"),
+    );
+    list.append(article);
+  });
 
   const note = document.createElement("p");
-  note.className = "result-note";
-  note.textContent = "未訂購的品項顯示為 0；數量依目前彙整資料呈現。";
-
-  const link = document.createElement("a");
-  link.className = "continue-link";
-  link.href = "#preorder-form";
-  link.innerHTML = "繼續填寫預購表單 <span aria-hidden=\"true\">↓</span>";
-
-  wrapper.append(summary, list, note, link);
+  note.className = "fine-print";
+  note.textContent = "未訂購品項顯示為 0；數量依去年彙整資料呈現。";
+  wrapper.append(summary, list, note);
   resultArea.replaceChildren(wrapper);
 }
 
-searchInput.addEventListener("input", renderResults);
+function renderOrderStatus(type, payload = null) {
+  statusResult.replaceChildren();
+
+  if (type === "idle") {
+    const queryLength = Array.from(
+      normalizeSearch(statusInput.value),
+    ).length;
+    statusResult.innerHTML = `
+      <div class="status-panel status-ready">
+        <small>[ STATUS: WAITING ]</small>
+        <p>${
+          queryLength > 0
+            ? "請輸入完整名稱，包含「教會」或「祈禱所」。"
+            : "輸入完整名稱後，系統會自動確認預購狀態。"
+        }</p>
+      </div>
+    `;
+    return;
+  }
+
+  if (type === "loading") {
+    statusResult.innerHTML = `
+      <div class="status-panel status-loading" role="status">
+        <small>[ STATUS: CHECKING ]</small>
+        <p>正在核對預購回覆…</p>
+      </div>
+    `;
+    return;
+  }
+
+  if (type === "not-found") {
+    statusResult.innerHTML = `
+      <div class="status-panel status-warning" role="status">
+        <small>[ STATUS: NOT FOUND ]</small>
+        <h3>你尚未訂購，請盡速下訂</h3>
+        <p>請確認名稱是否與表單填寫內容完全相同。</p>
+        <a class="text-link" href="#preorder-form">前往填寫預購表單 ↓</a>
+      </div>
+    `;
+    return;
+  }
+
+  if (type === "error") {
+    statusResult.innerHTML = `
+      <div class="status-panel status-warning" role="status">
+        <small>[ STATUS: TEMPORARILY UNAVAILABLE ]</small>
+        <p>目前暫時無法查詢，請稍後再試。</p>
+      </div>
+    `;
+    return;
+  }
+
+  const success = document.createElement("div");
+  success.className = "order-success";
+  success.setAttribute("aria-live", "polite");
+
+  const heading = document.createElement("div");
+  heading.className = "success-heading";
+  const headingCopy = document.createElement("div");
+  const status = document.createElement("small");
+  status.textContent = "[ STATUS: CONFIRMED ]";
+  const title = document.createElement("h3");
+  title.textContent = "你已經預購成功";
+  headingCopy.append(status, title);
+  const church = document.createElement("strong");
+  church.textContent = payload.name;
+  heading.append(headingCopy, church);
+
+  success.append(
+    heading,
+    createQuantityGrid(
+      payload.quantities,
+      currentProducts,
+      "current-grid",
+    ),
+  );
+  statusResult.append(success);
+}
+
+function hasCompleteChurchName(value) {
+  return /(教會|教会|祈禱所|祈祷所)$/u.test(value.trim());
+}
+
+function handleStatusInput() {
+  window.clearTimeout(statusTimer);
+  if (statusController) statusController.abort();
+
+  const rawQuery = statusInput.value.trim();
+  const normalizedQuery = normalizeSearch(rawQuery);
+
+  if (
+    Array.from(normalizedQuery).length < 2 ||
+    !hasCompleteChurchName(rawQuery)
+  ) {
+    renderOrderStatus("idle");
+    return;
+  }
+
+  const knownChurch = orders.find((order) =>
+    [order.name, order.simplified].some(
+      (name) => normalizeSearch(name) === normalizedQuery,
+    ),
+  );
+  const church = knownChurch?.name ?? rawQuery;
+
+  statusTimer = window.setTimeout(async () => {
+    statusController = new AbortController();
+    renderOrderStatus("loading");
+
+    try {
+      const response = await fetch(statusApiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ church }),
+        cache: "no-store",
+        signal: statusController.signal,
+      });
+
+      if (!response.ok) throw new Error("lookup_failed");
+      const payload = await response.json();
+
+      if (!payload.found) {
+        renderOrderStatus("not-found");
+        return;
+      }
+
+      renderOrderStatus("success", payload);
+    } catch (error) {
+      if (error.name !== "AbortError") renderOrderStatus("error");
+    }
+  }, 700);
+}
+
+searchInput.addEventListener("input", renderPreviousResults);
+statusInput.addEventListener("input", handleStatusInput);
+
+updateCountdown();
+window.setInterval(updateCountdown, 1000);
 
 fetch("./order-data.json")
   .then((response) => {
@@ -127,10 +315,14 @@ fetch("./order-data.json")
   })
   .then((data) => {
     orders = data;
-    recordCount.textContent = `${orders.length} 間教會／祈禱所`;
-    renderResults();
+    recordCount.textContent = `${orders.length} RECORDS`;
+    renderPreviousResults();
   })
   .catch(() => {
-    recordCount.textContent = "資料暫時無法載入";
-    setMessage("訂購資料載入失敗，請稍後重新整理頁面。");
+    recordCount.textContent = "DATA UNAVAILABLE";
+    renderStatusPanel(
+      "TEMPORARILY UNAVAILABLE",
+      "去年訂購資料暫時無法載入，請稍後重新整理。",
+      "status-warning",
+    );
   });
