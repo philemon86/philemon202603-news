@@ -82,7 +82,13 @@ function createQuantityGrid(order, products, className) {
     item.className = "quantity-item";
 
     const label = document.createElement("span");
-    label.textContent = product.label;
+    if (product.letter) {
+      const letter = document.createElement("b");
+      letter.textContent = product.letter;
+      label.append(letter, product.label);
+    } else {
+      label.textContent = product.label;
+    }
 
     const quantity = document.createElement("strong");
     quantity.textContent = Number(order[product.key] ?? 0).toLocaleString(
