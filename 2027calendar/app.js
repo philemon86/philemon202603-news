@@ -26,11 +26,11 @@ function setMessage(text = "") {
   message.hidden = !text;
 }
 
-function renderPlaceholder() {
+function renderPlaceholder(text = "請輸入至少兩個字，查看四款商品的去年訂購量。") {
   resultArea.innerHTML = `
     <div class="lookup-placeholder">
       <span aria-hidden="true">A—D</span>
-      <p>輸入名稱關鍵字，即可查看四款商品的訂購數量。</p>
+      <p>${text}</p>
     </div>
   `;
 }
@@ -60,10 +60,15 @@ function createChurchResult(order) {
 
 function renderResults() {
   const query = normalizeSearch(searchInput.value);
+  const queryLength = Array.from(query).length;
   setMessage();
 
-  if (!query) {
-    renderPlaceholder();
+  if (queryLength < 2) {
+    renderPlaceholder(
+      queryLength === 1
+        ? "請再輸入一個字，即可開始查詢。"
+        : undefined,
+    );
     return;
   }
 
