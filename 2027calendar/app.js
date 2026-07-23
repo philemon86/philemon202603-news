@@ -240,8 +240,8 @@ function renderOrderStatus(type, payload = null) {
     statusResult.innerHTML = `
       <div class="status-panel status-warning" role="status">
         <small>[ STATUS: NOT FOUND ]</small>
-        <h3>你尚未訂購，請盡速下訂</h3>
-        <p>請確認名稱是否與表單填寫內容完全相同。</p>
+        <h3>目前尚未查到預購資料</h3>
+        <p>資料每小時同步；若剛送出表單，請稍後再查或加入 LINE 確認。</p>
         <a class="text-link" href="#preorder-form">前往填寫預購表單 ↓</a>
       </div>
     `;
