@@ -109,42 +109,30 @@ footer > div {
 }
 
 .site-header {
-  position: sticky;
-  top: 48px;
-  z-index: 50;
   border-bottom: 1px solid var(--line);
-  background: rgba(250, 249, 245, 0.94);
-  backdrop-filter: blur(10px);
+  background: var(--paper);
 }
 
 .site-header-inner {
-  min-height: 58px;
+  min-height: 52px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 20px;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 0.74rem;
 }
 
-.brand {
-  font-weight: 900;
-  letter-spacing: 0.1em;
-}
-
-.season {
-  display: flex;
+.home-return {
+  display: inline-flex;
   align-items: center;
-  gap: 9px;
-  color: var(--muted);
+  padding-block: 4px;
+  border-bottom: 1px solid var(--line);
+  font-weight: 900;
   letter-spacing: 0.08em;
 }
 
-.season i {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--green);
+.home-return:hover,
+.home-return:focus-visible {
+  border-color: var(--ink);
 }
 
 main {
@@ -512,6 +500,23 @@ h1 span {
   line-height: 1.7;
 }
 
+.line-contact {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.line-contact a,
+.line-contact img {
+  display: block;
+}
+
 .form-frame {
   overflow: hidden;
   padding: 8px;
@@ -566,19 +571,12 @@ footer {
 }
 
 footer > div {
-  min-height: 100px;
+  min-height: 80px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 20px;
   color: var(--muted);
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 0.68rem;
-}
-
-footer a {
-  padding-bottom: 3px;
-  border-bottom: 1px solid var(--line);
 }
 
 @media (max-width: 760px) {
@@ -592,14 +590,6 @@ footer a {
     width: 100%;
     justify-content: space-between;
     margin-left: 0;
-  }
-
-  .site-header {
-    top: 72px;
-  }
-
-  .season {
-    display: none;
   }
 
   main {
@@ -685,17 +675,25 @@ footer a {
   }
 
   .form-frame {
-    margin-inline: -6px;
-    padding: 3px;
+    width: 100vw;
+    margin-right: calc(50% - 50vw);
+    margin-left: calc(50% - 50vw);
+    padding: 0;
+    border: 0;
+    box-shadow: none;
   }
 
   .form-frame iframe {
     height: 5600px;
   }
 
+  .line-contact {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
   footer > div {
     align-items: start;
-    flex-direction: column;
     justify-content: center;
   }
 }
