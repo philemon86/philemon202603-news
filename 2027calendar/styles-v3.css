@@ -343,6 +343,40 @@ h1 span {
   color: var(--amber);
 }
 
+.status-suggestions {
+  border-style: solid;
+  text-align: left;
+}
+
+.status-suggestions > p {
+  text-align: center;
+}
+
+.suggestion-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.suggestion-list button {
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  background: white;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+
+.suggestion-list button:hover,
+.suggestion-list button:focus-visible {
+  border-color: var(--ink);
+  outline: none;
+  background: #f4f4f5;
+}
+
 .results {
   padding-top: 30px;
 }
@@ -602,6 +636,10 @@ footer a {
   .previous-grid,
   .current-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .suggestion-list {
+    grid-template-columns: 1fr;
   }
 
   .quantity-item {

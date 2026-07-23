@@ -181,11 +181,44 @@ function renderOrderStatus(type, payload = null) {
         <small>[ STATUS: WAITING ]</small>
         <p>${
           queryLength > 0
-            ? "請輸入完整名稱，包含「教會」或「祈禱所」。"
-            : "輸入完整名稱後，系統會自動確認預購狀態。"
+            ? "請再輸入一個字，即可開始模糊搜尋。"
+            : "請輸入至少兩個字，系統會顯示可能的名稱。"
         }</p>
       </div>
     `;
+    return;
+  }
+
+  if (type === "suggestions") {
+    const suggestions = payload ?? [];
+    const panel = document.createElement("div");
+    panel.className = "status-panel status-suggestions";
+    panel.setAttribute("role", "status");
+    const label = document.createElement("small");
+    label.textContent = "[ STATUS: MATCHES ]";
+    const copy = document.createElement("p");
+    copy.textContent = suggestions.length
+      ? "找到以下可能名稱，請選擇一間："
+      : "找不到可能名稱，請再輸入更多關鍵字。";
+    panel.append(label, copy);
+
+    if (suggestions.length) {
+      const list = document.createElement("div");
+      list.className = "suggestion-list";
+      suggestions.forEach((order) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = order.name;
+        button.addEventListener("click", () => {
+          statusInput.value = order.name;
+          handleStatusInput();
+        });
+        list.append(button);
+      });
+      panel.append(list);
+    }
+
+    statusResult.append(panel);
     return;
   }
 
@@ -259,20 +292,35 @@ function handleStatusInput() {
   const rawQuery = statusInput.value.trim();
   const normalizedQuery = normalizeSearch(rawQuery);
 
-  if (
-    Array.from(normalizedQuery).length < 2 ||
-    !hasCompleteChurchName(rawQuery)
-  ) {
+  if (Array.from(normalizedQuery).length < 2) {
     renderOrderStatus("idle");
     return;
   }
 
-  const knownChurch = orders.find((order) =>
+  const suggestions = orders
+    .filter((order) =>
+      [order.name, order.simplified].some((name) =>
+        normalizeSearch(name).includes(normalizedQuery),
+      ),
+    )
+    .slice(0, 8);
+  const exactChurch = orders.find((order) =>
     [order.name, order.simplified].some(
       (name) => normalizeSearch(name) === normalizedQuery,
     ),
   );
-  const church = knownChurch?.name ?? rawQuery;
+  const church =
+    exactChurch?.name ??
+    (suggestions.length === 1
+      ? suggestions[0].name
+      : suggestions.length === 0 && hasCompleteChurchName(rawQuery)
+        ? rawQuery
+        : null);
+
+  if (!church) {
+    renderOrderStatus("suggestions", suggestions);
+    return;
+  }
 
   statusTimer = window.setTimeout(async () => {
     statusController = new AbortController();
