@@ -247,8 +247,30 @@ h1 span {
 }
 
 .step-link {
-  padding-bottom: 2px;
-  border-bottom: 1px solid var(--line);
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border: 2px solid var(--amber);
+  color: white;
+  background: var(--amber);
+  font-size: 0.76rem;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.step-link:hover {
+  color: white;
+  border-color: #92400e;
+  background: #92400e;
+}
+
+.step-link:focus-visible {
+  outline: 3px solid #fbbf24;
+  outline-offset: 3px;
 }
 
 .paper-card,
@@ -625,6 +647,12 @@ footer a {
 
   .step-code {
     display: none;
+  }
+
+  .step-heading .step-link {
+    display: inline-flex;
+    padding-inline: 12px;
+    font-size: 0.7rem;
   }
 
   .paper-card {
