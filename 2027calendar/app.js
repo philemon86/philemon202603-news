@@ -1,5 +1,7 @@
 const statusApiUrl =
   "https://philemon-2027-calendar.ppss10103s.chatgpt.site/api/order-status";
+const totalsApiUrl =
+  "https://philemon-2027-calendar.ppss10103s.chatgpt.site/api/preorder-totals";
 const earlyBirdDeadline = new Date("2026-09-10T23:59:59+08:00").getTime();
 
 const previousProducts = [
@@ -17,6 +19,13 @@ const currentProducts = [
   { key: "testimony", letter: "E", label: "臺灣傳教100周年見證集" },
 ];
 
+const inventoryProducts = [
+  { key: "calendarA", label: "A款月曆", capacity: 10_500 },
+  { key: "calendarB", label: "B款月曆", capacity: 3_500 },
+  { key: "weeklyClassic", label: "C款週曆手冊", capacity: 1_500 },
+  { key: "weeklyTrack", label: "D款週曆手冊", capacity: 1_500 },
+];
+
 const searchInput = document.querySelector("#church-search");
 const resultArea = document.querySelector("#result-area");
 const recordCount = document.querySelector("#record-count");
@@ -24,6 +33,7 @@ const statusInput = document.querySelector("#status-search");
 const statusResult = document.querySelector("#status-result");
 const countdown = document.querySelector("#countdown");
 const countdownExpired = document.querySelector("#countdown-expired");
+const totalsResult = document.querySelector("#totals-result");
 
 let orders = [];
 let statusTimer;
@@ -71,6 +81,68 @@ function renderStatusPanel(status, text, extraClass = "") {
       <p>${text}</p>
     </div>
   `;
+}
+
+function formatQuantity(value) {
+  const quantity = Number(value);
+  return Number.isFinite(quantity) && quantity >= 0 ? quantity : 0;
+}
+
+function renderPreorderTotals(totals) {
+  const inventoryGrid = document.createElement("div");
+  inventoryGrid.className = "inventory-grid";
+  inventoryGrid.setAttribute("aria-live", "polite");
+
+  inventoryProducts.forEach((product) => {
+    const ordered = formatQuantity(totals[product.key]);
+    const remaining = Math.max(product.capacity - ordered, 0);
+    const progress = Math.min(100, (ordered / product.capacity) * 100);
+
+    const card = document.createElement("article");
+    card.className = "inventory-card";
+    card.innerHTML = `
+      <div class="inventory-title">
+        <h3>${product.label}</h3>
+        <span>總量 ${product.capacity.toLocaleString("zh-TW")}</span>
+      </div>
+      <div class="inventory-numbers">
+        <div>
+          <span>累計預購</span>
+          <strong>${ordered.toLocaleString("zh-TW")}</strong><small>份</small>
+        </div>
+        <div class="remaining-number">
+          <span>剩餘倒數</span>
+          <strong>${remaining.toLocaleString("zh-TW")}</strong><small>份</small>
+        </div>
+      </div>
+      <div
+        class="inventory-progress"
+        role="progressbar"
+        aria-label="${product.label}預購進度"
+        aria-valuemin="0"
+        aria-valuemax="${product.capacity}"
+        aria-valuenow="${Math.min(ordered, product.capacity)}"
+      >
+        <span style="width: ${progress}%"></span>
+      </div>
+    `;
+    inventoryGrid.append(card);
+  });
+
+  const testimony = document.createElement("article");
+  testimony.className = "testimony-total";
+  testimony.innerHTML = `
+    <div>
+      <small>《臺灣傳教100周年見證集》</small>
+      <h3>累計預購量</h3>
+    </div>
+    <strong>
+      ${formatQuantity(totals.testimony).toLocaleString("zh-TW")}
+      <small>套</small>
+    </strong>
+  `;
+
+  totalsResult.replaceChildren(inventoryGrid, testimony);
 }
 
 function createQuantityGrid(order, products, className) {
@@ -377,4 +449,22 @@ fetch("./order-data.json")
       "去年訂購資料暫時無法載入，請稍後重新整理。",
       "status-warning",
     );
+  });
+
+fetch(totalsApiUrl, { cache: "no-store" })
+  .then((response) => {
+    if (!response.ok) throw new Error("totals_failed");
+    return response.json();
+  })
+  .then((payload) => {
+    if (!payload.totals) throw new Error("totals_missing");
+    renderPreorderTotals(payload.totals);
+  })
+  .catch(() => {
+    totalsResult.innerHTML = `
+      <div class="status-panel status-warning" role="status">
+        <small>[ STATUS: TEMPORARILY UNAVAILABLE ]</small>
+        <p>統計數量暫時無法載入，請稍後再試。</p>
+      </div>
+    `;
   });

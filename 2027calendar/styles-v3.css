@@ -552,6 +552,121 @@ h1 .hero-order-label {
   background: var(--green-soft);
 }
 
+.totals-intro {
+  margin-bottom: 24px;
+  color: #52525b;
+  line-height: 1.75;
+}
+
+.inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.inventory-card {
+  padding: 20px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+
+.inventory-title,
+.inventory-numbers,
+.testimony-total {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.inventory-title {
+  align-items: baseline;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.inventory-title h3 {
+  margin: 0;
+  font-size: 1.08rem;
+}
+
+.inventory-title > span {
+  color: var(--muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.67rem;
+  white-space: nowrap;
+}
+
+.inventory-numbers {
+  margin-top: 18px;
+}
+
+.inventory-numbers > div {
+  min-width: 0;
+}
+
+.inventory-numbers span {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.inventory-numbers strong,
+.testimony-total > strong {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  line-height: 1;
+}
+
+.inventory-numbers small,
+.testimony-total > strong small {
+  margin-left: 4px;
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 500;
+}
+
+.remaining-number {
+  text-align: right;
+}
+
+.inventory-progress {
+  height: 9px;
+  margin-top: 18px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: white;
+}
+
+.inventory-progress > span {
+  height: 100%;
+  display: block;
+  background: var(--green);
+  transition: width 420ms ease;
+}
+
+.testimony-total {
+  align-items: center;
+  margin-top: 14px;
+  padding: 24px;
+  color: white;
+  background: var(--ink);
+}
+
+.testimony-total small {
+  color: #d4d4d8;
+}
+
+.testimony-total h3 {
+  margin: 5px 0 0;
+  font-size: clamp(1.25rem, 3vw, 1.7rem);
+}
+
+.testimony-total > strong {
+  white-space: nowrap;
+}
+
 .success-heading {
   display: flex;
   align-items: end;
@@ -617,6 +732,10 @@ footer > div {
     align-items: start;
     flex-direction: column;
     gap: 8px;
+  }
+
+  .inventory-grid {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -693,6 +812,11 @@ footer > div {
   }
 
   .line-contact {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .testimony-total {
     align-items: flex-start;
     flex-direction: column;
   }
