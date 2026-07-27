@@ -552,12 +552,6 @@ h1 .hero-order-label {
   background: var(--green-soft);
 }
 
-.totals-intro {
-  margin-bottom: 24px;
-  color: #52525b;
-  line-height: 1.75;
-}
-
 .inventory-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
