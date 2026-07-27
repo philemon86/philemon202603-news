@@ -313,7 +313,7 @@ function renderOrderStatus(type, payload = null) {
       <div class="status-panel status-warning" role="status">
         <small>[ STATUS: NOT FOUND ]</small>
         <h3>目前尚未查到此教會預購資料</h3>
-        <p>資料每小時同步；若剛送出表單，請稍後再查或加入 LINE 確認。</p>
+        <p>資料每 20 分鐘同步；若剛送出表單，請稍後再查或加入 LINE 確認。</p>
         <a class="text-link" href="#preorder-form">前往填寫預購表單 ↓</a>
       </div>
     `;
