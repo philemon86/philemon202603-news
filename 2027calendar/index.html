@@ -50,93 +50,21 @@
       iframe {
         position: fixed;
         inset: 0;
-        z-index: 1;
         display: block;
         width: 100%;
         height: 100%;
         border: 0;
         background: #f7f4ee;
-        opacity: 0;
-        transition: opacity 180ms ease;
       }
-
-      iframe.is-ready {
-        opacity: 1;
-      }
-
-      .loading-shell {
-        position: fixed;
-        inset: 0;
-        display: grid;
-        place-content: center;
-        gap: 12px;
-        padding: 28px;
-        color: #18181b;
-        text-align: center;
-        transition: opacity 180ms ease;
-      }
-
-      .loading-shell span {
-        width: fit-content;
-        margin-inline: auto;
-        padding: 5px 8px;
-        color: #fff;
-        background: #18181b;
-        font: 900 12px/1.2 ui-monospace, monospace;
-        letter-spacing: 0.08em;
-      }
-
-      .loading-shell h1 {
-        max-width: 760px;
-        margin: 0;
-        font: 800 clamp(30px, 6vw, 58px)/1.12 system-ui, sans-serif;
-        letter-spacing: -0.04em;
-      }
-
-      .loading-shell p {
-        margin: 0;
-        color: #71717a;
-        font: 500 15px/1.6 system-ui, sans-serif;
-      }
-
-      .site-ready .loading-shell {
-        opacity: 0;
-        pointer-events: none;
-      }
-
     </style>
   </head>
   <body>
-    <script>
-      function revealPreorderSite() {
-        const frame = document.querySelector("iframe");
-        if (!frame) return;
-        frame.classList.add("is-ready");
-        document.documentElement.classList.add("site-ready");
-      }
-
-      window.addEventListener("message", (event) => {
-        if (
-          event.origin ===
-            "https://philemon-2027-calendar.ppss10103s.chatgpt.site" &&
-          event.data?.type === "philemon-preorder-ready"
-        ) {
-          revealPreorderSite();
-        }
-      });
-    </script>
-    <main class="loading-shell" role="status" aria-live="polite">
-      <span>PHILEMON NEWS</span>
-      <h1>2027 年月、週曆手冊暨見證集教會預購單</h1>
-      <p>正在載入預購資料與表單…</p>
-    </main>
     <iframe
       src="https://philemon-2027-calendar.ppss10103s.chatgpt.site/"
       title="2027 年月、週曆手冊暨臺灣傳教100周年見證集教會預購單"
       allow="clipboard-write"
       loading="eager"
       fetchpriority="high"
-      onload="revealPreorderSite()"
     ></iframe>
     <noscript>
       <p>
