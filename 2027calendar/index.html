@@ -120,6 +120,24 @@
     </style>
   </head>
   <body>
+    <script>
+      function revealPreorderSite() {
+        const frame = document.querySelector("iframe");
+        if (!frame) return;
+        frame.classList.add("is-ready");
+        document.documentElement.classList.add("site-ready");
+      }
+
+      window.addEventListener("message", (event) => {
+        if (
+          event.origin ===
+            "https://philemon-2027-calendar.ppss10103s.chatgpt.site" &&
+          event.data?.type === "philemon-preorder-ready"
+        ) {
+          revealPreorderSite();
+        }
+      });
+    </script>
     <main class="loading-shell" role="status" aria-live="polite">
       <span>PHILEMON NEWS</span>
       <h1>2027 年月、週曆手冊暨見證集教會預購單</h1>
@@ -131,7 +149,7 @@
       allow="clipboard-write"
       loading="eager"
       fetchpriority="high"
-      onload="this.classList.add('is-ready');document.documentElement.classList.add('site-ready')"
+      onload="revealPreorderSite()"
     ></iframe>
     <a
       class="fallback"
