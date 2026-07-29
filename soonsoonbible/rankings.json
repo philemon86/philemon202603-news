@@ -1,14 +1,10 @@
 {
-  "updatedAt": "2026-07-28T04:30:54.817830+00:00",
+  "updatedAt": "2026-07-29T04:32:35.347047+00:00",
   "dateRangeLabel": "\u6700\u8fd1 30 \u5929",
   "keywordSearchTop5": [
     {
       "label": "\u798f\u97f3",
       "value": 7
-    },
-    {
-      "label": "\u4e0d\u53ef\u505c\u6b62\u805a\u6703",
-      "value": 1
     },
     {
       "label": "\u4f5c\u5de5",
@@ -21,12 +17,16 @@
     {
       "label": "\u51e1\u7a31\u547c",
       "value": 1
+    },
+    {
+      "label": "\u540c\u884c",
+      "value": 1
     }
   ],
   "chapterViewTop5": [
     {
       "label": "2Ti \u7b2c3\u7ae0",
-      "value": 10
+      "value": 14
     },
     {
       "label": "Mat \u7b2c16\u7ae0",
