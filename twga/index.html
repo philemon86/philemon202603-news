@@ -121,6 +121,17 @@
       animation: pulse 2s ease-in-out infinite;
     }
 
+    .live.is-checking .live-dot {
+      background: #ff9f0a;
+      box-shadow: 0 0 0 4px rgba(255, 159, 10, .1);
+    }
+
+    .live.is-error .live-dot {
+      background: #ff3b30;
+      box-shadow: 0 0 0 4px rgba(255, 59, 48, .1);
+      animation: none;
+    }
+
     @keyframes pulse {
       0%, 100% { opacity: .45; }
       50% { opacity: 1; }
@@ -376,7 +387,7 @@
           <time class="time" id="page-time">--:--</time>
         </div>
       </div>
-      <a class="live" href="https://docs.google.com/spreadsheets/d/1Q0NQVNXnevAjlyvfmEHiy585aqqx-079JN-fJ4HuW7I/edit?gid=1608611473#gid=1608611473" target="_blank" rel="noopener noreferrer" aria-label="開啟值班表">
+      <a class="live is-checking" id="live-status" href="https://docs.google.com/spreadsheets/d/1Q0NQVNXnevAjlyvfmEHiy585aqqx-079JN-fJ4HuW7I/edit?gid=1608611473#gid=1608611473" target="_blank" rel="noopener noreferrer" aria-label="開啟值班表；資料檢查中">
         <span class="live-dot" aria-hidden="true"></span>
         LIVE
       </a>
@@ -411,8 +422,10 @@
       const weekdayEl = document.getElementById('page-weekday');
       const timeEl = document.getElementById('page-time');
       const retryEl = document.getElementById('retry');
+      const liveEl = document.getElementById('live-status');
       let callbackSequence = 0;
       let isLoading = false;
+      let retryTimer = null;
 
       const datePartsFormatter = new Intl.DateTimeFormat('en-CA', {
         timeZone: TIME_ZONE,
@@ -449,6 +462,28 @@
         dateEl.textContent = `${now.month}月${now.day}日`;
         weekdayEl.textContent = `星期${weekdayLabel(now.weekday)}`;
         timeEl.textContent = timeFormatter.format(new Date());
+      }
+
+      function setHealth(state, message) {
+        liveEl.classList.remove('is-checking', 'is-error');
+        if (state === 'checking') liveEl.classList.add('is-checking');
+        if (state === 'error') liveEl.classList.add('is-error');
+        liveEl.title = message;
+        liveEl.setAttribute('aria-label', `開啟值班表；${message}`);
+      }
+
+      function clearRetry() {
+        if (!retryTimer) return;
+        clearTimeout(retryTimer);
+        retryTimer = null;
+      }
+
+      function scheduleRetry() {
+        clearRetry();
+        retryTimer = setTimeout(() => {
+          retryTimer = null;
+          loadSchedule();
+        }, 15000);
       }
 
       function clean(value) {
@@ -546,14 +581,16 @@
         const yy = String(now.year).slice(-2);
         const month = String(now.month);
         const padded = month.padStart(2, '0');
-        return [
-          `${yy}_${month}值班`,
+        const bases = [
           `${yy}_${month}`,
-          `${yy}_${month}值班表`,
-          `${yy}_${padded}值班`,
           `${yy}_${padded}`,
-          `${yy}_${padded}值班表`
+          `${yy}-${month}`,
+          `${yy} ${month}`,
+          `${yy}年${month}月`,
+          `${now.year}_${month}`,
+          `${now.year}-${month}`
         ];
+        return bases.flatMap(base => [`${base}值班`, `${base}值班表`, base]);
       }
 
       function prayerSheetNames(now) {
@@ -563,8 +600,12 @@
         return [
           `${yy} ${pairStart}-${pairEnd}早禱`,
           `${yy} ${pairStart}-${pairEnd}月早禱`,
+          `${yy}_${pairStart}-${pairEnd}早禱`,
+          `${yy}年${pairStart}-${pairEnd}月早禱`,
+          `${yy} ${pairStart}~${pairEnd}早禱`,
           `${now.year} ${pairStart}-${pairEnd}早禱`,
           `${now.year} ${pairStart}-${pairEnd}月早禱`,
+          `${now.year}年${pairStart}-${pairEnd}月早禱`,
           `${yy}' ${pairStart}-${pairEnd}早禱`,
           `${yy}' ${pairStart}-${pairEnd}月早禱`
         ];
@@ -626,6 +667,7 @@
       async function loadSchedule() {
         if (isLoading) return;
         isLoading = true;
+        setHealth('checking', '正在檢查今天的資料');
         updateClock();
         const now = taipeiNow();
         try {
@@ -650,17 +692,25 @@
           render(duty, prayer);
           errorEl.hidden = true;
           scheduleEl.hidden = false;
+          clearRetry();
+          setHealth('healthy', `資料正常・${dutyResult.name}`);
         } catch (error) {
           console.error(error);
           scheduleEl.hidden = true;
           errorEl.hidden = false;
+          setHealth('error', '資料異常，系統將自動重試');
+          scheduleRetry();
         } finally {
           isLoading = false;
         }
       }
 
-      retryEl.addEventListener('click', loadSchedule);
+      retryEl.addEventListener('click', () => {
+        clearRetry();
+        loadSchedule();
+      });
       window.addEventListener('focus', loadSchedule);
+      window.addEventListener('online', loadSchedule);
       document.addEventListener('visibilitychange', () => {
         if (document.visibilityState === 'visible') loadSchedule();
       });
