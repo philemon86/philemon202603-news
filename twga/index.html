@@ -525,11 +525,16 @@
         });
       }
 
-      async function firstAvailableSheet(candidates, range) {
+      async function firstAvailableSheet(candidates, range, validator = () => true) {
         let lastError;
         for (const name of [...new Set(candidates)]) {
           try {
-            return { name, rows: await querySheet(name, range) };
+            const rows = await querySheet(name, range);
+            if (!validator(rows, name)) {
+              lastError = new Error(`${name} 沒有今天的資料`);
+              continue;
+            }
+            return { name, rows };
           } catch (error) {
             lastError = error;
           }
@@ -542,11 +547,11 @@
         const month = String(now.month);
         const padded = month.padStart(2, '0');
         return [
-          `${yy}_${month}`,
           `${yy}_${month}值班`,
+          `${yy}_${month}`,
           `${yy}_${month}值班表`,
-          `${yy}_${padded}`,
           `${yy}_${padded}值班`,
+          `${yy}_${padded}`,
           `${yy}_${padded}值班表`
         ];
       }
@@ -624,11 +629,20 @@
         updateClock();
         const now = taipeiNow();
         try {
-          const dutyResult = await firstAvailableSheet(dutySheetNames(now), 'B:K');
+          const dutyResult = await firstAvailableSheet(
+            dutySheetNames(now),
+            'B:K',
+            rows => Boolean(findToday(rows, 0, now))
+          );
           const duty = parseDuty(dutyResult.rows, now);
           let prayer = null;
           try {
-            const prayerResult = await firstAvailableSheet(prayerSheetNames(now), 'B:K');
+            const prayerDateColumn = now.month % 2 === 1 ? 0 : 5;
+            const prayerResult = await firstAvailableSheet(
+              prayerSheetNames(now),
+              'B:K',
+              rows => Boolean(findToday(rows, prayerDateColumn, now))
+            );
             prayer = parsePrayer(prayerResult.rows, now);
           } catch (_) {
             prayer = null;
