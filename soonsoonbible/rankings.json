@@ -1,10 +1,19 @@
 {
-  "updatedAt": "2026-08-07T01:36:40.307117+00:00",
-  "dateRangeLabel": "\u6700\u8fd1 30 \u5929",
+  "updatedAt": "2026-08-07T01:37:48.947602+00:00",
+  "startDate": "2026-06-24",
+  "dateRangeLabel": "\u7d2f\u8a08\uff08\u81ea 2026-06-24\uff09",
   "keywordSearchTop5": [
     {
       "label": "\u798f\u97f3",
       "value": 7
+    },
+    {
+      "label": "\u6182\u50b7",
+      "value": 2
+    },
+    {
+      "label": "\u4e0d\u53ef\u505c\u6b62\u805a\u6703",
+      "value": 1
     },
     {
       "label": "\u4f5c\u5de5",
@@ -13,35 +22,27 @@
     {
       "label": "\u4f60\u770b",
       "value": 1
-    },
-    {
-      "label": "\u51e1\u7a31\u547c",
-      "value": 1
-    },
-    {
-      "label": "\u540c\u884c",
-      "value": 1
     }
   ],
   "chapterViewTop5": [
     {
       "label": "2Ti \u7b2c3\u7ae0",
-      "value": 18
+      "value": 23
+    },
+    {
+      "label": "Mat \u7b2c16\u7ae0",
+      "value": 6
+    },
+    {
+      "label": "Mat \u7b2c6\u7ae0",
+      "value": 6
     },
     {
       "label": "2Ti \u7b2c4\u7ae0",
       "value": 5
     },
     {
-      "label": "Mat \u7b2c16\u7ae0",
-      "value": 5
-    },
-    {
-      "label": "Mat \u7b2c6\u7ae0",
-      "value": 4
-    },
-    {
-      "label": "Rev \u7b2c22\u7ae0",
+      "label": "Jhn \u7b2c11\u7ae0",
       "value": 4
     }
   ],
@@ -55,15 +56,15 @@
       "value": 4
     },
     {
+      "label": "Mat \u7b2c6\u7ae0 \u7b2c33\u7bc0",
+      "value": 3
+    },
+    {
       "label": "Psm \u7b2c33\u7ae0 \u7b2c20\u7bc0",
       "value": 3
     },
     {
       "label": "Rom \u7b2c1\u7ae0 \u7b2c2\u7bc0",
-      "value": 3
-    },
-    {
-      "label": "Rom \u7b2c1\u7ae0 \u7b2c9\u7bc0",
       "value": 3
     }
   ]
