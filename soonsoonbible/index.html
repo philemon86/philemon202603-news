@@ -551,6 +551,36 @@
     clearQualifiedVisitorTimer();
   }
 
+  function trackKeywordSearch(rawInput, results) {
+    if (typeof gtag !== 'function' || !rawInput) return;
+
+    gtag('event', 'keyword_search', {
+      event_category: 'SoonSoonBible',
+      event_label: rawInput,
+      keyword_query: rawInput,
+      result_count: Array.isArray(results) ? results.length : 0,
+      page_path: '/soonsoonbible/'
+    });
+  }
+
+  function trackVerseCopy(entry, copyMode = 'single', batchSize = 1) {
+    if (typeof gtag !== 'function' || !entry) return;
+
+    const verseLabel = `${entry.book} 第${entry.chapter}章 第${entry.verse}節`;
+    gtag('event', 'verse_copy', {
+      event_category: 'SoonSoonBible',
+      event_label: verseLabel,
+      bible_book: entry.book,
+      bible_chapter: entry.chapter,
+      bible_verse: entry.verse,
+      verse_key: `${entry.book}-${entry.chapter}-${entry.verse}`,
+      verse_label: verseLabel,
+      copy_mode: copyMode,
+      batch_size: batchSize,
+      page_path: '/soonsoonbible/'
+    });
+  }
+
   function trackChapterViews(query, rawInput, results) {
     if (typeof gtag !== 'function' || !Array.isArray(results) || results.length === 0) return;
 
@@ -705,8 +735,8 @@
     let lastErr;
     for (let attempt = 1; attempt <= maxAttempts; attempt++) {
       try {
-        const bust = (attempt === 1) ? '' : `?v=${Date.now()}`;
-        const res = await fetch(`./bible.csv${bust}`, (attempt === 1) ? { cache: 'default' } : { cache: 'no-store' });
+        const bust = `?v=20260807-punctuation-${attempt}`;
+        const res = await fetch(`./bible.csv${bust}`, { cache: 'no-store' });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const text = (await res.text()).replace(/^\uFEFF/, '');
         await parseCSVInWorker(text);
@@ -717,6 +747,20 @@
       } catch (err) { lastErr = err; await delay(300 * attempt); }
     }
     document.getElementById('result').innerHTML = `<span style="color:red">資料載入失敗。</span>`;
+  }
+
+  function normalizeBiblePunctuation(text) {
+    return String(text || '')
+      .replace(/『/g, '「')
+      .replace(/』/g, '」')
+      .replace(/、/g, '，')
+      .replace(/．(?=\s*$|[」〕）]|[〔（])/g, '。')
+      .replace(/．/g, '；')
+      .replace(/，。|；。|。；|。，/g, '。')
+      .replace(/，；|；，/g, '；')
+      .replace(/[，；]」/g, '。」')
+      .replace(/，，+/g, '，')
+      .replace(/；；+/g, '；');
   }
 
   function parseCSVInWorker(csvText) {
@@ -747,7 +791,14 @@
       `;
       const blob = new Blob([workerCode], { type: 'application/javascript' });
       const worker = new Worker(URL.createObjectURL(blob));
-      worker.onmessage = (ev) => { bibleData = ev.data || []; worker.terminate(); resolve(); };
+      worker.onmessage = (ev) => {
+        bibleData = (ev.data || []).map((entry) => ({
+          ...entry,
+          text: normalizeBiblePunctuation(entry.text)
+        }));
+        worker.terminate();
+        resolve();
+      };
       worker.postMessage(csvText);
     });
   }
@@ -985,7 +1036,7 @@
               <span class="verse-text">${e.text}</span>
             </div>
             <div class="action-bar">
-               <button class="copy-btn" onclick='copySingle(event, "${e.text} (${formattedRef})")'>
+               <button class="copy-btn" onclick='copySingle(event, ${idx}, "verse")'>
                  複製
                </button>
             </div>
@@ -1031,6 +1082,8 @@
       currentKeywordResults.push(entry);
     }
 
+    trackKeywordSearch(input, currentKeywordResults);
+
     if (currentKeywordResults.length === 0) {
         document.getElementById('keywordResult').innerHTML = '<div style="padding:20px; text-align:center; color:#999">找不到相關經文。</div>';
         document.getElementById('paginationContainer').style.display = 'none';
@@ -1068,7 +1121,7 @@
             <div class="verse-ref">${formattedRef}</div>
             <div class="verse-text">${highlightedText}</div>
              <div class="action-bar">
-               <button class="copy-btn" onclick='copySingle(event, "${entry.text} (${formattedRef})")'>複製</button>
+               <button class="copy-btn" onclick='copySingle(event, ${idx}, "keyword")'>複製</button>
             </div>
           </div>
         `;
@@ -1132,27 +1185,36 @@
   // === 複製核心 (同步) ===
   function copySelectedVerses() {
       if (selectedVerses.size === 0) return;
-      
-      let textBuffer = [];
+
+      const textBuffer = [];
+      const copiedEntries = [];
       selectedVerses.forEach(jsonStr => {
           try {
-            const e = JSON.parse(jsonStr);
-            const formattedRef = formatRef(e.book, e.chapter, e.verse);
-            textBuffer.push(`${e.text} (${formattedRef})`);
+            const entry = JSON.parse(jsonStr);
+            const formattedRef = formatRef(entry.book, entry.chapter, entry.verse);
+            textBuffer.push(`${entry.text} (${formattedRef})`);
+            copiedEntries.push(entry);
           } catch(err) {
             console.warn("Skip invalid");
           }
       });
 
       if (textBuffer.length > 0) {
-        copyToClipboard(textBuffer.join('\n'), true); 
-        clearSelection();
+        const copied = copyToClipboard(textBuffer.join('\\n'), {
+          isBatch: true,
+          entries: copiedEntries
+        });
+        if (copied) clearSelection();
       }
   }
 
-  function copySingle(e, text) {
-      e.stopPropagation();
-      copyToClipboard(text);
+  function copySingle(event, idx, source = 'verse') {
+      event.stopPropagation();
+      const entry = source === 'keyword' ? currentKeywordPageData[idx] : currentVerseData[idx];
+      if (!entry) return;
+
+      const formattedRef = formatRef(entry.book, entry.chapter, entry.verse);
+      copyToClipboard(`${entry.text} (${formattedRef})`, { entries: [entry] });
   }
 
   function jumpToPage() {
@@ -1173,7 +1235,8 @@
   window.toggleKeywordSelection = toggleKeywordSelection;
   window.clearSelection = clearSelection;
 
-  function copyToClipboard(text, isBatch = false) {
+  function copyToClipboard(text, options = {}) {
+    const { isBatch = false, entries = [] } = options;
     const ta = document.createElement('textarea');
     ta.value = text;
     ta.style.position = 'fixed';
@@ -1183,14 +1246,19 @@
     try {
       const successful = document.execCommand('copy');
       if (successful) {
-          showToast(isBatch ? `已複製 ${selectedVerses.size} 節` : '已複製');
-      } else {
-          showToast('複製失敗');
+          entries.forEach((entry) => {
+            trackVerseCopy(entry, isBatch ? 'batch' : 'single', entries.length);
+          });
+          showToast(isBatch ? `已複製 ${entries.length} 節` : '已複製');
+          document.body.removeChild(ta);
+          return true;
       }
+      showToast('複製失敗');
     } catch (err) {
       showToast('複製失敗');
     }
     document.body.removeChild(ta);
+    return false;
   }
 
   function showToast(msg) {
