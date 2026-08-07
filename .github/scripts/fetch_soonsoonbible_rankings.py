@@ -10,7 +10,7 @@ from google.oauth2 import service_account
 PROPERTY_ID = os.environ["GA4_PROPERTY_ID"]
 RANKINGS_OUTPUT_PATH = os.environ.get("RANKINGS_OUTPUT_PATH", "soonsoonbible/rankings.json")
 VISITOR_COUNT_OUTPUT_PATH = os.environ.get("VISITOR_COUNT_OUTPUT_PATH", "soonsoonbible/visitor-count.json")
-LOOKBACK_DAYS = os.environ.get("GA4_LOOKBACK_DAYS", "30")
+RANKINGS_START_DATE = os.environ.get("GA4_RANKINGS_START_DATE", "2026-06-24")
 VISITOR_COUNT_START_DATE = os.environ.get("GA4_VISITOR_COUNT_START_DATE", "2026-05-12")
 QUALIFIED_VISITOR_START_DATE = os.environ.get("GA4_QUALIFIED_VISITOR_START_DATE", "2026-07-15")
 SOONSOON_PAGE_PATH = os.environ.get("GA4_SOONSOON_PAGE_PATH", "/soonsoonbible/")
@@ -26,7 +26,7 @@ def build_access_token():
 
 def run_report(token, dimensions, metrics, event_name=None, limit=5, date_ranges=None, dimension_filter=None):
     payload = {
-        "dateRanges": date_ranges or [{"startDate": f"{LOOKBACK_DAYS}daysAgo", "endDate": "today"}],
+        "dateRanges": date_ranges or [{"startDate": RANKINGS_START_DATE, "endDate": "today"}],
         "dimensions": [{"name": name} for name in dimensions],
         "metrics": [{"name": name} for name in metrics],
         "limit": limit,
@@ -109,23 +109,28 @@ def day_before(date_text):
 def main():
     token = build_access_token()
 
+    ranking_date_ranges = [{"startDate": RANKINGS_START_DATE, "endDate": "today"}]
+
     keyword_report = run_report(
         token,
         dimensions=["customEvent:keyword_query"],
         metrics=["eventCount"],
         event_name="keyword_search",
+        date_ranges=ranking_date_ranges,
     )
     chapter_report = run_report(
         token,
         dimensions=["customEvent:chapter_label"],
         metrics=["eventCount"],
         event_name="chapter_view",
+        date_ranges=ranking_date_ranges,
     )
     verse_report = run_report(
         token,
         dimensions=["customEvent:verse_label"],
         metrics=["eventCount"],
         event_name="verse_copy",
+        date_ranges=ranking_date_ranges,
     )
     visitor_report = run_report(
         token,
@@ -149,7 +154,8 @@ def main():
 
     rankings = {
         "updatedAt": generated_at,
-        "dateRangeLabel": f"最近 {LOOKBACK_DAYS} 天",
+        "startDate": RANKINGS_START_DATE,
+        "dateRangeLabel": f"累計（自 {RANKINGS_START_DATE}）",
         "keywordSearchTop5": map_rows(keyword_report),
         "chapterViewTop5": map_rows(chapter_report),
         "verseCopyTop5": map_rows(verse_report),
