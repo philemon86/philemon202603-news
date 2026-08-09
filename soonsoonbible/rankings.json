@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-08T03:01:03.166100+00:00",
+  "updatedAt": "2026-08-09T03:09:14.026617+00:00",
   "startDate": "2026-06-24",
   "dateRangeLabel": "\u7d2f\u8a08\uff08\u81ea 2026-06-24\uff09",
   "keywordSearchTop5": [
@@ -12,16 +12,16 @@
       "value": 2
     },
     {
-      "label": "\u898f\u77e9",
+      "label": "\u6182\u616e",
       "value": 2
     },
     {
-      "label": "\u4e0d\u53ef\u505c\u6b62\u805a\u6703",
-      "value": 1
+      "label": "\u751f\u547d",
+      "value": 2
     },
     {
-      "label": "\u4f5c\u5de5",
-      "value": 1
+      "label": "\u898f\u77e9",
+      "value": 2
     }
   ],
   "chapterViewTop5": [
@@ -42,8 +42,8 @@
       "value": 5
     },
     {
-      "label": "Jhn \u7b2c11\u7ae0",
-      "value": 4
+      "label": "Job \u7b2c38\u7ae0",
+      "value": 5
     }
   ],
   "verseCopyTop5": [
