@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-15T02:27:08.567245+00:00",
+  "updatedAt": "2026-08-16T02:35:23.138149+00:00",
   "startDate": "2026-06-24",
   "dateRangeLabel": "\u7d2f\u8a08\uff08\u81ea 2026-06-24\uff09",
   "keywordSearchTop5": [
@@ -30,23 +30,27 @@
       "value": 25
     },
     {
-      "label": "Mat \u7b2c16\u7ae0",
+      "label": "Mat \u7b2c6\u7ae0",
+      "value": 7
+    },
+    {
+      "label": "Jhn \u7b2c1\u7ae0",
       "value": 6
     },
     {
-      "label": "Mat \u7b2c6\u7ae0",
+      "label": "Mat \u7b2c16\u7ae0",
       "value": 6
     },
     {
       "label": "2Ti \u7b2c4\u7ae0",
       "value": 5
-    },
-    {
-      "label": "Jhn \u7b2c1\u7ae0",
-      "value": 5
     }
   ],
   "verseCopyTop5": [
+    {
+      "label": "Mat \u7b2c6\u7ae0 \u7b2c33\u7bc0",
+      "value": 4
+    },
     {
       "label": "Rom \u7b2c16\u7ae0 \u7b2c25\u7bc0",
       "value": 4
@@ -56,15 +60,11 @@
       "value": 4
     },
     {
-      "label": "Mat \u7b2c6\u7ae0 \u7b2c33\u7bc0",
+      "label": "2Co \u7b2c10\u7ae0 \u7b2c4\u7bc0",
       "value": 3
     },
     {
-      "label": "Psm \u7b2c33\u7ae0 \u7b2c20\u7bc0",
-      "value": 3
-    },
-    {
-      "label": "Rom \u7b2c1\u7ae0 \u7b2c2\u7bc0",
+      "label": "2Sa \u7b2c7\u7ae0 \u7b2c13\u7bc0",
       "value": 3
     }
   ]
