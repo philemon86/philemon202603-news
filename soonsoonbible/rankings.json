@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-01T06:15:49.266483+00:00",
+  "updatedAt": "2026-09-02T05:52:01.271377+00:00",
   "startDate": "2026-06-24",
   "dateRangeLabel": "\u7d2f\u8a08\uff08\u81ea 2026-06-24\uff09",
   "keywordSearchTop5": [
@@ -16,12 +16,12 @@
       "value": 4
     },
     {
-      "label": "\u4e0d\u51b7\u4e0d",
-      "value": 2
+      "label": "\u4ea4\u6258",
+      "value": 3
     },
     {
-      "label": "\u4f20\u9053\u4e66",
-      "value": 2
+      "label": "\u6307\u5f15",
+      "value": 3
     }
   ],
   "chapterViewTop5": [
@@ -60,11 +60,11 @@
       "value": 4
     },
     {
-      "label": "2Co \u7b2c10\u7ae0 \u7b2c4\u7bc0",
+      "label": "1Ti \u7b2c4\u7ae0 \u7b2c16\u7bc0",
       "value": 3
     },
     {
-      "label": "2Sa \u7b2c7\u7ae0 \u7b2c13\u7bc0",
+      "label": "2Co \u7b2c10\u7ae0 \u7b2c4\u7bc0",
       "value": 3
     }
   ]
