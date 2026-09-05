@@ -33,6 +33,12 @@ jobs:
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
+      - name: Verify newsletter discovery
+        run: python3 -m unittest discover -s scripts -p 'test_newsletter_index.py'
+
+      - name: Refresh monthly newsletters
+        run: python3 scripts/build_newsletter_index.py
+
       - name: Prepare static artifact
         run: |
           site_dir="$RUNNER_TEMP/site"
@@ -41,6 +47,7 @@ jobs:
             --delete \
             --exclude '.git/' \
             --exclude '.github/' \
+            --exclude '__pycache__/' \
             ./ "$site_dir"/
 
       - name: Upload Pages artifact

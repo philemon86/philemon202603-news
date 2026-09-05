@@ -1,0 +1,52 @@
+.language-switch { display: flex; justify-content: flex-end; gap: 6px; max-width: 1600px; margin: 0 auto; padding: 0 4.4% 8px; }
+.language-switch a { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 8px 14px; font-size: .875rem; line-height: 1.5; border-radius: 40px; border: 1px solid var(--line); }
+.language-switch a[aria-current="page"] { color: #fff; background: var(--ink); border-color: var(--ink); }
+.language-switch a:hover { border-color: var(--blue); }
+html[lang="zh-Hans"] body { font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif; }
+html[lang="en"] body { font-family: Arial, system-ui, sans-serif; }
+html[lang="en"] h1 { font-size: clamp(2.8rem, 4.3vw, 4.6rem); letter-spacing: -.055em; }
+html[lang="en"] h2 { line-height: 1.2; }
+html[lang="en"] .hero-offer { flex-wrap: wrap; }
+html[lang="en"] .product-title-row { display: block; }
+html[lang="en"] .product-title-row .color-label { margin-top: 8px; }
+html[lang="en"] .leather-grid .product-card { display: flex; flex-direction: column; }
+html[lang="en"] .leather-grid .product-info { display: flex; flex: 1; flex-direction: column; }
+html[lang="en"] .leather-grid .product-bottom { margin-top: auto; }
+html[lang="en"] .big-discount { font-size: clamp(6rem, 11vw, 11rem); letter-spacing: -.08em; }
+html[lang="en"] .big-discount span { display: block; font: 700 1.5rem/1.4 Arial, sans-serif; margin: 0; letter-spacing: .03em; }
+html[lang="en"] .lifestyle-card { display: flex; flex-direction: column; }
+html[lang="en"] .lifestyle-copy { display: flex; flex: 1; flex-direction: column; }
+html[lang="en"] .lifestyle-bottom { margin-top: auto; }
+html[lang="en"] .lifestyle-copy h3 { font-size: clamp(1.5rem, 2.1vw, 2rem); }
+html[lang="en"] .zipper-card { grid-template-columns: .85fr 1.15fr; }
+@media (max-width: 1150px) {
+  html[lang="en"] .header-nav { gap: 18px; }
+  html[lang="en"] .visual-caption { flex-wrap: wrap; }
+  html[lang="en"] .zipper-card { grid-template-columns: 1fr; }
+  html[lang="en"] .zipper-card .product-image { aspect-ratio: 1.25; min-height: 0; }
+  html[lang="en"] .zipper-card .product-image img { width: 85%; height: 85%; }
+}
+@media (max-width: 900px) {
+  html[lang="en"] h1 { font-size: clamp(2.5rem, 7vw, 4.2rem); }
+  html[lang="en"] .section-heading { flex-wrap: wrap; }
+  html[lang="en"] .hero-visual .visual-caption { flex-wrap: nowrap; }
+}
+@media (max-width: 600px) {
+  .language-switch { justify-content: center; padding: 0 5% 10px; }
+  .language-switch a { font-size: .875rem; padding: 8px 12px; }
+  html[lang="en"] .header-nav { gap: 16px; font-size: .875rem; }
+  html[lang="en"] h1 { font-size: clamp(2rem, 8.7vw, 3.2rem); }
+  html[lang="en"] .hero-visual .visual-caption { align-items: flex-start; gap: 4px; flex-direction: column; }
+  html[lang="en"] .visual-caption strong { font-size: 1.3rem; }
+  html[lang="en"] .visual-price { width: 100%; justify-content: flex-start; gap: 7px; }
+  html[lang="en"] .visual-price .round-arrow { margin-left: auto; }
+  html[lang="en"] .book-fan { bottom: 110px; }
+  html[lang="en"] .fan-book { width: 58%; left: 21%; top: 8%; }
+  html[lang="en"] .issue-strip { gap: 8px 18px; }
+  html[lang="en"] .collection-label { flex-wrap: wrap; }
+  html[lang="en"] .offer-section .button { gap: 14px; padding-inline: 16px; }
+  html[lang="en"] .lifestyle-bottom { flex-wrap: wrap; }
+  html[lang="en"] .lifestyle-bottom .button { width: 100%; }
+  html[lang="en"] .footer-top { overflow-wrap: anywhere; }
+}
+@media print { .language-switch { display: none; } }

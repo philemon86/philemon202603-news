@@ -1,0 +1,42 @@
+/* Monthly archive and current issue; the rest of the homepage keeps its theme. */
+.latest-issue-feature { margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--border); }
+.latest-issue-date { display: block; color: var(--accent); font: 700 .875rem/1.5 "Space Grotesk", "Microsoft JhengHei", sans-serif; }
+.latest-issue-title { display: block; margin-top: 10px; font-size: clamp(1.25rem, 2vw, 1.65rem); font-weight: 700; line-height: 1.5; }
+.latest-issue-title:hover { color: var(--accent); }
+.hero-copy-card .latest-issue-feature > p { max-width: none; margin: 12px 0 18px; font: 400 1rem/1.8 "Microsoft JhengHei", sans-serif; }
+.latest-issue-feature + .hero-cta { margin-top: 20px; }
+.latest-issue-feature + .hero-cta .primary { gap: 16px; }
+.issue-year-group { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 44px; padding: 12px 0 32px; }
+.issue-year { margin: 18px 0 0; color: var(--muted); font: 500 2rem/1.3 "Space Grotesk", sans-serif; letter-spacing: -.04em; }
+.month-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--border); }
+.month-row { display: flex; align-items: center; gap: 28px; border-bottom: 1px solid var(--border); padding: 18px 0; }
+.month-link { display: flex; flex: 1; align-items: center; gap: 26px; min-height: 52px; min-width: 0; transition: color .2s; }
+.month-number { min-width: 2ch; font: 500 2.1rem/1.2 "Space Grotesk", sans-serif; letter-spacing: -.04em; }
+.month-label { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; font: 500 1.05rem/1.5 "Microsoft JhengHei", sans-serif; }
+.month-new { padding: 3px 9px; border-radius: 4px; background: var(--accent); color: #fff; font-size: .75rem; }
+.month-arrow { margin-left: auto; font: 400 1.35rem/1.5 sans-serif; color: var(--muted); }
+.month-link:hover, .month-link:hover .month-arrow { color: var(--accent); }
+.month-languages { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+.month-row .month-languages { flex: 0 0 196px; }
+.month-languages a { display: inline-flex; min-width: 58px; min-height: 44px; padding: 8px 13px; align-items: center; justify-content: center; background: transparent; border: 1px solid var(--border); border-radius: 999px; font: 500 .875rem/1.4 "Space Grotesk", "Microsoft JhengHei", sans-serif; transition: color .2s, background .2s, border-color .2s; }
+.month-languages a:hover { background: var(--ink); border-color: var(--ink); color: #fff; }
+.month-link:focus-visible, .month-languages a:focus-visible, .latest-issue-title:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
+@media (max-width: 760px) {
+  .issue-year-group { grid-template-columns: 1fr; gap: 18px; }
+  .issue-year { margin-top: 0; font-size: 1.5rem; }
+  .month-row { gap: 16px; }
+  .month-link { gap: 16px; }
+  .month-number { font-size: 1.8rem; }
+  .month-row .month-languages { flex-basis: 184px; }
+  .month-languages a { padding: 8px 10px; min-width: 56px; }
+}
+@media (max-width: 480px) {
+  .month-row { flex-wrap: wrap; gap: 8px; padding: 14px 0; }
+  .month-link { flex-basis: 100%; min-height: 44px; }
+  .month-row .month-languages { flex-basis: auto; margin-left: 50px; }
+  .month-label { font-size: 1rem; }
+  .latest-issue-title { font-size: 1.3rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .month-link, .month-languages a { transition: none; }
+}
