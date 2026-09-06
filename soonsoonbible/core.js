@@ -68,11 +68,20 @@ export function passageKey(entries){
   for(const v of sorted){const g=groups.at(-1);if(g&&g.at(-1).book===v.book&&g.at(-1).id+1===v.id)g.push(v);else groups.push([v]);}
   return groups.map(g=>{const a=g[0],b=g.at(-1);return `${a.book} ${a.chapter}:${a.verse}${g.length>1?'-'+b.chapter+':'+b.verse:''}`;}).join('; ');
 }
-export function formatCopy(entries,format='paragraph'){
+function chineseChapter(n){
+  const d='零一二三四五六七八九';
+  if(n<10)return d[n];
+  if(n<100)return (n<20?'':d[Math.floor(n/10)])+'十'+(n%10?d[n%10]:'');
+  const rest=n%100;
+  return d[Math.floor(n/100)]+'百'+(rest===0?'':rest<10?'零'+d[rest]:rest<20?'一'+chineseChapter(rest):chineseChapter(rest));
+}
+function shortReference(v){return `${books.find(b=>b.id===v.book)?.short}${chineseChapter(v.chapter)}${v.verse}`;}
+export function formatCopy(entries,format='legacy'){
   const sorted=[...entries].sort((a,b)=>a.id-b.id);if(!sorted.length)return '';
   if(format==='text')return sorted.map(v=>v.text).join('\n');
-  if(format==='each')return sorted.map(v=>`${v.text}（${bookName(v.book)} ${v.chapter}:${v.verse}）`).join('\n');
-  if(format==='legacy'){const cn=n=>{const d='零一二三四五六七八九';if(n<10)return d[n];if(n<20)return '十'+(n%10?d[n%10]:'');if(n<100)return d[Math.floor(n/10)]+'十'+(n%10?d[n%10]:'');return '一百'+(n%100<10&&n%100?'零':'')+(n%100?cn(n%100):'');};return sorted.map(v=>`${v.text} (${books.find(b=>b.id===v.book)?.short}${cn(v.chapter)}${v.verse})`).join('\n');}
-  const refs=passageKey(sorted).split('; ').map(s=>refLabel(parseQuery(s))).join('；');
+  if(format==='each'||format==='legacy')return sorted.map(v=>`${v.text} (${shortReference(v)})`).join('\n');
+  const groups=[];
+  for(const v of sorted){const g=groups.at(-1);if(g&&g.at(-1).book===v.book&&g.at(-1).id+1===v.id)g.push(v);else groups.push([v]);}
+  const refs=groups.map(g=>{const a=g[0],b=g.at(-1);return `(${shortReference(a)}${g.length>1?'-'+(a.chapter===b.chapter?b.verse:chineseChapter(b.chapter)+b.verse):''})`;}).join(' ');
   return `${refs}\n${sorted.map(v=>v.text).join('\n')}`;
 }

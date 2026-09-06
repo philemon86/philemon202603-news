@@ -1,10 +1,11 @@
-import {books,bookName,parseQuery,formatCopy,verseKey,passageKey} from './core.js';
+import {books,bookName,parseQuery,formatCopy,verseKey,passageKey} from './core.js?v=20260906-copy';
 import {track,newSearch} from './telemetry.js';
 const $=s=>document.querySelector(s),el=(tag,cls,text)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e;};
 const button=(text,cls,fn,label)=>{const b=el('button',cls,text);b.type='button';if(label)b.setAttribute('aria-label',label);b.addEventListener('click',fn);return b;};
 const read=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))??fallback;}catch{return fallback;}};
 const save=(key,value)=>{try{localStorage.setItem(key,JSON.stringify(value));}catch{}};
-let prefs={format:'paragraph',size:'normal',theme:'system',...read('ssb-prefs',{})},recent=read('ssb-history',[]),scope='all';
+let prefs={format:'legacy',size:'normal',theme:'system',...read('ssb-prefs',{})},recent=read('ssb-history',[]),scope='all';
+if(prefs.copyStyleVersion!==2){prefs.format='legacy';prefs.copyStyleVersion=2;save('ssb-prefs',prefs);}
 let ready=false,chapters={},results=[],query=null,selection=new Map(),shown=0,searchId=null,generation=0,pending=null,anchor=null,rangeMode=false,seenChapters=new Set(),observer;
 const worker=new Worker(new URL('./search-worker.js',import.meta.url),{type:'module'});
 applyPrefs();worker.postMessage({type:'load'});
@@ -87,7 +88,7 @@ function openPanel(type){
   if(type==='books'){openBooks();return;}
   if(type==='history'){const c=panel('最近搜尋');if(!recent.length){c.append(el('p','help','搜尋紀錄只保存在這部裝置。'));return;}const list=el('ul','history-list');recent.forEach(r=>{const li=el('li');li.append(button(r.query,'history-query',()=>{$('#panel').close();scope=r.scope||'all';run(r.query,{source:'history'});}),button('×','icon',()=>{recent=recent.filter(v=>v!==r);save('ssb-history',recent);openPanel('history');},`刪除 ${r.query}`));list.append(li);});c.append(list,button('清除搜尋紀錄','quiet',()=>{recent=[];save('ssb-history',recent);openPanel('history');}));}
   else if(type==='advanced'){const c=panel('進階搜尋');c.append(el('p','help','多個詞用空格隔開，會找到同時包含所有詞的經文。用減號排除不需要的詞。'),el('pre','copy-preview','聖靈 保惠師\n信心 -小信'),field('關鍵字範圍',[['all','全部聖經'],['old','舊約'],['new','新約'],...books.map(b=>[b.id,b.name])],scope,v=>scope=v),button('套用並搜尋','primary',()=>{$('#panel').close();if($('#query').value)run($('#query').value,{source:'advanced'});}));}
-  else if(type==='settings'){const c=panel('閱讀與複製');c.append(field('字體大小',[['small','較小'],['normal','標準'],['large','較大']],prefs.size,v=>{prefs.size=v;applyPrefs();save('ssb-prefs',prefs);}),field('外觀',[['system','跟隨系統'],['light','淺色'],['dark','深色']],prefs.theme,v=>{prefs.theme=v;applyPrefs();save('ssb-prefs',prefs);}),field('複製格式',[['paragraph','出處在前，經文分行'],['each','每節附出處'],['text','僅經文'],['legacy','舊版簡寫格式']],prefs.format,v=>{prefs.format=v;save('ssb-prefs',prefs);preview.textContent=results.length?formatCopy(results.slice(0,2),prefs.format):'搜尋經文後可預覽複製格式。';}));const preview=el('pre','copy-preview',results.length?formatCopy(results.slice(0,2),prefs.format):'搜尋經文後可預覽複製格式。');c.append(preview);}
+  else if(type==='settings'){const c=panel('閱讀與複製');c.append(field('字體大小',[['small','較小'],['normal','標準'],['large','較大']],prefs.size,v=>{prefs.size=v;applyPrefs();save('ssb-prefs',prefs);}),field('外觀',[['system','跟隨系統'],['light','淺色'],['dark','深色']],prefs.theme,v=>{prefs.theme=v;applyPrefs();save('ssb-prefs',prefs);}),field('複製格式',[['paragraph','出處在前，經文分行'],['each','每節附出處'],['text','僅經文'],['legacy','簡寫出處，如 (太三2)']],prefs.format,v=>{prefs.format=v;save('ssb-prefs',prefs);preview.textContent=results.length?formatCopy(results.slice(0,2),prefs.format):'搜尋經文後可預覽複製格式。';}));const preview=el('pre','copy-preview',results.length?formatCopy(results.slice(0,2),prefs.format):'搜尋經文後可預覽複製格式。');c.append(preview);}
   else if(type==='help'){const c=panel('使用說明與隱私');const d=el('div','help');for(const t of ['直接輸入約3:16、太5:3-12、伯7.3-8.1、馬太福音5章，或任何關鍵字。','點節號選取經文。選好第一節後，點「選到這節」，再點最後一節。電腦也可按住 Shift 點節號。','按 / 或 ⌘/Ctrl K 聚焦搜尋；選取後按 ⌘/Ctrl C 複製；Esc 取消選取。經文可用網址分享。','經文沿用原站和合本資料及標點。歷史、字體與複製設定只保存在這部裝置。','我們記錄匿名搜尋與複製彙總，改善查經體驗；不建立個人檔案，不在統計資料庫保存姓名、email 或 IP。短暫搜尋識別碼用於計算轉換並在兩天內清除。','GA4 用於整體流量、裝置及互動分析。搜尋內容不送入 GA4；網址中的搜尋詞也會從 GA4 頁面資料移除。'])d.append(el('p','',t));c.append(d,field('匿名使用統計',[['on','開啟'],['off','關閉']],(()=>{try{return localStorage.getItem('ssb-analytics')||'on';}catch{return 'on';}})(),v=>{try{localStorage.setItem('ssb-analytics',v);}catch{}location.reload();}));}
   else panel('複製經文');
 }

@@ -4,178 +4,33 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SoonSoonBible Rankings</title>
-  <link rel="icon" type="image/svg+xml" href="./favicon-b.svg">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="stylesheet" href="./style.css?v=20260905">
+  <script>try{document.documentElement.dataset.theme=JSON.parse(localStorage.getItem('ssb-prefs')||'{}').theme||'system';}catch{}</script>
   <style>
-    :root {
-      --primary-color: #8c2f24;
-      --accent-color: #6b5e54;
-      --card-bg: rgba(255, 255, 255, 0.88);
-      --text-color: #1f1a17;
-      --border-color: rgba(31, 26, 23, 0.1);
-      --shadow: 0 24px 60px rgba(32, 23, 17, 0.08);
-      --radius: 20px;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      padding: 18px 14px 40px;
-      font-family: "Space Grotesk", "Noto Serif TC", "Segoe UI", sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(255,255,255,0.6), transparent 32%),
-        linear-gradient(180deg, #f4ede4 0%, #efe3d2 100%);
-      color: var(--text-color);
-      line-height: 1.6;
-    }
-
-    .container {
-      max-width: 760px;
-      margin: 0 auto;
-    }
-
-    .hero,
-    .panel {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(12px);
-    }
-
-    .hero {
-      padding: 22px 18px;
-      margin-bottom: 18px;
-      text-align: center;
-    }
-
-    .eyebrow {
-      color: var(--accent-color);
-      font-size: 0.9rem;
-      margin-bottom: 6px;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 1.65rem;
-      color: var(--primary-color);
-    }
-
-    .meta {
-      margin-top: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      font-size: 0.9rem;
-      color: var(--accent-color);
-    }
-
-    .panels {
-      display: grid;
-      gap: 16px;
-    }
-
-    .panel {
-      padding: 18px 16px;
-    }
-
-    .panel h2 {
-      margin: 0 0 12px;
-      font-size: 1.08rem;
-      color: var(--primary-color);
-      text-align: center;
-    }
-
-    .ranking-list {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      display: grid;
-      gap: 10px;
-    }
-
-    .ranking-item {
-      display: grid;
-      grid-template-columns: 36px 1fr auto;
-      gap: 10px;
-      align-items: center;
-      padding: 12px;
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.74);
-      border: 1px solid rgba(31, 26, 23, 0.08);
-    }
-
-    .rank-badge {
-      width: 36px;
-      height: 36px;
-      border-radius: 999px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(140, 47, 36, 0.12);
-      color: var(--primary-color);
-      font-weight: 700;
-    }
-
-    .rank-label {
-      font-weight: 700;
-      word-break: break-word;
-    }
-
-    .rank-value {
-      color: var(--primary-color);
-      font-weight: 700;
-      white-space: nowrap;
-      padding-top: 4px;
-    }
-
-    .state {
-      text-align: center;
-      color: var(--accent-color);
-      padding: 16px 8px;
-    }
-
-    .actions {
-      margin-top: 18px;
-      display: flex;
-      justify-content: center;
-    }
-
-    .back-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      width: 100%;
-      max-width: 320px;
-      padding: 15px 20px;
-      border-radius: 16px;
-      text-decoration: none;
-      color: #fff;
-      background: linear-gradient(135deg, #8c2f24 0%, #b64f36 100%);
-      box-shadow: 0 16px 34px rgba(140, 47, 36, 0.24);
-      font-weight: 700;
-    }
-
-    @media (min-width: 720px) {
-      body {
-        padding: 24px 18px 56px;
-      }
-
-      .panels {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-
-      .panel {
-        padding: 20px 18px;
-      }
-    }
+    .ranking-page{max-width:1100px;margin:28px auto 0;padding:0 32px 72px}
+    .hero{margin-bottom:32px}
+    .hero h1{text-align:left;margin:0 0 12px;font-size:1.8rem;letter-spacing:.025em}
+    .meta{display:flex;flex-wrap:wrap;gap:6px 20px;color:var(--muted);font-size:.85rem}
+    .panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+    .panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px}
+    .panel h2{margin:0 0 14px;font-size:1rem;font-weight:600}
+    .ranking-list{list-style:none;padding:0;margin:0}
+    .ranking-item{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:12px;align-items:center;padding:17px 0;border-top:1px solid var(--line);min-height:76px}
+    .rank-badge{color:var(--blue);font-size:.9rem;font-variant-numeric:tabular-nums}
+    .rank-label{font-weight:500;overflow-wrap:anywhere;line-height:1.65}
+    .rank-value{color:var(--muted);font-size:.85rem;white-space:nowrap;font-variant-numeric:tabular-nums}
+    .state{color:var(--muted);padding:24px 0;font-size:.9rem}
+    .actions{display:flex;justify-content:center;margin-top:32px}
+    .back-btn{display:inline-flex;align-items:center;min-height:44px;color:var(--blue);border-radius:10px;padding:8px 16px}
+    .back-btn:hover{background:var(--tint)}
+    @media(max-width:800px){.ranking-page{padding:0 20px 48px;margin-top:24px}.panels{grid-template-columns:1fr;gap:16px}.hero{margin-bottom:24px}.hero h1{font-size:1.6rem}.panel{padding:20px}.ranking-item{min-height:60px;padding:14px 0}}
   </style>
 </head>
 <body>
-  <div class="container">
+  <header class="top"><a class="brand" href="./" aria-label="咻咻查聖經首頁"><span class="brandmark" aria-hidden="true">↗</span><span id="eyebrow">咻咻查聖經</span></a></header>
+  <main class="ranking-page">
     <section class="hero">
-      <div id="eyebrow" class="eyebrow"></div>
       <h1 id="pageTitle"></h1>
       <div class="meta">
         <div id="dateRange"></div>
@@ -204,9 +59,9 @@
     </section>
 
     <div class="actions">
-      <a id="backBtn" class="back-btn" href="./index.html"></a>
+      <a id="backBtn" class="back-btn" href="./"></a>
     </div>
-  </div>
+  </main>
 
   <script>
     const text = {
