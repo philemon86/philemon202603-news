@@ -22,7 +22,7 @@ document.querySelectorAll('[data-query]').forEach(b=>b.onclick=()=>run(b.dataset
 $('#searchForm').onsubmit=e=>{e.preventDefault();run($('#query').value);};
 function loadURL(){const p=new URLSearchParams(location.search);scope=p.get('scope')||'all';const raw=p.get('q')||p.get('search')||p.get('keyword')||decodeURIComponent(location.hash.slice(1));if(raw)run(raw,{history:false,source:'deep_link'});else reset();}
 window.addEventListener('popstate',loadURL);
-function reset(){generation++;query=null;results=[];clear();$('#query').value='';$('#results').replaceChildren();$('#main').classList.add('home');$('#homeTitle').hidden=false;$('#examples').hidden=false;$('#homeFooter').hidden=false;$('#chapterNav').hidden=true;$('#status').textContent='';$('#filterBadge').hidden=true;document.title='咻咻查聖經';}
+function reset(){generation++;scope='all';query=null;results=[];clear();$('#query').value='';$('#results').replaceChildren();$('#main').classList.add('home');$('#homeTitle').hidden=false;$('#examples').hidden=false;$('#homeFooter').hidden=false;$('#chapterNav').hidden=true;$('#status').textContent='';$('#filterBadge').hidden=true;document.title='咻咻查聖經';}
 $('.brand').onclick=e=>{e.preventDefault();history.pushState({},'',location.pathname);reset();$('#query').focus();};
 function remember(q){if(!['bible','keyword'].includes(q.kind))return;recent=[{query:q.label,key:q.key,scope},...recent.filter(r=>r.key!==q.key||r.scope!==scope)].slice(0,20);save('ssb-history',recent);}
 function run(raw,options={}){
