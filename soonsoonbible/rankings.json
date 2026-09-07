@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-07T00:55:13.910604+00:00",
+  "updatedAt": "2026-09-07T06:09:07.958381+00:00",
   "startDate": "2026-06-24",
   "dateRangeLabel": "\u7d2f\u8a08\uff08\u81ea 2026-06-24\uff09",
   "keywordSearchTop5": [
@@ -14,10 +14,6 @@
     {
       "label": "\u5c6c\u9748\u4e9e\u4f2f",
       "value": 4
-    },
-    {
-      "label": "\u4ea4\u6258",
-      "value": 3
     }
   ],
   "chapterViewTop5": [
@@ -30,12 +26,8 @@
       "value": 8
     },
     {
-      "label": "Mat \u7b2c16\u7ae0",
-      "value": 7
-    },
-    {
       "label": "Eph \u7b2c4\u7ae0",
-      "value": 6
+      "value": 7
     }
   ],
   "verseCopyTop5": [
@@ -50,10 +42,6 @@
     {
       "label": "Rom \u7b2c1\u7ae0 \u7b2c1\u7bc0",
       "value": 4
-    },
-    {
-      "label": "1Ti \u7b2c4\u7ae0 \u7b2c16\u7bc0",
-      "value": 3
     }
   ]
 }
