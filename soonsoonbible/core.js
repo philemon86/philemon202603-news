@@ -78,10 +78,11 @@ function chineseChapter(n){
 function shortReference(v){return `${books.find(b=>b.id===v.book)?.short}${chineseChapter(v.chapter)}${v.verse}`;}
 export function formatCopy(entries,format='legacy'){
   const sorted=[...entries].sort((a,b)=>a.id-b.id);if(!sorted.length)return '';
-  if(format==='text')return sorted.map(v=>v.text).join('\n');
-  if(format==='each'||format==='legacy')return sorted.map(v=>`${v.text} (${shortReference(v)})`).join('\n');
+  if(format==='text')return sorted.map(v=>v.text).join('\n\n');
+  if(format==='each')return sorted.map(v=>`${v.text} (${shortReference(v)})`).join('\n\n');
   const groups=[];
   for(const v of sorted){const g=groups.at(-1);if(g&&g.at(-1).book===v.book&&g.at(-1).id+1===v.id)g.push(v);else groups.push([v]);}
-  const refs=groups.map(g=>{const a=g[0],b=g.at(-1);return `(${shortReference(a)}${g.length>1?'-'+(a.chapter===b.chapter?b.verse:chineseChapter(b.chapter)+b.verse):''})`;}).join(' ');
-  return `${refs}\n${sorted.map(v=>v.text).join('\n')}`;
+  const refs=groups.map(g=>{const a=g[0],b=g.at(-1);return `(${shortReference(a)}${g.length>1?'-'+(a.chapter===b.chapter?b.verse:chineseChapter(b.chapter)+b.verse):''})`;});
+  if(format==='paragraph')return `${refs.join(' ')}\n${sorted.map(v=>v.text).join('\n\n')}`;
+  return groups.map((g,i)=>`${g.map(v=>v.text).join('\n\n')} ${refs[i]}`).join('\n\n');
 }
