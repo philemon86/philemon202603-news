@@ -1,3 +1,4 @@
+import {traditional,searchFold} from './chinese.js';
 import { aliases, books } from './books.js';
 export { books };
 const aliasMap = {...aliases, ...Object.fromEntries(books.map(b=>[b.id.toLowerCase(),b.id])), '约':'Jhn','约翰福音':'Jhn','马太福音':'Mat','诗篇':'Psm','圣经':'', 'John':'Jhn','Matthew':'Mat','Psalms':'Psm','Psalm':'Psm'};
@@ -9,7 +10,7 @@ function number(s) {
   const values={'零':0,'〇':0,'一':1,'二':2,'兩':2,'三':3,'四':4,'五':5,'六':6,'七':7,'八':8,'九':9};
   let total=0,n=0; for(const c of s){if(c==='十'||c==='百'){total+=(n||1)*(c==='十'?10:100);n=0;}else n=values[c];}return total+n;
 }
-export function normalizeInput(raw) {return String(raw||'').normalize('NFKC').trim().replace(/[‐‑–—−~～至到]/g,'-').replace(/[：.．。,，]/g,':').replace(/\s+/g,' ');}
+export function normalizeInput(raw) {return traditional(String(raw||'').normalize('NFKC')).trim().replace(/[‐‑–—−~～至到]/g,'-').replace(/[：.．。,，]/g,':').replace(/\s+/g,' ');}
 export function bookName(id){return books.find(b=>b.id===id)?.name||id;}
 export function refLabel(q){
   if(q.kind!=='bible')return q.label||q.key;
@@ -50,7 +51,7 @@ export function punctuation(text){return text.replace(/『/g,'「').replace(/』
 export function parseCSV(csv){
   return csv.replace(/^\uFEFF/,'').split(/\r?\n/).slice(1).filter(Boolean).map((line,i)=>{const m=line.match(/^([^,]+),(\d+),(\d+),(.*)$/);if(!m)throw Error('Invalid Bible row '+i);const text=m[4].startsWith('"')&&m[4].endsWith('"')?m[4].slice(1,-1).replace(/""/g,'"'):m[4];return {id:i,book:m[1].trim(),chapter:+m[2],verse:+m[3],text:punctuation(text.trim())};});
 }
-export function makeIndex(data){const byBook=new Map(),byChapter=new Map(),searchText=[];for(const v of data){if(!byBook.has(v.book))byBook.set(v.book,[]);byBook.get(v.book).push(v);const k=v.book+' '+v.chapter;if(!byChapter.has(k))byChapter.set(k,[]);byChapter.get(k).push(v);searchText[v.id]=v.text.normalize('NFKC').toLowerCase();}const newStart=data.findIndex(v=>v.book===books[39].id);return {data,byBook,byChapter,searchText,newStart};}
+export function makeIndex(data){const byBook=new Map(),byChapter=new Map(),searchText=[];for(const v of data){if(!byBook.has(v.book))byBook.set(v.book,[]);byBook.get(v.book).push(v);const k=v.book+' '+v.chapter;if(!byChapter.has(k))byChapter.set(k,[]);byChapter.get(k).push(v);searchText[v.id]=searchFold(v.text);}const newStart=data.findIndex(v=>v.book===books[39].id);return {data,byBook,byChapter,searchText,newStart};}
 export function search(index,q,scope='all'){
   if(q.kind==='bible'){
     const pool=q.book?(q.endChapter?index.byBook.get(q.book):index.byChapter.get(q.book+' '+q.chapter))||[]:index.data;
@@ -60,7 +61,8 @@ export function search(index,q,scope='all'){
   }
   if(q.kind!=='keyword')return [];
   const pool=scope==='old'?index.data.slice(0,index.newStart):scope==='new'?index.data.slice(index.newStart):scope==='all'?index.data:index.byBook.get(scope)||[];
-  return pool.filter(v=>{const t=index.searchText[v.id];return q.includes.every(k=>t.includes(k))&&!q.excludes.some(k=>t.includes(k));});
+  const includes=q.includes.map(searchFold),excludes=q.excludes.map(searchFold);
+  return pool.filter(v=>{const t=index.searchText[v.id];return includes.every(k=>t.includes(k))&&!excludes.some(k=>t.includes(k));});
 }
 export function verseKey(v){return `${v.book} ${v.chapter}:${v.verse}`;}
 export function passageKey(entries){

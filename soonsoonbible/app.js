@@ -1,4 +1,6 @@
-import {books,bookName,parseQuery,formatCopy,verseKey,passageKey} from './core.js?v=20260907-selection';
+import {currentLanguage,displayText} from './language.js';
+import {searchFold} from './chinese.js';
+import {books,bookName,parseQuery,formatCopy,verseKey,passageKey} from './core.js?v=20260907-language';
 import {track,newSearch} from './telemetry.js';
 const $=s=>document.querySelector(s),el=(tag,cls,text)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e;};
 const button=(text,cls,fn,label)=>{const b=el('button',cls,text);b.type='button';if(label)b.setAttribute('aria-label',label);b.addEventListener('click',fn);return b;};
@@ -7,7 +9,7 @@ const save=(key,value)=>{try{localStorage.setItem(key,JSON.stringify(value));}ca
 let prefs={format:'legacy',size:'normal',theme:'system',...read('ssb-prefs',{})},recent=read('ssb-history',[]),scope='all';
 if(prefs.copyStyleVersion!==3){prefs.format='legacy';prefs.copyStyleVersion=3;save('ssb-prefs',prefs);}
 let ready=false,chapters={},results=[],query=null,selection=new Map(),shown=0,searchId=null,generation=0,pending=null,anchor=null,seenChapters=new Set(),observer;
-const worker=new Worker(new URL('./search-worker.js',import.meta.url),{type:'module'});
+const worker=new Worker(new URL('./search-worker.js?v=20260907-language',import.meta.url),{type:'module'});
 applyPrefs();worker.postMessage({type:'load'});
 worker.onmessage=({data:m})=>{if(m.type==='ready'){ready=true;chapters=m.chapters;$('#status').textContent='';if(pending){const p=pending;pending=null;run(p.raw,p.options);}else loadURL();}else if(m.type==='result'&&m.id===generation){results=m.results;searchId=newSearch(query,results.length,scope,pendingSource);renderResults();}else if(m.type==='error'){if(m.id&&m.id!==generation)return;$('#status').textContent='資料暫時無法載入。';$('#results').replaceChildren(button('重新載入','quiet',()=>{worker.postMessage({type:'load'});$('#status').textContent='正在載入經文…';}));}};
 worker.onerror=()=>{$('#status').textContent='載入中斷，請重新整理後再試。';};
@@ -23,17 +25,17 @@ document.querySelectorAll('[data-query]').forEach(b=>b.onclick=()=>run(b.dataset
 $('#searchForm').onsubmit=e=>{e.preventDefault();run($('#query').value);};
 function loadURL(){const p=new URLSearchParams(location.search);scope=p.get('scope')||'all';const raw=p.get('q')||p.get('search')||p.get('keyword')||decodeURIComponent(location.hash.slice(1));if(raw)run(raw,{history:false,source:'deep_link'});else reset();}
 window.addEventListener('popstate',loadURL);
-function reset(){generation++;scope='all';query=null;results=[];clear();$('#query').value='';$('#results').replaceChildren();$('#main').classList.add('home');$('#homeTitle').hidden=false;$('#examples').hidden=false;$('#homeFooter').hidden=false;$('#chapterNav').hidden=true;$('#status').textContent='';$('#filterBadge').hidden=true;document.title='咻咻查聖經';}
-$('.brand').onclick=e=>{e.preventDefault();history.pushState({},'',location.pathname);reset();$('#query').focus();};
+function reset(){generation++;scope='all';query=null;results=[];clear();$('#query').value='';$('#results').replaceChildren();$('#main').classList.add('home');$('#homeTitle').hidden=false;$('#examples').hidden=false;$('#homeFooter').hidden=false;$('#homeFooter').classList.remove('reading-footer');$('#chapterNav').hidden=true;$('#status').textContent='';$('#filterBadge').hidden=true;document.title='咻咻查聖經';}
+$('.brand').onclick=e=>{e.preventDefault();history.pushState({},'',location.pathname+(currentLanguage()==='zh-Hans'?'?lang=zh-Hans':''));reset();$('#query').focus();};
 function remember(q){if(!['bible','keyword'].includes(q.kind))return;recent=[{query:q.label,key:q.key,scope},...recent.filter(r=>r.key!==q.key||r.scope!==scope)].slice(0,20);save('ssb-history',recent);}
 function run(raw,options={}){
   const q=parseQuery(raw);if(q.kind==='empty'){$('#query').focus();return;}
   $('#query').value=raw;$('#suggestions').hidden=true;
   if(!ready){pending={raw,options};$('#status').textContent='正在載入經文…';return;}
-  query=q;if(q.kind==='bible')$('#query').value=q.label;clear();seenChapters=new Set();observer?.disconnect();$('#results').replaceChildren();$('#chapterNav').hidden=true;
-  $('#main').classList.remove('home');$('#homeTitle').hidden=true;$('#examples').hidden=true;$('#homeFooter').hidden=true;
+  query=q;if(q.kind==='bible')$('#query').value=displayText(q.label);clear();seenChapters=new Set();observer?.disconnect();$('#results').replaceChildren();$('#chapterNav').hidden=true;
+  $('#main').classList.remove('home');$('#homeTitle').hidden=true;$('#examples').hidden=true;$('#homeFooter').hidden=false;$('#homeFooter').classList.add('reading-footer');
   $('#status').textContent='';$('#filterBadge').hidden=scope==='all'||q.kind!=='keyword';$('#filterBadge').textContent='範圍：'+(scope==='old'?'舊約':scope==='new'?'新約':bookName(scope));
-  if(options.history!==false){const u=new URL(location.href);u.search='';u.hash='';u.searchParams.set('q',q.kind==='bible'?q.label:raw.trim());if(scope!=='all')u.searchParams.set('scope',scope);history.pushState({},'',u);}
+  if(options.history!==false){const u=new URL(location.href);u.search='';u.hash='';if(currentLanguage()==='zh-Hans')u.searchParams.set('lang','zh-Hans');u.searchParams.set('q',q.kind==='bible'?q.label:raw.trim());if(scope!=='all')u.searchParams.set('scope',scope);history.pushState({},'',u);}
   if(options.remember!==false)remember(q);
   document.title=(q.label||raw)+' · 咻咻查聖經';pendingSource=options.source||'search';
   if(matchMedia('(max-width:600px)').matches)$('#query').blur();window.scrollTo({top:0,behavior:'instant'});
@@ -41,7 +43,9 @@ function run(raw,options={}){
   $('#status').textContent='搜尋中…';worker.postMessage({type:'search',id:++generation,query:q,scope});
 }
 $('#filterBadge').onclick=()=>openPanel('advanced');
-function highlight(text){const f=document.createDocumentFragment();if(query.kind!=='keyword'){f.append(document.createTextNode(text));return f;}const terms=query.includes.sort((a,b)=>b.length-a.length).map(s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'));const re=new RegExp('('+terms.join('|')+')','gi');let last=0;for(const m of text.matchAll(re)){f.append(document.createTextNode(text.slice(last,m.index)),el('mark','',m[0]));last=m.index+m[0].length;}f.append(document.createTextNode(text.slice(last)));return f;}
+function highlight(text){const f=document.createDocumentFragment();text=displayText(text);if(query.kind!=='keyword'){f.append(text);return f;}const folded=searchFold(text);if(folded.length!==text.length){f.append(text);return f;}const ranges=[];for(const term of query.includes.map(searchFold)){let i=folded.indexOf(term);while(i>=0){ranges.push([i,i+term.length]);i=folded.indexOf(term,i+Math.max(1,term.length));}}ranges.sort((a,b)=>a[0]-b[0]);const merged=[];for(const r of ranges){const last=merged.at(-1);if(last&&r[0]<=last[1])last[1]=Math.max(last[1],r[1]);else merged.push(r);}let last=0;for(const [a,b] of merged){f.append(document.createTextNode(text.slice(last,a)),el('mark','',text.slice(a,b)));last=b;}f.append(document.createTextNode(text.slice(last)));return f;}
+window.addEventListener('bible-language-change',()=>{if(query?.kind==='bible')$('#query').value=displayText(query.label);if(results.length){observer?.disconnect();renderResults();}});
+
 function renderResults(){
   $('#status').textContent='';$('#results').replaceChildren();shown=0;
   if(!results.length){const d=el('div','empty');d.append(el('h2','','沒有找到經文'),el('p','',query.kind==='bible'?'請確認章節是否存在，或從經卷選單直接選擇。':'試著減少一個詞，或在進階搜尋切換範圍。'),button(query.kind==='bible'?'選經卷':'調整搜尋','quiet',()=>openPanel(query.kind==='bible'?'books':'advanced')));$('#results').append(d);return;}
@@ -57,7 +61,7 @@ function appendResults(){
     const v=results[i],row=el('article','verse'+(single?' single':''));row.id='verse-'+v.id;row.dataset.index=i;row.dataset.id=v.id;
     if(!single){const select=button(String(v.verse),'select-verse',e=>toggle(i,e.shiftKey),`選取 ${bookName(v.book)} ${v.chapter}:${v.verse}`);select.setAttribute('aria-pressed',selection.has(v.id));row.append(select);}
     const body=el('div');if(query.kind==='keyword'||!query.book||query.endChapter&&v.chapter!==query.chapter){body.append(button(`${bookName(v.book)} ${v.chapter}:${v.verse}`,'verse-ref',()=>run(`${v.book} ${v.chapter}:${v.verse}`,{source:'result_reference'})));}
-    const p=el('p');p.append(highlight(v.text));body.append(p);row.append(body);
+    const p=el('p');p.dataset.noTranslate='';p.append(highlight(v.text));body.append(p);row.append(body);
     if(single){const a=el('div','single-copy');a.append(button('複製經文','primary',()=>copy([v],'single')),button('閱讀整章','quiet',()=>run(`${v.book} ${v.chapter}`,{source:'read_chapter'})),button('•••','icon',resultMenu,'經文選項'));row.append(a);}else row.append(button('複製','copy-verse',()=>copy([v],'single'),`複製 ${bookName(v.book)} ${v.chapter}:${v.verse}`));
     $('#results').append(row);observer.observe(row);
   }
@@ -76,7 +80,7 @@ function clear(){selection.clear();anchor=null;syncSelection();}
 function selectAll(){const all=results.length>0&&selection.size===results.length;if(all){selection.clear();anchor=null;}else results.forEach(v=>selection.set(v.id,v));track('verse_select',{search_id:searchId,verse_count:selection.size,source:all?'deselect_all':'select_all'});syncSelection();}
 $('#clearSelection').onclick=clear;$('#copySelection').onclick=()=>copy([...selection.values()],'selection');
 async function copy(entries,source){
-  const text=formatCopy(entries,prefs.format),copySearchId=searchId;let ok=false;
+  const text=displayText(formatCopy(entries,prefs.format)),copySearchId=searchId;let ok=false;
   try{await navigator.clipboard.writeText(text);ok=true;}catch{const t=el('textarea');t.value=text;t.style.cssText='position:fixed;left:-9999px;top:0';document.body.append(t);t.select();try{ok=document.execCommand('copy');}catch{}t.remove();}
   if(ok){const ranges=[];for(const id of entries.map(v=>v.id).sort((a,b)=>a-b)){const last=ranges.at(-1);if(last&&last[1]+1===id)last[1]=id;else ranges.push([id,id]);}track(entries.length===1?'verse_copy':'multi_verse_copy',{search_id:copySearchId,ranges,verse_count:entries.length,copy_format:prefs.format,source});toast(entries.length===1?'已複製經文':`已複製 ${entries.length} 節`);}else{openPanel('copyFallback');$('#panelTitle').textContent='長按文字即可複製';const t=el('textarea');t.value=text;t.style.cssText='width:100%;min-height:200px;font:inherit';$('#panelContent').append(t);t.focus();t.select();}
 }

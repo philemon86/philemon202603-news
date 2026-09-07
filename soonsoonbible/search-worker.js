@@ -1,4 +1,4 @@
-import {parseCSV,makeIndex,search} from './core.js';
+import {parseCSV,makeIndex,search} from './core.js?v=20260907-language';
 let manifest,full;const loaded=new Map();
 async function fetchOK(url){const r=await fetch(url);if(!r.ok)throw Error('資料載入失敗');return r;}
 async function indexFor(q){

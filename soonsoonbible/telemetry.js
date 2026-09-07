@@ -1,4 +1,4 @@
-import {parseQuery} from './core.js';
+import {parseQuery} from './core.js?v=20260907-language';
 export const API='https://soonsoon-bible-analytics.ppss10103s.chatgpt.site';
 const disabled=()=>['localhost','127.0.0.1'].includes(location.hostname)||localStorageSafe('ssb-analytics')==='off'||navigator.globalPrivacyControl===true||navigator.doNotTrack==='1';
 function localStorageSafe(k){try{return localStorage.getItem(k);}catch{return null;}}
