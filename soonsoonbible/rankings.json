@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-11T06:03:34.804490+00:00",
+  "updatedAt": "2026-09-12T05:51:49.271159+00:00",
   "startDate": "2026-06-24",
   "dateRangeLabel": "\u7d2f\u8a08\uff08\u81ea 2026-06-24\uff09",
   "keywordSearchTop5": [
@@ -23,7 +23,7 @@
     },
     {
       "label": "Eph \u7b2c4\u7ae0",
-      "value": 9
+      "value": 10
     },
     {
       "label": "Mat \u7b2c6\u7ae0",
@@ -42,10 +42,6 @@
     {
       "label": "Rom \u7b2c1\u7ae0 \u7b2c1\u7bc0",
       "value": 4
-    },
-    {
-      "label": "1Ti \u7b2c4\u7ae0 \u7b2c16\u7bc0",
-      "value": 3
     }
   ]
 }
