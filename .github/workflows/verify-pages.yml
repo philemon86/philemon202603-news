@@ -19,10 +19,10 @@ jobs:
           set -euo pipefail
 
           urls=(
-            "https://news.pbooks.com.tw/"
-            "https://news.pbooks.com.tw/timeline/"
-            "https://news.pbooks.com.tw/404.html"
-            "https://news.pbooks.com.tw/C293/"
+            "https://philemon.com.tw/"
+            "https://philemon.com.tw/timeline/"
+            "https://philemon.com.tw/404.html"
+            "https://philemon.com.tw/c293/"
           )
 
           for url in "${urls[@]}"; do
@@ -41,7 +41,7 @@ jobs:
                   ok=1
                   break
                 fi
-              elif [[ "$url" == *"/C293/" ]]; then
+              elif [[ "$url" == *"/c293/" ]]; then
                 if [[ "$status" == "200" && "$body" == *"products/c293"* ]]; then
                   ok=1
                   break

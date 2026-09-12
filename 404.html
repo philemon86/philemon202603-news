@@ -6,29 +6,41 @@
     <title>找不到頁面 | PHILEMON NEWS</title>
     <script>
       (function () {
-        var path = (location.pathname || "").toLowerCase();
+        var path = location.pathname || "";
+        var canonicalPath = path.replace(/^\/C(\d+)(?=\/|$)/, function (_, number) {
+          return "/c" + number;
+        });
+        if (canonicalPath !== path) {
+          if (/^\/c\d+$/.test(canonicalPath)) canonicalPath += "/";
+          location.replace(canonicalPath + location.search + location.hash);
+          return;
+        }
         if (path === "/twga" || path === "/twga/") {
           location.replace("/twga/" + location.search + location.hash);
           return;
         }
         if (path === "/c002" || path === "/c002/") {
-          location.replace("/c002/");
+          location.replace("/c002/" + location.search + location.hash);
           return;
         }
         if (path === "/c292" || path === "/c292/") {
-          location.replace("/c292/");
+          location.replace("/c292/" + location.search + location.hash);
           return;
         }
         if (path === "/c293" || path === "/c293/") {
-          location.replace("/C293/");
+          location.replace("/c293/" + location.search + location.hash);
+          return;
+        }
+        if (path === "/c296" || path === "/c296/") {
+          location.replace("/c296/" + location.search + location.hash);
           return;
         }
         if (path === "/c294" || path === "/c294/") {
-          location.replace("/C294/");
+          location.replace("/c294/" + location.search + location.hash);
           return;
         }
-        if (path === "/c185" || path === "/c185/" || path === "/C185" || path === "/C185/") {
-          location.replace("/c185/");
+        if (path === "/c185" || path === "/c185/") {
+          location.replace("/c185/" + location.search + location.hash);
           return;
         }
         if (path === "/2026-06" || path === "/2026-06/") {
@@ -322,7 +334,7 @@
             </div>
             <div class="card">
               <strong>目前支援的特別轉址</strong>
-              <p><code>/c293</code> 會自動轉到 <code>/C293/</code>。</p>
+              <p><code>/c293</code> 會自動轉到 <code>/c293/</code>。</p>
             </div>
           </div>
         </div>
