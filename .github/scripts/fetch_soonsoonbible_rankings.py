@@ -200,4 +200,15 @@ def main():
 
 
 if __name__ == "__main__":
+    # Reuse this existing daily GA4 job. Only aggregate music counts are staged;
+    # existing Bible reports, secrets and publishing behavior remain unchanged.
+    try:
+        import subprocess
+        from fetch_music_rankings import refresh_music_rankings
+        music_output = refresh_music_rankings()
+        subprocess.run(["git", "add", "--", str(music_output)], check=True)
+    except Exception as error:
+        print("Music rankings deferred:", type(error).__name__)
+        if isinstance(error, RuntimeError):
+            print(str(error))
     main()
