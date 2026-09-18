@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-17T06:10:42.804449+00:00",
+  "updatedAt": "2026-09-18T05:58:15.834325+00:00",
   "startDate": "2026-06-24",
   "dateRangeLabel": "\u7d2f\u8a08\uff08\u81ea 2026-06-24\uff09",
   "keywordSearchTop5": [
@@ -14,6 +14,10 @@
     {
       "label": "\u5c6c\u9748\u4e9e\u4f2f",
       "value": 4
+    },
+    {
+      "label": "\u4ea4\u6258",
+      "value": 3
     }
   ],
   "chapterViewTop5": [
@@ -28,6 +32,10 @@
     {
       "label": "Mat \u7b2c6\u7ae0",
       "value": 8
+    },
+    {
+      "label": "Mat \u7b2c16\u7ae0",
+      "value": 7
     }
   ],
   "verseCopyTop5": [
