@@ -384,6 +384,7 @@
       padding: 0;
     }
 
+    .book-cover.cover-c298 { background-image: url('./c298/assets/cover.webp'); background-size: contain; background-color: #faf7f0; border-radius: 4px; }
     .book-cover.cover-c295 { background-image: url('./home-cover-c295.png'); }
     .book-cover.cover-c294 { background-image: url('./home-cover-c294.jpg'); }
     .book-cover.cover-c292 { background-image: url('./home-cover-c292.jpg'); }
@@ -929,6 +930,14 @@
             </div>
 
             <div class="book-sequence">
+              <a class="book-card" href="./c298/">
+                <div class="book-cover cover-c298" aria-hidden="true"></div>
+                <div class="book-meta">
+                  <span class="book-order">NEW</span>
+                  <h3>C298 預見．遇見．癒見</h3>
+                </div>
+              </a>
+
               <a class="book-card" href="./c295/">
                 <div class="book-cover cover-c295" aria-hidden="true"></div>
                 <div class="book-meta">
@@ -1145,8 +1154,19 @@
     }
 
     heroToggles.forEach((toggle) => {
-      toggle.addEventListener('click', () => setHeroPanel(toggle.dataset.heroTarget));
+      toggle.addEventListener('click', () => {
+        setHeroPanel(toggle.dataset.heroTarget);
+        history.replaceState(null, '', '#' + toggle.dataset.heroTarget);
+      });
     });
+
+    function syncHeroFromHash() {
+      if (location.hash === '#hero-books') setHeroPanel('hero-books');
+      else if (location.hash === '#hero-news' || location.hash === '#newsletter') setHeroPanel('hero-news');
+    }
+
+    syncHeroFromHash();
+    window.addEventListener('hashchange', syncHeroFromHash);
 
     const socialCards = document.querySelectorAll('[data-social-accordion] .social-card');
 
