@@ -36,8 +36,19 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="image" href="./assets/home/hero-news.webp" media="(min-width: 721px)" fetchpriority="high">
-  <link rel="preload" as="image" href="./assets/home/hero-news-mobile.webp" media="(max-width: 720px)" fetchpriority="high">
+  <script>
+    (function () {
+      var books = location.hash === '#hero-books';
+      document.documentElement.classList.toggle('show-books', books);
+      var hero = document.createElement('link');
+      hero.rel = 'preload';
+      hero.as = 'image';
+      hero.fetchPriority = 'high';
+      hero.href = './assets/home/hero-' + (books ? 'books' : 'news') +
+        (window.matchMedia('(max-width: 720px)').matches ? '-mobile' : '') + '.webp';
+      document.head.appendChild(hero);
+    })();
+  </script>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Noto+Serif+TC:wght@600;900&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -150,6 +161,8 @@
 
     .hero-panel { display: none; }
     .hero-panel.active { display: block; }
+    html.show-books #hero-news { display: none; }
+    html.show-books #hero-books { display: block; }
 
     .hero-news,
     .hero-books {
@@ -931,7 +944,7 @@
 
             <div class="book-sequence">
               <a class="book-card" href="./c298/">
-                <img class="book-cover cover-c298" src="./assets/home/cover-c298.webp" alt="C298 預見．遇見．癒見 書封" width="276" height="386" loading="lazy" decoding="async">
+                <img class="book-cover cover-c298" src="./assets/home/cover-c298-small.webp" srcset="./assets/home/cover-c298-small.webp 184w, ./assets/home/cover-c298.webp 276w" sizes="92px" alt="C298 預見．遇見．癒見 書封" width="276" height="386" loading="eager" fetchpriority="high" decoding="async">
                 <div class="book-meta">
                   <span class="book-order">NEW · 中英雙語</span>
                   <h3>C298 預見．遇見．癒見</h3>
@@ -939,7 +952,7 @@
               </a>
 
               <a class="book-card" href="./c295/">
-                <img class="book-cover cover-c295" src="./assets/home/cover-c295.webp" alt="C295 物理學×主裡學 書封" width="276" height="388" loading="lazy" decoding="async">
+                <img class="book-cover cover-c295" src="./assets/home/cover-c295-small.webp" srcset="./assets/home/cover-c295-small.webp 184w, ./assets/home/cover-c295.webp 276w" sizes="92px" alt="C295 物理學×主裡學 書封" width="276" height="388" loading="eager" decoding="async">
                 <div class="book-meta">
                   <span class="book-order">01</span>
                   <h3>C295 物理學×主裡學</h3>
@@ -949,10 +962,10 @@
               <a class="book-card book-card-c136" href="./c136/">
                 <div class="book-cover-carousel" data-cover-carousel aria-label="C136 舊約與新約封面輪播">
                   <div class="cover-slide is-active">
-                    <img src="./assets/home/c136-old-testament.webp" width="336" height="475" loading="lazy" decoding="async" alt="C136 舊約封面" />
+                    <img src="./assets/home/c136-old-testament-small.webp" srcset="./assets/home/c136-old-testament-small.webp 224w, ./assets/home/c136-old-testament.webp 336w" sizes="112px" width="336" height="475" loading="eager" decoding="async" alt="C136 舊約封面" />
                   </div>
                   <div class="cover-slide">
-                    <img src="./assets/home/c136-new-testament.webp" width="336" height="475" loading="lazy" decoding="async" alt="C136 新約封面" />
+                    <img src="./assets/home/c136-new-testament-small.webp" srcset="./assets/home/c136-new-testament-small.webp 224w, ./assets/home/c136-new-testament.webp 336w" sizes="112px" width="336" height="475" loading="eager" decoding="async" alt="C136 新約封面" />
                   </div>
                 </div>
                 <div class="book-meta">
@@ -962,7 +975,7 @@
               </a>
 
               <a class="book-card" href="./c294/">
-                <img class="book-cover cover-c294" src="./assets/home/cover-c294.webp" alt="C294 重建聖殿的勸勉 書封" width="229" height="320" loading="lazy" decoding="async">
+                <img class="book-cover cover-c294" src="./assets/home/cover-c294-small.webp" srcset="./assets/home/cover-c294-small.webp 184w, ./assets/home/cover-c294.webp 229w" sizes="92px" alt="C294 重建聖殿的勸勉 書封" width="229" height="320" loading="lazy" decoding="async">
                 <div class="book-meta">
                   <span class="book-order">03</span>
                   <h3>C294 重建聖殿的勸勉</h3>
@@ -970,7 +983,7 @@
               </a>
 
               <a class="book-card" href="./c293/">
-                <img class="book-cover cover-c293" src="./assets/home/cover-c293.webp" alt="C293 親身體會神的大愛 書封" width="276" height="397" loading="lazy" decoding="async">
+                <img class="book-cover cover-c293" src="./assets/home/cover-c293-small.webp" srcset="./assets/home/cover-c293-small.webp 184w, ./assets/home/cover-c293.webp 276w" sizes="92px" alt="C293 親身體會神的大愛 書封" width="276" height="397" loading="lazy" decoding="async">
                 <div class="book-meta">
                   <span class="book-order">04</span>
                   <h3>C293 親身體會神的大愛</h3>
@@ -978,7 +991,7 @@
               </a>
 
               <a class="book-card" href="./c292/">
-                <img class="book-cover cover-c292" src="./assets/home/cover-c292.webp" alt="C292 使徒行傳釋義 書封" width="276" height="386" loading="lazy" decoding="async">
+                <img class="book-cover cover-c292" src="./assets/home/cover-c292-small.webp" srcset="./assets/home/cover-c292-small.webp 184w, ./assets/home/cover-c292.webp 276w" sizes="92px" alt="C292 使徒行傳釋義 書封" width="276" height="386" loading="lazy" decoding="async">
                 <div class="book-meta">
                   <span class="book-order">05</span>
                   <h3>C292 使徒行傳釋義</h3>
@@ -986,7 +999,7 @@
               </a>
 
               <a class="book-card" href="./c291/">
-                <img class="book-cover cover-c291" src="./assets/home/cover-c291.webp" alt="C291 路得記講壇 書封" width="276" height="401" loading="lazy" decoding="async">
+                <img class="book-cover cover-c291" src="./assets/home/cover-c291-small.webp" srcset="./assets/home/cover-c291-small.webp 184w, ./assets/home/cover-c291.webp 276w" sizes="92px" alt="C291 路得記講壇 書封" width="276" height="401" loading="lazy" decoding="async">
                 <div class="book-meta">
                   <span class="book-order">06</span>
                   <h3>C291 路得記講壇</h3>
@@ -994,7 +1007,7 @@
               </a>
 
               <a class="book-card" href="./c290/">
-                <img class="book-cover cover-c290" src="./assets/home/cover-c290.webp" alt="C290 洗禮論 書封" width="276" height="395" loading="lazy" decoding="async">
+                <img class="book-cover cover-c290" src="./assets/home/cover-c290-small.webp" srcset="./assets/home/cover-c290-small.webp 184w, ./assets/home/cover-c290.webp 276w" sizes="92px" alt="C290 洗禮論 書封" width="276" height="395" loading="lazy" decoding="async">
                 <div class="book-meta">
                   <span class="book-order">07</span>
                   <h3>C290 洗禮論</h3>
@@ -1002,7 +1015,7 @@
               </a>
 
               <a class="book-card" href="./c185/">
-                <img class="book-cover cover-c185" src="./assets/home/cover-c185.webp" alt="C185 活讀猶大書 書封" width="276" height="386" loading="lazy" decoding="async">
+                <img class="book-cover cover-c185" src="./assets/home/cover-c185-small.webp" srcset="./assets/home/cover-c185-small.webp 184w, ./assets/home/cover-c185.webp 276w" sizes="92px" alt="C185 活讀猶大書 書封" width="276" height="386" loading="lazy" decoding="async">
                 <div class="book-meta">
                   <span class="book-order">08</span>
                   <h3>C185 活讀猶大書</h3>
@@ -1010,7 +1023,7 @@
               </a>
 
               <a class="book-card" href="./c002/">
-                <img class="book-cover cover-c002" src="./assets/home/cover-c002.webp" alt="C002 好好接住 書封" width="276" height="386" loading="lazy" decoding="async">
+                <img class="book-cover cover-c002" src="./assets/home/cover-c002-small.webp" srcset="./assets/home/cover-c002-small.webp 184w, ./assets/home/cover-c002.webp 276w" sizes="92px" alt="C002 好好接住 書封" width="276" height="386" loading="lazy" decoding="async">
                 <div class="book-meta">
                   <span class="book-order">09</span>
                   <h3>C002 好好接住</h3>
@@ -1045,42 +1058,42 @@
       </div>
       <div class="grid portal-grid">
         <a href="./book/" class="card guide-card">
-          <img src="./assets/home/guide-publish.webp" width="640" height="640" loading="lazy" decoding="async" alt="Publish logo" />
+          <img src="./assets/home/guide-publish-small.webp" srcset="./assets/home/guide-publish-small.webp 320w, ./assets/home/guide-publish.webp 640w" sizes="320px" width="640" height="640" loading="lazy" decoding="async" alt="Publish logo" />
           <h3>本會出版品</h3>
           <div class="guide-card-info">進入本會出版品頁面，依標題、價格與年度快速查找書籍與出版資料。</div>
         </a>
         <a href="./music/" class="card guide-card">
-          <img src="./assets/home/guide-music.webp" width="640" height="640" loading="lazy" decoding="async" alt="Music logo" />
+          <img src="./assets/home/guide-music-small.webp" srcset="./assets/home/guide-music-small.webp 320w, ./assets/home/guide-music.webp 640w" sizes="320px" width="640" height="640" loading="lazy" decoding="async" alt="Music logo" />
           <h3>創作詩歌</h3>
           <div class="guide-card-info">搜尋真耶穌教會創作詩歌樂譜，快速查看曲目、詞曲、頁數、價格與試聽。</div>
         </a>
 
         <a href="./bookstore/" class="card guide-card">
-          <img src="./assets/home/guide-space.webp" width="640" height="640" loading="lazy" decoding="async" alt="Space logo" />
+          <img src="./assets/home/guide-space-small.webp" srcset="./assets/home/guide-space-small.webp 320w, ./assets/home/guide-space.webp 640w" sizes="320px" width="640" height="640" loading="lazy" decoding="async" alt="Space logo" />
           <h3>書房空間</h3>
           <div class="guide-card-info">走進整修後的新書房，看看腓利門書房目前的空間與展陳樣貌。</div>
         </a>
 
         <a href="./cup/" class="card guide-card">
-          <img src="./assets/home/guide-craft.webp" width="640" height="640" loading="lazy" decoding="async" alt="Craft logo" />
+          <img src="./assets/home/guide-craft-small.webp" srcset="./assets/home/guide-craft-small.webp 320w, ./assets/home/guide-craft.webp 640w" sizes="320px" width="640" height="640" loading="lazy" decoding="async" alt="Craft logo" />
           <h3>杯子設計</h3>
           <div class="guide-card-info">瀏覽杯款與視覺設計，延伸看看腓利門書房的周邊企劃。</div>
         </a>
 
         <a href="./2026-luggage/" class="card guide-card">
-          <img src="./assets/home/guide-journey.webp" width="640" height="640" loading="lazy" decoding="async" alt="Journey logo" />
+          <img src="./assets/home/guide-journey-small.webp" srcset="./assets/home/guide-journey-small.webp 320w, ./assets/home/guide-journey.webp 640w" sizes="320px" width="640" height="640" loading="lazy" decoding="async" alt="Journey logo" />
           <h3>2026 百年旅行箱</h3>
           <div class="guide-card-info">查看旅行箱專頁，延伸認識百年企劃與相關內容。</div>
         </a>
 
         <a href="./soonsoonbible/" class="card guide-card">
-          <img src="./assets/home/guide-bible.webp" width="640" height="640" loading="lazy" decoding="async" alt="Bible logo" />
+          <img src="./assets/home/guide-bible-small.webp" srcset="./assets/home/guide-bible-small.webp 320w, ./assets/home/guide-bible.webp 640w" sizes="320px" width="640" height="640" loading="lazy" decoding="async" alt="Bible logo" />
           <h3>咻咻查聖經</h3>
           <div class="guide-card-info">讓你咻咻找到聖經經文。</div>
         </a>
 
         <a href="./timeline/" class="card guide-card">
-          <img src="./assets/home/guide-book-tour.webp" width="512" height="516" loading="lazy" decoding="async" alt="Book Tour logo" />
+          <img src="./assets/home/guide-book-tour-small.webp" srcset="./assets/home/guide-book-tour-small.webp 320w, ./assets/home/guide-book-tour.webp 512w" sizes="320px" width="512" height="516" loading="lazy" decoding="async" alt="Book Tour logo" />
           <h3>書展時光</h3>
           <div class="guide-card-info">查看近期書展、總會尋根之旅與歷年書展足跡整理。</div>
         </a>
@@ -1144,6 +1157,7 @@
     const heroPanels = document.querySelectorAll('.hero-panel');
 
     function setHeroPanel(targetId) {
+      document.documentElement.classList.toggle('show-books', targetId === 'hero-books');
       heroToggles.forEach((toggle) => {
         toggle.classList.toggle('active', toggle.dataset.heroTarget === targetId);
       });
@@ -1223,14 +1237,22 @@
       if (activeIndex < 0) activeIndex = 0;
 
       const showSlide = (nextIndex) => {
+        const image = slides[nextIndex].querySelector('img');
+        if (!image || !image.complete || image.naturalWidth === 0) return;
         slides[activeIndex].classList.remove('is-active');
         activeIndex = nextIndex;
         slides[activeIndex].classList.add('is-active');
       };
 
-      window.setInterval(() => {
-        showSlide((activeIndex + 1) % slides.length);
-      }, 3000);
+      Promise.all(slides.map((slide) => {
+        const image = slide.querySelector('img');
+        return image.decode().catch(() => null);
+      })).then(() => {
+        window.setInterval(() => {
+          if (!carousel.closest('.hero-panel').classList.contains('active')) return;
+          showSlide((activeIndex + 1) % slides.length);
+        }, 3000);
+      });
     });
 
   </script>
