@@ -15,7 +15,8 @@
           location.replace(canonicalPath + location.search + location.hash);
           return;
         }
-        if (path === "/twga" || path === "/twga/") {
+        var lowercasePath = path.toLowerCase();
+        if (lowercasePath === "/twga" || lowercasePath === "/twga/") {
           location.replace("/twga/" + location.search + location.hash);
           return;
         }
