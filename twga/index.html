@@ -148,6 +148,8 @@
       grid-template-rows: minmax(98px, .9fr) repeat(3, minmax(98px, 1fr));
     }
 
+    .schedule[hidden] { display: none; }
+
     .schedule:not(.no-prayer) > .reading { grid-row: 1; }
     .schedule:not(.no-prayer) > .people { grid-row: 2; border-bottom: 1px solid var(--line); }
     .schedule:not(.no-prayer) > .duty-morning { grid-row: 3; }
@@ -512,7 +514,9 @@
         if (!payload || payload.status !== 'ok' || !payload.table) {
           throw new Error(payload && payload.errors && payload.errors[0] ? payload.errors[0].detailed_message : '試算表回應錯誤');
         }
-        return (payload.table.rows || []).map(row => (row.c || []).map(cell => clean(cell ? (cell.f ?? cell.v ?? '') : '')));
+        const labels = (payload.table.cols || []).map(column => clean(column ? column.label : ''));
+        const rows = (payload.table.rows || []).map(row => (row.c || []).map(cell => clean(cell ? (cell.f ?? cell.v ?? '') : '')));
+        return labels.some(Boolean) ? [labels, ...rows] : rows;
       }
 
       function querySheet(sheetName, range) {
@@ -616,26 +620,75 @@
         return rows.find(row => dateKey(row[column]) === target);
       }
 
+      function normalizedLabel(value) {
+        return clean(value).replace(/\s+/g, '').replace(/[：:]/g, '');
+      }
+
+      function dutyLayout(rows) {
+        for (const header of rows.slice(0, 15)) {
+          const labels = header.map(normalizedLabel);
+          const date = labels.findIndex(label => label === '日期');
+          const morning = labels.findIndex(label => label.includes('上午值日'));
+          const afternoon = labels.findIndex(label => label.includes('下午值日'));
+          const night = labels.findIndex(label => label === '值夜');
+          const piano = labels.findIndex(label => label.includes('司琴'));
+          if ([date, morning, afternoon, night, piano].every(index => index >= 0)) {
+            const originals = [morning, afternoon, night, piano];
+            const replacements = originals.map((column, index) => {
+              const boundary = originals[index + 1] ?? Math.min(header.length, column + 3);
+              for (let candidate = column + 1; candidate < boundary; candidate += 1) {
+                if (/調換|更換|替補|代班/.test(labels[candidate])) return candidate;
+              }
+              return -1;
+            });
+            return { date, morning, afternoon, night, piano, replacements };
+          }
+        }
+        throw new Error('值班表缺少必要欄位');
+      }
+
+      function prayerRecord(rows, now) {
+        for (const header of rows.slice(0, 12)) {
+          const labels = header.map(normalizedLabel);
+          const leaderColumns = labels
+            .map((label, index) => label.includes('主領') ? index : -1)
+            .filter(index => index >= 0);
+          for (const leader of leaderColumns) {
+            let reading = -1;
+            for (let column = leader + 1; column <= Math.min(header.length - 1, leader + 3); column += 1) {
+              if (labels[column].includes('讀經進度')) {
+                reading = column;
+                break;
+              }
+            }
+            if (reading < 0) continue;
+            for (let date = Math.max(0, leader - 4); date < leader; date += 1) {
+              const row = findToday(rows, date, now);
+              if (row) return { row, leader, reading };
+            }
+          }
+        }
+        return null;
+      }
+
       function parseDuty(rows, now) {
-        const row = findToday(rows, 0, now);
+        const layout = dutyLayout(rows);
+        const row = findToday(rows, layout.date, now);
         if (!row) throw new Error('今天沒有值班資料');
+        const [morningSwap, afternoonSwap, nightSwap, pianoSwap] = layout.replacements;
         return {
-          morning: effective(row[2], row[3]),
-          afternoon: effective(row[4], row[5]),
-          night: effective(row[6], row[7]),
-          piano: effective(row[8], row[9])
+          morning: effective(row[layout.morning], morningSwap >= 0 ? row[morningSwap] : ''),
+          afternoon: effective(row[layout.afternoon], afternoonSwap >= 0 ? row[afternoonSwap] : ''),
+          night: effective(row[layout.night], nightSwap >= 0 ? row[nightSwap] : ''),
+          piano: effective(row[layout.piano], pianoSwap >= 0 ? row[pianoSwap] : '')
         };
       }
 
       function parsePrayer(rows, now) {
-        const firstMonth = now.month % 2 === 1;
-        const dateColumn = firstMonth ? 0 : 5;
-        const leaderColumn = firstMonth ? 2 : 7;
-        const readingColumn = firstMonth ? 3 : 8;
-        const row = findToday(rows, dateColumn, now);
-        if (!row) return null;
-        const leader = clean(row[leaderColumn]);
-        const reading = clean(row[readingColumn]);
+        const record = prayerRecord(rows, now);
+        if (!record) return null;
+        const leader = clean(record.row[record.leader]);
+        const reading = clean(record.row[record.reading]);
         if (!leader || !reading || /安\s*息\s*日|例\s*假\s*日/.test(leader)) return null;
         return { leader, reading };
       }
@@ -673,17 +726,23 @@
         try {
           const dutyResult = await firstAvailableSheet(
             dutySheetNames(now),
-            'B:K',
-            rows => Boolean(findToday(rows, 0, now))
+            'A:Z',
+            rows => {
+              try {
+                const layout = dutyLayout(rows);
+                return Boolean(findToday(rows, layout.date, now));
+              } catch (_) {
+                return false;
+              }
+            }
           );
           const duty = parseDuty(dutyResult.rows, now);
           let prayer = null;
           try {
-            const prayerDateColumn = now.month % 2 === 1 ? 0 : 5;
             const prayerResult = await firstAvailableSheet(
               prayerSheetNames(now),
-              'B:K',
-              rows => Boolean(findToday(rows, prayerDateColumn, now))
+              'A:Z',
+              rows => Boolean(prayerRecord(rows, now))
             );
             prayer = parsePrayer(prayerResult.rows, now);
           } catch (_) {
