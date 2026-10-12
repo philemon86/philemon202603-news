@@ -4,7 +4,7 @@
 
 ## 部署
 
-將此資料夾以小寫名稱 `c297` 放到網站根目錄，網址為 `https://www.philemon.com.tw/c297/`。所有頁面資源使用相對路徑，可在子目錄中部署。GitHub Pages 使用 `philemon86/philemon202603-news` 的 `master` 分支，經既有 Deploy Pages workflow 發布。網域沿用既有設定，www 會轉往不含 www 的同一路徑。
+將此資料夾以小寫名稱 `c297` 放到網站根目錄，網址為 `https://www.philemon.com.tw/c297/`。所有頁面資源使用相對路徑，可在子目錄中部署。GitHub Pages 使用 `philemon86/philemon202603-news` 的 `master` 分支，經既有 Deploy Pages workflow 發布。網域沿用既有設定，已確認 www 網址回傳 HTTP 200。
 
 本機預覽：在 C297 的上一層執行 `python -m http.server 4173`，開啟 `http://localhost:4173/C297/`。
 
