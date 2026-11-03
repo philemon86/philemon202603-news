@@ -168,6 +168,34 @@
   }
   .headcta:hover { background: var(--gold); color: var(--bg-deep); border-color: var(--gold); }
 
+  .head-actions { display:flex; align-items:center; gap:12px; }
+  .locale-switch { display:flex; align-items:center; gap:5px; }
+  .locale-switch a {
+    display:inline-flex; align-items:center; justify-content:center;
+    min-width:42px; height:34px; padding:0 10px;
+    border:1px solid rgba(200,164,110,.25); border-radius:999px;
+    color:var(--text-muted); font-size:11px; letter-spacing:.04em;
+    background:rgba(255,255,255,.025);
+  }
+  .locale-switch a:hover,
+  .locale-switch a.active {
+    color:var(--bg-deep); background:var(--gold); border-color:var(--gold);
+  }
+  html[lang="en"] .prologue-vertical {
+    writing-mode:horizontal-tb;
+    text-orientation:mixed;
+    white-space:normal;
+    width:min(100%,760px);
+    max-width:760px;
+    text-align:center;
+    font-family:var(--en-serif);
+    font-size:clamp(30px,4vw,46px);
+    line-height:1.45;
+    letter-spacing:.025em;
+  }
+  html[lang="en"] .prologue-vertical span { display:inline; margin:0 .18em; }
+
+
   /* 十一月閱讀饗宴 v5：巨大圓桌的下半段，六本書在任何位置都維持相同尺寸。 */
   .hero {
     position:relative; overflow:hidden; padding:70px 0 70px;
@@ -900,6 +928,20 @@
     .sitehead { height: 64px; padding: 0 18px; }
     .sitenav { display: none; }
     .headcta { padding: 8px 14px; letter-spacing: 0.05em; white-space: nowrap; }
+
+    .head-actions { gap:8px; }
+    .locale-switch { gap:4px; }
+    .locale-switch a { min-width:36px; height:30px; padding:0 8px; font-size:10px; }
+    .headcta { display:none; }
+    html[lang="en"] .prologue-vertical {
+      writing-mode:horizontal-tb;
+      white-space:normal;
+      font-size:clamp(28px,8vw,38px);
+      line-height:1.35;
+      letter-spacing:.015em;
+      max-width:92vw;
+    }
+
     .brandword { font-size: 14px; }
     .brandmark { width: 32px; height: 32px; flex-shrink: 0; }
     .hero { padding-top: 64px; padding-bottom: 74px; }
@@ -984,7 +1026,14 @@
     <a href="#second">02 暖心細品</a>
     <a href="#third">03 日常回甘</a>
   </nav>
-  <a class="headcta" href="https://www.philemon.com.tw/">返回首頁 ↗</a>
+  <div class="head-actions">
+    <div class="locale-switch" aria-label="Language">
+      <a href="https://philemon.com.tw/2026-11/" hreflang="zh-Hant" lang="zh-Hant" class="active" aria-current="page">繁中</a>
+      <a href="https://philemon.com.tw/2026-11/zh-cn.html" hreflang="zh-Hans" lang="zh-Hans">简中</a>
+      <a href="https://philemon.com.tw/2026-11/en.html" hreflang="en" lang="en">EN</a>
+    </div>
+    <a class="headcta" href="https://www.philemon.com.tw/">返回首頁 ↗</a>
+  </div>
 </header>
 
 <main id="main">

@@ -168,6 +168,34 @@
   }
   .headcta:hover { background: var(--gold); color: var(--bg-deep); border-color: var(--gold); }
 
+  .head-actions { display:flex; align-items:center; gap:12px; }
+  .locale-switch { display:flex; align-items:center; gap:5px; }
+  .locale-switch a {
+    display:inline-flex; align-items:center; justify-content:center;
+    min-width:42px; height:34px; padding:0 10px;
+    border:1px solid rgba(200,164,110,.25); border-radius:999px;
+    color:var(--text-muted); font-size:11px; letter-spacing:.04em;
+    background:rgba(255,255,255,.025);
+  }
+  .locale-switch a:hover,
+  .locale-switch a.active {
+    color:var(--bg-deep); background:var(--gold); border-color:var(--gold);
+  }
+  html[lang="en"] .prologue-vertical {
+    writing-mode:horizontal-tb;
+    text-orientation:mixed;
+    white-space:normal;
+    width:min(100%,760px);
+    max-width:760px;
+    text-align:center;
+    font-family:var(--en-serif);
+    font-size:clamp(30px,4vw,46px);
+    line-height:1.45;
+    letter-spacing:.025em;
+  }
+  html[lang="en"] .prologue-vertical span { display:inline; margin:0 .18em; }
+
+
   /* 十一月閱讀饗宴 v5：巨大圓桌的下半段，六本書在任何位置都維持相同尺寸。 */
   .hero {
     position:relative; overflow:hidden; padding:70px 0 70px;
@@ -900,6 +928,20 @@
     .sitehead { height: 64px; padding: 0 18px; }
     .sitenav { display: none; }
     .headcta { padding: 8px 14px; letter-spacing: 0.05em; white-space: nowrap; }
+
+    .head-actions { gap:8px; }
+    .locale-switch { gap:4px; }
+    .locale-switch a { min-width:36px; height:30px; padding:0 8px; font-size:10px; }
+    .headcta { display:none; }
+    html[lang="en"] .prologue-vertical {
+      writing-mode:horizontal-tb;
+      white-space:normal;
+      font-size:clamp(28px,8vw,38px);
+      line-height:1.35;
+      letter-spacing:.015em;
+      max-width:92vw;
+    }
+
     .brandword { font-size: 14px; }
     .brandmark { width: 32px; height: 32px; flex-shrink: 0; }
     .hero { padding-top: 64px; padding-bottom: 74px; }
@@ -984,7 +1026,14 @@
     <a href="#second">02 A Warm Bowl for the Heart</a>
     <a href="#third">03 Everyday Aftertaste</a>
   </nav>
-  <a class="headcta" href="https://www.philemon.com.tw/">Back to Home ↗</a>
+  <div class="head-actions">
+    <div class="locale-switch" aria-label="Language">
+      <a href="https://philemon.com.tw/2026-11/" hreflang="zh-Hant" lang="zh-Hant">繁中</a>
+      <a href="https://philemon.com.tw/2026-11/zh-cn.html" hreflang="zh-Hans" lang="zh-Hans">简中</a>
+      <a href="https://philemon.com.tw/2026-11/en.html" hreflang="en" lang="en" class="active" aria-current="page">EN</a>
+    </div>
+    <a class="headcta" href="https://www.philemon.com.tw/">Back to Home ↗</a>
+  </div>
 </header>
 
 <main id="main">
@@ -1001,7 +1050,7 @@
           <!-- 0deg 為正下方（6點鐘位置，完全正立） -->
           <div class="dish-slot" style="--angle: 0deg;">
             <div class="book-plate">
-              <img src="assets/c296-04.webp" alt="《Hidden Hope》書封">
+              <img src="assets/c296-04.webp" alt="Cover of Hidden Hope">
             </div>
           </div>
 
@@ -1019,19 +1068,19 @@
 
           <div class="dish-slot" style="--angle: 180deg;">
             <div class="book-plate">
-              <img src="assets/c296-01.webp" alt="《Promise of New Shoots》書封">
+              <img src="assets/c296-01.webp" alt="Cover of Promise of New Shoots">
             </div>
           </div>
 
           <div class="dish-slot" style="--angle: 240deg;">
             <div class="book-plate">
-              <img src="assets/c296-02.webp" alt="《Enduring Joy》書封">
+              <img src="assets/c296-02.webp" alt="Cover of Enduring Joy">
             </div>
           </div>
 
           <div class="dish-slot" style="--angle: 300deg;">
             <div class="book-plate">
-              <img src="assets/c296-03.webp" alt="《Abundant Grace》書封">
+              <img src="assets/c296-03.webp" alt="Cover of Abundant Grace">
             </div>
           </div>
         </div>
@@ -1053,12 +1102,12 @@
       <h1>Three courses,<br><span class="headline-gold">three flavors,</span><span class="headline-tail">life savored slowly.</span></h1>
       <p class="hero-description">
         <span class="desktop-desc">Before winter arrives, dim the lights and save a chair for yourself.<br>
-        這個十一月，PHILEMON在夜色裡備好一桌書香：<br>
+        This November, PHILEMON sets a table of books in the evening light:<br>
         grace simmered over thirty years, a gentle light for the hidden heart,<br>
         and tender encounters hidden in ordinary days.</span>
         <span class="mobile-desc">Before winter arrives, dim the lights,<br>
         and save a chair for yourself.<br>
-        這個十一月，PHILEMON備好一桌書香：<br>
+        This November, PHILEMON has prepared a table of books:<br>
         grace simmered over thirty years, a gentle light for the hidden heart,<br>
         and tender encounters hidden in ordinary days.</span>
       </p>
@@ -1155,28 +1204,28 @@
 
       <div class="four-gallery">
         <div class="gallery-item">
-          <a class="cover-link" href="https://philemon.com.tw/c296/" aria-label="了解《Promise of New Shoots》書封"><img src="assets/c296-01.webp" alt="《Promise of New Shoots》書封" loading="lazy"></a>
+          <a class="cover-link" href="https://philemon.com.tw/c296/" aria-label="了解Cover of Promise of New Shoots"><img src="assets/c296-01.webp" alt="Cover of Promise of New Shoots" loading="lazy"></a>
           <div class="gallery-meta">
             <strong>Promise of New Shoots</strong>
             <span>1994–2002</span>
           </div>
         </div>
         <div class="gallery-item">
-          <a class="cover-link" href="https://philemon.com.tw/c296/" aria-label="了解《Enduring Joy》書封"><img src="assets/c296-02.webp" alt="《Enduring Joy》書封" loading="lazy"></a>
+          <a class="cover-link" href="https://philemon.com.tw/c296/" aria-label="了解Cover of Enduring Joy"><img src="assets/c296-02.webp" alt="Cover of Enduring Joy" loading="lazy"></a>
           <div class="gallery-meta">
             <strong>Enduring Joy</strong>
             <span>2003–2010</span>
           </div>
         </div>
         <div class="gallery-item">
-          <a class="cover-link" href="https://philemon.com.tw/c296/" aria-label="了解《Abundant Grace》書封"><img src="assets/c296-03.webp" alt="《Abundant Grace》書封" loading="lazy"></a>
+          <a class="cover-link" href="https://philemon.com.tw/c296/" aria-label="了解Cover of Abundant Grace"><img src="assets/c296-03.webp" alt="Cover of Abundant Grace" loading="lazy"></a>
           <div class="gallery-meta">
             <strong>Abundant Grace</strong>
             <span>2011–2018</span>
           </div>
         </div>
         <div class="gallery-item">
-          <a class="cover-link" href="https://philemon.com.tw/c296/" aria-label="了解《Hidden Hope》書封"><img src="assets/c296-04.webp" alt="《Hidden Hope》書封" loading="lazy"></a>
+          <a class="cover-link" href="https://philemon.com.tw/c296/" aria-label="了解Cover of Hidden Hope"><img src="assets/c296-04.webp" alt="Cover of Hidden Hope" loading="lazy"></a>
           <div class="gallery-meta">
             <strong>Hidden Hope</strong>
             <span>2019–2024</span>
@@ -1203,7 +1252,7 @@
         <div class="spotlight-beam"></div>
         <div class="spotlight-floor"></div>
         <div class="dish-badge">Course Two · A Warm Bowl for the Heart</div>
-        <img src="assets/c297.webp" alt="《我的心哪，你為何憂悶？》封面" loading="lazy">
+        <img src="assets/c297.webp" alt="Cover of Why Are You Cast Down, O My Soul?" loading="lazy">
       </div>
       <div>
         <div class="kicker">Course 02 / A Warm Bowl for the Heart</div>
@@ -1256,7 +1305,7 @@
 
       <div class="daylight-stage">
         <div class="daylight-arch"></div>
-        <img src="assets/c298.webp" alt="《預見・遇見・癒見》水彩封面" loading="lazy">
+        <img src="assets/c298.webp" alt="Watercolor cover of Foresee · Encounter · Heal" loading="lazy">
         <div class="scene-pills">
           <span>#Bookstore</span>
           <span>#Bank</span>
@@ -1276,7 +1325,7 @@
       <div class="tasting-cards">
         <article class="t-card">
           <span class="en-num">01 / Slow-Aged Grace</span>
-          <h3>Slow-Aged Grace・恩典醇香</h3>
+          <h3>Slow-Aged Grace · Rich with Time</h3>
           <p>Thirty years of testimonies are like a dish simmered over a low flame. Every page carries the lasting flavor of God's guidance.</p>
           <a href="https://www.pbooks.com.tw/products/c296">Taste the Taiwan Mission Centennial Testimony Collection ↗</a>
         </article>
@@ -1310,7 +1359,7 @@
   <div class="wrap">
     <div class="foot-inner">
       <div>
-        <div class="footbrand">PHILEMON書房</div>
+        <div class="footbrand">PHILEMON BOOKSTORE</div>
         <div style="font-size:12px; margin-top:8px; letter-spacing:0.1em;">Good books and faith for everyday life.</div>
       </div>
       <nav class="foot-links" aria-label="Related links">
@@ -1322,7 +1371,7 @@
       </nav>
     </div>
     <div class="footnote">
-      <span>© 2026 PHILEMON書房 · PHILEMON NEWS · NOVEMBER</span>
+      <span>© 2026 PHILEMON BOOKSTORE · PHILEMON NEWS · NOVEMBER</span>
       <a href="#top">Back to Top ↑</a>
     </div>
   </div>
