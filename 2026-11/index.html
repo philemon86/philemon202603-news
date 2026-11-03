@@ -210,7 +210,7 @@
   /* 60° 為一冊；每 14 秒輪到下一冊，並且不仰賴 JavaScript 進行自轉。 */
   @keyframes novemberTableSpin {
     from {transform:rotate(120deg);}
-    to {transform:rotate(480deg);}
+    to {transform:rotate(-240deg);}
   }
   .semicircle-viewport.is-dragging .turntable-wheel {animation-play-state:paused;}
   .inner-lazy-susan {
@@ -256,11 +256,14 @@
     font-family:var(--serif);font-weight:500;font-size:clamp(36px,4.4vw,56px);
     line-height:1.38;letter-spacing:.08em;margin:20px 0;color:var(--text-light);
   }
-  .hero h1 span {color:var(--gold);font-style:italic;}
+  .hero h1 .headline-gold {color:var(--gold);font-style:italic;}
+  .hero h1 .headline-tail {color:var(--text-light);font-style:normal;}
   .hero-description {
     max-width:520px;margin:0 auto;font-size:15px;line-height:2.2;
     color:var(--text-muted);letter-spacing:.06em;
   }
+  .hero-description .mobile-desc {display:none;}
+
   .hero-actions {display:flex;align-items:center;justify-content:center;gap:28px;margin-top:34px;}
   .btn-gold {
     display:inline-flex;align-items:center;gap:12px;background:var(--gold);color:#161513;
@@ -916,8 +919,15 @@
 
 
     .hero-copy { margin-top: 0; }
-    .hero h1 { font-size: clamp(32px, 8.5vw, 42px); margin: 16px 0; }
-    .hero-actions { flex-wrap: wrap; gap: 18px; margin-top: 26px; }
+    /* 行動版標題固定三行，每行是一個完整語意單位。 */
+    .hero-copy { padding-left:16px; padding-right:16px; }
+    .hero h1 { font-size: clamp(30px, 7.8vw, 39px); line-height:1.42; letter-spacing:.035em; margin:20px 0 24px; }
+    .hero h1 .headline-gold, .hero h1 .headline-tail {display:block;}
+    .hero-description {font-size:clamp(13px,3.45vw,15px);line-height:2.05;letter-spacing:.014em;max-width:calc(100vw - 36px);}
+    .hero-description .desktop-desc {display:none;}
+    .hero-description .mobile-desc {display:block;}
+    .hero-actions { flex-wrap: wrap; gap: 14px; margin-top: 28px; }
+    .hero-actions > a {font-size:13px;letter-spacing:.04em;}
 
     .prologue { padding: 95px 0 85px; }
     .prologue::before { inset: 8% 3% 8%; border-radius: 24px; }
@@ -944,6 +954,10 @@
   @media (max-width:380px) {
     .semicircle-viewport {--inner-size:310vw;--plate-size:clamp(248px,78vw,280px);--book-w:calc(var(--plate-size) * .86);}
     .prologue-desc { font-size: 13.5px; line-height: 1.95; padding-inline: 16px; }
+    .hero h1 {font-size:30px;letter-spacing:.015em;}
+    .hero-actions {gap:12px;}
+    .hero-actions > a {font-size:12px;}
+    .hero-actions .btn-gold {padding:14px 22px;}
   }
 
   /* 依本期互動設計設定，慢速轉盤與煙霧保持運作；只關閉非必要頁面平滑捲動。 */
@@ -1032,12 +1046,17 @@
     <!-- 下方主標題與引言 -->
     <div class="hero-copy">
       <div class="hero-eyebrow">2026 Autumn–Winter Nocturnal Table</div>
-      <h1>一席三味，<br><span>慢慢讀出</span>生命的滋味。</h1>
+      <h1>一席三味，<br><span class="headline-gold">慢慢讀出</span><span class="headline-tail">生命的滋味。</span></h1>
       <p class="hero-description">
-        入冬之前，把燈調暗，先留一張椅子給自己。<br>
+        <span class="desktop-desc">入冬之前，把燈調暗，先留一張椅子給自己。<br>
         這個十一月，腓利門在夜色裡備好一桌書香：<br>
         三十年熬煮的恩典、理解心事的微光，<br>
-        以及藏在尋常日子裡的溫柔相遇。
+        以及藏在尋常日子裡的溫柔相遇。</span>
+        <span class="mobile-desc">入冬之前，把燈調暗，<br>
+        先留一張椅子給自己。<br>
+        這個十一月，腓利門備好一桌書香：<br>
+        三十年熬煮的恩典、理解心事的微光，<br>
+        以及藏在尋常日子裡的溫柔相遇。</span>
       </p>
       <div class="hero-actions">
         <a class="btn-gold" href="#first">我要點餐 ↗</a>
@@ -1306,7 +1325,8 @@
 </footer>
 
 <script>
-  // 自轉由 CSS @keyframes 持續執行；JavaScript 僅處理手動拖曳，不會接管動畫。
+  // 自轉由 CSS 持續執行；手動拖曳的水平位移採反向旋轉角度，
+  // 因為書位於圓周底部，這樣往右滑時書才能跟著往右移動。
   (() => {
     const stage = document.getElementById('turntableStage');
     const controller = document.getElementById('wheelController');
@@ -1323,7 +1343,7 @@
       if (!dragging || pointer !== e.pointerId) return;
       const dx = e.clientX-lastX;
       lastX=e.clientX;
-      manual += dx * .52;
+      manual -= dx * .52;
       controller.style.setProperty('--manual-angle', `${manual}deg`);
     });
     function release(e) {
@@ -1338,7 +1358,7 @@
     stage.addEventListener('keydown', e => {
       if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
       e.preventDefault();
-      manual += e.key === 'ArrowRight' ? 15 : -15;
+      manual += e.key === 'ArrowRight' ? -15 : 15;
       controller.style.setProperty('--manual-angle', `${manual}deg`);
     });
   })();
