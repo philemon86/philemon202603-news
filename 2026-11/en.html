@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#181615">
-<title>Three Courses, Three Flavors — Savoring Life Slowly | PHILEMON NEWS · November 2026</title>
-<meta name="description" content="November 2026 | An autumn-winter reading table: thirty years of testimonies, companionship for a weary heart, and stories of meeting the Lord in everyday life.">
+<title>Three Flavors, Then a Basin at the Table | PHILEMON NEWS · November 2026</title>
+<meta name="description" content="November 2026 | Three reading flavors are joined by a basin at the table: C299 returns to John 13 and the meaning of having a part with the Lord.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Three Courses, Three Flavors — Savoring Life Slowly | PHILEMON NEWS November">
-<meta property="og:description" content="This autumn and winter, let three books accompany you through grace, companionship, and encounter.">
+<meta property="og:title" content="Three Flavors, Then a Basin at the Table | PHILEMON NEWS November">
+<meta property="og:description" content="After three reading flavors, a basin is set at the table. C299 joins the November reading menu.">
 <meta property="og:url" content="https://philemon.com.tw/2026-11/en.html">
 <meta property="og:image" content="https://philemon.com.tw/2026-11/assets/c296-01.webp">
 <link rel="canonical" href="https://philemon.com.tw/2026-11/en.html">
@@ -318,7 +318,7 @@
   }
   .menu-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
   .menu-item {
     display: flex;
@@ -760,6 +760,35 @@
     box-shadow: 0 6px 16px rgba(53, 71, 57, 0.2);
   }
 
+  /* COURSE 04：席間一盆水 */
+  .course-04 {
+    background:
+      radial-gradient(circle at 25% 35%, rgba(180, 201, 143, 0.28) 0%, transparent 44%),
+      radial-gradient(circle at 82% 68%, rgba(255, 239, 181, 0.32) 0%, transparent 34%),
+      linear-gradient(180deg, #E8EDCF 0%, #DCE7BB 100%);
+    color: #283329;
+    border-top: 1px solid rgba(86, 109, 91, 0.2);
+  }
+  .course-04 .kicker { color: #5A735D; }
+  .course-04 .course-title { color: #253329; }
+  .course-04 .course-lead { color: #4C5D4F; }
+  .course-04 .tasting-quote { border-color:#6D8472; color:#314235; background:linear-gradient(90deg,rgba(109,132,114,.14) 0%,transparent 100%); }
+  .course-04 .meta-tags span { border-color:rgba(86,109,91,.32); color:#3D4D40; background:rgba(255,255,255,.38); }
+  .course-04 .book-code { color:#647066; }
+  .course-04 .btn-gold { background:#354739; color:#F7F4EC; }
+  .course-04 .btn-gold:hover { background:#485F4D; box-shadow:0 12px 28px rgba(53,71,57,.22); }
+  .course-04 .btn-ghost { color:#425345; border-color:rgba(66,83,69,.35); }
+  .course-04 .btn-ghost:hover { color:#243026; border-color:#243026; }
+  .c299-stage { position:relative; min-height:560px; display:grid; place-items:center; isolation:isolate; }
+  .c299-stage::before,.c299-stage::after { content:""; position:absolute; border:1px solid rgba(86,109,91,.28); border-radius:50%; z-index:0; }
+  .c299-stage::before { width:420px; height:120px; bottom:58px; }
+  .c299-stage::after { width:300px; height:82px; bottom:77px; }
+  .c299-stage img { position:relative; z-index:2; width:min(340px,76%); border-radius:3px; box-shadow:-18px 28px 55px rgba(63,79,62,.28); transform:rotate(1.5deg); transition:transform .8s ease,box-shadow .8s ease; }
+  .c299-stage:hover img { transform:rotate(0deg) translateY(-8px); box-shadow:-18px 34px 64px rgba(63,79,62,.34); }
+  .c299-stage .dish-badge { left:auto; right:5%; top:7%; background:rgba(232,237,207,.92); border-color:#6D8472; color:#48604B; }
+  .t-card-water { border-color:rgba(109,132,114,.5); background:linear-gradient(160deg,rgba(109,132,114,.12) 0%,rgba(255,255,255,.018) 100%); }
+  .t-card-water .en-num,.t-card-water a { color:#B9D0A7; }
+
   /* 品味筆記選單 (Tasting Notes Cards) */
   .tasting-menu {
     padding: 120px 0;
@@ -783,8 +812,8 @@
   }
   .tasting-cards {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 28px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
     text-align: left;
   }
   .t-card {
@@ -917,8 +946,8 @@
     }
     .four-gallery { grid-template-columns: repeat(2, 1fr); }
     .gallery-item:nth-child(even) { margin-top: 0; }
-    .tasting-cards { grid-template-columns: 1fr; }
-    .menu-grid { grid-template-columns: 1fr; }
+    .tasting-cards { grid-template-columns: repeat(2, 1fr); }
+    .menu-grid { grid-template-columns: repeat(2, 1fr); }
     .menu-item { border-right: none; border-bottom: 1px solid rgba(200, 164, 110, 0.14); justify-content:center; text-align:center; flex-direction:column; align-items:center; gap:10px; padding:24px 18px; }
     .menu-text, .menu-text strong, .menu-text small { text-align:center; }
   }
@@ -994,6 +1023,10 @@
     .daylight-arch { width: min(330px, 86vw); height: 410px; }
     .scene-pills { gap: 6px; flex-wrap: wrap; justify-content: center; }
     .tasting-menu { padding: 90px 0; }
+    .tasting-cards, .menu-grid { grid-template-columns: 1fr; }
+    .c299-stage { min-height: 450px; }
+    .c299-stage::before { width:82vw; max-width:360px; }
+    .c299-stage::after { width:62vw; max-width:270px; }
     .t-card { padding: 30px 24px; }
   }
 
@@ -1025,6 +1058,7 @@
     <a href="#first">01 Slow-Aged Grace</a>
     <a href="#second">02 A Warm Bowl for the Heart</a>
     <a href="#third">03 Everyday Aftertaste</a>
+    <a href="#fourth">04 A Basin at the Table</a>
   </nav>
   <div class="head-actions">
     <div class="locale-switch" aria-label="Language">
@@ -1104,16 +1138,18 @@
         <span class="desktop-desc">Before winter arrives, dim the lights and save a chair for yourself.<br>
         This November, PHILEMON sets a table of books in the evening light:<br>
         grace simmered over thirty years, a gentle light for the hidden heart,<br>
-        and tender encounters hidden in ordinary days.</span>
+        and tender encounters hidden in ordinary days;<br>
+        then, a basin is set at the table.</span>
         <span class="mobile-desc">Before winter arrives, dim the lights,<br>
         and save a chair for yourself.<br>
         This November, PHILEMON has prepared a table of books:<br>
         grace simmered over thirty years, a gentle light for the hidden heart,<br>
-        and tender encounters hidden in ordinary days.</span>
+        and tender encounters hidden in ordinary days;<br>
+        then, a basin is set at the table.</span>
       </p>
       <div class="hero-actions">
         <a class="btn-gold" href="#first">Choose a Course ↗</a>
-        <a class="btn-ghost" href="#menu">Explore the Three Flavors ↓</a>
+        <a class="btn-ghost" href="#menu">Explore the Four Courses ↓</a>
       </div>
     </div>
   </section>
@@ -1142,6 +1178,13 @@
           <small>21 encounters in ordinary places</small>
         </span>
       </a>
+      <a class="menu-item" href="#fourth">
+        <span class="menu-no">04</span>
+        <span class="menu-text">
+          <strong>A Basin at the Table</strong>
+          <small>Return to John 13 and “have a part”</small>
+        </span>
+      </a>
     </div>
   </section>
 
@@ -1159,7 +1202,7 @@
       A good book is like slow food,<br>it needs a little<span>evening and time</span>，<br>to reveal its lasting flavor.
     </h2>
     <p class="prologue-desc">
-      Some stories need years before their grace can be understood. Some feelings need someone sitting beside us before we can speak. Some answers are hidden in places we pass every day. Three books, three flavors, set a quiet table for the cooling season.
+      Some stories need years before their grace can be understood. Some feelings need someone sitting beside us before we can speak. Some answers are hidden in places we pass every day. Beyond these three flavors, a basin is set at the table, taking us back to John 13 and the question of what it means to have a part with the Lord.
     </p>
     <div class="prologue-sign">— A Note from the Reading Table —</div>
   </section>
@@ -1316,6 +1359,28 @@
     </div>
   </section>
 
+  <!-- COURSE 04: A Basin at the Table -->
+  <section class="course-section course-04" id="fourth">
+    <div class="wrap spotlight-grid">
+      <div class="c299-stage">
+        <div class="dish-badge">Course 04 · A Basin at the Table</div>
+        <img src="data:image/webp;base64,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" alt="Cover of C299, 洗腳禮論" loading="lazy">
+      </div>
+      <div>
+        <div class="kicker">Course 04 / A Basin at the Table</div>
+        <h2 class="course-title">At this table,<br>the Lord bent down.</h2>
+        <p class="course-lead">During supper, Jesus rose, poured water into a basin, and began to wash the disciples’ feet. When Peter refused, Jesus said, “If I do not wash you, you have no share with me.” A basin, a towel, and an act of humility open the question of what it means to have a part with the Lord.</p>
+        <blockquote class="tasting-quote">C299 returns to John 13, its original language, structure, and context, asking again how footwashing relates to love, humility, salvation, and our relationship with Christ.</blockquote>
+        <div class="meta-tags"><span>Doctrine Study</span><span>John 13</span><span>A Part with the Lord</span></div>
+        <p class="book-code">C299 | 洗腳禮論 (Doctrine of Footwashing)</p>
+        <div class="hero-actions" style="margin-top:24px; justify-content:flex-start;">
+          <a class="btn-gold" href="https://www.pbooks.com.tw/products/c299">View C299 ↗</a>
+          <a class="btn-ghost" href="#choose">Back to the Menu</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- 品味選單（已替換為最新指定文案） -->
   <section class="tasting-menu" id="choose">
     <div class="wrap">
@@ -1340,6 +1405,12 @@
           <h3>Savor the Everyday · Encounters that Linger</h3>
           <p>Life is like the tea we drink every day—so familiar that we forget to taste it. From bookstores and banks to airports, a different angle reveals the sweetness of meeting the Lord hidden in ordinary moments.</p>
           <a href="https://www.pbooks.com.tw/products/c298">Taste Foresee · Encounter · Heal ↗</a>
+        </article>
+        <article class="t-card t-card-water">
+          <span class="en-num">04 / A Basin at the Table</span>
+          <h3>A Basin at the Table · A Part with the Lord</h3>
+          <p>The meal continues, but the Lord rises, takes a towel, and pours water into a basin. There is no flavor to taste in this course, only a sentence that cannot be skipped: “If I do not wash you, you have no share with me.”</p>
+          <a href="https://www.pbooks.com.tw/products/c299">View C299 ↗</a>
         </article>
       </div>
       <p style="font-size:12px; color:#6E6A63; margin-top:42px;">Prices, promotions, and availability are subject to the current information on the Philemon Bookstore website.</p>
@@ -1367,6 +1438,7 @@
         <a href="https://philemon.com.tw/c296/">Testimony Collection</a>
         <a href="https://philemon.com.tw/c297/">For the Weary Heart</a>
         <a href="https://philemon.com.tw/c298/">Encounter</a>
+        <a href="https://www.pbooks.com.tw/products/c299">C299 Footwashing</a>
         <a href="https://www.pbooks.com.tw/">Visit Bookstore</a>
       </nav>
     </div>
