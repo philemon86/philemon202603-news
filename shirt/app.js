@@ -199,7 +199,7 @@ function renderRecent(){
  const list=(live?.recent||[]).filter(r=>byId.has(r.id));
  if(!list.length){
   const p=document.createElement('p');p.className='recent-empty';
-  p.textContent=live?'目前沒有公開意向':'尚無公開意向';root.append(p);return;
+  p.textContent=live?'目前尚無公開意向':'登記尚未開放';root.append(p);return;
  }
  for(const item of list.slice(0,8)){
   const meta=byId.get(item.id);
@@ -340,7 +340,8 @@ async function start(){
   setInterval(()=>{if(document.visibilityState==='visible')loadLive();},62000);
   document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')loadLive();});
  }else{
-  setStatus('登記尚未開放');
+  const accurate=catalog.filter(c=>c.c==='TW'&&c.loc!=='country_center_approximate'&&Number.isFinite(c.lat)&&Number.isFinite(c.lng)).length;
+  setStatus('教會地圖已載入 '+accurate+' 處位置 · 登記尚未開放');
  }
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
