@@ -34,7 +34,7 @@ function toggleModal(id,open){
 function bindUI(){
  $('topShirtBtn').addEventListener('click',()=>toggleModal('productBackdrop',true));
  $('openProductBtn').addEventListener('click',()=>toggleModal('productBackdrop',true));
- $('formOpenSizeGuideBtn').addEventListener('click',()=>toggleModal('productBackdrop',true));
+ $('formOpenSizeGuideBtn').addEventListener('click',()=>{toggleModal('registerBackdrop',false);toggleModal('productBackdrop',true);});
  $('closeProductBtn').addEventListener('click',()=>toggleModal('productBackdrop',false));
  $('openRegisterBtn').addEventListener('click',()=>toggleModal('registerBackdrop',true));
  $('fromProductRegisterBtn').addEventListener('click',()=>{if(expired())return;toggleModal('productBackdrop',false);toggleModal('registerBackdrop',true);});
@@ -109,7 +109,7 @@ function makePopup(item,meta){
  let s='<div class="popup-name">'+esc(churchName(meta))+'</div>';
  s+='<div class="popup-qty">意向 <b>'+nfmt(effectiveQty(item))+'</b> 件　·　已確認 '+nfmt(item.confirmed)+' 件</div>';
  for(const p of people.slice(0,6)){
-  const name=(p.surname||'匿名')+(p.surname?(p.title||''):'');
+  const name=p.surname||'匿名';
   s+='<div class="popup-person"><span>'+esc(name)+'</span><strong>'+nfmt(p.qty)+' 件</strong></div>';
  }
  if(meta.loc!=='directory')s+='<div class="popup-foot">位置為概略標示</div>';
@@ -141,7 +141,7 @@ function renderRecent(){
  }
  for(const item of list.slice(0,8)){
   const meta=byId.get(item.id);
-  const name=(item.surname||'匿名')+(item.surname?(item.title||''):'');
+  const name=item.surname||'匿名';
   const row=document.createElement('div');row.className='recent-item';
   const avatar=document.createElement('span');avatar.className='recent-avatar';avatar.textContent=(item.surname||'匿').slice(0,1);
   const desc=document.createElement('span');desc.className='recent-desc';
