@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#142d4a" />
+  <meta name="description" content="真耶穌教會臺灣傳教百週年紀念衫再製作意向地圖。即時觀看各地教會的需求意向。" />
+  <title>百週年紀念衫・再製作意向地圖｜腓利門書房</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="./style.css?v=1" />
+  <script src="./config.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+  <script src="./app.js?v=1" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="https://www.philemon.com.tw/" aria-label="回到腓利門書房首頁"><span class="brand-symbol">✦</span><span>腓利門書房 <small>PHILEMON BOOKSTORE</small></span></a>
+    <nav><a href="#map-area">意向地圖</a><a href="#about">活動說明</a><a class="nav-cta" href="#join">我要登記</a></nav>
+  </header>
+  <main>
+    <section class="hero wrap">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="dash"></span> TRUE JESUS CHURCH · TAIWAN 100</p>
+        <h1>讓百年的記念，<br/><em>再次相聚。</em></h1>
+        <p class="subtitle">臺灣傳教100週年紀念衫<br/>再製作意向地圖</p>
+        <p class="hero-desc">你來自哪一間教會？還想為自己或家人留幾件？簡單填寫姓氏、教會與尺寸，看看這份期待從哪些地方慢慢聚集。</p>
+        <div class="hero-actions"><a class="button primary" href="#join">我也想登記 <span>↗</span></a><a class="button subtle" href="#map-area">看看各地意向</a></div>
+        <p class="small-note">調查截止 2027.12.10　｜　超過 100 件，評估安排再製作</p>
+      </div>
+      <div class="hero-art">
+        <img src="./assets/anniversary-shirt.jpg" alt="真耶穌教會臺灣傳教100週年深藍色紀念衫，金色刺繡細節" />
+        <div class="hero-stamp"><span>100</span><small>ANNIVERSARY</small></div>
+      </div>
+    </section>
+    <section class="section-stat wrap" aria-label="意向統計">
+      <div class="stat"><span class="stat-label">目前收到的意向</span><strong id="interestTotal">—</strong><span class="unit">件</span></div>
+      <div class="stat"><span class="stat-label">其中已核對</span><strong id="verifiedTotal">—</strong><span class="unit">件</span></div>
+      <div class="stat"><span class="stat-label">參與的教會／聚會點</span><strong id="activeChurches">—</strong><span class="unit">處</span></div>
+      <div class="stat status-stat"><span class="stat-label">離再製作門檻</span><strong id="remaining">—</strong><span class="unit">件</span><div class="bar"><div id="progressbar"></div></div></div>
+    </section>
+    <section class="map-section wrap" id="map-area">
+      <div class="section-heading"><div><span class="kicker">FROM EVERY CHURCH</span><h2>一件件期待，來自不同的地方。</h2><p>顏色依意向件數加深，圓圈越大表示件數越多。地圖按教會或地區呈現，部分座標為概略位置。</p></div><span class="updatetime" id="updatedAt">尚未連接即時資料</span></div>
+      <div class="map-layout">
+        <div class="map-panel">
+          <div class="map-controls"><div class="switches"><button type="button" class="chip active" data-scope="TW">臺灣</button><button type="button" class="chip" data-scope="ALL">全球</button></div><div class="legend"><span>意向少</span><span class="legend-bar"></span><span>意向多</span></div></div>
+          <div id="map" role="region" aria-label="紀念衫意向分布地圖"></div>
+          <p class="map-footnote">• 含待核對之意向僅供觀察，正式達標以已核對件數為準。• 海外座標缺漏時可能顯示在國家概略位置。</p>
+        </div>
+        <aside class="side-panel">
+          <div class="list-title"><h3>教會意向分布</h3><span id="churchCountLabel">依件數排序</span></div>
+          <input type="search" id="churchSearch" placeholder="搜尋教會、國家或地區…" aria-label="搜尋教會" />
+          <div id="churchList" class="church-list"><div class="empty-state">目前尚無可顯示的意向資料</div></div>
+        </aside>
+      </div>
+    </section>
+    <section class="wrap lower-grid">
+      <div class="feed-card"><div class="section-heading small"><div><span class="kicker">NEW VOICES</span><h2>最近加入的心意</h2></div><span class="privacy-tag">自願公開</span></div><div id="recentList" class="recent-list"><div class="empty-state">尚無已確認的公開意向</div></div></div>
+      <div class="register-card" id="join"><span class="kicker">COUNT ME IN</span><h2>也為你留一件嗎？</h2><p>只要選擇教會、填寫姓氏（可選匿名）與各尺寸件數，就能登記意向。每人自行填寫，書報組只要分享連結即可。</p><div class="register-notes"><span>✓ 不收集手機、地址或完整姓名</span><span>✓ 不用先付款，也不構成訂單</span><span>✓ 可自行保留回覆代碼，以便修改</span></div><div id="formWrapper"><div class="form-disabled">資料服務尚未啟用，請由管理員完成 Google Apps Script 設定後開放填寫。</div></div><div class="register-bottom"><a href="https://www.pbooks.com.tw/products/pg36" target="_blank" rel="noopener">查看衣服商品頁 ↗</a><a href="./assets/size-guide.jpg" target="_blank" rel="noopener">查看尺寸表 ↗</a></div></div>
+    </section>
+    <section class="about wrap" id="about"><div><span class="kicker">ABOUT THIS SURVEY</span><h2>一份意向，<br>為下一次製作留個可能。</h2></div><div><p>這是腓利門書房的需求調查，目前未開放正式購買。經核對的意向件數超過100件後，書房將評估再製作，並公布正式售價、時程及訂購方式。</p><p>參考商品售價每件 NT$499；再製作價格以日後公告為準。調查截止為 2027 年 12 月 10 日 23:59（臺灣時間）。</p><p class="privacy-note">隱私說明：公開頁面僅顯示填報者同意公開的「姓氏＋稱謂」、所屬教會與件數。對於規模較小的教會，這些資訊仍可能間接辨識個人，因此亦可選擇匿名。後臺儲存回覆時間、教會、尺寸、件數、匿名回覆代碼與審核狀態；不要求電話、電子郵件或地址。第三方服務可能依自身政策保有存取紀錄。</p><p>有疑問可寫信至 <a href="mailto:zalmunna17@gmail.com">zalmunna17@gmail.com</a>。</p></div></section>
+  </main>
+  <footer><div class="wrap footer-inner"><span>腓利門書房 © 2026</span><span>百週年紀念衫 · 意向調查</span><a href="https://www.philemon.com.tw/">返回書房首頁 ↗</a></div></footer>
+</body>
+</html>
