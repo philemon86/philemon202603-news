@@ -23,6 +23,12 @@ function refreshDeadline(){
 let catalog=[],byId=new Map(),map=null,pins=null,basePins=null,live=null,scope='TW',refreshing=false,activeSearchIndex=-1;
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const nfmt=n=>Math.max(0,Number(n)||0).toLocaleString('zh-TW');
+
+const SIMPLIFIED_PAIRS="乾干亞亚來来俱具倫伦傘伞傳传僑侨內内務务勝胜勢势區区員员問问啟启國国圍围園园圓圆報报壇坛壢坜壩坝壽寿奧奥學学實实寧宁寶宝專专岡冈島岛峽峡崙仑嶼屿巒峦師师庫库廈厦廣广廬庐強强後后復复愛爱慶庆應应戶户擔担昇升晉晋書书會会東东柵栅棧栈楊杨榮荣樂乐樓楼樹树橋桥橫横權权歷历歸归涼凉溝沟滿满漁渔漢汉漬渍澤泽濱滨灣湾烏乌營营爾尔獅狮現现瑪玛璉琏環环發发磯矶禱祷穌稣篤笃簡简紅红納纳紐纽組组綠绿維维線线縣县繼继羅罗義义聖圣腦脑腳脚臥卧臺台興兴莊庄華华萊莱萬万葉叶蓋盖蓮莲蘆芦蘇苏蘭兰號号裡里見见親亲觀观觸触詩诗豐丰貝贝貞贞財财貢贡貴贵賓宾輝辉轄辖農农連连遊游運运達达遠远邊边鄉乡鄰邻醃腌銅铜鋪铺錦锦鎮镇鐵铁長长門门開开間间閣阁閩闽關关阪坂陽阳際际雙双雲云霧雾靈灵靜静韓韩頂顶順顺領领頭头館馆馬马鬧闹魯鲁鰲鳌鳥鸟鳳凤鴨鸭鶯莺鶴鹤鹽盐麗丽麥麦龍龙龜龟";
+const SEARCH_TRANSFORMS=new Map(Array.from({length:SIMPLIFIED_PAIRS.length/2},(_,i)=>[SIMPLIFIED_PAIRS[i*2],SIMPLIFIED_PAIRS[i*2+1]]));
+const normalized=s=>Array.from(String(s??'').normalize('NFKC').toLowerCase()).map(c=>SEARCH_TRANSFORMS.get(c)||c).join('').replace(/[\s\-_.·・（）()]/g,'');
+const matchesChurch=(c,q)=>[churchName(c),c.name,c.en,c.label,c.country,c.region].some(x=>normalized(x).includes(q));
+
 const churchName=c=>c.c==='TW'&&c.name&&!/(教會|祈禱所|聚會所|福音中心|禱告所)$/.test(c.name)?c.name+'教會':c.name;
 const qtyColor=n=>n>=20?'#142f51':n>=10?'#3b6382':n>=4?'#779aa9':'#b5c9d4';
 const effectiveQty=r=>Math.max(0,Number(r.confirmed)||0)+Math.max(0,Number(r.pending)||0);
@@ -88,7 +94,7 @@ function initMap(){
  current.addTo(map);
  basePins=L.layerGroup().addTo(map);
  pins=L.layerGroup().addTo(map);
- map.on('zoomend',()=>{if(scope==='ALL')renderCatalog();});
+ map.on('zoomend',()=>{if(scope==='ALL')renderMap();});
  resetView();
 }
 function renderCatalog(){
@@ -109,6 +115,19 @@ function renderCatalog(){
   }
   return;
  }
+
+ if(scope==='ALL'&&map.getZoom()>=6){
+  const bounds=map.getBounds().pad(.3);
+  for(const m of catalog){
+   if(m.loc==='country_center_approximate'||!Number.isFinite(m.lat)||!Number.isFinite(m.lng)||!bounds.contains([m.lat,m.lng])||used.has(m.id))continue;
+   L.circleMarker([m.lat,m.lng],{radius:map.getZoom()>10?5.1:4,color:'#fff',weight:1.25,fillColor:'#7094a7',fillOpacity:.83})
+    .bindTooltip(churchName(m),{direction:'top'})
+    .bindPopup('<div class="popup-name">'+esc(churchName(m))+'</div><div class="popup-qty">'+(live?'目前尚無登記件數':'尚未開放登記')+'</div><div class="popup-foot">地點資訊來源：'+esc(m.loc==='sabah_official_gps'?'沙巴總會提供 GPS':m.loc==='taiwan_historical_reference'?'臺灣教會資料':'教會名錄')+'</div>')
+    .addTo(basePins);
+  }
+  return;
+ }
+
  const byCountry=new Map();
  for(const m of catalog){
   if(!Number.isFinite(m.lat)||!Number.isFinite(m.lng))continue;
@@ -132,9 +151,9 @@ function renderCatalog(){
 
 function showSuggestions(value){
  const root=$('churchSuggestions');root.replaceChildren();
- const term=String(value||'').trim().toLowerCase();
+ const term=normalized(value);
  if(!term){root.hidden=true;return;}
- const matches=catalog.filter(c=>[c.name,c.en,c.label,c.country,c.region].some(x=>String(x||'').toLowerCase().includes(term))).slice(0,12);
+ const matches=catalog.filter(c=>matchesChurch(c,term)).slice(0,12);
  if(!matches.length){root.hidden=true;return;}
  for(const c of matches){
   const btn=document.createElement('button');
@@ -181,9 +200,10 @@ function renderMap(){
  if(!map||!pins)return;
  pins.clearLayers();renderCatalog();
  if(!live)return;
- if(scope==='ALL')return;
+ if(scope==='ALL'&&map.getZoom()<6)return;
+ const bounds=map.getBounds().pad(.3);
  const valid=(live.churches||[]).map(r=>({r,m:byId.get(r.id)}))
- .filter(x=>x.m&&effectiveQty(x.r)>0&&x.m.c==='TW'&&x.m.loc!=='country_center_approximate'&&Number.isFinite(x.m.lat)&&Number.isFinite(x.m.lng));
+ .filter(x=>x.m&&effectiveQty(x.r)>0&&(scope==='ALL'||x.m.c==='TW')&&x.m.loc!=='country_center_approximate'&&Number.isFinite(x.m.lat)&&Number.isFinite(x.m.lng)&&bounds.contains([x.m.lat,x.m.lng]));
  for(const {r,m} of valid){
   const num=effectiveQty(r);
   const size=Math.min(58,Math.round(27+Math.sqrt(num)*5));
@@ -269,9 +289,9 @@ function renderRegistrationPreview(root){
  const church=$('previewChurch');
  const renderOptions=()=>{
    results.replaceChildren();
-   const q=church.value.trim().toLowerCase();
+   const q=normalized(church.value);
    if(!q){results.hidden=true;return;}
-   const picks=catalog.filter(c=>[c.name,c.en,c.region,c.country].some(k=>String(k||'').toLowerCase().includes(q))).slice(0,8);
+   const picks=catalog.filter(c=>matchesChurch(c,q)).slice(0,8);
    for(const c of picks){
      const btn=document.createElement('button');btn.type='button';btn.textContent=churchName(c)+' · '+c.country;
      btn.addEventListener('click',()=>{church.value=churchName(c);results.hidden=true;});
@@ -341,7 +361,7 @@ async function start(){
   document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')loadLive();});
  }else{
   const accurate=catalog.filter(c=>c.c==='TW'&&c.loc!=='country_center_approximate'&&Number.isFinite(c.lat)&&Number.isFinite(c.lng)).length;
-  setStatus('教會地圖已載入 '+accurate+' 處位置 · 登記尚未開放');
+  setStatus('地圖已收錄 '+catalog.length+' 筆教會／聚會點 · 臺灣 '+accurate+' 處座標 · 登記尚未開放');
  }
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
