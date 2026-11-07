@@ -10,10 +10,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800&family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-<link rel="stylesheet" href="./style.css?v=20261107d"/>
+<link rel="stylesheet" href="./style.css?v=20261108a"/>
 <script src="./config.js"></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
-<script src="./app.js?v=20261107d" defer></script>
+<script src="./app.js?v=20261108a" defer></script>
 </head>
 <body>
 <main id="mapStage" aria-label="百週年紀念衫意向地圖"></main>
@@ -115,7 +115,7 @@
         <h2 id="registerTitle">紀念衫再製作意向登記</h2>
         <p>挑選合適的尺寸，留下你的需求。</p>
       </div>
-      <button id="closeRegisterBtn" type="button" class="close-btn" aria-label="關閉">×</button>
+      <div class="register-head-actions"><button id="showMapBtn" type="button" class="show-map-btn">查看地圖</button><button id="closeRegisterBtn" type="button" class="close-btn" aria-label="關閉">×</button></div>
     </header>
     <div class="register-layout">
       <aside class="register-reference" aria-label="衣服與尺寸參考">
@@ -128,13 +128,14 @@
             <a href="https://www.pbooks.com.tw/products/pg36" target="_blank" rel="noopener noreferrer">商品介紹 ↗</a>
           </div>
         </div>
-        <div class="registration-measurements">
-          <div class="registration-measure-title">
-            <div><span class="product-kicker">SIZE GUIDE</span><h3>尺寸參考</h3></div>
-            <span class="unit-chip">cm</span>
-          </div>
-          <div class="registration-table-wrap">
-            <table class="native-size-table registration-size-table" aria-label="紀念衫尺寸數據，單位公分">
+        <details id="registrationSizeGuide" class="registration-measurements" open>
+          <summary class="registration-measure-title">
+            <span class="measure-icon">↔</span>
+            <span class="measure-caption"><strong>尺寸對照表</strong><small>肩寬、胸寬、衣長 · cm</small></span>
+            <span class="measure-toggle"><span class="when-closed">展開</span><span class="when-open">收合</span><span class="measure-chevron">⌄</span></span>
+          </summary>
+          <div class="registration-measure-inner">
+            <div class="registration-table-wrap"><table class="native-size-table registration-size-table" aria-label="紀念衫尺寸數據，單位公分">
               <thead><tr><th scope="col">尺寸</th><th scope="col">肩寬</th><th scope="col">胸寬</th><th scope="col">衣長</th></tr></thead>
               <tbody><tr><th scope="row">110cm</th><td>30.5</td><td>35.5</td><td>43</td></tr>
 <tr><th scope="row">120cm</th><td>32</td><td>38</td><td>46</td></tr>
@@ -147,10 +148,10 @@
 <tr><th scope="row">2XL</th><td>50</td><td>67.5</td><td>71.5</td></tr>
 <tr><th scope="row">3XL</th><td>52</td><td>71</td><td>74</td></tr>
 <tr><th scope="row">4XL</th><td>54</td><td>75</td><td>76.5</td></tr></tbody>
-            </table>
+            </table></div>
+            <p class="registration-measure-note">尺寸為衣服平量，測量差異約 ±1–2 cm。</p>
           </div>
-          <p class="registration-measure-note">胸寬為平量數據，測量誤差約 ±1–2 cm。</p>
-        </div>
+        </details>
       </aside>
       <div class="registration-entry">
         <div class="registration-entry-head">
