@@ -3,6 +3,23 @@
 const $=id=>document.getElementById(id);
 const config=window.SHIRT_CONFIG||{};
 const validScriptUrl=/^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/.test(config.scriptUrl||'');
+const CLOSE_AT=new Date('2027-12-10T23:59:59+08:00').getTime();
+function expired(){return Date.now()>CLOSE_AT;}
+function refreshDeadline(){
+ const out=$('deadlineCountdown');if(!out)return;
+ const diff=CLOSE_AT-Date.now();
+ if(diff<0){out.textContent='本次意向調查已截止';out.classList.add('expired');}
+ else {
+  const d=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000);
+  const remainder=d>0?'尚餘 '+d+' 天':'尚餘 '+h+' 小時';
+  out.textContent='12/10（五）23:59 截止 · '+remainder;
+  out.classList.remove('expired');
+ }
+ const main=$('openRegisterBtn');
+ main.disabled=expired();main.textContent=expired()?'調查已截止':'我要登記 ＋';
+ const from=$('fromProductRegisterBtn');if(from){from.disabled=expired();from.textContent=expired()?'調查已截止':'登記意向 →';}
+}
+
 let catalog=[],byId=new Map(),map=null,pins=null,live=null,scope='TW',refreshing=false,activeSearchIndex=-1;
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const nfmt=n=>Math.max(0,Number(n)||0).toLocaleString('zh-TW');
@@ -20,6 +37,7 @@ function bindUI(){
  $('formOpenSizeGuideBtn').addEventListener('click',()=>toggleModal('productBackdrop',true));
  $('closeProductBtn').addEventListener('click',()=>toggleModal('productBackdrop',false));
  $('openRegisterBtn').addEventListener('click',()=>toggleModal('registerBackdrop',true));
+ $('fromProductRegisterBtn').addEventListener('click',()=>{if(expired())return;toggleModal('productBackdrop',false);toggleModal('registerBackdrop',true);});
  $('closeRegisterBtn').addEventListener('click',()=>toggleModal('registerBackdrop',false));
  for(const id of ['productBackdrop','registerBackdrop']){
    $(id).addEventListener('click',e=>{if(e.target===$(id))toggleModal(id,false);});
@@ -178,7 +196,7 @@ function initForm(){
  });
 }
 async function start(){
- bindUI();initMap();initForm();render();
+ bindUI();refreshDeadline();setInterval(refreshDeadline,60000);initMap();initForm();render();
  try{
   const response=await fetch('./churches.json',{cache:'no-cache'});
   if(!response.ok)throw Error('churches data');
