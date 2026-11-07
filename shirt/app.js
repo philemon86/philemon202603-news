@@ -260,6 +260,7 @@ function initForm(){
 }
 async function start(){
  bindUI();refreshDeadline();setInterval(refreshDeadline,60000);initMap();initForm();render();
+ if(new URLSearchParams(window.location.search).get('register')==='1')toggleModal('registerBackdrop',true);
  try{
   const response=await fetch('./churches.json',{cache:'no-cache'});
   if(!response.ok)throw Error('churches data');
