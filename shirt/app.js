@@ -34,7 +34,6 @@ function toggleModal(id,open){
 function bindUI(){
  $('topShirtBtn').addEventListener('click',()=>toggleModal('productBackdrop',true));
  $('openProductBtn').addEventListener('click',()=>toggleModal('productBackdrop',true));
- $('formOpenSizeGuideBtn').addEventListener('click',()=>{toggleModal('registerBackdrop',false);toggleModal('productBackdrop',true);});
  $('closeProductBtn').addEventListener('click',()=>toggleModal('productBackdrop',false));
  $('openRegisterBtn').addEventListener('click',()=>toggleModal('registerBackdrop',true));
  $('fromProductRegisterBtn').addEventListener('click',()=>{if(expired())return;toggleModal('productBackdrop',false);toggleModal('registerBackdrop',true);});
@@ -179,9 +178,73 @@ async function loadLive(){
  });
  refreshing=false;
 }
+
+function renderRegistrationPreview(root){
+ const sizes=['110cm','120cm','2XS','XS','S','M','L','XL','2XL','3XL','4XL'];
+ const counts=Object.fromEntries(sizes.map(s=>[s,0]));
+ root.replaceChildren();
+ const form=document.createElement('div');
+ form.className='preview-entry';
+ form.innerHTML=
+ '<div class="preview-field">'+
+   '<label class="preview-label" for="previewChurch">01　所屬教會</label>'+
+   '<input id="previewChurch" type="search" placeholder="搜尋教會／Church" autocomplete="off" />'+
+   '<div class="preview-results" id="previewChurchResults" hidden></div>'+
+ '</div>'+
+ '<div class="preview-field">'+
+   '<label class="preview-label" for="previewSurname">02　姓氏</label>'+
+   '<input id="previewSurname" maxlength="16" type="text" placeholder="黃、Chen、Wong" />'+
+   '<span class="preview-hint">只填姓氏即可，中英文皆可。</span>'+
+ '</div>'+
+ '<div class="preview-quantity-head"><strong>03　選擇尺寸與件數</strong><span id="previewTotal">共 0 件</span></div>'+
+ '<div class="preview-quantities" id="previewQuantities"></div>'+
+ '<p class="preview-disclaimer">此為再製作意向調查，無須付款。教會、姓氏及意向件數會顯示在公開地圖上。調查截止：2027/12/10。</p>'+
+ '<button class="preview-submit" type="button" disabled>登記尚未開放</button>'+
+ '<p class="preview-closed">Google 資料接收尚未啟用</p>';
+ root.append(form);
+ const results=$('previewChurchResults');
+ const church=$('previewChurch');
+ const renderOptions=()=>{
+   results.replaceChildren();
+   const q=church.value.trim().toLowerCase();
+   if(!q){results.hidden=true;return;}
+   const picks=catalog.filter(c=>[c.name,c.en,c.region,c.country].some(k=>String(k||'').toLowerCase().includes(q))).slice(0,8);
+   for(const c of picks){
+     const btn=document.createElement('button');btn.type='button';btn.textContent=churchName(c)+' · '+c.country;
+     btn.addEventListener('click',()=>{church.value=churchName(c);results.hidden=true;});
+     results.append(btn);
+   }
+   results.hidden=picks.length===0;
+ };
+ church.addEventListener('input',renderOptions);
+ church.addEventListener('focus',renderOptions);
+ form.addEventListener('click',e=>{if(!e.target.closest('.preview-field'))results.hidden=true;});
+ const grid=$('previewQuantities');
+ const totalOut=$('previewTotal');
+ const repaint=()=>{
+   const total=Object.values(counts).reduce((a,b)=>a+b,0);
+   totalOut.textContent='共 '+total+' 件';
+   grid.querySelectorAll('.preview-quantity').forEach(card=>{
+     card.classList.toggle('active',counts[card.dataset.size]>0);
+     card.querySelector('output').textContent=String(counts[card.dataset.size]);
+   });
+ };
+ for(const size of sizes){
+   const card=document.createElement('div');card.className='preview-quantity';card.dataset.size=size;
+   const head=document.createElement('b');head.textContent=size;
+   const ctrl=document.createElement('div');ctrl.className='preview-quantity-controls';
+   const minus=document.createElement('button');minus.type='button';minus.textContent='−';minus.setAttribute('aria-label',size+'減一件');
+   const plus=document.createElement('button');plus.type='button';plus.textContent='+';plus.setAttribute('aria-label',size+'加一件');
+   const count=document.createElement('output');count.textContent='0';
+   minus.addEventListener('click',()=>{counts[size]=Math.max(0,counts[size]-1);repaint();});
+   plus.addEventListener('click',()=>{const t=Object.values(counts).reduce((a,b)=>a+b,0);if(t<10){counts[size]+=1;repaint();}});
+   ctrl.append(minus,count,plus);card.append(head,ctrl);grid.append(card);
+ }
+}
+
 function initForm(){
  const root=$('formWrapper');
- if(!validScriptUrl){root.innerHTML='<div class="form-unavailable">登記尚未開放</div>';return;}
+ if(!validScriptUrl){renderRegistrationPreview(root);return;}
  root.replaceChildren();
  const frame=document.createElement('iframe');
  frame.src=config.scriptUrl+'?mode=form';
