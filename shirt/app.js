@@ -293,7 +293,6 @@ function initQuickForm(){
   if(!selectedChurch){showQuickMessage('請從教會建議名單點選所屬教會','error');church.focus();return;}
   const fullName=$('quickName').value.trim().normalize('NFKC');
   if(!/^[\p{L}\p{M}][\p{L}\p{M}.'’\-\s]{1,39}$/u.test(fullName)){showQuickMessage('請填寫書報組或中文／英文全名（2～40字）','error');return;}
-  if(!$('quickConsent').checked){showQuickMessage('請先同意將填寫名稱及尺寸明細提供所屬教會書報組','error');return;}
   const qty=getTotal();if(qty<1||qty>10){showQuickMessage('請選擇1至10件','error');return;}
   let token='';try{token=localStorage.getItem('shirt_receipt_code_v3')||'';}catch(e){}
   if(!/^[0-9a-f-]{36}$/.test(token)){
@@ -302,7 +301,7 @@ function initQuickForm(){
    });
   }
   try{localStorage.setItem('shirt_receipt_code_v3',token);}catch(e){}
-  pendingRequest={req:String(Date.now())+'-'+Math.random().toString(36).slice(2,8),token,churchId:selectedChurch.id,qty,body:{churchId:selectedChurch.id,name:fullName,consent:true,sizes:{...quantities},honey:'',token},sent:false};
+  pendingRequest={req:String(Date.now())+'-'+Math.random().toString(36).slice(2,8),token,churchId:selectedChurch.id,qty,body:{churchId:selectedChurch.id,name:fullName,sizes:{...quantities},honey:'',token},sent:false};
   submit.disabled=true;submit.textContent='準備送出…';
   showQuickMessage(readyBridge?'正在保存登記…':'正在連接 Google，尚未送出資料');
   pendingRequest.timeout=setTimeout(()=>{
@@ -338,7 +337,6 @@ function handleBridgeResult(data){
  try{localStorage.removeItem('shirt_receipt_code_v3');}catch(e){}
  $('quickSend').disabled=false;$('quickSend').textContent='送出下一筆 →';
  $('quickName').value='';
- $('quickConsent').checked=false;
  Object.keys(quantities).forEach(k=>{quantities[k]=0;});paintQty();
  showQuickMessage('登記成功：'+p.qty+' 件。可繼續填寫下一位。','success');
  $('quickName').focus();
@@ -354,7 +352,7 @@ function initBridge(){
   if(!m||m.type!=='shirt-bridge-ready'||m.nonce!==bridgeNonce||!event.ports?.[0])return;
   let hostname='';try{hostname=new URL(event.origin).hostname}catch(e){}
   if(hostname&&hostname!=='script.google.com'&&!hostname.endsWith('.googleusercontent.com'))return;
-  if(m.protocol!=='named-consent-v2'){
+  if(m.protocol!=='named-notice-v3'){
     $('quickSend').disabled=true;
     showQuickMessage('登記系統正在更新，尚未啟用姓名登記。請書房管理員更新 Google Apps Script。','error');
     return;
