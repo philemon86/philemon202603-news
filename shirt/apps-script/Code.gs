@@ -49,19 +49,25 @@ function bridgeHtml_(nonce) {
   return '<!doctype html><html><head><meta charset="utf-8"></head><body><script>' +
    '(function(){' +
      'const nonce='+safe+';' +
-     'const channel=new MessageChannel();' +
-     'channel.port1.onmessage=function(e){' +
-       'const d=e.data||{};' +
-       'if(d.type!=="submit"||typeof d.requestId!=="string"||!d.payload)return;' +
-       'google.script.run.withSuccessHandler(function(result){' +
-         'channel.port1.postMessage({type:"result",requestId:d.requestId,ok:true,result:result});' +
-       '}).withFailureHandler(function(err){' +
-         'channel.port1.postMessage({type:"result",requestId:d.requestId,ok:false,error:String(err&&err.message||err)});' +
-       '}).submitInterest(d.payload);' +
-     '};' +
-     'channel.port1.start();' +
-     'window.parent.postMessage({type:"shirt-bridge-ready",nonce:nonce,protocol:"named-notice-v3"},' +
-       '"https://www.philemon.com.tw",[channel.port2]);' +
+     'const targets=[];' +
+     'try{targets.push(window.parent);}catch(e){}' +
+     'try{targets.push(window.parent.parent);}catch(e){}' +
+     'try{targets.push(window.top);}catch(e){}' +
+     'targets.filter(function(w,i){return w&&targets.indexOf(w)===i&&w!==window;}).forEach(function(target){' +
+       'const channel=new MessageChannel();' +
+       'channel.port1.onmessage=function(e){' +
+         'const d=e.data||{};' +
+         'if(d.type!=="submit"||typeof d.requestId!=="string"||!d.payload)return;' +
+         'google.script.run.withSuccessHandler(function(result){' +
+           'channel.port1.postMessage({type:"result",requestId:d.requestId,ok:true,result:result});' +
+         '}).withFailureHandler(function(err){' +
+           'channel.port1.postMessage({type:"result",requestId:d.requestId,ok:false,error:String(err&&err.message||err)});' +
+         '}).submitInterest(d.payload);' +
+       '};' +
+       'channel.port1.start();' +
+       'try{target.postMessage({type:"shirt-bridge-ready",nonce:nonce,protocol:"named-notice-v3"},' +
+         '"https://www.philemon.com.tw",[channel.port2]);}catch(e){channel.port1.close();}' +
+     '});' +
    '})();' +
    '<\/script></body></html>';
 }
