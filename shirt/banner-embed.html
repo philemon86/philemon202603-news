@@ -1,27 +1,33 @@
-<!-- 傳教100週年紀念衫｜直接登記 Banner：貼入原本 C296 Banner 的自訂 HTML 區塊即可 -->
-<div id="philemon-shirt-banner-embed" style="width:100%;max-width:1460px;margin:0 auto;">
+<!-- 傳教100週年紀念衫｜直接登記 Banner v3：以內容實際高度自動貼合，不留下底部空白 -->
+<div id="philemon-shirt-banner-embed" style="display:block;width:100%;max-width:1460px;margin:0 auto;line-height:0;">
   <iframe id="philemon-shirt-banner-frame"
-    src="https://www.philemon.com.tw/shirt/banner.html?v=20261108banner2"
+    src="https://www.philemon.com.tw/shirt/banner.html?v=20261108banner3"
     title="傳教100週年紀念衫意向登記｜可在此直接填寫"
     loading="eager" scrolling="no" referrerpolicy="strict-origin-when-cross-origin"
-    style="display:block;width:100%;height:740px;border:0;background:transparent;overflow:hidden;border-radius:22px"></iframe>
+    style="display:block;width:100%;height:690px;min-height:0;border:0;background:transparent;overflow:hidden;border-radius:22px"></iframe>
 </div>
 <style>
-@media(max-width:1100px){#philemon-shirt-banner-frame{height:850px!important}}
-@media(max-width:760px){#philemon-shirt-banner-frame{height:1230px!important}}
-@media(max-width:400px){#philemon-shirt-banner-frame{height:1340px!important}}
+@media(max-width:1100px){#philemon-shirt-banner-frame{height:810px}}
+@media(max-width:760px){#philemon-shirt-banner-frame{height:1100px}}
+@media(max-width:400px){#philemon-shirt-banner-frame{height:1150px}}
 </style>
 <script>
 (function(){
   var frame=document.getElementById('philemon-shirt-banner-frame');
-  if(!frame||frame.dataset.autosize==='true')return;
-  frame.dataset.autosize='true';
+  if(!frame||frame.dataset.autosize==='v3')return;
+  frame.dataset.autosize='v3';
+  var minHeight=350,maxHeight=2200;
   window.addEventListener('message',function(event){
     if(event.origin!=='https://www.philemon.com.tw'||event.source!==frame.contentWindow)return;
-    var d=event.data||{};
-    if(d.type!=='philemon-shirt-banner-height')return;
-    var h=Number(d.height);
-    if(Number.isFinite(h)&&h>=350&&h<=2500)frame.style.setProperty('height',Math.ceil(h)+'px','important');
+    var data=event.data||{};
+    if(data.type!=='philemon-shirt-banner-height')return;
+    var measured=Number(data.height);
+    if(!Number.isFinite(measured)||measured<minHeight||measured>maxHeight)return;
+    var height=Math.ceil(measured);
+    if(frame.dataset.contentHeight===String(height))return;
+    frame.dataset.contentHeight=String(height);
+    /* Inline style overrides the CSS fallback without !important conflicts. */
+    frame.style.height=height+'px';
   });
 })();
 </script>
