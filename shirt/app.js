@@ -301,7 +301,10 @@ function initQuickForm(){
   pendingRequest.timeout=setTimeout(()=>{
    if(!pendingRequest)return;
    pendingRequest=null;submit.disabled=false;submit.textContent='重新送出意向 →';
-   showQuickMessage('Google 連線逾時，尚未確認儲存。請稍後重試。','error');
+   showQuickMessage('Google 尚未回覆，資料尚未確認儲存。可改用備用登記頁。','error');
+   const link=document.createElement('a');
+   link.href=APP_URL+'?mode=form';link.target='_blank';link.rel='noopener noreferrer';
+   link.textContent='開啟備用登記頁 ↗';$('quickStatus').append(document.createTextNode('　'),link);
   },30000);
   sendPending();
  });
@@ -350,6 +353,11 @@ function initBridge(){
  });
  const frame=$('interestBridge');
  frame.src=APP_URL+'?mode=bridge&nonce='+encodeURIComponent(nonce);
+ frame.addEventListener('load',()=>setTimeout(()=>{
+   if(!readyBridge&&pendingRequest&&!pendingRequest.sent){
+     showQuickMessage('Google 登記服務連線中，資料尚未送出。','info');
+   }
+ },3500));
 }
 
 function bindEvents(){
