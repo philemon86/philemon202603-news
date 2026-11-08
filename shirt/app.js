@@ -354,7 +354,7 @@ function initBridge(){
   if(!m||m.type!=='shirt-bridge-ready'||m.nonce!==bridgeNonce||!event.ports?.[0])return;
   let hostname='';try{hostname=new URL(event.origin).hostname}catch(e){}
   if(hostname&&hostname!=='script.google.com'&&!hostname.endsWith('.googleusercontent.com'))return;
-  if(m.protocol!=='named-consent-v1'){
+  if(m.protocol!=='named-consent-v2'){
     $('quickSend').disabled=true;
     showQuickMessage('登記系統正在更新，尚未啟用姓名登記。請書房管理員更新 Google Apps Script。','error');
     return;
