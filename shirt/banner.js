@@ -114,7 +114,7 @@
     setStatus('Google 登記端尚未更新，請管理員重新部署最新版 Code.gs。','error');
     return;
    }
-   if(port)port.close();
+   if(ready||port)return;
    port=event.ports[0];ready=true;
    port.onmessage=e=>{
     const data=e.data;
