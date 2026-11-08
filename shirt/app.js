@@ -1,368 +1,225 @@
 'use strict';
 (()=>{
 const $=id=>document.getElementById(id);
-const config=window.SHIRT_CONFIG||{};
-const validScriptUrl=/^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/.test(config.scriptUrl||'');
-const CLOSE_AT=new Date('2027-12-10T23:59:59+08:00').getTime();
-function expired(){return Date.now()>CLOSE_AT;}
-function refreshDeadline(){
- const out=$('deadlineCountdown');if(!out)return;
- const diff=CLOSE_AT-Date.now();
- if(diff<0){out.textContent='本次意向調查已截止';out.classList.add('expired');}
- else {
-  const d=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000);
-  const remainder=d>0?'尚餘 '+d+' 天':'尚餘 '+h+' 小時';
-  out.textContent='12/10（五）23:59 截止 · '+remainder;
-  out.classList.remove('expired');
+const APP_URL=(window.SHIRT_CONFIG||{}).scriptUrl||'';
+const END=new Date('2027-12-10T23:59:59+08:00').getTime();
+const PAIRS="乾干亞亚來来俱具倫伦傘伞傳传僑侨內内務务勝胜勢势區区員员問问啟启國国圍围園园圓圆報报壇坛壢坜壩坝壽寿奧奥學学實实寧宁寶宝專专岡冈島岛峽峡崙仑嶼屿巒峦師师庫库廈厦廣广廬庐強强後后復复愛爱慶庆應应戶户擔担昇升晉晋書书會会東东柵栅棧栈楊杨榮荣樂乐樓楼樹树橋桥橫横權权歷历歸归涼凉溝沟滿满漁渔漢汉漬渍澤泽濱滨灣湾烏乌營营爾尔獅狮現现瑪玛璉琏環环發发磯矶禱祷穌稣篤笃簡简紅红納纳紐纽組组綠绿維维線线縣县繼继羅罗義义聖圣腦脑腳脚臥卧臺台興兴莊庄華华萊莱萬万葉叶蓋盖蓮莲蘆芦蘇苏蘭兰號号裡里見见親亲觀观觸触詩诗豐丰貝贝貞贞財财貢贡貴贵賓宾輝辉轄辖農农連连遊游運运達达遠远邊边鄉乡鄰邻醃腌銅铜鋪铺錦锦鎮镇鐵铁長长門门開开間间閣阁閩闽關关阪坂陽阳際际雙双雲云霧雾靈灵靜静韓韩頂顶順顺領领頭头館馆馬马鬧闹魯鲁鰲鳌鳥鸟鳳凤鴨鸭鶯莺鶴鹤鹽盐麗丽麥麦龍龙龜龟";
+const chars=new Map(Array.from({length:PAIRS.length/2},(_,i)=>[PAIRS[2*i],PAIRS[2*i+1]]));
+const norm=s=>Array.from(String(s||'').normalize('NFKC').toLowerCase()).map(ch=>chars.get(ch)||ch).join('').replace(/[\s\-_.·・（）()]/g,'');
+const clean=s=>String(s??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+const fmt=n=>Math.max(0,Number(n)||0).toLocaleString('zh-TW');
+const churchTitle=c=>c.c==='TW'&&c.name&&!/(教會|祈禱所|聚會所|福音中心|禱告所)$/.test(c.name)?c.name+'教會':c.name;
+const queryChurch=(c,q)=>[churchTitle(c),c.name,c.en,c.region,c.country,c.label].some(v=>norm(v).includes(q));
+const countOf=r=>Math.max(0,Number(r?.confirmed)||0)+Math.max(0,Number(r?.pending)||0);
+const validURL=/^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/.test(APP_URL);
+let catalog=[],byId=new Map(),live=null,scope='TW',map=null,base=null,hot=null,mapLoaded=false,loadingStats=false;
+function status(t){$('updatedAt').textContent=t;}
+function labelColor(n){return n>=25?'#193451':n>=10?'#335e7e':n>=4?'#608ca1':'#9eb8c3';}
+function refreshTime(){
+ const left=END-Date.now(),elem=$('deadlineCountdown');
+ if(left<=0){elem.textContent='已截止';elem.style.color='#a14d47';return;}
+ const days=Math.floor(left/86400000);
+ elem.textContent=days>0?'還有 '+days+' 天':Math.floor(left/3600000)+' 小時';
+}
+function initSearch(){
+ const input=$('churchSearch'),results=$('churchSuggestions');
+ const show=()=>{
+   const q=norm(input.value);results.replaceChildren();
+   if(!q){results.hidden=true;return;}
+   const picks=catalog.filter(c=>queryChurch(c,q)).slice(0,12);
+   for(const c of picks){
+    const btn=document.createElement('button');btn.type='button';
+    const strong=document.createElement('strong');strong.textContent=churchTitle(c);
+    const small=document.createElement('small');small.textContent=c.country+(c.region?' · '+c.region:'');
+    btn.append(strong,small);
+    btn.onclick=()=>{
+      input.value=churchTitle(c);results.hidden=true;
+      if(c.c!=='TW'&&scope==='TW')setScope('ALL');
+      if(map&&Number.isFinite(+c.lat)&&Number.isFinite(+c.lng)){
+        map.flyTo([c.lat,c.lng],c.loc==='country_center_approximate'?5:12,{duration:.7});
+      }
+    };
+    results.append(btn);
+   }
+   results.hidden=!picks.length;
+ };
+ input.addEventListener('input',show);
+ input.addEventListener('focus',show);
+ document.addEventListener('click',e=>{if(!e.target.closest('.map-search'))results.hidden=true;});
+}
+function setScope(next){
+ scope=next;
+ document.querySelectorAll('[data-scope]').forEach(b=>b.classList.toggle('active',b.dataset.scope===next));
+ resetMap();renderFallback();renderMarkers();
+}
+function resetMap(){
+ if(map)map.setView(scope==='TW'?[23.72,120.96]:[24,22],scope==='TW'?7.7:2.2);
+}
+function fallbackReady(){
+ const fallback=$('mapFallback');
+ if(fallback)fallback.classList.add('tile-ready');
+ mapLoaded=true;
+}
+function renderFallback(){
+ const dots=$('fallbackPins');dots.replaceChildren();
+ $('fallbackTw').style.display=scope==='TW'?'':'none';
+ $('fallbackWorld').style.display=scope==='TW'?'none':'';
+ const seen=new Set();
+ for(const c of catalog){
+   if(!Number.isFinite(+c.lat)||!Number.isFinite(+c.lng))continue;
+   if(scope==='TW'&&c.c!=='TW')continue;
+   if(scope==='ALL'&&c.loc==='country_center_approximate'&&seen.has(c.c))continue;
+   if(scope==='ALL'&&c.loc==='country_center_approximate')seen.add(c.c);
+   const x=scope==='TW'?((c.lng-119.0)/3.7)*100:((c.lng+180)/360)*100;
+   const y=scope==='TW'?((25.8-c.lat)/4.2)*100:((90-c.lat)/180)*100;
+   if(x<0||x>100||y<0||y>100)continue;
+   const dot=document.createElement('span');dot.className='offline-dot';
+   const item=(live?.churches||[]).find(v=>v.id===c.id);
+   if(item&&countOf(item)>0)dot.classList.add('active');
+   dot.style.left=x+'%';dot.style.top=y+'%';dot.title=churchTitle(c);dots.append(dot);
  }
- const main=$('openRegisterBtn');
- main.disabled=expired();main.textContent=expired()?'調查已截止':'我要登記 ＋';
- const from=$('fromProductRegisterBtn');if(from){from.disabled=expired();from.textContent=expired()?'調查已截止':'登記意向 →';}
+ $('fallbackCaption').textContent=scope==='TW'?'臺灣教會位置示意':'全球教會分布示意';
 }
-
-let catalog=[],byId=new Map(),map=null,pins=null,basePins=null,live=null,scope='TW',refreshing=false,activeSearchIndex=-1;
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const nfmt=n=>Math.max(0,Number(n)||0).toLocaleString('zh-TW');
-
-const SIMPLIFIED_PAIRS="乾干亞亚來来俱具倫伦傘伞傳传僑侨內内務务勝胜勢势區区員员問问啟启國国圍围園园圓圆報报壇坛壢坜壩坝壽寿奧奥學学實实寧宁寶宝專专岡冈島岛峽峡崙仑嶼屿巒峦師师庫库廈厦廣广廬庐強强後后復复愛爱慶庆應应戶户擔担昇升晉晋書书會会東东柵栅棧栈楊杨榮荣樂乐樓楼樹树橋桥橫横權权歷历歸归涼凉溝沟滿满漁渔漢汉漬渍澤泽濱滨灣湾烏乌營营爾尔獅狮現现瑪玛璉琏環环發发磯矶禱祷穌稣篤笃簡简紅红納纳紐纽組组綠绿維维線线縣县繼继羅罗義义聖圣腦脑腳脚臥卧臺台興兴莊庄華华萊莱萬万葉叶蓋盖蓮莲蘆芦蘇苏蘭兰號号裡里見见親亲觀观觸触詩诗豐丰貝贝貞贞財财貢贡貴贵賓宾輝辉轄辖農农連连遊游運运達达遠远邊边鄉乡鄰邻醃腌銅铜鋪铺錦锦鎮镇鐵铁長长門门開开間间閣阁閩闽關关阪坂陽阳際际雙双雲云霧雾靈灵靜静韓韩頂顶順顺領领頭头館馆馬马鬧闹魯鲁鰲鳌鳥鸟鳳凤鴨鸭鶯莺鶴鹤鹽盐麗丽麥麦龍龙龜龟";
-const SEARCH_TRANSFORMS=new Map(Array.from({length:SIMPLIFIED_PAIRS.length/2},(_,i)=>[SIMPLIFIED_PAIRS[i*2],SIMPLIFIED_PAIRS[i*2+1]]));
-const normalized=s=>Array.from(String(s??'').normalize('NFKC').toLowerCase()).map(c=>SEARCH_TRANSFORMS.get(c)||c).join('').replace(/[\s\-_.·・（）()]/g,'');
-const matchesChurch=(c,q)=>[churchName(c),c.name,c.en,c.label,c.country,c.region].some(x=>normalized(x).includes(q));
-
-const churchName=c=>c.c==='TW'&&c.name&&!/(教會|祈禱所|聚會所|福音中心|禱告所)$/.test(c.name)?c.name+'教會':c.name;
-const qtyColor=n=>n>=20?'#142f51':n>=10?'#3b6382':n>=4?'#779aa9':'#b5c9d4';
-const effectiveQty=r=>Math.max(0,Number(r.confirmed)||0)+Math.max(0,Number(r.pending)||0);
-function setStatus(t){$('updatedAt').textContent=t;}
-function toggleModal(id,open){
- const el=$(id);el.classList.toggle('open',open);el.setAttribute('aria-hidden',String(!open));
- if(open){const close=el.querySelector('.close-btn');close?.focus();}
-}
-function bindUI(){
- $('topShirtBtn').addEventListener('click',()=>toggleModal('productBackdrop',true));
- $('openProductBtn').addEventListener('click',()=>toggleModal('productBackdrop',true));
- $('closeProductBtn').addEventListener('click',()=>toggleModal('productBackdrop',false));
- $('openRegisterBtn').addEventListener('click',()=>toggleModal('registerBackdrop',true));
- $('fromProductRegisterBtn').addEventListener('click',()=>{if(expired())return;toggleModal('productBackdrop',false);toggleModal('registerBackdrop',true);});
- $('closeRegisterBtn').addEventListener('click',()=>toggleModal('registerBackdrop',false));
- $('showMapBtn').addEventListener('click',()=>{toggleModal('registerBackdrop',false);if(map){setTimeout(()=>map.invalidateSize(),120);}});
- for(const id of ['productBackdrop','registerBackdrop']){
-   $(id).addEventListener('click',e=>{if(e.target===$(id))toggleModal(id,false);});
- }
- document.addEventListener('keydown',e=>{
-  if(e.key==='Escape'){toggleModal('productBackdrop',false);toggleModal('registerBackdrop',false);$('churchSuggestions').hidden=true;}
- });
- document.querySelectorAll('[data-scope]').forEach(b=>b.addEventListener('click',()=>{
-   scope=b.dataset.scope;
-   document.querySelectorAll('[data-scope]').forEach(x=>x.classList.toggle('active',x===b));
-   resetView();renderMap();
- }));
- $('resetMapBtn').addEventListener('click',resetView);
- $('zoomInBtn').addEventListener('click',()=>map?.zoomIn());
- $('zoomOutBtn').addEventListener('click',()=>map?.zoomOut());
- const search=$('churchSearch');
- search.addEventListener('input',()=>showSuggestions(search.value));
- search.addEventListener('focus',()=>showSuggestions(search.value));
- search.addEventListener('keydown',e=>{if(e.key==='Escape'){$('churchSuggestions').hidden=true;search.blur();}});
- document.addEventListener('click',e=>{if(!e.target.closest('#searchPanel'))$('churchSuggestions').hidden=true;});
-}
-function resetView(){if(!map)return;const taiwan=scope==='TW';map.setView(taiwan?[23.72,120.95]:[24,20],taiwan?8:2,{animate:true});}
-
-async function ensureLeaflet(){
+async function waitForLeaflet(){
  if(window.L)return true;
- const link=document.createElement('link');link.rel='stylesheet';link.href='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css';document.head.append(link);
- return await new Promise(resolve=>{
-  const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js';s.async=true;
-  let settled=false;const complete=ok=>{if(settled)return;settled=true;clearTimeout(timeout);resolve(ok);};
-  s.onload=()=>complete(Boolean(window.L));s.onerror=()=>complete(false);
-  const timeout=setTimeout(()=>complete(false),10000);
-  document.head.append(s);
+ const css=document.createElement('link');css.rel='stylesheet';css.href='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css';document.head.append(css);
+ return new Promise(resolve=>{
+   const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js';s.async=true;
+   let finished=false;
+   const finish=val=>{if(finished)return;finished=true;clearTimeout(timeout);resolve(val);};
+   s.onload=()=>finish(!!window.L);s.onerror=()=>finish(false);
+   const timeout=setTimeout(()=>finish(false),9000);
+   document.head.append(s);
  });
 }
 function initMap(){
- if(!window.L){setStatus('地圖載入失敗，請重新整理');return;}
- map=L.map('mapStage',{zoomControl:false,scrollWheelZoom:true,worldCopyJump:true,minZoom:2,maxZoom:17,preferCanvas:true});
- let tileErrors=0,tileFallback=false;
- const makeTile=(url,attr)=>L.tileLayer(url,{subdomains:'abcd',maxZoom:19,attribution:attr});
- let current=makeTile('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png','© OpenStreetMap © CARTO');
- current.on('tileerror',()=>{
-  if(++tileErrors>=4&&!tileFallback){
-   tileFallback=true;map.removeLayer(current);
-   current=makeTile('https://tile.openstreetmap.org/{z}/{x}/{y}.png','© OpenStreetMap');
-   current.addTo(map);
+ if(!window.L)return;
+ try{
+ map=L.map('mapStage',{zoomControl:false,attributionControl:true,scrollWheelZoom:true,preferCanvas:true,minZoom:2,maxZoom:17,worldCopyJump:true});
+ let errors=0,switched=false;
+ let tile=L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:19,attribution:'© OpenStreetMap © CARTO'});
+ tile.on('tileload',fallbackReady);
+ tile.on('tileerror',()=>{
+  if(++errors>3&&!switched){
+    switched=true;map.removeLayer(tile);
+    tile=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'});
+    tile.on('tileload',fallbackReady);tile.addTo(map);
   }
  });
- current.addTo(map);
- basePins=L.layerGroup().addTo(map);
- pins=L.layerGroup().addTo(map);
- map.on('zoomend',()=>{if(scope==='ALL')renderMap();});
- resetView();
+ tile.addTo(map);
+ base=L.layerGroup().addTo(map);
+ hot=L.layerGroup().addTo(map);
+ resetMap();
+ map.on('zoomend moveend',renderMarkers);
+ setTimeout(()=>{map?.invalidateSize();},160);
+ }catch(e){status('地圖底圖暫無法載入，顯示教會位置示意');}
 }
-function renderCatalog(){
- if(!basePins||!window.L)return;
- basePins.clearLayers();
- const used=new Set((live?.churches||[]).filter(x=>effectiveQty(x)>0).map(x=>x.id));
- if(scope==='TW'){
-  for(const m of catalog){
-   if(m.c!=='TW'||used.has(m.id)||m.loc==='country_center_approximate'||!Number.isFinite(m.lat)||!Number.isFinite(m.lng))continue;
-   L.circleMarker([m.lat,m.lng],{
-    radius:map.getZoom()>11?5.1:3.8,
-    color:'#fefefe',weight:1,fillColor:'#7094a7',fillOpacity:.68,
-    opacity:.95
-   })
-   .bindTooltip(churchName(m),{direction:'top',offset:[0,-4]})
-   .bindPopup('<div class="popup-name">'+esc(churchName(m))+'</div><div class="popup-qty">'+(live?'目前尚無登記件數':'教會位置 · 意向統計尚未啟用')+'</div>')
-   .addTo(basePins);
-  }
-  return;
- }
-
- if(scope==='ALL'&&map.getZoom()>=6){
-  const bounds=map.getBounds().pad(.3);
-  for(const m of catalog){
-   if(m.loc==='country_center_approximate'||!Number.isFinite(m.lat)||!Number.isFinite(m.lng)||!bounds.contains([m.lat,m.lng])||used.has(m.id))continue;
-   L.circleMarker([m.lat,m.lng],{radius:map.getZoom()>10?5.1:4,color:'#fff',weight:1.25,fillColor:'#7094a7',fillOpacity:.83})
-    .bindTooltip(churchName(m),{direction:'top'})
-    .bindPopup('<div class="popup-name">'+esc(churchName(m))+'</div><div class="popup-qty">'+(live?'目前尚無登記件數':'尚未開放登記')+'</div><div class="popup-foot">地點資訊來源：'+esc(m.loc==='sabah_official_gps'?'沙巴總會提供 GPS':m.loc==='taiwan_historical_reference'?'臺灣教會資料':'教會名錄')+'</div>')
-    .addTo(basePins);
-  }
-  return;
- }
-
- const byCountry=new Map();
- for(const m of catalog){
-  if(!Number.isFinite(m.lat)||!Number.isFinite(m.lng))continue;
-  const g=byCountry.get(m.c)||{c:m.c,country:m.country,count:0,lat:0,lng:0,reference:null,active:0};
-  g.count++;
-  if(!g.reference||(g.reference.loc!=='country_center_approximate'&&m.loc==='country_center_approximate'))g.reference=m;
-  byCountry.set(m.c,g);
- }
- for(const g of byCountry.values()){
-  const m=g.reference;if(!m)continue;
-  const active=(live?.churches||[]).filter(r=>byId.get(r.id)?.c===g.c).reduce((acc,r)=>acc+effectiveQty(r),0);
-  const radius=active>0?Math.min(18,8+Math.sqrt(active)*2):7;
-  L.circleMarker([m.lat,m.lng],{
-   radius,color:'#ffffff',weight:2,fillColor:active>0?qtyColor(active):'#93aab6',fillOpacity:active>0?.95:.76
-  })
-  .bindTooltip(g.country+' · '+g.count+' 個教會／聚會點',{direction:'top'})
-  .bindPopup('<div class="popup-name">'+esc(g.country)+'</div><div class="popup-qty">收錄 '+g.count+' 個教會／聚會點</div><div class="popup-qty">意向件數：'+(live?nfmt(active):'尚未連線')+'</div><div class="popup-foot">部分位置僅代表國家概略位置</div>')
-  .addTo(basePins);
- }
+function getPopup(meta,rec){
+ const qty=countOf(rec);
+ const people=(live?.recent||[]).filter(p=>p.id===meta.id);
+ const recent=people.map(p=>'<div class="popup-person"><span>'+clean(p.surname||'')+'</span><b>'+fmt(p.qty)+' 件</b></div>').join('');
+ const info=qty>0?'已有 '+fmt(qty)+' 件意向':'尚無意向登記';
+ return '<div class="popup-title">'+clean(churchTitle(meta))+'</div><div class="popup-info">'+info+'</div>'+recent;
 }
-
-function showSuggestions(value){
- const root=$('churchSuggestions');root.replaceChildren();
- const term=normalized(value);
- if(!term){root.hidden=true;return;}
- const matches=catalog.filter(c=>matchesChurch(c,term)).slice(0,12);
- if(!matches.length){root.hidden=true;return;}
- for(const c of matches){
-  const btn=document.createElement('button');
-  btn.type='button';btn.className='search-result';
-  const name=document.createElement('strong');name.textContent=churchName(c);
-  const sub=document.createElement('small');sub.textContent=c.country+' · '+c.region;
-  btn.append(name,sub);
-  btn.addEventListener('click',()=>{
-    $('churchSearch').value=churchName(c);
-    root.hidden=true;
-    if(c.c==='TW'&&scope!=='TW'){scope='TW';document.querySelectorAll('[data-scope]').forEach(x=>x.classList.toggle('active',x.dataset.scope==='TW'));}
-    else if(c.c!=='TW'&&scope!=='ALL'){scope='ALL';document.querySelectorAll('[data-scope]').forEach(x=>x.classList.toggle('active',x.dataset.scope==='ALL'));}
-    renderMap();
-    if(map&&Number.isFinite(+c.lat)&&Number.isFinite(+c.lng)){map.flyTo([c.lat,c.lng],c.loc==='country_center_approximate'?5:12,{duration:.8});}
-  });
-  root.append(btn);
- }
- root.hidden=false;
-}
-function renderStats(){
- if(!live){
-  for(const id of ['totalQtyNum','verifiedNum','churchesNum'])$(id).textContent='—';
-  $('recentStatus').textContent=validScriptUrl?'連線中':'未開放';
-  return;
- }
- $('totalQtyNum').textContent=nfmt(live.total);
- $('verifiedNum').textContent=nfmt(live.verified);
- $('churchesNum').textContent=nfmt((live.churches||[]).filter(x=>effectiveQty(x)>0).length);
- $('recentStatus').textContent='已更新';
-}
-function makePopup(item,meta){
- const people=(live?.recent||[]).filter(x=>x.id===item.id);
- let s='<div class="popup-name">'+esc(churchName(meta))+'</div>';
- s+='<div class="popup-qty">意向 <b>'+nfmt(effectiveQty(item))+'</b> 件　·　已確認 '+nfmt(item.confirmed)+' 件</div>';
- for(const p of people.slice(0,6)){
-  const name=p.surname||'匿名';
-  s+='<div class="popup-person"><span>'+esc(name)+'</span><strong>'+nfmt(p.qty)+' 件</strong></div>';
- }
- if(meta.loc!=='directory')s+='<div class="popup-foot">位置為概略標示</div>';
- return s;
-}
-
-function renderMap(){
- if(!map||!pins)return;
- pins.clearLayers();renderCatalog();
- if(!live)return;
- if(scope==='ALL'&&map.getZoom()<6)return;
- const bounds=map.getBounds().pad(.3);
- const valid=(live.churches||[]).map(r=>({r,m:byId.get(r.id)}))
- .filter(x=>x.m&&effectiveQty(x.r)>0&&(scope==='ALL'||x.m.c==='TW')&&x.m.loc!=='country_center_approximate'&&Number.isFinite(x.m.lat)&&Number.isFinite(x.m.lng)&&bounds.contains([x.m.lat,x.m.lng]));
- for(const {r,m} of valid){
-  const num=effectiveQty(r);
-  const size=Math.min(58,Math.round(27+Math.sqrt(num)*5));
-  const bg=qtyColor(num);
-  const text='<div class="map-pin"><span class="pin-circle" style="width:'+size+'px;height:'+size+'px;background:'+bg+'">'+nfmt(num)+'</span><span class="pin-label">'+esc(churchName(m))+'</span></div>';
-  const icon=L.divIcon({html:text,className:'custom-map-pin',iconSize:[110,83],iconAnchor:[55,35],popupAnchor:[0,-30]});
-  L.marker([m.lat,m.lng],{icon,keyboard:true,title:churchName(m)}).bindPopup(makePopup(r,m),{maxWidth:290}).addTo(pins);
- }
-}
-
-function renderRecent(){
- const root=$('recentList');root.replaceChildren();
- const list=(live?.recent||[]).filter(r=>byId.has(r.id));
- if(!list.length){
-  const p=document.createElement('p');p.className='recent-empty';
-  p.textContent=live?'目前尚無公開意向':'登記尚未開放';root.append(p);return;
- }
- for(const item of list.slice(0,8)){
-  const meta=byId.get(item.id);
-  const name=item.surname||'匿名';
-  const row=document.createElement('div');row.className='recent-item';
-  const avatar=document.createElement('span');avatar.className='recent-avatar';avatar.textContent=(item.surname||'匿').slice(0,1);
-  const desc=document.createElement('span');desc.className='recent-desc';
-  const title=document.createElement('strong');title.textContent=name;
-  const sub=document.createElement('small');sub.textContent=churchName(meta)+' · '+meta.country;
-  desc.append(title,sub);
-  const qty=document.createElement('span');qty.className='recent-qty';qty.textContent=nfmt(item.qty)+'件';
-  row.append(avatar,desc,qty);root.append(row);
- }
-}
-function render(){renderStats();renderMap();renderRecent();}
-async function loadLive(){
- if(!validScriptUrl||refreshing)return;
- refreshing=true;
- const callback='__shirtPublic_'+Date.now()+'_'+Math.floor(Math.random()*99999);
- const script=document.createElement('script');
- await new Promise(resolve=>{
-  let done=false;
-  const finish=data=>{
-   if(done)return;done=true;
-   clearTimeout(timeout);delete window[callback];script.remove();
-   if(data&&typeof data==='object'&&Array.isArray(data.churches)){
-    live=data;render();setStatus('最近更新 '+new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'}));
+function renderMarkers(){
+ renderFallback();
+ if(!map||!base||!hot)return;
+ base.clearLayers();hot.clearLayers();
+ const stats=new Map((live?.churches||[]).map(x=>[x.id,x]));
+ const zoom=map.getZoom(),bounds=map.getBounds().pad(.3);
+ if(scope==='TW'||zoom>=6){
+  for(const c of catalog){
+   if(scope==='TW'&&c.c!=='TW')continue;
+   if(c.loc==='country_center_approximate'||!Number.isFinite(+c.lat)||!Number.isFinite(+c.lng)||!bounds.contains([c.lat,c.lng]))continue;
+   const item=stats.get(c.id),total=countOf(item);
+   if(total>0){
+     const size=Math.min(49,27+Math.sqrt(total)*4);
+     const icon=L.divIcon({className:'',html:'<span class="demand-marker" style="width:'+size+'px;height:'+size+'px;background:'+labelColor(total)+'">'+fmt(total)+'</span><span class="demand-label">'+clean(churchTitle(c))+'</span>',iconSize:[size,size],iconAnchor:[size/2,size/2]});
+     L.marker([c.lat,c.lng],{icon}).bindPopup(getPopup(c,item),{maxWidth:240}).addTo(hot);
    }else{
-    setStatus('統計暫時無法連線，稍後自動重試');
+     L.circleMarker([c.lat,c.lng],{radius:zoom>11?5:3.9,weight:1,color:'#fff',fillColor:'#7197a9',fillOpacity:.8})
+      .bindTooltip(churchTitle(c),{direction:'top'}).bindPopup(getPopup(c,item)).addTo(base);
    }
-   resolve();
+  }
+ }else{
+  const countries=new Map();
+  for(const c of catalog){
+   if(!Number.isFinite(+c.lat)||!Number.isFinite(+c.lng))continue;
+   let group=countries.get(c.c);if(!group){group={label:c.country,count:0,lat:c.lat,lng:c.lng,loc:c.loc,qty:0};countries.set(c.c,group);}
+   group.count++;
+   if(c.loc==='country_center_approximate'&&group.loc!=='country_center_approximate'){group.lat=c.lat;group.lng=c.lng;group.loc=c.loc;}
+   group.qty+=countOf(stats.get(c.id));
+  }
+  for(const grp of countries.values()){
+    L.circleMarker([grp.lat,grp.lng],{radius:Math.min(18,7+Math.sqrt(grp.qty)*2),color:'#fff',weight:1.8,fillColor:grp.qty>0?labelColor(grp.qty):'#8faebc',fillOpacity:.9})
+    .bindPopup('<div class="popup-title">'+clean(grp.label)+'</div><div class="popup-info">'+grp.count+' 個教會／聚會點　·　'+fmt(grp.qty)+' 件意向</div><div class="popup-info">部分海外位置為國家概略位置</div>')
+    .addTo(base);
+  }
+ }
+}
+function updateStats(){
+ if(!live){$('totalQtyNum').textContent='—';$('churchesNum').textContent='—';$('goalProgress').textContent='填寫意向';return;}
+ const total=Math.max(0,Number(live.total)||0);
+ $('totalQtyNum').textContent=fmt(total);
+ $('churchesNum').textContent=fmt((live.churches||[]).filter(r=>countOf(r)>0).length);
+ $('goalProgress').textContent=total>=101?'已達到 101 件門檻':'目前 '+fmt(total)+' / 101 件';
+ const item=(live.recent||[])[0];
+ $('recentText').textContent=item?(byId.get(item.id)?churchTitle(byId.get(item.id))+' · ':'')+(item.surname||'')+' · '+fmt(item.qty)+' 件':'目前尚無登記資料';
+}
+function loadStats(){
+ if(!validURL||loadingStats)return Promise.resolve();
+ loadingStats=true;
+ const cb='__shirtMap_'+Date.now()+'_'+Math.floor(Math.random()*99999);
+ return new Promise(resolve=>{
+  const script=document.createElement('script');let done=false;
+  const finish=data=>{
+    if(done)return;done=true;clearTimeout(timer);delete window[cb];script.remove();loadingStats=false;
+    if(data&&Array.isArray(data.churches)){
+      live=data;updateStats();renderMarkers();status('意向統計更新 '+new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'}));
+    }else status('統計暫時無法連線；地圖仍可查看');
+    resolve();
   };
-  window[callback]=finish;
-  script.onerror=()=>finish(null);
-  const timeout=setTimeout(()=>finish(null),14500);
-  script.async=true;
-  script.src=config.scriptUrl+'?mode=public&callback='+encodeURIComponent(callback)+'&t='+Date.now();
+  window[cb]=finish;
+  script.async=true;script.onerror=()=>finish(null);
+  const timer=setTimeout(()=>finish(null),15000);
+  script.src=APP_URL+'?mode=public&callback='+encodeURIComponent(cb)+'&v='+Date.now();
   document.head.append(script);
  });
- refreshing=false;
 }
-
-function renderRegistrationPreview(root){
- const sizes=['110cm','120cm','2XS','XS','S','M','L','XL','2XL','3XL','4XL'];
- const counts=Object.fromEntries(sizes.map(s=>[s,0]));
- root.replaceChildren();
- const form=document.createElement('div');
- form.className='preview-entry';
- form.innerHTML=
- '<div class="preview-field">'+
-   '<label class="preview-label" for="previewChurch">01　所屬教會</label>'+
-   '<input id="previewChurch" type="search" placeholder="搜尋教會／Church" autocomplete="off" />'+
-   '<div class="preview-results" id="previewChurchResults" hidden></div>'+
- '</div>'+
- '<div class="preview-field">'+
-   '<label class="preview-label" for="previewSurname">02　姓氏</label>'+
-   '<input id="previewSurname" maxlength="16" type="text" placeholder="黃、Chen、Wong" />'+
-   '<span class="preview-hint">只填姓氏即可，中英文皆可。</span>'+
- '</div>'+
- '<div class="preview-quantity-head"><strong>03　選擇尺寸與件數</strong><span id="previewTotal">共 0 件</span></div>'+
- '<div class="preview-quantities" id="previewQuantities"></div>'+
- '<p class="preview-disclaimer">此為再製作意向調查，無須付款。教會、姓氏及意向件數會顯示在公開地圖上。調查截止：2027/12/10。</p>'+
- '<button class="preview-submit" type="button" disabled>登記尚未開放</button>'+
- '<p class="preview-closed">Google 資料接收尚未啟用</p>';
- root.append(form);
- const results=$('previewChurchResults');
- const church=$('previewChurch');
- const renderOptions=()=>{
-   results.replaceChildren();
-   const q=normalized(church.value);
-   if(!q){results.hidden=true;return;}
-   const picks=catalog.filter(c=>matchesChurch(c,q)).slice(0,8);
-   for(const c of picks){
-     const btn=document.createElement('button');btn.type='button';btn.textContent=churchName(c)+' · '+c.country;
-     btn.addEventListener('click',()=>{church.value=churchName(c);results.hidden=true;});
-     results.append(btn);
-   }
-   results.hidden=picks.length===0;
- };
- church.addEventListener('input',renderOptions);
- church.addEventListener('focus',renderOptions);
- form.addEventListener('click',e=>{if(!e.target.closest('.preview-field'))results.hidden=true;});
- const grid=$('previewQuantities');
- const totalOut=$('previewTotal');
- const repaint=()=>{
-   const total=Object.values(counts).reduce((a,b)=>a+b,0);
-   totalOut.textContent='共 '+total+' 件';
-   grid.querySelectorAll('.preview-quantity').forEach(card=>{
-     card.classList.toggle('active',counts[card.dataset.size]>0);
-     card.querySelector('output').textContent=String(counts[card.dataset.size]);
-   });
- };
- for(const size of sizes){
-   const card=document.createElement('div');card.className='preview-quantity';card.dataset.size=size;
-   const head=document.createElement('b');head.textContent=size;
-   const ctrl=document.createElement('div');ctrl.className='preview-quantity-controls';
-   const minus=document.createElement('button');minus.type='button';minus.textContent='−';minus.setAttribute('aria-label',size+'減一件');
-   const plus=document.createElement('button');plus.type='button';plus.textContent='+';plus.setAttribute('aria-label',size+'加一件');
-   const count=document.createElement('output');count.textContent='0';
-   minus.addEventListener('click',()=>{counts[size]=Math.max(0,counts[size]-1);repaint();});
-   plus.addEventListener('click',()=>{const t=Object.values(counts).reduce((a,b)=>a+b,0);if(t<10){counts[size]+=1;repaint();}});
-   ctrl.append(minus,count,plus);card.append(head,ctrl);grid.append(card);
- }
-}
-
 function initForm(){
- const root=$('formWrapper');
- if(!validScriptUrl){renderRegistrationPreview(root);return;}
- root.replaceChildren();
+ const box=$('formWrapper');box.replaceChildren();
+ if(!validURL){box.innerHTML='<div class="form-loading">Google 表單尚未連接</div>';return;}
  const frame=document.createElement('iframe');
- frame.src=config.scriptUrl+'?mode=form';
- frame.className='form-frame';
- frame.title='紀念衫意向登記';
+ frame.id='interestForm';frame.title='選擇尺寸、件數及填寫教會姓氏';
+ frame.src=APP_URL+'?mode=form';
  frame.referrerPolicy='strict-origin-when-cross-origin';
- root.append(frame);
- window.addEventListener('message',event=>{
-   let host='';try{host=new URL(event.origin).hostname;}catch(e){return;}
-   if(host!=='script.google.com'&&!host.endsWith('.googleusercontent.com'))return;
-   if(event.data&&event.data.type==='shirt-submitted')loadLive();
+ frame.setAttribute('scrolling','no');
+ box.append(frame);
+ window.addEventListener('message',e=>{
+  const fromScript=e.origin==='https://script.google.com'||/\.googleusercontent\.com$/.test(new URL(e.origin).hostname);
+  if(e.data?.type==='shirt-submitted'&&fromScript)setTimeout(loadStats,950);
  });
 }
+function bindEvents(){
+ document.querySelectorAll('.scope').forEach(b=>b.addEventListener('click',()=>setScope(b.dataset.scope)));
+ $('resetMapBtn').onclick=resetMap;
+ $('zoomInBtn').onclick=()=>map?.zoomIn();
+ $('zoomOutBtn').onclick=()=>map?.zoomOut();
+}
 async function start(){
- bindUI();refreshDeadline();setInterval(refreshDeadline,60000);
- const guide=$('registrationSizeGuide');if(guide){guide.open=window.innerWidth>1050;}
- if(await ensureLeaflet()){initMap();}else{setStatus('地圖服務暫時無法載入');}
- initForm();render();
- if(new URLSearchParams(window.location.search).get('register')==='1')toggleModal('registerBackdrop',true);
+ bindEvents();initSearch();refreshTime();setInterval(refreshTime,60000);initForm();
  try{
-  const response=await fetch('./churches.json',{cache:'no-cache'});
-  if(!response.ok)throw Error('churches data');
-  const data=await response.json();
-  if(!Array.isArray(data))throw Error('bad data');
-  catalog=data;byId=new Map(data.map(c=>[c.id,c]));
-  renderCatalog();
- }catch(err){setStatus('教會資料暫時無法讀取');return;}
- if(validScriptUrl){
-  await loadLive();
-  setInterval(()=>{if(document.visibilityState==='visible')loadLive();},62000);
-  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')loadLive();});
- }else{
-  const accurate=catalog.filter(c=>c.c==='TW'&&c.loc!=='country_center_approximate'&&Number.isFinite(c.lat)&&Number.isFinite(c.lng)).length;
-  setStatus('地圖已收錄 '+catalog.length+' 筆教會／聚會點 · 臺灣 '+accurate+' 處座標 · 登記尚未開放');
- }
+  const req=await fetch('./churches.json',{cache:'no-cache'});
+  if(!req.ok)throw Error('無法讀取教會資料');
+  const x=await req.json();
+  if(!Array.isArray(x))throw Error('教會資料格式錯誤');
+  catalog=x;byId=new Map(x.map(c=>[c.id,c]));renderFallback();
+  status('已收錄 '+catalog.length+' 個教會／聚會點');
+ }catch(e){status('教會資料暫時無法取得');}
+ const got=await waitForLeaflet();
+ if(got){initMap();renderMarkers();}
+ else status('顯示教會位置示意（地圖服務未連線）');
+ if(validURL){await loadStats();setInterval(()=>{if(!document.hidden)loadStats();},45000);}
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
 })();
