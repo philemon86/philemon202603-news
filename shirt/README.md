@@ -8,7 +8,7 @@
 
 - [直接預覽 Banner](https://www.philemon.com.tw/shirt/banner.html)：從原 C296 Banner 的視覺區概念改成可直接填寫紀念衫意向的獨立 Banner。左側商品圖片、滿100件製作提示與 **2026/12/20 23:59 臺灣時間的天時分秒大型倒數**；右側直接選擇教會／客戶、姓名、尺寸與件數，送出後寫入同一份私人 Google Sheet。
 - [Banner 嵌入碼](https://github.com/philemon86/philemon202603-news/blob/master/shirt/banner-embed.html)：在 CYBERBIZ 店面原有「自訂 HTML」Banner 區塊中，以此碼取代原本 C296 專用 HTML 即可；內含可自動調整 iframe 高度的程式與手機備用高度。
-- [主意向網頁](https://www.philemon.com.tw/shirt/)：頂部 LOGO 連結已改 PG36 商品頁；尺寸表保留 3XL／4XL，新增 **5XL：肩寬56、胸寬79、衣長79 cm**。
+- [主意向網頁](https://www.philemon.com.tw/shirt/)：頂部 LOGO 連結已改 PG36 商品頁；尺寸表保留 3XL／4XL，新增 **5XL：肩寬56cm、胸寬79cm、衣長79cm**。
 - Banner 和主頁共用 `shirt/config.js` 的 Google /exec。新版 Apps Script 已加入 5XL，並讓 MessageChannel 向受限的 `https://www.philemon.com.tw` 祖先視窗傳遞，以支援 Banner 透過 iframe 嵌入其他購物網站。**必須由管理員將最新版 Code.gs 儲存並發布新的網頁應用程式版本，才會在正式環境接受 5XL 與嵌入 Banner 的新提交。**
 - Banner 建立在 GitHub Pages；**CYBERBIZ 商品網站內的原 Banner 並未由此 GitHub 推送自動替換**。需將 `banner-embed.html` 貼到該平台原自訂 HTML 區塊。提交與 UI 實機驗收仍待進行。
 
