@@ -448,3 +448,9 @@ a{text-decoration:none;color:inherit}
 .quick-bottom{gap:10px}
 }
 @media(max-width:500px){.map-pane{height:390px;min-height:390px}.map-shell{min-height:224px}}
+
+
+/* Compact single-action registration, with the former consent/disclosure blocks removed. */
+.quick-bottom{justify-content:flex-end;min-height:49px}
+.quick-field label small{font-size:12px;font-weight:500;color:#748796;margin-left:5px}
+@media(max-width:900px){.quick-bottom{min-height:48px}.quick-field label small{font-size:11px}}
