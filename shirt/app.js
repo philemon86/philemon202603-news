@@ -53,7 +53,7 @@ function setScope(next){
  resetMap();renderFallback();renderMarkers();
 }
 function resetMap(){
- if(map)map.setView(scope==='TW'?[23.72,120.96]:[24,22],scope==='TW'?7.7:2.2);
+ if(map)map.setView(scope==='TW'?[23.75,120.98]:[24,22],scope==='TW'?8:2.2);
 }
 function fallbackReady(){
  const fallback=$('mapFallback');
@@ -96,16 +96,14 @@ function initMap(){
  if(!window.L)return;
  try{
  map=L.map('mapStage',{zoomControl:false,attributionControl:true,scrollWheelZoom:true,preferCanvas:true,minZoom:2,maxZoom:17,worldCopyJump:true});
- let errors=0,switched=false;
- let tile=L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:19,attribution:'© OpenStreetMap © CARTO'});
- tile.on('tileload',fallbackReady);
- tile.on('tileerror',()=>{
-  if(++errors>3&&!switched){
-    switched=true;map.removeLayer(tile);
-    tile=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'});
-    tile.on('tileload',fallbackReady);tile.addTo(map);
-  }
+ // OpenStreetMap Standard tiles do not require a CARTO API key.
+ // Leave browser caching enabled and retain the attribution / HTTP Referer.
+ const tile=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{
+   maxZoom:19,attribution:'&copy; OpenStreetMap contributors',crossOrigin:true,
+   updateWhenIdle:true,keepBuffer:2
  });
+ tile.on('tileload',fallbackReady);
+ tile.on('tileerror',()=>status('底圖服務暫時無法使用，仍可查看教會位置'));
  tile.addTo(map);
  base=L.layerGroup().addTo(map);
  hot=L.layerGroup().addTo(map);
@@ -137,7 +135,7 @@ function renderMarkers(){
      const icon=L.divIcon({className:'',html:'<span class="demand-marker" style="width:'+size+'px;height:'+size+'px;background:'+labelColor(total)+'">'+fmt(total)+'</span><span class="demand-label">'+clean(churchTitle(c))+'</span>',iconSize:[size,size],iconAnchor:[size/2,size/2]});
      L.marker([c.lat,c.lng],{icon}).bindPopup(getPopup(c,item),{maxWidth:240}).addTo(hot);
    }else{
-     L.circleMarker([c.lat,c.lng],{radius:zoom>11?5:3.9,weight:1,color:'#fff',fillColor:'#7197a9',fillOpacity:.8})
+     L.circleMarker([c.lat,c.lng],{radius:zoom>11?6.5:4.8,weight:1,color:'#fff',fillColor:'#7197a9',fillOpacity:.8})
       .bindTooltip(churchTitle(c),{direction:'top'}).bindPopup(getPopup(c,item)).addTo(base);
    }
   }
