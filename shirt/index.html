@@ -7,10 +7,10 @@
 <meta name="description" content="真耶穌教會臺灣傳教100週年紀念衫，再製作意向調查與全球教會參與地圖。">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2213%22%20fill%3D%22%23162d49%22%2F%3E%3Ctext%20x%3D%2232%22%20y%3D%2245%22%20text-anchor%3D%22middle%22%20font-family%3D%22Noto%20Sans%20CJK%20TC%2CMicrosoft%20JhengHei%2Csans-serif%22%20font-size%3D%2243%22%20font-weight%3D%22900%22%20fill%3D%22%23fff%22%3E%E8%A1%A3%3C%2Ftext%3E%3C%2Fsvg%3E">
 <title>百週年紀念衫｜各地統計與意向登記</title>
-<link rel="stylesheet" href="./style.css?v=20261108named2">
+<link rel="stylesheet" href="./style.css?v=20261108named3">
 <script src="./config.js"></script>
 
-<script src="./app.js?v=20261108named2" defer></script>
+<script src="./app.js?v=20261108named3" defer></script>
 </head>
 <body>
 <header class="site-head">
@@ -85,17 +85,11 @@
       <div class="quick-options" id="quickChurchOptions" hidden></div>
     </div>
     <div class="quick-field">
-      <label for="quickName">02　姓名（僅供書報組確認）</label>
-      <input id="quickName" type="text" maxlength="40" placeholder="請填登記人的完整姓名／Full Name" required>
+      <label for="quickName">02　姓名</label>
+      <input id="quickName" type="text" maxlength="40" placeholder="輸入書報組或全名即可" required>
     </div>
   </div>
-  <fieldset class="quick-role" aria-label="填寫方式">
-  <legend>03　填寫方式</legend>
-  <label><input type="radio" name="entryMode" value="本人填寫" checked> 本人填寫</label>
-  <label><input type="radio" name="entryMode" value="書報組代填"> 書報組代填</label>
-  <span>每筆登記一人；書報組可連續代填。</span>
-</fieldset>
-<div class="quick-size-heading"><strong>04　尺寸表 <span>平量尺寸 · cm</span></strong><output id="quickTotal">共 0 件</output></div>
+<div class="quick-size-heading"><strong>03　尺寸表 <span>平量尺寸 · cm</span></strong><output id="quickTotal">共 0 件</output></div>
   <div class="quick-table-box"><table class="quick-table" aria-label="紀念衫尺寸與件數"><thead><tr><th>尺寸</th><th>肩寬</th><th>胸寬</th><th>衣長</th><th>件數</th></tr></thead><tbody><tr data-size="110cm"><th scope="row">110cm</th><td>30.5</td><td>35.5</td><td>43</td><td><div class="quick-stepper"><button type="button" data-step="-1" aria-label="110cm 減一件">−</button><output aria-live="off">0</output><button type="button" data-step="1" aria-label="110cm 加一件">＋</button></div></td></tr>
 <tr data-size="120cm"><th scope="row">120cm</th><td>32</td><td>38</td><td>46</td><td><div class="quick-stepper"><button type="button" data-step="-1" aria-label="120cm 減一件">−</button><output aria-live="off">0</output><button type="button" data-step="1" aria-label="120cm 加一件">＋</button></div></td></tr>
 <tr data-size="2XS"><th scope="row">2XS</th><td>37.5</td><td>45.5</td><td>54.5</td><td><div class="quick-stepper"><button type="button" data-step="-1" aria-label="2XS 減一件">−</button><output aria-live="off">0</output><button type="button" data-step="1" aria-label="2XS 加一件">＋</button></div></td></tr>
@@ -107,15 +101,15 @@
 <tr data-size="2XL"><th scope="row">2XL</th><td>50</td><td>67.5</td><td>71.5</td><td><div class="quick-stepper"><button type="button" data-step="-1" aria-label="2XL 減一件">−</button><output aria-live="off">0</output><button type="button" data-step="1" aria-label="2XL 加一件">＋</button></div></td></tr>
 <tr data-size="3XL"><th scope="row">3XL</th><td>52</td><td>71</td><td>74</td><td><div class="quick-stepper"><button type="button" data-step="-1" aria-label="3XL 減一件">−</button><output aria-live="off">0</output><button type="button" data-step="1" aria-label="3XL 加一件">＋</button></div></td></tr>
 <tr data-size="4XL"><th scope="row">4XL</th><td>54</td><td>75</td><td>76.5</td><td><div class="quick-stepper"><button type="button" data-step="-1" aria-label="4XL 減一件">−</button><output aria-live="off">0</output><button type="button" data-step="1" aria-label="4XL 加一件">＋</button></div></td></tr></tbody></table></div>
-  <div class="quick-disclosure">調查結束並彙整意向後，書房會將姓名、尺寸與件數依所屬教會提供書報組核對。紀念衫到貨時，再請書報組辦理正式下單。本次無須付款，也不代表已完成訂購。公開地圖僅顯示教會與件數。</div>
+  <div class="quick-disclosure">調查結束並彙整意向後，書房會將填寫名稱、尺寸與件數依所屬教會提供書報組核對。紀念衫到貨時，再請書報組辦理正式下單。本次無須付款，也不代表已完成訂購。公開地圖僅顯示教會與件數。</div>
 <div class="quick-bottom">
-  <label class="quick-consent"><input id="quickConsent" type="checkbox" required><span>我同意將姓名、尺寸與件數提供所屬教會書報組；代填者已取得本人同意。</span></label>
+  <label class="quick-consent"><input id="quickConsent" type="checkbox" required><span>我同意將填寫名稱、尺寸與件數提供所屬教會書報組。</span></label>
   <button id="quickSend" type="submit">送出意向 →</button>
 </div>
   <div id="quickStatus" class="quick-status" role="status" aria-live="polite"></div>
 </form>
 <iframe id="interestBridge" class="quick-bridge" title="Google 登記連線" aria-hidden="true" tabindex="-1"></iframe></div>
-    <div class="privacy-foot">姓名僅提供書房與所屬教會書報組辦理後續確認；公開地圖不顯示個人姓名。</div>
+    <div class="privacy-foot">填寫名稱僅供書房與所屬教會書報組整理後續需求；公開地圖不顯示名稱。</div>
   </section>
 </main>
 </body>
