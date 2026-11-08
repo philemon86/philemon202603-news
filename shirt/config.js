@@ -1,2 +1,2 @@
-// Google Apps Script 網頁應用程式的公開 /exec URL；部署前請保留空字串。
-window.SHIRT_CONFIG = { scriptUrl: '' };
+// 百週年紀念衫意向調查 Google Apps Script 已部署端點（公開網頁應用程式）。
+window.SHIRT_CONFIG = { scriptUrl: 'https://script.google.com/macros/s/AKfycbxp7Ty2j2bCj3RhNen4XEpdaIAugr-Qwb_OTpDfbxZAU-z10o3oWRWgVMI3FjG9EzEG/exec' };
