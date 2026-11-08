@@ -2,7 +2,7 @@
 (()=>{
 const $=id=>document.getElementById(id);
 const APP_URL=(window.SHIRT_CONFIG||{}).scriptUrl||'';
-const END=new Date('2027-12-10T23:59:59+08:00').getTime();
+const END=new Date('2026-12-10T23:59:59+08:00').getTime();
 const PAIRS="乾干亞亚來来俱具倫伦傘伞傳传僑侨內内務务勝胜勢势區区員员問问啟启國国圍围園园圓圆報报壇坛壢坜壩坝壽寿奧奥學学實实寧宁寶宝專专岡冈島岛峽峡崙仑嶼屿巒峦師师庫库廈厦廣广廬庐強强後后復复愛爱慶庆應应戶户擔担昇升晉晋書书會会東东柵栅棧栈楊杨榮荣樂乐樓楼樹树橋桥橫横權权歷历歸归涼凉溝沟滿满漁渔漢汉漬渍澤泽濱滨灣湾烏乌營营爾尔獅狮現现瑪玛璉琏環环發发磯矶禱祷穌稣篤笃簡简紅红納纳紐纽組组綠绿維维線线縣县繼继羅罗義义聖圣腦脑腳脚臥卧臺台興兴莊庄華华萊莱萬万葉叶蓋盖蓮莲蘆芦蘇苏蘭兰號号裡里見见親亲觀观觸触詩诗豐丰貝贝貞贞財财貢贡貴贵賓宾輝辉轄辖農农連连遊游運运達达遠远邊边鄉乡鄰邻醃腌銅铜鋪铺錦锦鎮镇鐵铁長长門门開开間间閣阁閩闽關关阪坂陽阳際际雙双雲云霧雾靈灵靜静韓韩頂顶順顺領领頭头館馆馬马鬧闹魯鲁鰲鳌鳥鸟鳳凤鴨鸭鶯莺鶴鹤鹽盐麗丽麥麦龍龙龜龟";
 const chars=new Map(Array.from({length:PAIRS.length/2},(_,i)=>[PAIRS[2*i],PAIRS[2*i+1]]));
 const norm=s=>Array.from(String(s||'').normalize('NFKC').toLowerCase()).map(ch=>chars.get(ch)||ch).join('').replace(/[\s\-_.·・（）()]/g,'');
@@ -14,6 +14,7 @@ const countOf=r=>Math.max(0,Number(r?.confirmed)||0)+Math.max(0,Number(r?.pendin
 const validURL=/^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/.test(APP_URL);
 let catalog=[],byId=new Map(),live=null,scope='TW',map=null,base=null,hot=null,mapLoaded=false,loadingStats=false;
 let selectedChurch=null,bridgePort=null,bridgeNonce='',pendingRequest=null,readyBridge=false;
+let mapVisible=false,statsPage=0;
 const SIZES=['110cm','120cm','2XS','XS','S','M','L','XL','2XL','3XL','4XL'];
 const quantities=Object.fromEntries(SIZES.map(s=>[s,0]));
 function status(t){$('updatedAt').textContent=t;}
@@ -154,10 +155,7 @@ function initMap(){
 }
 function getPopup(meta,rec){
  const qty=countOf(rec);
- const people=(live?.recent||[]).filter(p=>p.id===meta.id);
- const recent=people.map(p=>'<div class="popup-person"><span>'+clean(p.surname||'')+'</span><b>'+fmt(p.qty)+' 件</b></div>').join('');
- const info=qty>0?'已有 '+fmt(qty)+' 件意向':'尚無意向登記';
- return '<div class="popup-title">'+clean(churchTitle(meta))+'</div><div class="popup-info">'+info+'</div>'+recent;
+ return '<div class="popup-title">'+clean(churchTitle(meta))+'</div><div class="popup-info">'+fmt(qty)+' 件</div>';
 }
 function renderMarkers(){
  if(!map||!base||!hot)return;
@@ -194,20 +192,45 @@ function renderMarkers(){
   }
  }
 }
+const STATS_PAGE_SIZE=9;
+function renderStatistics(){
+ const rows=$('churchStatsRows');if(!rows)return;
+ rows.replaceChildren();
+ const arr=(live?.churches||[]).map(r=>{
+  const c=byId.get(r.id);
+  return c?{name:churchTitle(c),qty:countOf(r),id:r.id}:null;
+ }).filter(x=>x&&x.qty>0).sort((a,b)=>b.qty-a.qty||a.name.localeCompare(b.name,'zh-Hant'));
+ const n=Math.max(1,Math.ceil(arr.length/STATS_PAGE_SIZE));
+ statsPage=Math.max(0,Math.min(n-1,statsPage));
+ const selected=arr.slice(statsPage*STATS_PAGE_SIZE,(statsPage+1)*STATS_PAGE_SIZE);
+ if(!selected.length){
+  const row=document.createElement('tr');const cell=document.createElement('td');
+  cell.colSpan=2;cell.className='stats-empty';cell.textContent=live?'尚無資料':'統計資料更新中';
+  row.append(cell);rows.append(row);
+ }
+ for(const item of selected){
+  const row=document.createElement('tr');
+  const name=document.createElement('td');name.textContent=item.name;
+  const count=document.createElement('td');count.textContent=fmt(item.qty);
+  row.append(name,count);rows.append(row);
+ }
+ $('statsPrev').disabled=statsPage===0;
+ $('statsNext').disabled=statsPage>=n-1;
+ $('statsPageInfo').textContent=arr.length?n>1?'第 '+(statsPage+1)+' / '+n+' 頁':'' : '';
+}
 function updateStats(){
- if(!live){$('totalQtyNum').textContent='—';$('churchesNum').textContent='—';$('goalProgress').textContent='填寫意向';return;}
- const total=Math.max(0,Number(live.total)||0);
- $('totalQtyNum').textContent=fmt(total);
- $('churchesNum').textContent=fmt((live.churches||[]).filter(r=>countOf(r)>0).length);
- $('goalProgress').textContent=total>=101?'已達到 101 件門檻':'目前 '+fmt(total)+' / 101 件';
- const item=(live.recent||[])[0];
- $('recentText').textContent=item?(byId.get(item.id)?churchTitle(byId.get(item.id))+' · ':'')+(item.surname||'')+' · '+fmt(item.qty)+' 件':'目前尚無登記資料';
+ const total=live?Math.max(0,Number(live.total)||0):null;
+ const people=live&&Number.isFinite(Number(live.people))?Math.max(0,Number(live.people)):null;
+ $('totalQtyNum').textContent=total===null?'—':fmt(total);
+ $('peopleNum').textContent=people===null?'—':fmt(people);
+ renderStatistics();
 }
 function restoreCachedStats(){
  try{
   const item=JSON.parse(sessionStorage.getItem('shirt_last_public_stats')||'null');
   if(item&&Date.now()-item.at<180000&&item.data&&Array.isArray(item.data.churches)){
-   live=item.data;updateStats();renderFallback();status('顯示最近統計，正在更新');
+   delete item.data.recent;
+   live=item.data;updateStats();if(mapVisible)renderFallback();status('統計資料更新中');
   }
  }catch(e){}
 }
@@ -220,8 +243,9 @@ function loadStats(){
   const finish=data=>{
     if(done)return;done=true;clearTimeout(timer);delete window[cb];script.remove();loadingStats=false;
     if(data&&Array.isArray(data.churches)){
+      delete data.recent;
       try{sessionStorage.setItem('shirt_last_public_stats',JSON.stringify({at:Date.now(),data}));}catch(e){}
-      live=data;updateStats();renderFallback();renderMarkers();status('意向統計更新 '+new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'}));
+      live=data;updateStats();if(mapVisible){renderFallback();renderMarkers();}status('統計更新 '+new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'}));
     }else status('統計暫時無法連線；地圖仍可查看');
     resolve();
   };
@@ -339,7 +363,7 @@ function handleBridgeResult(data){
  try{localStorage.setItem('shirt_receipt_code_v2',data.result.token||p.token);}catch(e){}
  $('quickSend').disabled=false;$('quickSend').textContent='更新意向 →';
  showQuickMessage('登記成功！這筆 '+p.qty+' 件已計入意向統計。','success');
- status('已完成登記 · 更新公開地圖中');
+ status('登記成功 · 統計更新中');
  loadStats();
  setTimeout(loadStats,2400);
 }
@@ -365,11 +389,31 @@ function initBridge(){
  },3500));
 }
 
+async function toggleMap(){
+ mapVisible=!mapVisible;
+ const button=$('toggleMapBtn'),shell=$('mapShell'),stats=$('statsTableArea');
+ button.textContent=mapVisible?'返回統計表':'查看地圖';
+ button.setAttribute('aria-pressed',String(mapVisible));
+ shell.hidden=!mapVisible;stats.hidden=mapVisible;
+ document.querySelector('.map-search').hidden=!mapVisible;
+ document.querySelector('.scope-tabs').hidden=!mapVisible;
+ if(mapVisible){
+  renderFallback();
+  if(!map){
+   const loaded=await waitForLeaflet();
+   if(loaded)initMap();else status('地圖服務無法載入，已提供教會位置示意');
+  }
+  if(map){map.invalidateSize();renderMarkers();}
+ }
+}
 function bindEvents(){
  document.querySelectorAll('.scope').forEach(b=>b.addEventListener('click',()=>setScope(b.dataset.scope)));
  $('resetMapBtn').onclick=resetMap;
  $('zoomInBtn').onclick=()=>map?.zoomIn();
  $('zoomOutBtn').onclick=()=>map?.zoomOut();
+ $('toggleMapBtn').addEventListener('click',toggleMap);
+ $('statsPrev').addEventListener('click',()=>{if(statsPage>0){statsPage--;renderStatistics();}});
+ $('statsNext').addEventListener('click',()=>{statsPage++;renderStatistics();});
 }
 async function start(){
  bindEvents();initSearch();refreshTime();setInterval(refreshTime,60000);initQuickForm();restoreCachedStats();
@@ -377,13 +421,11 @@ async function start(){
   if(!r.ok)throw Error('無法讀取教會資料');return r.json();
  }).then(x=>{
   if(!Array.isArray(x))throw Error('教會資料格式錯誤');
-  catalog=x;byId=new Map(x.map(c=>[c.id,c]));renderFallback();renderMarkers();renderChurchOptions();updateStats();
+  catalog=x;byId=new Map(x.map(c=>[c.id,c]));renderChurchOptions();updateStats();
+  if(mapVisible){renderFallback();renderMarkers();}
   status('已收錄 '+catalog.length+' 個教會／聚會點');
  }).catch(()=>status('教會名錄暫時無法讀取'));
- waitForLeaflet().then(got=>{
-  if(got){initMap();renderMarkers();}
-  else status('地圖服務暫時無法載入，顯示教會位置示意');
- });
+ // The interactive map is loaded only when a visitor asks to view it.
  if(validURL){
   loadStats();
   const poll=()=>{if(!document.hidden)loadStats();setTimeout(poll,23000+Math.random()*10000);};
