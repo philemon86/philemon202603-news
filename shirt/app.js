@@ -381,7 +381,7 @@ function initBridge(){
     showQuickMessage('登記系統正在更新，尚未啟用姓名登記。請書房管理員更新 Google Apps Script。','error');
     return;
   }
-  if(bridgePort)bridgePort.close();
+  if(readyBridge||bridgePort)return;
   bridgePort=event.ports[0];
   bridgePort.onmessage=event=>{if(event.data?.type==='result')handleBridgeResult(event.data);};
   bridgePort.start?.();readyBridge=true;sendPending();
