@@ -148,17 +148,16 @@ function publicStats_(){
  if(cached)return JSON.parse(cached);
  const sh=sheet_(),last=sh.getLastRow();
  const rows=last>1?sh.getRange(2,1,last-1,8).getValues():[];
- const stats=new Map(),tokens=new Set();let total=0;
+ const stats=new Map();let total=0,people=0;
  for(const r of rows){
   const id=String(r[2]||''),qty=Number(r[5])||0,status=String(r[6]||'已登記');
   if(!/^tjc_[a-f0-9]{16}$/.test(id)||!Number.isInteger(qty)||qty<1||qty>10||status==='排除')continue;
   if(!stats.has(id))stats.set(id,{id,confirmed:0,pending:0});
   stats.get(id).confirmed+=qty;total+=qty;
-  const token=String(r[1]||'').trim();
-  if(token)tokens.add(token);
+  people+=1; // One valid response row represents one registrant, regardless of quantity.
  }
- // Public data: aggregate counts only. Never include surname, receipt tokens or timestamps.
- const result={total,people:tokens.size,churches:[...stats.values()],updatedAt:new Date().toISOString()};
+ // Public data: one person per valid registration row; never include names or receipt tokens.
+ const result={total,people,churches:[...stats.values()],updatedAt:new Date().toISOString()};
  const json=JSON.stringify(result);
  if(json.length<95000)cache.put('shirt_public_v3',json,12);
  return result;
