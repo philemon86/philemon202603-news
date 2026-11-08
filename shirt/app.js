@@ -84,18 +84,36 @@ function renderFallback(){
  }
  $('fallbackCaption').textContent=scope==='TW'?'臺灣教會位置示意':'全球教會分布示意';
 }
+
 async function waitForLeaflet(){
  if(window.L)return true;
- const css=document.createElement('link');css.rel='stylesheet';css.href='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css';document.head.append(css);
+ const styles=[
+  'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css',
+  'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'
+ ];
+ styles.forEach(url=>{const link=document.createElement('link');link.rel='stylesheet';link.href=url;document.head.append(link);});
  return new Promise(resolve=>{
-   const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js';s.async=true;
-   let finished=false;
-   const finish=val=>{if(finished)return;finished=true;clearTimeout(timeout);resolve(val);};
-   s.onload=()=>finish(!!window.L);s.onerror=()=>finish(false);
-   const timeout=setTimeout(()=>finish(false),9000);
-   document.head.append(s);
+  const scripts=[
+    'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js',
+    'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'
+  ];
+  let done=false;
+  const finish=ok=>{if(done)return;done=true;clearTimeout(timer);resolve(ok);};
+  scripts.forEach((url,index)=>{
+   const load=()=>{
+    if(done||window.L){if(window.L)finish(true);return;}
+    const s=document.createElement('script');s.src=url;s.async=true;
+    s.onload=()=>{if(window.L)finish(true);};
+    s.onerror=()=>{if(index===scripts.length-1&&!window.L)status('地圖程式無法載入，仍保留教會分布示意');};
+    document.head.append(s);
+   };
+   if(index===0)load();else setTimeout(load,index*900);
+  });
+  const timer=setTimeout(()=>finish(Boolean(window.L)),6500);
  });
 }
+
 function initMap(){
  if(!window.L)return;
  try{
