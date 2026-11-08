@@ -1,3 +1,9 @@
+## 2026-11-08 CSS 載入失敗的緊急修復
+
+主登記頁曾因外部 `./style.css` 未載入而整頁失去樣式。為避免同樣問題，`shirt/index.html` 現在把 `shirt/style.css` 完整內嵌在 `<style id="shirt-main-style">` 中，不再依賴外部 CSS 網路請求。
+
+**維護重點：未來每次修改 `shirt/style.css`，務必同步用新版完整 CSS 更新 `shirt/index.html` 的內嵌樣式**，否則實際網站不會跟著改版。應一併更新 `index.html` 的 JS 快取版本，再等待 GitHub Pages 部署完成並檢查網站。
+
 ## 直接嵌入的紀念衫 Banner（2026/11/08）
 
 - [直接預覽 Banner](https://www.philemon.com.tw/shirt/banner.html)：從原 C296 Banner 的視覺區概念改成可直接填寫紀念衫意向的獨立 Banner。左側商品圖片、滿100件製作提示與 **2026/12/20 23:59 臺灣時間的天時分秒大型倒數**；右側直接選擇教會／客戶、姓名、尺寸與件數，送出後寫入同一份私人 Google Sheet。
