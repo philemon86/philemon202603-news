@@ -13,6 +13,9 @@ const queryChurch=(c,q)=>[churchTitle(c),c.name,c.en,c.region,c.country,c.label]
 const countOf=r=>Math.max(0,Number(r?.confirmed)||0)+Math.max(0,Number(r?.pending)||0);
 const validURL=/^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/.test(APP_URL);
 let catalog=[],byId=new Map(),live=null,scope='TW',map=null,base=null,hot=null,mapLoaded=false,loadingStats=false;
+let selectedChurch=null,bridgePort=null,bridgeNonce='',pendingRequest=null,readyBridge=false;
+const SIZES=['110cm','120cm','2XS','XS','S','M','L','XL','2XL','3XL','4XL'];
+const quantities=Object.fromEntries(SIZES.map(s=>[s,0]));
 function status(t){$('updatedAt').textContent=t;}
 function labelColor(n){return n>=25?'#193451':n>=10?'#335e7e':n>=4?'#608ca1':'#9eb8c3';}
 function refreshTime(){
@@ -65,6 +68,7 @@ function renderFallback(){
  $('fallbackTw').style.display=scope==='TW'?'':'none';
  $('fallbackWorld').style.display=scope==='TW'?'none':'';
  const seen=new Set();
+ if(!catalog.length)return;
  for(const c of catalog){
    if(!Number.isFinite(+c.lat)||!Number.isFinite(+c.lng))continue;
    if(scope==='TW'&&c.c!=='TW')continue;
@@ -184,32 +188,129 @@ function loadStats(){
   document.head.append(script);
  });
 }
-function initForm(){
- const box=$('formWrapper');box.replaceChildren();
- if(!validURL){box.innerHTML='<div class="form-loading">Google 表單尚未連接</div>';return;}
- const frame=document.createElement('iframe');
- frame.id='interestForm';frame.title='選擇尺寸、件數及填寫教會姓氏';
- frame.src=APP_URL+'?mode=form';
- frame.referrerPolicy='strict-origin-when-cross-origin';
- frame.setAttribute('scrolling','no');
- box.append(frame);
- window.addEventListener('message',e=>{
-  let source='';try{source=new URL(e.origin).hostname;}catch(error){return;}
-  const fromScript=source==='script.google.com'||source.endsWith('.googleusercontent.com');
-  if(!fromScript||!e.data||typeof e.data!=='object')return;
-  if(e.data.type==='shirt-submitted'){setTimeout(loadStats,950);return;}
-  if(e.data.type==='shirt-church-selected'){
-    const item=byId.get(String(e.data.churchId||''));
-    if(!item)return;
-    $('churchSearch').value=churchTitle(item);
-    if(item.c!=='TW'&&scope==='TW')setScope('ALL');
-    if(map&&Number.isFinite(Number(item.lat))&&Number.isFinite(Number(item.lng))){
-      map.flyTo([Number(item.lat),Number(item.lng)],item.loc==='country_center_approximate'?5:12,{duration:.7});
-    }
-    status('已選擇 '+churchTitle(item));
-  }
+
+function showQuickMessage(message,kind='info'){
+ const el=$('quickStatus');
+ el.textContent=message;el.className='quick-status active '+kind;
+ if(kind==='success')setTimeout(()=>{if(el.textContent===message)el.classList.remove('active')},5500);
+}
+function getTotal(){return Object.values(quantities).reduce((a,b)=>a+b,0);}
+function paintQty(){
+ $('quickTotal').textContent='共 '+getTotal()+' 件';
+ document.querySelectorAll('.quick-table tbody tr').forEach(row=>{
+  const n=quantities[row.dataset.size]||0;
+  row.querySelector('output').textContent=String(n);
+  row.classList.toggle('picked',n>0);
  });
 }
+function renderChurchOptions(){
+ const input=$('quickChurch'),box=$('quickChurchOptions');
+ const q=norm(input.value);box.replaceChildren();
+ if(!q){box.hidden=true;return;}
+ const matches=catalog.filter(c=>queryChurch(c,q)).slice(0,12);
+ for(const c of matches){
+  const button=document.createElement('button');button.type='button';
+  button.textContent=churchTitle(c)+' · '+c.country;
+  button.addEventListener('click',()=>{
+   selectedChurch=c;input.value=churchTitle(c);input.classList.add('selected');box.hidden=true;
+   $('churchSearch').value=churchTitle(c);
+   if(c.c!=='TW'&&scope==='TW')setScope('ALL');
+   if(map&&Number.isFinite(Number(c.lat))&&Number.isFinite(Number(c.lng))){
+    map.flyTo([+c.lat,+c.lng],c.loc==='country_center_approximate'?5:12,{duration:.55});
+   }
+  });box.append(button);
+ }
+ box.hidden=!matches.length;
+}
+function initQuickForm(){
+ const form=$('quickForm');
+ if(!form)return;
+ const church=$('quickChurch');
+ church.addEventListener('input',()=>{
+  selectedChurch=null;church.classList.remove('selected');renderChurchOptions();
+ });
+ church.addEventListener('focus',renderChurchOptions);
+ document.addEventListener('click',e=>{if(!e.target.closest('.quick-field'))$('quickChurchOptions').hidden=true;});
+ form.querySelectorAll('.quick-stepper button').forEach(button=>button.addEventListener('click',()=>{
+  const tr=button.closest('tr'),name=tr.dataset.size;
+  const change=Number(button.dataset.step);
+  const next=(quantities[name]||0)+change;
+  if(next<0||next>10||change>0&&getTotal()>=10)return;
+  quantities[name]=next;paintQty();
+ }));
+ paintQty();
+ const submit=$('quickSend');
+ form.addEventListener('submit',event=>{
+  event.preventDefault();
+  if(Date.now()>END){showQuickMessage('意向調查已截止','error');return;}
+  if(pendingRequest){showQuickMessage('上一筆資料仍在傳送，請勿重複送出','info');return;}
+  if(!selectedChurch){showQuickMessage('請從教會建議名單點選所屬教會','error');church.focus();return;}
+  const surname=$('quickSurname').value.trim();
+  if(!surname||!/^[\p{L}\p{M}.'’\-\s]{1,16}$/u.test(surname)){showQuickMessage('請只填中文或英文姓氏（最多16字）','error');return;}
+  const qty=getTotal();if(qty<1||qty>10){showQuickMessage('請選擇1至10件','error');return;}
+  let token='';try{token=localStorage.getItem('shirt_receipt_code_v2')||'';}catch(e){}
+  if(!/^[0-9a-f-]{36}$/.test(token)){
+   token=window.crypto?.randomUUID?.()||'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{
+    const r=Math.floor(Math.random()*16);return(c==='x'?r:(r&3|8)).toString(16);
+   });
+  }
+  pendingRequest={req:String(Date.now())+'-'+Math.random().toString(36).slice(2,8),token,churchId:selectedChurch.id,qty,body:{churchId:selectedChurch.id,surname,sizes:{...quantities},honey:'',token},sent:false};
+  submit.disabled=true;submit.textContent='準備送出…';
+  showQuickMessage(readyBridge?'正在保存登記…':'正在連接 Google，尚未送出資料');
+  pendingRequest.timeout=setTimeout(()=>{
+   if(!pendingRequest)return;
+   pendingRequest=null;submit.disabled=false;submit.textContent='重新送出意向 →';
+   showQuickMessage('Google 連線逾時，尚未確認儲存。請稍後重新送出，或使用原始登記頁。','error');
+  },30000);
+  sendPending();
+ });
+ if(!validURL){
+  submit.disabled=true;showQuickMessage('尚未設定 Google 接收網址','error');
+ }else initBridge();
+}
+function sendPending(){
+ if(!pendingRequest||!bridgePort||!readyBridge||pendingRequest.sent)return;
+ pendingRequest.sent=true;
+ $('quickSend').textContent='送出中…';
+ showQuickMessage('正在儲存，請勿關閉頁面');
+ try{bridgePort.postMessage({type:'submit',requestId:pendingRequest.req,payload:pendingRequest.body});}
+ catch(e){submitFailure('無法連接 Google，請重新整理再試');}
+}
+function submitFailure(why){
+ const p=pendingRequest;if(p?.timeout)clearTimeout(p.timeout);
+ pendingRequest=null;
+ $('quickSend').disabled=false;$('quickSend').textContent='重新送出意向 →';
+ showQuickMessage(why,'error');
+}
+function handleBridgeResult(data){
+ if(!pendingRequest||data.requestId!==pendingRequest.req)return;
+ const p=pendingRequest;
+ if(!data.ok||!data.result?.ok){submitFailure('送出未成功：'+String(data.error||'請稍後再試'));return;}
+ clearTimeout(p.timeout);pendingRequest=null;
+ try{localStorage.setItem('shirt_receipt_code_v2',data.result.token||p.token);}catch(e){}
+ $('quickSend').disabled=false;$('quickSend').textContent='更新意向 →';
+ showQuickMessage('登記成功！這筆 '+p.qty+' 件已計入意向統計。','success');
+ status('已完成登記 · 更新公開地圖中');
+ loadStats();
+ setTimeout(loadStats,2400);
+}
+function initBridge(){
+ const nonce=window.crypto?.randomUUID?.().replaceAll('-','')||Math.random().toString(36).slice(2)+Date.now();
+ bridgeNonce=nonce;
+ window.addEventListener('message',event=>{
+  const m=event.data;
+  if(!m||m.type!=='shirt-bridge-ready'||m.nonce!==bridgeNonce||!event.ports?.[0])return;
+  let hostname='';try{hostname=new URL(event.origin).hostname}catch(e){}
+  if(hostname&&hostname!=='script.google.com'&&!hostname.endsWith('.googleusercontent.com'))return;
+  if(bridgePort)bridgePort.close();
+  bridgePort=event.ports[0];
+  bridgePort.onmessage=event=>{if(event.data?.type==='result')handleBridgeResult(event.data);};
+  bridgePort.start?.();readyBridge=true;sendPending();
+ });
+ const frame=$('interestBridge');
+ frame.src=APP_URL+'?mode=bridge&nonce='+encodeURIComponent(nonce);
+}
+
 function bindEvents(){
  document.querySelectorAll('.scope').forEach(b=>b.addEventListener('click',()=>setScope(b.dataset.scope)));
  $('resetMapBtn').onclick=resetMap;
@@ -217,19 +318,25 @@ function bindEvents(){
  $('zoomOutBtn').onclick=()=>map?.zoomOut();
 }
 async function start(){
- bindEvents();initSearch();refreshTime();setInterval(refreshTime,60000);initForm();
- try{
-  const req=await fetch('./churches.json',{cache:'no-cache'});
-  if(!req.ok)throw Error('無法讀取教會資料');
-  const x=await req.json();
+ bindEvents();initSearch();refreshTime();setInterval(refreshTime,60000);initQuickForm();
+ const catalogs=fetch('./churches.json',{cache:'default'}).then(r=>{
+  if(!r.ok)throw Error('無法讀取教會資料');return r.json();
+ }).then(x=>{
   if(!Array.isArray(x))throw Error('教會資料格式錯誤');
-  catalog=x;byId=new Map(x.map(c=>[c.id,c]));renderFallback();
+  catalog=x;byId=new Map(x.map(c=>[c.id,c]));renderFallback();renderMarkers();renderChurchOptions();
   status('已收錄 '+catalog.length+' 個教會／聚會點');
- }catch(e){status('教會資料暫時無法取得');}
- const got=await waitForLeaflet();
- if(got){initMap();renderMarkers();}
- else status('顯示教會位置示意（地圖服務未連線）');
- if(validURL){await loadStats();setInterval(()=>{if(!document.hidden)loadStats();},45000);}
+ }).catch(()=>status('教會名錄暫時無法讀取'));
+ waitForLeaflet().then(got=>{
+  if(got){initMap();renderMarkers();}
+  else status('地圖服務暫時無法載入，顯示教會位置示意');
+ });
+ if(validURL){
+  loadStats();
+  const poll=()=>{if(!document.hidden)loadStats();setTimeout(poll,23000+Math.random()*10000);};
+  setTimeout(poll,23000);
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)loadStats();});
+ }
+ await catalogs;
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
 })();
