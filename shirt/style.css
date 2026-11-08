@@ -334,3 +334,5 @@ a{text-decoration:none;color:inherit}
 .map-fallback .offline-dot{width:8px;height:8px;border:1.4px solid white;box-shadow:0 1px 4px #193c4d61;z-index:3}
 .map-fallback .offline-dot.active{width:17px;height:17px}
 .map-fallback .fallback-caption{z-index:4;background:rgba(255,255,255,.94);font-size:10px;bottom:43px}
+
+.quick-status a{pointer-events:auto;color:#173f63;text-decoration:underline;font-weight:900;white-space:nowrap}
