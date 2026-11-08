@@ -194,8 +194,20 @@ function initForm(){
  frame.setAttribute('scrolling','no');
  box.append(frame);
  window.addEventListener('message',e=>{
-  const fromScript=e.origin==='https://script.google.com'||/\.googleusercontent\.com$/.test(new URL(e.origin).hostname);
-  if(e.data?.type==='shirt-submitted'&&fromScript)setTimeout(loadStats,950);
+  let source='';try{source=new URL(e.origin).hostname;}catch(error){return;}
+  const fromScript=source==='script.google.com'||source.endsWith('.googleusercontent.com');
+  if(!fromScript||!e.data||typeof e.data!=='object')return;
+  if(e.data.type==='shirt-submitted'){setTimeout(loadStats,950);return;}
+  if(e.data.type==='shirt-church-selected'){
+    const item=byId.get(String(e.data.churchId||''));
+    if(!item)return;
+    $('churchSearch').value=churchTitle(item);
+    if(item.c!=='TW'&&scope==='TW')setScope('ALL');
+    if(map&&Number.isFinite(Number(item.lat))&&Number.isFinite(Number(item.lng))){
+      map.flyTo([Number(item.lat),Number(item.lng)],item.loc==='country_center_approximate'?5:12,{duration:.7});
+    }
+    status('已選擇 '+churchTitle(item));
+  }
  });
 }
 function bindEvents(){
