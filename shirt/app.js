@@ -295,6 +295,7 @@ function initQuickForm(){
     const r=Math.floor(Math.random()*16);return(c==='x'?r:(r&3|8)).toString(16);
    });
   }
+  try{localStorage.setItem('shirt_receipt_code_v2',token);}catch(e){}
   pendingRequest={req:String(Date.now())+'-'+Math.random().toString(36).slice(2,8),token,churchId:selectedChurch.id,qty,body:{churchId:selectedChurch.id,surname,sizes:{...quantities},honey:'',token},sent:false};
   submit.disabled=true;submit.textContent='準備送出…';
   showQuickMessage(readyBridge?'正在保存登記…':'正在連接 Google，尚未送出資料');
