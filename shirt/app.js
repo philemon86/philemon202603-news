@@ -306,10 +306,7 @@ function initQuickForm(){
   pendingRequest.timeout=setTimeout(()=>{
    if(!pendingRequest)return;
    pendingRequest=null;submit.disabled=false;submit.textContent='重新送出意向 →';
-   showQuickMessage('Google 尚未回覆，資料尚未確認儲存。可改用備用登記頁。','error');
-   const link=document.createElement('a');
-   link.href=APP_URL+'?mode=form';link.target='_blank';link.rel='noopener noreferrer';
-   link.textContent='開啟備用登記頁 ↗';$('quickStatus').append(document.createTextNode('　'),link);
+   showQuickMessage('Google 尚未回覆，資料尚未確認儲存。請稍後重新送出。','error');
   },30000);
   sendPending();
  });
@@ -355,6 +352,11 @@ function initBridge(){
   if(!m||m.type!=='shirt-bridge-ready'||m.nonce!==bridgeNonce||!event.ports?.[0])return;
   let hostname='';try{hostname=new URL(event.origin).hostname}catch(e){}
   if(hostname&&hostname!=='script.google.com'&&!hostname.endsWith('.googleusercontent.com'))return;
+  if(m.protocol!=='named-consent-v1'){
+    $('quickSend').disabled=true;
+    showQuickMessage('登記系統正在更新，尚未啟用姓名登記。請書房管理員更新 Google Apps Script。','error');
+    return;
+  }
   if(bridgePort)bridgePort.close();
   bridgePort=event.ports[0];
   bridgePort.onmessage=event=>{if(event.data?.type==='result')handleBridgeResult(event.data);};
