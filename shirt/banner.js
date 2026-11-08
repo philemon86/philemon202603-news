@@ -147,12 +147,21 @@
   req.timer=setTimeout(()=>markFailed('Google 尚未確認儲存，請稍後重新送出。'),30000);
   sendRequest();
  });
+ // Send the card's intrinsic height, never the iframe document/viewport height.
+ // documentElement.scrollHeight would echo a previously oversized iframe and preserve whitespace.
+ let lastHeight=0;
  function sendHeight(){
   if(window.parent===window)return;
-  const height=Math.ceil(Math.max(root.getBoundingClientRect().height,document.documentElement.scrollHeight)+4);
+  const height=Math.ceil(root.getBoundingClientRect().height)+2;
+  if(height<250||height===lastHeight)return;
+  lastHeight=height;
   window.parent.postMessage({type:'philemon-shirt-banner-height',height},'*');
  }
  if('ResizeObserver' in window){new ResizeObserver(sendHeight).observe(root);}
- window.addEventListener('load',sendHeight);window.addEventListener('resize',sendHeight);
- setTimeout(sendHeight,120);setTimeout(sendHeight,800);
+ window.addEventListener('load',sendHeight);
+ window.addEventListener('resize',()=>requestAnimationFrame(sendHeight));
+ root.querySelector('details.guide')?.addEventListener('toggle',()=>requestAnimationFrame(sendHeight));
+ root.querySelector('.photo-link img')?.addEventListener('load',sendHeight);
+ if(document.fonts?.ready)document.fonts.ready.then(sendHeight).catch(()=>{});
+ setTimeout(sendHeight,80);setTimeout(sendHeight,450);
 })();
