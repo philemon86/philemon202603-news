@@ -21,7 +21,7 @@ const validURL=/^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/.test(AP
 let catalog=[],byId=new Map(),live=null,scope='TW',map=null,base=null,hot=null,mapLoaded=false,loadingStats=false;
 let selectedChurch=null,bridgePort=null,bridgeNonce='',pendingRequest=null,readyBridge=false;
 let mapVisible=true;
-const SIZES=['110cm','120cm','2XS','XS','S','M','L','XL','2XL','3XL','4XL'];
+const SIZES=['110cm','120cm','2XS','XS','S','M','L','XL','2XL','3XL','4XL','5XL'];
 const quantities=Object.fromEntries(SIZES.map(s=>[s,0]));
 function status(t){$('updatedAt').textContent=t;}
 function labelColor(n){return n>=25?'#193451':n>=10?'#335e7e':n>=4?'#608ca1':'#9eb8c3';}
