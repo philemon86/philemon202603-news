@@ -540,3 +540,93 @@ body.lightbox-open{overflow:hidden!important}
  .product-band .product-copy .arrival-line{font-size:14px}
  .product-band .arrival-line a{font-size:9px;margin-left:5px}
 }
+
+
+/* Handwritten floating shirt features v1: no remote font or script loading. */
+.shirt-lightbox-notes{
+ position:absolute;
+ right:clamp(24px,5vw,112px);
+ top:50%;
+ transform:translateY(-50%);
+ width:clamp(250px,24vw,440px);
+ max-width:38vw;
+ display:flex;
+ flex-direction:column;
+ align-items:flex-start;
+ gap:clamp(12px,2.35vh,23px);
+ z-index:1;
+ pointer-events:none;
+}
+.shirt-lightbox-notes [role="listitem"]{
+ display:block;
+ color:#fbf1dc;
+ font-family:"Kaiti TC","STKaiti","DFKai-SB","BiauKai","標楷體",cursive;
+ font-size:clamp(19px,1.6vw,29px);
+ font-weight:650;
+ line-height:1.48;
+ letter-spacing:.045em;
+ text-shadow:0 2px 12px #061626a6,0 0 20px #ffd28a26;
+ white-space:normal;
+ text-wrap:balance;
+ transform-origin:left center;
+ animation:shirtNotesFloat 5.2s ease-in-out infinite;
+}
+.shirt-lightbox-notes [role="listitem"]::first-letter{color:#f3c981}
+.shirt-lightbox-notes [role="listitem"]:nth-child(1){margin-left:0;animation-delay:-.8s}
+.shirt-lightbox-notes [role="listitem"]:nth-child(2){margin-left:27px;animation-delay:-2.4s}
+.shirt-lightbox-notes [role="listitem"]:nth-child(3){margin-left:9px;animation-delay:-1.5s}
+.shirt-lightbox-notes [role="listitem"]:nth-child(4){margin-left:34px;animation-delay:-3.6s}
+.shirt-lightbox-notes [role="listitem"]:nth-child(5){margin-left:5px;animation-delay:-2.9s}
+@keyframes shirtNotesFloat{
+ 0%,100%{transform:translate3d(0,1px,0) rotate(-1deg)}
+ 50%{transform:translate3d(0,-5px,0) rotate(.7deg)}
+}
+@media (min-width:901px) and (max-width:1300px){
+ .shirt-lightbox img{max-width:min(62vw,630px);transform:translateX(-5%)}
+ .shirt-lightbox-notes{right:3.5vw;width:26vw;max-width:310px}
+ .shirt-lightbox-notes [role="listitem"]{font-size:clamp(17px,1.8vw,24px)}
+}
+@media(max-width:900px){
+ .shirt-lightbox{
+  flex-direction:column;justify-content:center;
+  gap:clamp(14px,2.5vh,25px);
+  padding:60px 14px 22px;
+ }
+ .shirt-lightbox img{max-width:92vw;max-height:53dvh;transform:none}
+ .shirt-lightbox-notes{
+  position:relative;inset:auto;
+  transform:none;
+  width:min(90vw,560px);max-width:none;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:9px 16px;
+  margin:0 auto;
+  flex:0 0 auto;
+ }
+ .shirt-lightbox-notes [role="listitem"]{
+  font-size:clamp(15px,3.65vw,20px);
+  line-height:1.4;
+  white-space:nowrap;
+ }
+ .shirt-lightbox-notes [role="listitem"]:nth-child(n){
+  margin-left:0;
+ }
+ .shirt-lightbox-notes [role="listitem"]:nth-child(5){
+  grid-column:1/-1;
+  white-space:normal;
+ }
+}
+@media(max-width:390px){
+ .shirt-lightbox{gap:12px;padding:56px 12px 15px}
+ .shirt-lightbox img{max-height:50dvh}
+ .shirt-lightbox-notes{gap:7px 8px;width:95vw}
+ .shirt-lightbox-notes [role="listitem"]{font-size:14px}
+}
+@media(max-height:620px) and (max-width:900px){
+ .shirt-lightbox{gap:8px;padding:44px 10px 12px}
+ .shirt-lightbox img{max-height:41dvh}
+ .shirt-lightbox-notes{gap:5px 9px}
+ .shirt-lightbox-notes [role="listitem"]{font-size:14px}
+}
+@media(prefers-reduced-motion:reduce){
+ .shirt-lightbox-notes [role="listitem"]{animation:none;transform:none}
+}
