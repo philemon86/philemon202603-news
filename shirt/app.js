@@ -371,14 +371,47 @@ function initBridge(){
  },3500));
 }
 
+function initShirtLightbox(){
+ const trigger=$('shirtZoomTrigger');
+ const modal=$('shirtLightbox');
+ const image=$('shirtLightboxImage');
+ const close=$('shirtLightboxClose');
+ const thumbnail=trigger?.querySelector('.shirt-photo');
+ if(!trigger||!modal||!image||!close||!thumbnail)return;
+ let previousFocus=null;
+ const open=()=>{
+  previousFocus=document.activeElement;
+  image.src=thumbnail.currentSrc||thumbnail.src;
+  modal.hidden=false;
+  document.body.classList.add('lightbox-open');
+  close.focus();
+ };
+ const dismiss=()=>{
+  if(modal.hidden)return;
+  modal.hidden=true;
+  document.body.classList.remove('lightbox-open');
+  previousFocus?.focus?.();
+ };
+ trigger.addEventListener('click',open);
+ close.addEventListener('click',dismiss);
+ modal.addEventListener('click',event=>{if(event.target===modal)dismiss();});
+ document.addEventListener('keydown',event=>{
+  if(modal.hidden)return;
+  if(event.key==='Escape'){event.preventDefault();dismiss();}
+  else if(event.key==='Tab'){event.preventDefault();close.focus();}
+ });
+}
+
 function bindEvents(){
  document.querySelectorAll('.scope').forEach(b=>b.addEventListener('click',()=>setScope(b.dataset.scope)));
  $('resetMapBtn').onclick=resetMap;
  $('zoomInBtn').onclick=()=>map?.zoomIn();
  $('zoomOutBtn').onclick=()=>map?.zoomOut();
+ // Recalculate the map viewport when a phone rotates or browser width changes.
+ window.addEventListener('resize',()=>{if(map)requestAnimationFrame(()=>map.invalidateSize());},{passive:true});
 }
 async function start(){
- bindEvents();initSearch();refreshTime();setInterval(refreshTime,60000);initQuickForm();restoreCachedStats();
+ bindEvents();initShirtLightbox();initSearch();refreshTime();setInterval(refreshTime,60000);initQuickForm();restoreCachedStats();
  const catalogs=fetch('./churches.json',{cache:'default'}).then(r=>{
   if(!r.ok)throw Error('無法讀取教會資料');return r.json();
  }).then(x=>{
