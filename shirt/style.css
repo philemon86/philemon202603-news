@@ -703,3 +703,192 @@ body.lightbox-open{overflow:hidden!important}
  .intent-alert-copy strong{font-size:18px}
  .intent-alert-copy span{font-size:13px}
 }
+
+
+/* 2026-11-08 phone layout repair: prevent header counters and product copy collision.
+   Mobile has two independent header rows: brand, then totals/deadline.
+   Product copy may wrap and the card grows naturally to fit the content. */
+@media (max-width:900px){
+  .site-head{
+    display:grid;
+    grid-template-columns:minmax(0,1fr);
+    align-content:start;
+    align-items:start;
+    justify-content:stretch;
+    gap:0;
+    width:100%;
+    min-height:0;
+    height:auto;
+    padding:12px 14px 10px;
+  }
+  .site-head .brand{
+    width:100%;min-width:0;max-width:100%;
+    display:flex;align-items:center;gap:11px;
+    padding:0 0 11px;
+  }
+  .site-head .logo{
+    width:46px;height:46px;flex:0 0 46px;
+    font-size:30px;
+  }
+  .site-head .brand-title{
+    min-width:0;
+    overflow:visible;
+    white-space:normal;
+    gap:3px;
+  }
+  .site-head .brand-title strong{
+    display:block;
+    font-size:clamp(16px,4.35vw,20px);
+    font-weight:900;
+    line-height:1.25;
+    letter-spacing:0;
+    overflow-wrap:anywhere;
+  }
+  .site-head .brand-title small{
+    display:block;
+    font-size:11px;
+    line-height:1.4;
+    letter-spacing:0;
+  }
+  .site-head .top-stats{
+    width:100%;
+    min-width:0;
+    margin:0;
+    padding:10px 0 0;
+    border-top:1px solid #e9eeef;
+    display:flex;
+    flex-wrap:nowrap;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+  }
+  .site-head .orders-summary{
+    display:flex;align-items:baseline;
+    width:auto;max-width:100%;min-width:0;
+    flex:0 1 auto;
+    height:auto;margin:0;padding:0;border:0;
+    gap:4px;
+    white-space:nowrap;
+    font-variant-numeric:tabular-nums;
+  }
+  .site-head .orders-summary span{
+    font-size:clamp(11px,3.1vw,14px);
+    line-height:1.4;
+    font-weight:800;
+    white-space:nowrap;
+  }
+  .site-head .orders-summary strong{
+    min-width:0;
+    font-size:clamp(19px,5.2vw,25px);
+    line-height:1.15;
+    font-weight:900;
+    text-align:center;
+  }
+  .site-head .deadline-tag{
+    min-width:0;flex:0 0 auto;
+    margin:0;
+    display:flex;flex-direction:column;
+    align-items:flex-end;gap:0;
+    white-space:nowrap;
+    line-height:1.2;
+  }
+  .site-head .deadline-tag span{display:none}
+  .site-head .deadline-tag strong{font-size:clamp(11px,3vw,14px);line-height:1.3}
+  .site-head .deadline-tag small{font-size:clamp(11px,3vw,14px);line-height:1.4}
+
+  /* Image left, text right, with no forced 98px height or nowrap copy. */
+  .product-band{
+    display:grid;
+    grid-template-columns:clamp(76px,20vw,96px) minmax(0,1fr);
+    align-items:center;
+    justify-content:stretch;
+    gap:12px;
+    width:100%;
+    height:auto;
+    min-height:120px;
+    flex:0 0 auto;
+    padding:12px 14px;
+  }
+  .product-band .shirt-zoom-trigger{
+    width:100%;min-width:0;max-width:100%;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .product-band .shirt-photo{
+    display:block;
+    width:100%;height:auto;
+    max-height:112px;aspect-ratio:4/5;
+    object-fit:contain;
+  }
+  .product-band .product-copy{
+    flex:unset;
+    display:flex;flex-direction:column;
+    justify-content:center;
+    min-width:0;
+    max-width:100%;
+    gap:8px;
+    overflow:visible;
+  }
+  .product-band .product-copy h2{
+    font-size:clamp(17px,4.5vw,21px);
+    font-weight:900;
+    letter-spacing:0;
+    line-height:1.35;
+    white-space:normal;
+    overflow-wrap:anywhere;
+    margin:0;
+  }
+  .product-band .product-copy .arrival-line{
+    display:flex;
+    align-items:baseline;
+    flex-wrap:wrap;
+    column-gap:3px;row-gap:5px;
+    white-space:normal;
+    font-size:clamp(14px,3.8vw,17px);
+    line-height:1.45;
+    margin:0;
+    min-width:0;
+  }
+  .product-band .product-copy .arrival-line a{
+    display:inline-block;
+    white-space:nowrap;
+    font-size:clamp(11px,2.9vw,13px);
+    line-height:1.4;
+    margin:0 0 0 8px;
+  }
+}
+@media (max-width:390px){
+  .site-head{padding:10px 12px 9px}
+  .site-head .brand{gap:9px}
+  .site-head .logo{height:43px;width:43px;flex-basis:43px;font-size:28px}
+  .site-head .brand-title strong{font-size:16px}
+  .site-head .orders-summary{gap:3px}
+  .site-head .orders-summary span{font-size:11px}
+  .site-head .orders-summary strong{font-size:19px}
+  .site-head .deadline-tag strong,.site-head .deadline-tag small{font-size:11px}
+  .product-band{
+    grid-template-columns:72px minmax(0,1fr);
+    min-height:114px;
+    gap:10px;
+    padding:11px 12px;
+  }
+  .product-band .product-copy{gap:7px}
+  .product-band .product-copy h2{font-size:17px}
+  .product-band .product-copy .arrival-line{font-size:14px}
+  .product-band .product-copy .arrival-line a{font-size:11px;margin-left:6px}
+}
+@media (max-width:340px){
+  /* Very narrow phones: give the statistics full width, followed by the deadline. */
+  .site-head .top-stats{
+    display:grid;
+    grid-template-columns:minmax(0,1fr);
+    gap:4px;
+    justify-content:start;
+  }
+  .site-head .deadline-tag{
+    flex-direction:row;justify-content:flex-start;
+    align-items:baseline;gap:9px;
+  }
+  .site-head .deadline-tag span{display:inline;font-size:11px}
+  .product-band{grid-template-columns:65px minmax(0,1fr);gap:9px}
+  .product-band .product-copy h2{font-size:16px}
+}
