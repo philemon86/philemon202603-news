@@ -183,3 +183,43 @@ a{text-decoration:none;color:inherit}
   .form-heading .eyebrow{font-size:8px}
   .privacy-foot{height:20px;flex-basis:20px;font-size:9px;padding:0 18px 3px}
 }
+
+
+/* Readability update — enlarged outer page typography. */
+@media(min-width:901px){
+  .brand-title strong{font-size:21px}
+  .brand-title small{font-size:12px}
+  .headline-stat small{font-size:13px}
+  .deadline-tag span,.deadline-tag small{font-size:13px}
+  .map-head h1{font-size:24px}
+  .map-head p{font-size:14px}
+  .map-search input{font-size:16px}
+  .search-results button strong{font-size:16px}
+  .search-results button small{font-size:13px}
+  .map-bottom{font-size:12px}
+  .product-copy h2{font-size:23px}
+  .product-copy p{font-size:14px}
+  .product-copy a{font-size:13px}
+  .form-heading h3{font-size:23px}
+  .form-count{font-size:13px}
+  .privacy-foot{font-size:12px}
+}
+@media(min-width:901px) and (max-height:820px){
+  .brand-title strong{font-size:17px}
+  .map-head h1{font-size:20px}
+  .map-head p{font-size:12px}
+  .map-search input{font-size:15px}
+  .map-bottom{font-size:11px}
+  .product-copy h2{font-size:18px}
+  .product-copy p{font-size:12px}
+  .form-heading h3{font-size:19px}
+  .privacy-foot{font-size:10px}
+}
+@media(max-width:900px){
+  .map-search input{font-size:15px}
+  .map-head h1{font-size:19px}
+  .map-bottom{font-size:11px}
+  .form-heading h3{font-size:19px}
+  .product-copy p{font-size:12px}
+  .privacy-foot{font-size:11px}
+}
