@@ -5,7 +5,7 @@
  * 2. 手動執行 setupOnce() 授權（資料表已由 ChatGPT 建立）。
  * 3. 部署 -> 新增部署 -> 網頁應用程式 -> 執行身分：我；誰可以存取：所有人。
  * 4. 把部署後 /exec 網址貼入網站的 shirt/config.js。
- * 5. 到回覆試算表「審核狀態」選「已登記」，已登記件數便會納入製作門檻。
+ * 5. 送出成功即計入統計；僅需在試算表將異常或測試資料改為「排除」。
  * 支援台／臺、繁體／簡體和英文教會名稱搜尋。僅收集教會、姓氏、尺寸件數，不要求全名、郵件、電話、地址或登入。姓氏加教會仍可能間接識別個人。
  */
 const APP = {
@@ -138,7 +138,7 @@ function publicStats_(){
  }
  recent.sort((a,b)=>b.when-a.when);
  const result={total,verified:total,pending:0,churches:[...stats.values()],recent:recent.slice(0,12).map(({when,...rest})=>rest),updatedAt:new Date().toISOString()};
- const json=JSON.stringify(result);if(json.length<95000)cache.put('shirt_public_v2',json,30);
+ const json=JSON.stringify(result);if(json.length<95000)cache.put('shirt_public_v2',json,12);
  return result;
 }
 
