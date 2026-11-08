@@ -56,8 +56,21 @@ function setScope(next){
  document.querySelectorAll('[data-scope]').forEach(b=>b.classList.toggle('active',b.dataset.scope===next));
  resetMap();renderFallback();renderMarkers();
 }
+const TAIWAN_BOUNDS=[[21.85,119.35],[25.45,122.30]];
+const isNarrowScreen=()=>window.matchMedia('(max-width:900px)').matches;
 function resetMap(){
- if(map)map.setView(scope==='TW'?[23.75,120.98]:[24,22],scope==='TW'?8:2.2);
+ if(!map)return;
+ map.invalidateSize({animate:false});
+ if(scope==='TW'){
+  // Mobile view must show northern and southern Taiwan at once, without clipping.
+  if(isNarrowScreen()){
+   map.fitBounds(TAIWAN_BOUNDS,{paddingTopLeft:[18,20],paddingBottomRight:[18,20],maxZoom:8,animate:false});
+  }else{
+   map.setView([23.75,120.98],8,{animate:false});
+  }
+ }else{
+  map.setView([24,22],2.2,{animate:false});
+ }
 }
 function fallbackReady(){
  const fallback=$('mapFallback');
@@ -150,7 +163,12 @@ function initMap(){
  resetMap();
  if(selectedChurch&&Number.isFinite(Number(selectedChurch.lat))&&Number.isFinite(Number(selectedChurch.lng)))map.setView([+selectedChurch.lat,+selectedChurch.lng],selectedChurch.loc==='country_center_approximate'?5:12);
  map.on('moveend',renderMarkers);
- setTimeout(()=>{map?.invalidateSize();},160);
+ // Leaflet needs its final mobile dimensions after browser layout.
+ setTimeout(()=>{
+  if(!map)return;
+  map.invalidateSize({animate:false});
+  if(scope==='TW'&&isNarrowScreen()&&!selectedChurch)resetMap();
+ },180);
  }catch(e){status('地圖底圖暫無法載入，顯示教會位置示意');}
 }
 function getPopup(meta,rec){
@@ -408,7 +426,16 @@ function bindEvents(){
  $('zoomInBtn').onclick=()=>map?.zoomIn();
  $('zoomOutBtn').onclick=()=>map?.zoomOut();
  // Recalculate the map viewport when a phone rotates or browser width changes.
- window.addEventListener('resize',()=>{if(map)requestAnimationFrame(()=>map.invalidateSize());},{passive:true});
+ let lastNarrow=isNarrowScreen();
+ window.addEventListener('resize',()=>{
+  if(!map)return;
+  requestAnimationFrame(()=>{
+   map.invalidateSize({animate:false});
+   const narrow=isNarrowScreen();
+   if(scope==='TW'&&!selectedChurch&&narrow!==lastNarrow)resetMap();
+   lastNarrow=narrow;
+  });
+ },{passive:true});
 }
 async function start(){
  bindEvents();initShirtLightbox();initSearch();refreshTime();setInterval(refreshTime,60000);initQuickForm();restoreCachedStats();
