@@ -198,7 +198,7 @@ function updateStats(){
  // the count is provably one person (each valid record contains >= 1 piece).
  // For totals >1, avoid guessing a headcount until the backend is upgraded.
  const explicitPeople=live&&live.people!==undefined&&live.people!==null&&live.people!==''&&Number.isFinite(Number(live.people));
- const people=explicitPeople?Math.max(0,Number(live.people)):(total===0?0:total===1?1:null);
+ const people=total===0?0:total===1?1:explicitPeople?Math.max(0,Number(live.people)):null;
  $('totalQtyNum').textContent=total===null?'—':fmt(total);
  $('peopleNum').textContent=people===null?'—':fmt(people);
 }
