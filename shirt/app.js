@@ -187,7 +187,7 @@ function renderMarkers(){
   }
   for(const grp of countries.values()){
     L.circleMarker([grp.lat,grp.lng],{radius:Math.min(18,7+Math.sqrt(grp.qty)*2),color:'#fff',weight:1.8,fillColor:grp.qty>0?labelColor(grp.qty):'#8faebc',fillOpacity:.9})
-    .bindPopup('<div class="popup-title">'+clean(grp.label)+'</div><div class="popup-info">'+grp.count+' 個教會／聚會點　·　'+fmt(grp.qty)+' 件意向</div><div class="popup-info">部分海外位置為國家概略位置</div>')
+    .bindPopup('<div class="popup-title">'+clean(grp.label)+'</div><div class="popup-info">'+fmt(grp.qty)+' 件</div>')
     .addTo(base);
   }
  }
@@ -205,7 +205,7 @@ function renderStatistics(){
  const selected=arr.slice(statsPage*STATS_PAGE_SIZE,(statsPage+1)*STATS_PAGE_SIZE);
  if(!selected.length){
   const row=document.createElement('tr');const cell=document.createElement('td');
-  cell.colSpan=2;cell.className='stats-empty';cell.textContent=live?'尚無資料':'統計資料更新中';
+  cell.colSpan=2;cell.className='stats-empty';cell.textContent='—';
   row.append(cell);rows.append(row);
  }
  for(const item of selected){
@@ -392,7 +392,7 @@ function initBridge(){
 async function toggleMap(){
  mapVisible=!mapVisible;
  const button=$('toggleMapBtn'),shell=$('mapShell'),stats=$('statsTableArea');
- button.textContent=mapVisible?'返回統計表':'查看地圖';
+ button.textContent=mapVisible?'返回各地統計':'查看地圖';
  button.setAttribute('aria-pressed',String(mapVisible));
  shell.hidden=!mapVisible;stats.hidden=mapVisible;
  document.querySelector('.map-search').hidden=!mapVisible;
