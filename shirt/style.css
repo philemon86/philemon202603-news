@@ -320,3 +320,17 @@ a{text-decoration:none;color:inherit}
  .quick-table tbody th,.quick-table tbody td{font-size:13px}
  .quick-stepper button{width:26px;flex-basis:26px;height:29px}
 }
+
+
+/* Progressive map: show true OSM map tiles immediately, Leaflet takes over when loaded. */
+.map-fallback{background:#e5edf0}
+.fallback-tile-grid{position:absolute;width:1024px;height:1024px;left:calc(50% - 519.74px);top:calc(50% - 411.03px);pointer-events:none;background:#d9e5e8}
+.fallback-tile{position:absolute;display:block;width:256px;height:256px;max-width:none;border:0;opacity:1}
+.map-fallback:not(.world) .fallback-svg{display:none}
+.map-fallback.world .fallback-tile-grid{display:none}
+.map-fallback.world .fallback-svg{display:block;position:absolute;inset:0}
+.fallback-world-pins{display:none;position:absolute;inset:0}
+.map-fallback.world .fallback-world-pins{display:block}
+.map-fallback .offline-dot{width:8px;height:8px;border:1.4px solid white;box-shadow:0 1px 4px #193c4d61;z-index:3}
+.map-fallback .offline-dot.active{width:17px;height:17px}
+.map-fallback .fallback-caption{z-index:4;background:rgba(255,255,255,.94);font-size:10px;bottom:43px}
