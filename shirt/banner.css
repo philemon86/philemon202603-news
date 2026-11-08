@@ -3,7 +3,7 @@
 html,body{margin:0;padding:0;max-width:100%;background:transparent}
 body{overflow-x:hidden;-webkit-font-smoothing:antialiased}
 button,input{font:inherit}button{cursor:pointer}a{text-decoration:none}
-.bw{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);width:100%;max-width:1460px;margin:auto;background:#fff;border:1px solid #dce4e5;border-radius:24px;overflow:hidden;box-shadow:0 12px 35px #1b39531a;min-height:650px}
+.bw{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);width:100%;max-width:1460px;margin:auto;background:#fff;border:1px solid #dce4e5;border-radius:24px;overflow:hidden;box-shadow:0 12px 35px #1b39531a;min-height:0}
 .campaign{display:flex;flex-direction:column;align-items:stretch;position:relative;min-width:0;padding:31px 32px 24px;background:radial-gradient(circle at 90% 20%,#ffffffad,transparent 44%),linear-gradient(135deg,#f9f5eb,#eaf1f3 80%);border-right:1px solid #dfe6e7}
 .eyebrow{display:block;font-size:10px;line-height:1.2;font-weight:900;letter-spacing:.17em;color:#aa854d}
 .campaign h1{color:#163251;margin:7px 0 10px;font-size:clamp(25px,2.5vw,38px);line-height:1.28;font-weight:950;letter-spacing:.015em}
@@ -27,8 +27,8 @@ button,input{font:inherit}button{cursor:pointer}a{text-decoration:none}
 .campaign-bottom strong{font-size:19px;font-weight:950;color:var(--deep)}
 .campaign-bottom a{color:#a0713d;font-size:12px;font-weight:850;border-bottom:1px solid #bb9b6c;white-space:nowrap}
 .register{position:relative;display:flex;flex-direction:column;min-width:0;min-height:0;padding:26px clamp(19px,2vw,32px) 22px}
-.register-heading{display:flex;align-items:end;justify-content:space-between;gap:10px;margin-bottom:17px}
-.register-heading h2{font-size:clamp(21px,2.05vw,29px);font-weight:950;margin:4px 0 0;color:var(--deep)}
+.register-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.register-heading h2{font-size:clamp(21px,2.05vw,29px);font-weight:950;margin:0;color:var(--deep)}
 .total-pill{background:#f8efdf;color:#976d37;padding:8px 12px;border-radius:99px;font-size:14px;font-weight:950;white-space:nowrap}
 #bwForm{display:flex;flex-direction:column;gap:12px;min-width:0;flex:1}
 .entry-fields{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:12px;flex:0 0 auto}
@@ -113,3 +113,19 @@ button,input{font:inherit}button{cursor:pointer}a{text-decoration:none}
  .clock-unit strong{font-size:31px}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
+
+/* Content-height responsive banner: never reserve a blank 650px floor.
+   Iframe parent measures the actual .bw box, so sizes 4XL/5XL remain visible. */
+@media(min-width:761px){
+ .register{padding-top:20px;padding-bottom:18px}
+ #bwForm{gap:10px}
+ .register-heading{margin-bottom:10px}
+ .sizes{gap:6px}
+ .size-tile{padding-top:7px;padding-bottom:7px}
+ .size-name{margin-bottom:5px}
+}
+@media(max-width:760px){
+ .register-heading{margin-bottom:12px}
+ .sizes{align-content:start}
+ .bw{height:auto;min-height:0}
+}
