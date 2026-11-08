@@ -130,7 +130,7 @@ function initMap(){
  base=L.layerGroup().addTo(map);
  hot=L.layerGroup().addTo(map);
  resetMap();
- map.on('zoomend moveend',renderMarkers);
+ map.on('moveend',renderMarkers);
  setTimeout(()=>{map?.invalidateSize();},160);
  }catch(e){status('地圖底圖暫無法載入，顯示教會位置示意');}
 }
@@ -142,7 +142,6 @@ function getPopup(meta,rec){
  return '<div class="popup-title">'+clean(churchTitle(meta))+'</div><div class="popup-info">'+info+'</div>'+recent;
 }
 function renderMarkers(){
- renderFallback();
  if(!map||!base||!hot)return;
  base.clearLayers();hot.clearLayers();
  const stats=new Map((live?.churches||[]).map(x=>[x.id,x]));
@@ -186,6 +185,14 @@ function updateStats(){
  const item=(live.recent||[])[0];
  $('recentText').textContent=item?(byId.get(item.id)?churchTitle(byId.get(item.id))+' · ':'')+(item.surname||'')+' · '+fmt(item.qty)+' 件':'目前尚無登記資料';
 }
+function restoreCachedStats(){
+ try{
+  const item=JSON.parse(sessionStorage.getItem('shirt_last_public_stats')||'null');
+  if(item&&Date.now()-item.at<180000&&item.data&&Array.isArray(item.data.churches)){
+   live=item.data;updateStats();renderFallback();status('顯示最近統計，正在更新');
+  }
+ }catch(e){}
+}
 function loadStats(){
  if(!validURL||loadingStats)return Promise.resolve();
  loadingStats=true;
@@ -195,7 +202,8 @@ function loadStats(){
   const finish=data=>{
     if(done)return;done=true;clearTimeout(timer);delete window[cb];script.remove();loadingStats=false;
     if(data&&Array.isArray(data.churches)){
-      live=data;updateStats();renderMarkers();status('意向統計更新 '+new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'}));
+      try{sessionStorage.setItem('shirt_last_public_stats',JSON.stringify({at:Date.now(),data}));}catch(e){}
+      live=data;updateStats();renderFallback();renderMarkers();status('意向統計更新 '+new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'}));
     }else status('統計暫時無法連線；地圖仍可查看');
     resolve();
   };
@@ -278,7 +286,7 @@ function initQuickForm(){
   pendingRequest.timeout=setTimeout(()=>{
    if(!pendingRequest)return;
    pendingRequest=null;submit.disabled=false;submit.textContent='重新送出意向 →';
-   showQuickMessage('Google 連線逾時，尚未確認儲存。請稍後重新送出，或使用原始登記頁。','error');
+   showQuickMessage('Google 連線逾時，尚未確認儲存。請稍後重試。','error');
   },30000);
   sendPending();
  });
@@ -336,12 +344,12 @@ function bindEvents(){
  $('zoomOutBtn').onclick=()=>map?.zoomOut();
 }
 async function start(){
- bindEvents();initSearch();refreshTime();setInterval(refreshTime,60000);initQuickForm();
+ bindEvents();initSearch();refreshTime();setInterval(refreshTime,60000);initQuickForm();restoreCachedStats();
  const catalogs=fetch('./churches.json',{cache:'default'}).then(r=>{
   if(!r.ok)throw Error('無法讀取教會資料');return r.json();
  }).then(x=>{
   if(!Array.isArray(x))throw Error('教會資料格式錯誤');
-  catalog=x;byId=new Map(x.map(c=>[c.id,c]));renderFallback();renderMarkers();renderChurchOptions();
+  catalog=x;byId=new Map(x.map(c=>[c.id,c]));renderFallback();renderMarkers();renderChurchOptions();updateStats();
   status('已收錄 '+catalog.length+' 個教會／聚會點');
  }).catch(()=>status('教會名錄暫時無法讀取'));
  waitForLeaflet().then(got=>{
