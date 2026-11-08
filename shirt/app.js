@@ -99,7 +99,7 @@ function initMap(){
  // OpenStreetMap Standard tiles do not require a CARTO API key.
  // Leave browser caching enabled and retain the attribution / HTTP Referer.
  const tile=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{
-   maxZoom:19,attribution:'&copy; OpenStreetMap contributors',crossOrigin:true,
+   maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a>',crossOrigin:true,
    updateWhenIdle:true,keepBuffer:2
  });
  tile.on('tileload',fallbackReady);
