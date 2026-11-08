@@ -64,25 +64,40 @@ function fallbackReady(){
  mapLoaded=true;
 }
 function renderFallback(){
- const dots=$('fallbackPins');dots.replaceChildren();
+ const dots=$('fallbackPins'),world=$('fallbackWorldPins'),holder=$('mapFallback');
+ holder.classList.toggle('world',scope==='ALL');
+ if(!catalog.length)return;
+ dots.replaceChildren();world.replaceChildren();
  $('fallbackTw').style.display=scope==='TW'?'':'none';
  $('fallbackWorld').style.display=scope==='TW'?'none':'';
- const seen=new Set();
- if(!catalog.length)return;
- for(const c of catalog){
+ const stats=new Map((live?.churches||[]).map(r=>[r.id,countOf(r)]));
+ if(scope==='TW'){
+  for(const c of catalog){
+   if(c.c!=='TW'||!Number.isFinite(+c.lat)||!Number.isFinite(+c.lng)||c.loc==='country_center_approximate')continue;
+   const rad=c.lat*Math.PI/180;
+   const x=((c.lng+180)/360)*65536-212*256;
+   const y=(1-Math.log(Math.tan(rad)+1/Math.cos(rad))/Math.PI)/2*65536-109*256;
+   if(x<0||x>1024||y<0||y>1024)continue;
+   const marker=document.createElement('span');marker.className='offline-dot'+((stats.get(c.id)||0)>0?' active':'');
+   marker.style.left=x+'px';marker.style.top=y+'px';
+   marker.title=churchTitle(c);dots.append(marker);
+  }
+  $('fallbackCaption').textContent='© OpenStreetMap contributors · 教會位置';
+ }else{
+  const byCountry=new Map();
+  for(const c of catalog){
    if(!Number.isFinite(+c.lat)||!Number.isFinite(+c.lng))continue;
-   if(scope==='TW'&&c.c!=='TW')continue;
-   if(scope==='ALL'&&c.loc==='country_center_approximate'&&seen.has(c.c))continue;
-   if(scope==='ALL'&&c.loc==='country_center_approximate')seen.add(c.c);
-   const x=scope==='TW'?((c.lng-119.0)/3.7)*100:((c.lng+180)/360)*100;
-   const y=scope==='TW'?((25.8-c.lat)/4.2)*100:((90-c.lat)/180)*100;
+   if(!byCountry.has(c.c)||c.loc==='country_center_approximate')byCountry.set(c.c,c);
+  }
+  for(const c of byCountry.values()){
+   const x=(c.lng+180)/360*100,y=(90-c.lat)/180*100;
    if(x<0||x>100||y<0||y>100)continue;
-   const dot=document.createElement('span');dot.className='offline-dot';
-   const item=(live?.churches||[]).find(v=>v.id===c.id);
-   if(item&&countOf(item)>0)dot.classList.add('active');
-   dot.style.left=x+'%';dot.style.top=y+'%';dot.title=churchTitle(c);dots.append(dot);
+   const marker=document.createElement('span');marker.className='offline-dot';
+   marker.style.left=x+'%';marker.style.top=y+'%';marker.title=c.country;
+   world.append(marker);
+  }
+  $('fallbackCaption').textContent='全球教會位置概覽 · 含概略定位';
  }
- $('fallbackCaption').textContent=scope==='TW'?'臺灣教會位置示意':'全球教會分布示意';
 }
 
 async function waitForLeaflet(){
