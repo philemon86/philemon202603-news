@@ -9,7 +9,13 @@ const norm=s=>Array.from(String(s||'').normalize('NFKC').toLowerCase()).map(ch=>
 const clean=s=>String(s??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 const fmt=n=>Math.max(0,Number(n)||0).toLocaleString('zh-TW');
 const churchTitle=c=>c.c==='TW'&&c.name&&!/(教會|祈禱所|聚會所|福音中心|禱告所)$/.test(c.name)?c.name+'教會':c.name;
-const queryChurch=(c,q)=>[churchTitle(c),c.name,c.en,c.region,c.country,c.label].some(v=>norm(v).includes(q));
+const queryChurch=(c,q)=>[churchTitle(c),c.name,c.en,c.region,c.country,c.label,...(Array.isArray(c.aliases)?c.aliases:[])].some(v=>norm(v).includes(q));
+const searchCatalog=(q,limit=12)=>catalog.filter(c=>queryChurch(c,q))
+ .map((c,i)=>{
+  const name=norm(churchTitle(c)),aliases=(c.aliases||[]).map(norm),country=norm(c.country);
+  const score=name===q?0:name.startsWith(q)?1:aliases.some(a=>a===q||a.startsWith(q))?2:name.includes(q)?3:c.kind==='customer'?4:country.startsWith(q)?5:6;
+  return {c,i,score};
+ }).sort((a,b)=>a.score-b.score||a.i-b.i).slice(0,limit).map(x=>x.c);
 const countOf=r=>Math.max(0,Number(r?.confirmed)||0)+Math.max(0,Number(r?.pending)||0);
 const validURL=/^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/.test(APP_URL);
 let catalog=[],byId=new Map(),live=null,scope='TW',map=null,base=null,hot=null,mapLoaded=false,loadingStats=false;
@@ -30,15 +36,15 @@ function initSearch(){
  const show=()=>{
    const q=norm(input.value);results.replaceChildren();
    if(!q){results.hidden=true;return;}
-   const picks=catalog.filter(c=>queryChurch(c,q)).slice(0,12);
+   const picks=searchCatalog(q);
    for(const c of picks){
     const btn=document.createElement('button');btn.type='button';
     const strong=document.createElement('strong');strong.textContent=churchTitle(c);
-    const small=document.createElement('small');small.textContent=c.country+(c.region?' · '+c.region:'');
+    const small=document.createElement('small');small.textContent=c.kind==='customer'?'客戶'+(c.country?' · '+c.country:''):c.country+(c.region?' · '+c.region:'');
     btn.append(strong,small);
     btn.onclick=()=>{
       input.value=churchTitle(c);results.hidden=true;
-      if(c.c!=='TW'&&scope==='TW')setScope('ALL');
+      if(c.kind!=='customer'&&c.c!=='TW'&&scope==='TW')setScope('ALL');
       if(map&&Number.isFinite(+c.lat)&&Number.isFinite(+c.lng)){
         map.flyTo([c.lat,c.lng],c.loc==='country_center_approximate'?5:12,{duration:.7});
       }
@@ -270,15 +276,15 @@ function renderChurchOptions(){
  const input=$('quickChurch'),box=$('quickChurchOptions');
  const q=norm(input.value);box.replaceChildren();
  if(!q){box.hidden=true;return;}
- const matches=catalog.filter(c=>queryChurch(c,q)).slice(0,12);
+ const matches=searchCatalog(q);
  for(const c of matches){
   const button=document.createElement('button');button.type='button';
-  button.textContent=churchTitle(c)+' · '+c.country;
+  button.textContent=churchTitle(c)+(c.kind==='customer'?' · 客戶':' · '+c.country);
   button.addEventListener('click',()=>{
    selectedChurch=c;input.value=churchTitle(c);input.classList.add('selected');box.hidden=true;
    renderFallback();renderMarkers();
    $('churchSearch').value=churchTitle(c);
-   if(c.c!=='TW'&&scope==='TW')setScope('ALL');
+   if(c.kind!=='customer'&&c.c!=='TW'&&scope==='TW')setScope('ALL');
    if(map&&Number.isFinite(Number(c.lat))&&Number.isFinite(Number(c.lng))){
     map.flyTo([+c.lat,+c.lng],c.loc==='country_center_approximate'?5:12,{duration:.55});
    }
@@ -439,7 +445,7 @@ function bindEvents(){
 }
 async function start(){
  bindEvents();initShirtLightbox();initSearch();refreshTime();setInterval(refreshTime,60000);initQuickForm();restoreCachedStats();
- const catalogs=fetch('./churches.json',{cache:'default'}).then(r=>{
+ const catalogs=fetch('./churches.json?v=20261108customers1',{cache:'default'}).then(r=>{
   if(!r.ok)throw Error('無法讀取教會資料');return r.json();
  }).then(x=>{
   if(!Array.isArray(x))throw Error('教會資料格式錯誤');
