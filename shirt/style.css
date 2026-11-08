@@ -163,3 +163,23 @@ a{text-decoration:none;color:inherit}
  .goal-note{display:none}
  .form-wrapper,.form-wrapper iframe{height:895px}
 }
+
+
+/* Preserve full 11-row size table on shorter desktop displays without inner scrollbars. */
+@media (min-width:901px) and (max-height:740px){
+  .site-head{height:52px;padding-top:5px;padding-bottom:5px}
+  .logo{height:37px;width:37px;flex-basis:37px;font-size:25px}
+  .brand-title strong{font-size:15px}
+  .headline-stat{height:37px}
+  .headline-stat strong{font-size:23px}
+  .workspace{height:calc(100dvh - 52px)}
+  .product-band{height:78px;flex-basis:78px;padding-top:4px;padding-bottom:4px}
+  .shirt-photo{height:69px;width:66px}
+  .product-copy h2{font-size:16px;margin:2px 0}
+  .product-copy p{font-size:11px;margin:0 0 3px}
+  .goal-note strong{font-size:30px}
+  .form-heading{height:44px;flex-basis:44px;padding:5px 18px}
+  .form-heading h3{font-size:16px}
+  .form-heading .eyebrow{font-size:8px}
+  .privacy-foot{height:20px;flex-basis:20px;font-size:9px;padding:0 18px 3px}
+}
