@@ -6,11 +6,11 @@
 <meta name="theme-color" content="#162d49">
 <meta name="description" content="真耶穌教會臺灣傳教100週年紀念衫，再製作意向調查與全球教會參與地圖。">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2213%22%20fill%3D%22%23162d49%22%2F%3E%3Ctext%20x%3D%2232%22%20y%3D%2245%22%20text-anchor%3D%22middle%22%20font-family%3D%22Noto%20Sans%20CJK%20TC%2CMicrosoft%20JhengHei%2Csans-serif%22%20font-size%3D%2243%22%20font-weight%3D%22900%22%20fill%3D%22%23fff%22%3E%E8%A1%A3%3C%2Ftext%3E%3C%2Fsvg%3E">
-<title>百週年紀念衫｜再製作意向地圖</title>
-<link rel="stylesheet" href="./style.css?v=20261108stat2">
+<title>百週年紀念衫｜各地統計與意向登記</title>
+<link rel="stylesheet" href="./style.css?v=20261108stat3">
 <script src="./config.js"></script>
 
-<script src="./app.js?v=20261108stat2" defer></script>
+<script src="./app.js?v=20261108stat3" defer></script>
 </head>
 <body>
 <header class="site-head">
@@ -24,9 +24,9 @@
   </div>
 </header>
 <main class="workspace">
-  <section class="map-pane" id="mapSection" aria-label="教會意向地圖">
+  <section class="map-pane" id="mapSection" aria-label="各地統計">
     <div class="map-head">
-      <div><span class="eyebrow">STATISTICS</span><h1>統計表</h1></div>
+      <div><span class="eyebrow">STATISTICS</span><h1>各地統計</h1></div>
       <div class="stats-actions">
         <button id="toggleMapBtn" class="toggle-map-btn" type="button" aria-pressed="false">查看地圖</button>
         <div class="scope-tabs" role="group" aria-label="切換地圖區域" hidden><button type="button" class="scope active" data-scope="TW">臺灣</button><button type="button" class="scope" data-scope="ALL">全球</button></div>
@@ -34,7 +34,7 @@
     </div>
     <div class="stats-table-area" id="statsTableArea">
       <table class="stats-table" aria-label="各教會登記件數"><thead><tr><th scope="col">教會</th><th scope="col">件數</th></tr></thead>
-        <tbody id="churchStatsRows"><tr><td colspan="2" class="stats-empty">載入統計中</td></tr></tbody>
+        <tbody id="churchStatsRows"><tr><td colspan="2" class="stats-empty">—</td></tr></tbody>
       </table>
       <div class="stats-table-foot"><span id="statsPageInfo"></span><div class="stats-pagination"><button id="statsPrev" type="button" disabled aria-label="上一頁">上一頁</button><button id="statsNext" type="button" disabled aria-label="下一頁">下一頁</button></div></div>
     </div>
@@ -70,7 +70,7 @@
       <div class="map-actions"><button id="resetMapBtn" type="button" aria-label="回到地圖全覽">◎</button><button id="zoomInBtn" type="button" aria-label="放大地圖">+</button><button id="zoomOutBtn" type="button" aria-label="縮小地圖">−</button></div>
       <div class="map-legend"><span class="legend-dot"></span> 教會位置 <span class="legend-heat"></span> 意向越多越深</div>
     </div>
-    <div class="map-bottom"><span id="updatedAt">統計資料更新中</span></div>
+    <div class="map-bottom" aria-hidden="true"><span id="updatedAt"></span></div>
   </section>
   <section class="order-pane" id="register" aria-label="紀念衫意向登記">
     <div class="product-band">
