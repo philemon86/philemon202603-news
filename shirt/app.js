@@ -80,7 +80,9 @@ function renderFallback(){
    if(x<0||x>1024||y<0||y>1024)continue;
    const marker=document.createElement('span');marker.className='offline-dot'+((stats.get(c.id)||0)>0?' active':'');
    marker.style.left=x+'px';marker.style.top=y+'px';
-   marker.title=churchTitle(c);dots.append(marker);
+   marker.title=churchTitle(c);marker.dataset.churchId=c.id;
+   if(selectedChurch?.id===c.id)marker.classList.add('current');
+   dots.append(marker);
   }
   $('fallbackCaption').textContent='© OpenStreetMap contributors · 教會位置';
  }else{
@@ -145,6 +147,7 @@ function initMap(){
  base=L.layerGroup().addTo(map);
  hot=L.layerGroup().addTo(map);
  resetMap();
+ if(selectedChurch&&Number.isFinite(Number(selectedChurch.lat))&&Number.isFinite(Number(selectedChurch.lng)))map.setView([+selectedChurch.lat,+selectedChurch.lng],selectedChurch.loc==='country_center_approximate'?5:12);
  map.on('moveend',renderMarkers);
  setTimeout(()=>{map?.invalidateSize();},160);
  }catch(e){status('地圖底圖暫無法載入，顯示教會位置示意');}
@@ -171,7 +174,7 @@ function renderMarkers(){
      const icon=L.divIcon({className:'',html:'<span class="demand-marker" style="width:'+size+'px;height:'+size+'px;background:'+labelColor(total)+'">'+fmt(total)+'</span><span class="demand-label">'+clean(churchTitle(c))+'</span>',iconSize:[size,size],iconAnchor:[size/2,size/2]});
      L.marker([c.lat,c.lng],{icon}).bindPopup(getPopup(c,item),{maxWidth:240}).addTo(hot);
    }else{
-     L.circleMarker([c.lat,c.lng],{radius:zoom>11?6.5:4.8,weight:1,color:'#fff',fillColor:'#7197a9',fillOpacity:.8})
+     L.circleMarker([c.lat,c.lng],{radius:((zoom>11?6.5:4.8)+(selectedChurch?.id===c.id?3:0)),weight:1.5,color:'#fff',fillColor:selectedChurch?.id===c.id?'#b28b52':'#7197a9',fillOpacity:.88})
       .bindTooltip(churchTitle(c),{direction:'top'}).bindPopup(getPopup(c,item)).addTo(base);
    }
   }
@@ -254,6 +257,7 @@ function renderChurchOptions(){
   button.textContent=churchTitle(c)+' · '+c.country;
   button.addEventListener('click',()=>{
    selectedChurch=c;input.value=churchTitle(c);input.classList.add('selected');box.hidden=true;
+   renderFallback();renderMarkers();
    $('churchSearch').value=churchTitle(c);
    if(c.c!=='TW'&&scope==='TW')setScope('ALL');
    if(map&&Number.isFinite(Number(c.lat))&&Number.isFinite(Number(c.lng))){
