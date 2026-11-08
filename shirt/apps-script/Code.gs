@@ -6,14 +6,14 @@
  * 3. 部署 -> 新增部署 -> 網頁應用程式 -> 執行身分：我；誰可以存取：所有人。
  * 4. 把部署後 /exec 網址貼入網站的 shirt/config.js。
  * 5. 送出成功即計入統計；僅需在試算表將異常或測試資料改為「排除」。
- * 只在私人試算表保留姓氏作為內部核對線索；公開 API 僅回傳教會與聚合件數，不提供姓氏／回覆代碼。
+ * 只在私人試算表保留姓名及尺寸供書房與所屬教會書報組核對，需本人同意，代填者須取得本人同意；公開 API 僅回傳統計，不提供個人資料。
  */
 const APP = {
   SPREADSHEET_ID: '1YeD69Wnvbwvf76ouee0qbKuwsMgRM491HlErmONOUXc',
   CATALOG_URL: 'https://www.philemon.com.tw/shirt/churches.json',
   CLOSE_AT: '2026-12-10T23:59:59+08:00',
   TAB: '意向回覆',
-  HEADERS: ['建立時間','回覆代碼','教會ID','姓氏','各尺寸明細','總件數','審核狀態','更新時間'],
+  HEADERS: ['建立時間','回覆代碼','教會ID','姓名','各尺寸明細','總件數','處理狀態','更新時間','填寫方式','書報組名單提供同意','教會名稱','尺寸件數（易讀）'],
   SIZES: ['110cm','120cm','2XS','XS','S','M','L','XL','2XL','3XL','4XL']
 };
 function setupOnce() {
@@ -94,13 +94,34 @@ function doGet(e){
     .setTitle('百週年紀念衫｜意向登記')
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
+function churchMetadata_(id){
+  const cache=CacheService.getScriptCache(),key='shirt_church_metadata_v1';
+  let json=cache.get(key);
+  if(!json){
+    const mapping={};
+    for(const c of catalog_()){
+      if(/^tjc_[a-f0-9]{16}$/.test(String(c.id||''))){
+        mapping[c.id]={name:fullChurchName_(c),country:c.country||'',c:c.c||''};
+      }
+    }
+    json=JSON.stringify(mapping);
+    if(json.length<95000)cache.put(key,json,21600);
+  }
+  const record=JSON.parse(json)[id];
+  return record||null;
+}
 function submitInterest(payload){
   if(Date.now()>new Date(APP.CLOSE_AT).getTime())throw new Error('本次調查已截止');
   if(!payload || payload.honey)throw new Error('無法送出，請重新載入');
   const cId=String(payload.churchId||'');
-  if(!/^tjc_[a-f0-9]{16}$/.test(cId) || !isValidChurchId_(cId))throw new Error('請選擇有效的教會或聚會點');
-  const surname=String(payload.surname||'').trim().normalize('NFKC');
-  if(!/^[\p{L}\p{M}.'’\-\s]{1,16}$/u.test(surname))throw new Error('請填寫中文或英文姓氏（最多16字），不要填全名');
+  if(!/^tjc_[a-f0-9]{16}$/.test(cId))throw new Error('請選擇有效的教會或聚會點');
+  const church=churchMetadata_(cId);
+  if(!church)throw new Error('無效的教會，請從名單中重新選擇');
+  const fullName=String(payload.name||'').trim().normalize('NFKC');
+  if(!/^[\p{L}\p{M}][\p{L}\p{M}.'’\-\s]{1,39}$/u.test(fullName))throw new Error('請填寫中文或英文完整姓名（2～40字）');
+  const mode=String(payload.mode||'');
+  if(!['本人填寫','書報組代填'].includes(mode))throw new Error('請選擇填寫方式');
+  if(payload.consent!==true)throw new Error('請先同意名單將提供所屬教會書報組；代填須取得本人同意');
   const counts={},raw=payload.sizes||{};
   for(const size of APP.SIZES){
     const value=Number(raw[size]||0);
@@ -116,8 +137,9 @@ function submitInterest(payload){
     const sh=sheet_(),last=sh.getLastRow();
     let found=-1;
     if(last>1){const tokens=sh.getRange(2,2,last-1,1).getValues();found=tokens.findIndex(x=>String(x[0])===token);}
-    const row=[now,token,cId,surname,JSON.stringify(counts),total,'已登記',now];
-    if(found>=0){ const rowNo=found+2;row[0]=sh.getRange(rowNo,1).getValue();sh.getRange(rowNo,1,1,8).setValues([row]); }
+    const breakdown=APP.SIZES.filter(size=>counts[size]>0).map(size=>size+' × '+counts[size]).join('、');
+    const row=[now,token,cId,fullName,JSON.stringify(counts),total,'已登記',now,mode,'同意',church.name,breakdown];
+    if(found>=0){ const rowNo=found+2;row[0]=sh.getRange(rowNo,1).getValue();sh.getRange(rowNo,1,1,APP.HEADERS.length).setValues([row]); }
     else sh.appendRow(row);
     CacheService.getScriptCache().remove('shirt_public_v3');
     return {ok:true,token:token,total:total,message:'登記成功，已列入再製作意向統計'};
