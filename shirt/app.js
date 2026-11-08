@@ -194,7 +194,11 @@ function renderMarkers(){
 }
 function updateStats(){
  const total=live?Math.max(0,Number(live.total)||0):null;
- const people=live&&Number.isFinite(Number(live.people))?Math.max(0,Number(live.people)):null;
+ // Earlier deployed versions omit "people". With exactly one registered item,
+ // the count is provably one person (each valid record contains >= 1 piece).
+ // For totals >1, avoid guessing a headcount until the backend is upgraded.
+ const explicitPeople=live&&live.people!==undefined&&live.people!==null&&live.people!==''&&Number.isFinite(Number(live.people));
+ const people=explicitPeople?Math.max(0,Number(live.people)):(total===0?0:total===1?1:null);
  $('totalQtyNum').textContent=total===null?'—':fmt(total);
  $('peopleNum').textContent=people===null?'—':fmt(people);
 }
@@ -288,10 +292,8 @@ function initQuickForm(){
   if(pendingRequest){showQuickMessage('上一筆資料仍在傳送，請勿重複送出','info');return;}
   if(!selectedChurch){showQuickMessage('請從教會建議名單點選所屬教會','error');church.focus();return;}
   const fullName=$('quickName').value.trim().normalize('NFKC');
-  if(!/^[\p{L}\p{M}][\p{L}\p{M}.'’\-\s]{1,39}$/u.test(fullName)){showQuickMessage('請填寫中文或英文完整姓名（2～40字）','error');return;}
-  const mode=form.querySelector('input[name="entryMode"]:checked')?.value||'本人填寫';
-  if(!['本人填寫','書報組代填'].includes(mode)){showQuickMessage('請選擇填寫方式','error');return;}
-  if(!$('quickConsent').checked){showQuickMessage('請先閱讀並同意名單提供方式；代填者須取得本人同意','error');return;}
+  if(!/^[\p{L}\p{M}][\p{L}\p{M}.'’\-\s]{1,39}$/u.test(fullName)){showQuickMessage('請填寫書報組或中文／英文全名（2～40字）','error');return;}
+  if(!$('quickConsent').checked){showQuickMessage('請先同意將填寫名稱及尺寸明細提供所屬教會書報組','error');return;}
   const qty=getTotal();if(qty<1||qty>10){showQuickMessage('請選擇1至10件','error');return;}
   let token='';try{token=localStorage.getItem('shirt_receipt_code_v3')||'';}catch(e){}
   if(!/^[0-9a-f-]{36}$/.test(token)){
@@ -300,7 +302,7 @@ function initQuickForm(){
    });
   }
   try{localStorage.setItem('shirt_receipt_code_v3',token);}catch(e){}
-  pendingRequest={req:String(Date.now())+'-'+Math.random().toString(36).slice(2,8),token,churchId:selectedChurch.id,qty,body:{churchId:selectedChurch.id,name:fullName,mode,consent:true,sizes:{...quantities},honey:'',token},sent:false};
+  pendingRequest={req:String(Date.now())+'-'+Math.random().toString(36).slice(2,8),token,churchId:selectedChurch.id,qty,body:{churchId:selectedChurch.id,name:fullName,consent:true,sizes:{...quantities},honey:'',token},sent:false};
   submit.disabled=true;submit.textContent='準備送出…';
   showQuickMessage(readyBridge?'正在保存登記…':'正在連接 Google，尚未送出資料');
   pendingRequest.timeout=setTimeout(()=>{
