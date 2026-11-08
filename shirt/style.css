@@ -1055,3 +1055,63 @@ body.lightbox-open{overflow:hidden!important}
     padding-top:6px;
   }
 }
+
+
+/* Desktop inline intent warning and action v1 */
+.quick-action-row{
+  display:flex;
+  flex:0 0 auto;
+  align-items:stretch;
+  gap:12px;
+  width:100%;
+  min-width:0;
+}
+.quick-action-row .intent-order-alert{
+  flex:1 1 0;
+  min-width:0;
+  min-height:61px;
+  margin:0;
+}
+.quick-action-row .quick-bottom{
+  flex:0 0 154px;
+  min-height:0;
+  width:154px;
+  padding:0;
+  margin:0;
+  display:flex;
+  align-items:stretch;
+}
+.quick-action-row .quick-bottom button{
+  flex:1 1 auto;
+  align-self:stretch;
+  min-width:0;
+  height:auto;
+  border-radius:10px;
+}
+@media(min-width:901px) and (max-height:850px){
+  .quick-action-row{gap:9px}
+  .quick-action-row .intent-order-alert{min-height:51px}
+  .quick-action-row .quick-bottom{flex-basis:139px;width:139px}
+}
+@media(min-width:901px) and (max-height:680px){
+  .quick-action-row .intent-order-alert{min-height:43px}
+  .quick-action-row .quick-bottom{flex-basis:128px;width:128px}
+}
+@media(max-width:900px){
+  .quick-action-row{flex-direction:column;gap:10px}
+  .quick-action-row .intent-order-alert{
+    flex:0 0 auto;
+    width:100%;
+    min-height:75px;
+  }
+  .quick-action-row .quick-bottom{
+    flex:0 0 auto;
+    width:100%;
+    min-height:48px;
+    align-items:stretch;
+  }
+  .quick-action-row .quick-bottom button{
+    width:100%;
+    min-height:48px;
+  }
+}
