@@ -44,8 +44,45 @@ function catalog_(){
   // CacheService 單筆儲存有長度限制，601 筆完整 JSON 不直接快取；下次由 UrlFetch 重新取得。
   return list;
 }
+function bridgeHtml_(nonce) {
+  const safe=JSON.stringify(String(nonce||''));
+  return '<!doctype html><html><head><meta charset="utf-8"></head><body><script>' +
+   '(function(){' +
+     'const nonce='+safe+';' +
+     'const channel=new MessageChannel();' +
+     'channel.port1.onmessage=function(e){' +
+       'const d=e.data||{};' +
+       'if(d.type!=="submit"||typeof d.requestId!=="string"||!d.payload)return;' +
+       'google.script.run.withSuccessHandler(function(result){' +
+         'channel.port1.postMessage({type:"result",requestId:d.requestId,ok:true,result:result});' +
+       '}).withFailureHandler(function(err){' +
+         'channel.port1.postMessage({type:"result",requestId:d.requestId,ok:false,error:String(err&&err.message||err)});' +
+       '}).submitInterest(d.payload);' +
+     '};' +
+     'channel.port1.start();' +
+     'window.top.postMessage({type:"shirt-bridge-ready",nonce:nonce},' +
+       '"https://www.philemon.com.tw",[channel.port2]);' +
+   '})();' +
+   '<\/script></body></html>';
+}
+function isValidChurchId_(id){
+  const cache=CacheService.getScriptCache(),key='shirt_valid_churches_v1';
+  let json=cache.get(key);
+  if(!json){
+    const ids=catalog_().map(c=>c.id).filter(x=>/^tjc_[a-f0-9]{16}$/.test(x));
+    json=JSON.stringify(ids);
+    if(json.length<90000)cache.put(key,json,21600);
+  }
+  return JSON.parse(json).includes(id);
+}
 function doGet(e){
   const p=e && e.parameter || {};
+  if(p.mode==='bridge'){
+    const nonce=String(p.nonce||'');
+    if(!/^[a-zA-Z0-9_-]{12,80}$/.test(nonce))return HtmlService.createHtmlOutput('Invalid request');
+    return HtmlService.createHtmlOutput(bridgeHtml_(nonce))
+      .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+  }
   if(p.mode==='public'){
     const callback=String(p.callback||'');
     if(!/^[A-Za-z_$][A-Za-z0-9_$]{0,48}$/.test(callback))return ContentService.createTextOutput('invalid callback').setMimeType(ContentService.MimeType.TEXT);
@@ -61,7 +98,7 @@ function submitInterest(payload){
   if(Date.now()>new Date(APP.CLOSE_AT).getTime())throw new Error('本次調查已截止');
   if(!payload || payload.honey)throw new Error('無法送出，請重新載入');
   const cId=String(payload.churchId||'');
-  if(!/^tjc_[a-f0-9]{16}$/.test(cId) || !catalog_().some(c=>c.id===cId))throw new Error('請選擇有效的教會或聚會點');
+  if(!/^tjc_[a-f0-9]{16}$/.test(cId) || !isValidChurchId_(cId))throw new Error('請選擇有效的教會或聚會點');
   const surname=String(payload.surname||'').trim().normalize('NFKC');
   if(!/^[\p{L}\p{M}.'’\-\s]{1,16}$/u.test(surname))throw new Error('請填寫中文或英文姓氏（最多16字），不要填全名');
   const counts={},raw=payload.sizes||{};
