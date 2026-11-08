@@ -1,34 +1,35 @@
-# 傳教100週年紀念衫｜意向地圖
+# 傳教100週年紀念衫意向地圖
 
-公開網址：<https://www.philemon.com.tw/shirt/>
+公開網址：https://www.philemon.com.tw/shirt/
 
-## 2026-11-08 最新設計
+## 2026-11-08 速度優化
 
-- 首頁電腦版為**固定雙欄**：左側教會互動地圖、右側商品資料及意向表單；不使用覆蓋地圖的彈窗。桌面版由容器自適應高度，無水平與內層卷軸。
-- 手機版地圖與表單上下排列。
-- Leaflet 地圖失效時保留臺灣 SVG 輪廓與教會圓點示意，避免整片空白；資料來自 `churches.json`，601個教會／聚會點、包含281個臺灣及26個沙巴來源座標。
-- favicon 為**藏青底白色粗體「衣」**，內嵌在 `index.html`。
-- 教會名稱搜尋支援台／臺、繁／簡體及英語。
-- Google Apps Script 的表單 HTML **尺寸表即件數選擇表**：尺寸、肩寬、胸寬、衣長、數量共5欄，11個尺寸直接按 ±；不再重複另一個尺寸按鈕區。
-- 使用者僅輸入教會、姓氏、件數（1至10件），送出成功後**直接算入意向統計**。無人工「待確認」流程；試算表仍有 `排除` 欄值供刪除錯誤／濫填資料。
-- 截止 2027/12/10 23:59（臺灣時間），已登記件數 **101** 件達再製作意向門檻（仍需實際安排製作）；不是正式付款訂單。
+**目前 GitHub 前端已上架；Google Apps Script 新版需由擁有者「建立新版本 → 部署」一次。**
 
-## Google 試算表
+- `index.html` 直接包含可輸入的教會／姓氏、11列完整尺寸表與數量加減，不再等待 Google iframe 產生可見的表單。
+- 原始深藍紀念衫照片、藏青底「衣」favicon 保留。
+- 首頁直接顯示 OpenStreetMap 16張底圖圖磚與281個已定位臺灣教會點；互動地圖 Leaflet 載入成功後自動取代底圖，不阻擋表單。
+- 地圖程式從多個 CDN 取得且獨立載入，移除 HTML 中阻擋主程式的外部 Leaflet 腳本與 Google Fonts 字型樣式表。
+- `app.js` 在網頁啟動就綁定尺寸互動、非同步讀取601筆教會、啟動 Google Bridge、讀取公開統計；其中一項慢不阻擋其他項目。
+- `Code.gs` 的 `doGet(?mode=bridge&nonce=...)` 提供極小型 HTMLService Bridge，透過 MessageChannel 使用 `google.script.run.submitInterest` 寫入私人 Google 試算表。資料真正寫入成功，網站才顯示成功；未接通或失敗不假裝完成。
+- 回覆 token 在送出前保存，以相同 token 重試可覆寫而不重複新增。
+- Google 端有效教會 ID 清單快取6小時、公開統計快取12秒；公開網頁約23至33秒輪詢一次並在視窗重新顯示時更新。**這是近即時更新，不是 WebSocket 秒級同步。**
+- 回覆資料只保留教會、姓氏、各尺寸與件數；**已登記立即計入**（「排除」不計）。
+- 調查截止：2027/12/10 23:59（臺灣時間）；超過100件意向評估再製作。
 
-<https://docs.google.com/spreadsheets/d/1YeD69Wnvbwvf76ouee0qbKuwsMgRM491HlErmONOUXc/edit>
+## Google 擁有者要做的最後一步
 
-- 試算表由 `zalmunna17@gmail.com` 管理，必須保持私人。
-- 「意向回覆」G 欄為「已登記」或「排除」，不需人員逐一核准。
-- 「統計儀表板」已依此重寫公式。
+1. 在 Apps Script 專案「百週年紀念衫意向調查」開啟「程式碼.gs」。
+2. 從 [GitHub Code.gs](https://github.com/philemon86/philemon202603-news/blob/master/shirt/apps-script/Code.gs) 點 **Raw**，複製全部，取代原程式碼，儲存。
+3. **部署 → 管理部署作業 → 原有網頁應用程式 → 鉛筆編輯 → 版本選「建立新版本」→ 部署**。沿用原本 `/exec`，`shirt/config.js` 不必改。
+4. 從正式網站點選教會、姓氏與數量，提交一筆測試；確認試算表新增後，把測試列的 G 欄改為「排除」。
 
-## 需要由 Google 擁有者執行一次的更新
+### 驗收
 
-**GitHub 的新版後端尚不等於已部署 Apps Script 的新版！**
+- 打開網頁不會先看到空白表單，11種尺寸馬上能點選加減。
+- 預先可見臺灣地圖圖磚與教會標記，Leaflet 之後載入可縮放。
+- 選「內湖」應顯示「內湖教會」。
+- Google 寫入成功才顯示「登記成功」，然後背景刷新公開統計。
+- 若新版 Bridge 不可用，不可宣稱完成；備用 `/exec?mode=form` 可單獨開啟。
 
-1. 開啟已建立的 Apps Script 專案「百週年紀念衫意向調查」。
-2. 以本 Repo 的 `shirt/apps-script/Code.gs` **完整取代**專案「程式碼.gs」，按儲存。
-3. 「部署 → 管理部署作業 → 選擇現有網頁應用程式 → 鉛筆編輯 → 版本：新版本 → 部署」。
-4. **沿用原 /exec 網址**，GitHub `shirt/config.js` 不需變動。
-5. 用瀏覽器送出測試 1 件，在試算表查看 G 欄是否為「已登記」並顯示於公開件數；如果是測試資料，將該列改為「排除」。
-
-目前 GitHub 前端已更新，`config.js` 已經連接原 `/exec`；在以上第3步完成前，網頁載入的仍是**舊版** Google 表單。請勿稱為端到端已驗收。
+資料表（私人）：https://docs.google.com/spreadsheets/d/1YeD69Wnvbwvf76ouee0qbKuwsMgRM491HlErmONOUXc/edit
