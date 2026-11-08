@@ -630,3 +630,76 @@ body.lightbox-open{overflow:hidden!important}
 @media(prefers-reduced-motion:reduce){
  .shirt-lightbox-notes [role="listitem"]{animation:none;transform:none}
 }
+
+
+/* Intent order warning v1: visible at the point of submission, no modal or checkbox. */
+.intent-order-alert{
+ flex:0 0 auto;
+ display:flex;
+ align-items:center;
+ gap:12px;
+ min-height:63px;
+ margin:2px 0 0;
+ padding:11px 15px;
+ background:#fff2df;
+ border:1.5px solid #dda45a;
+ border-left:6px solid #b94931;
+ border-radius:10px;
+ box-shadow:0 2px 11px rgba(101,58,19,.09);
+}
+.intent-alert-icon{
+ flex:0 0 29px;
+ display:grid;
+ place-items:center;
+ width:29px;height:29px;
+ border-radius:50%;
+ color:#fff;
+ background:#b94931;
+ font:900 19px/1 system-ui,sans-serif;
+}
+.intent-alert-copy{
+ display:flex;
+ flex-direction:column;
+ gap:3px;
+ min-width:0;
+ color:#253a4d;
+}
+.intent-alert-copy strong{
+ color:#993b29;
+ font-size:18px;
+ font-weight:900;
+ line-height:1.2;
+ letter-spacing:.035em;
+}
+.intent-alert-copy span{
+ font-size:14px;
+ font-weight:750;
+ line-height:1.5;
+}
+@media(min-width:1101px) and (min-height:770px){
+ .intent-order-alert{min-height:66px}
+ .intent-alert-copy span{font-size:15px}
+}
+@media(min-width:901px) and (max-height:850px){
+ .intent-order-alert{min-height:51px;padding:6px 11px;gap:9px}
+ .intent-alert-icon{width:25px;height:25px;flex-basis:25px;font-size:17px}
+ .intent-alert-copy{gap:1px}
+ .intent-alert-copy strong{font-size:15px}
+ .intent-alert-copy span{font-size:12px;line-height:1.25}
+}
+@media(min-width:901px) and (max-height:680px){
+ .intent-order-alert{min-height:43px;padding:4px 9px}
+ .intent-alert-copy strong{font-size:14px}
+ .intent-alert-copy span{font-size:11px}
+}
+@media(max-width:900px){
+ .intent-order-alert{margin:4px 0 1px;padding:13px 12px;gap:11px;min-height:75px}
+ .intent-alert-copy strong{font-size:19px}
+ .intent-alert-copy span{font-size:14px;line-height:1.45}
+ .intent-alert-icon{flex-basis:30px;width:30px;height:30px}
+}
+@media(max-width:400px){
+ .intent-order-alert{padding:11px 10px;gap:9px}
+ .intent-alert-copy strong{font-size:18px}
+ .intent-alert-copy span{font-size:13px}
+}
