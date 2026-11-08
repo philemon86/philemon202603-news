@@ -400,3 +400,8 @@ a{text-decoration:none;color:inherit}
   .stats-table tbody td{font-size:14px}
   .stats-table tbody td:last-child{font-size:16px}
 }
+
+
+/* Keep the public statistics strictly to church and quantity. */
+.map-bottom{display:none!important}
+.map-pane:has(.stats-table-area:not([hidden])) .map-search{display:none}
