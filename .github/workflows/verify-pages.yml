@@ -63,3 +63,39 @@ jobs:
               exit 1
             fi
           done
+
+      - name: Verify newsletter images
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          images=(
+            "https://philemon.com.tw/2026-11/assets/c296-02.webp"
+            "https://philemon.com.tw/2026-11/assets/c299.webp"
+          )
+
+          for url in "${images[@]}"; do
+            ok=0
+            for attempt in {1..18}; do
+              headers=$(mktemp)
+              body=$(mktemp)
+              status=$(curl -L -sS -D "$headers" -o "$body" -w "%{http_code}" "$url" || true)
+              ctype=$(awk 'BEGIN{IGNORECASE=1} /^content-type:/ {gsub("\r",""); print $2}' "$headers" | tail -n1)
+
+              if [[ "$status" == "200" && "$ctype" == image/webp* && -s "$body" ]]; then
+                echo "OK $url -> $status $ctype $(wc -c < "$body") bytes"
+                ok=1
+                rm -f "$headers" "$body"
+                break
+              fi
+
+              echo "Attempt $attempt failed: $url -> $status $ctype"
+              rm -f "$headers" "$body"
+              sleep 10
+            done
+
+            if [[ "$ok" -ne 1 ]]; then
+              echo "Image verification failed for $url"
+              exit 1
+            fi
+          done
