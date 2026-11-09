@@ -789,6 +789,100 @@
   .t-card-water { border-color:rgba(109,132,114,.5); background:linear-gradient(160deg,rgba(109,132,114,.12) 0%,rgba(255,255,255,.018) 100%); }
   .t-card-water .en-num,.t-card-water a { color:#B9D0A7; }
 
+
+  /* 百年紀念衫：閱讀餐桌之外的 Dress Code */
+  .menu-item-dress {
+    grid-column: 1 / -1;
+    justify-content: center;
+    border-top: 1px solid rgba(200,164,110,.14);
+    border-right: 0;
+    text-align: center;
+  }
+  .menu-item-dress .menu-no {
+    font-size: 22px;
+    letter-spacing: .12em;
+    min-width: auto;
+  }
+  .shirt-interest {
+    position: relative;
+    overflow: hidden;
+    padding: 104px 0 96px;
+    background:
+      radial-gradient(circle at 18% 12%, rgba(200,164,110,.12), transparent 34%),
+      radial-gradient(circle at 84% 78%, rgba(109,127,112,.11), transparent 32%),
+      linear-gradient(180deg,#171512 0%,#201A15 100%);
+    border-top: 1px solid rgba(200,164,110,.18);
+    border-bottom: 1px solid rgba(200,164,110,.14);
+  }
+  .shirt-interest::before {
+    content:"";
+    position:absolute;
+    inset:28px;
+    border:1px solid rgba(200,164,110,.08);
+    border-radius:34px;
+    pointer-events:none;
+  }
+  .shirt-intro {
+    position:relative;
+    z-index:2;
+    max-width:820px;
+    margin:0 auto 42px;
+    padding:0 28px;
+    text-align:center;
+  }
+  .shirt-intro .kicker { justify-content:center; }
+  .shirt-intro h2 {
+    margin:18px 0 16px;
+    font-family:var(--serif);
+    font-weight:500;
+    font-size:clamp(34px,4vw,54px);
+    line-height:1.42;
+    letter-spacing:.07em;
+    color:var(--text-light);
+  }
+  .shirt-intro h2 span { color:var(--gold); }
+  .shirt-intro p {
+    max-width:680px;
+    margin:0 auto;
+    color:var(--text-muted);
+    font-size:15px;
+    line-height:2;
+    letter-spacing:.04em;
+  }
+  .shirt-menu-note {
+    display:inline-block;
+    margin-bottom:8px;
+    color:var(--gold);
+    font-family:var(--en-serif);
+    font-style:italic;
+    font-size:17px;
+    letter-spacing:.12em;
+  }
+  .shirt-banner-shell {
+    position:relative;
+    z-index:2;
+    width:min(1460px,calc(100% - 32px));
+    margin:0 auto;
+    padding:clamp(6px,1vw,14px);
+    border:1px solid rgba(200,164,110,.18);
+    border-radius:30px;
+    background:rgba(255,255,255,.025);
+    box-shadow:0 30px 90px rgba(0,0,0,.24);
+  }
+  #philemon-shirt-banner-embed {
+    overflow:hidden;
+    border-radius:22px;
+  }
+  @media (max-width:820px) {
+    .shirt-interest { padding:78px 0 72px; }
+    .shirt-interest::before { inset:14px; border-radius:24px; }
+    .shirt-intro { margin-bottom:28px; padding:0 22px; }
+    .shirt-intro h2 { font-size:clamp(30px,8.6vw,42px); letter-spacing:.04em; }
+    .shirt-intro p { font-size:14px; line-height:1.9; }
+    .shirt-banner-shell { width:calc(100% - 20px); padding:5px; border-radius:24px; }
+    .menu-item-dress { padding:22px 18px; }
+  }
+
   /* 品味筆記選單 (Tasting Notes Cards) */
   .tasting-menu {
     padding: 120px 0;
@@ -1191,7 +1285,15 @@
           <small>从约翰十三章重新思想「有分」</small>
         </span>
       </a>
-    </div>
+    
+      <a class="menu-item menu-item-dress" href="#dresscode">
+        <span class="menu-no">DRESS</span>
+        <span class="menu-text">
+          <strong>百年上身</strong>
+          <small>食衣住行，这一席也少不了「衣」</small>
+        </span>
+      </a>
+</div>
   </section>
 
   <!-- 直書序言區 -->
@@ -1388,7 +1490,54 @@
   </section>
 
   <!-- 品味選單（已替換為最新指定文案） -->
-  <section class="tasting-menu" id="choose">
+  
+  <!-- DRESS CODE：百年紀念衫意向調查 -->
+  <section class="shirt-interest" id="dresscode">
+    <div class="shirt-intro">
+      <span class="shirt-menu-note">After the Reading Table</span>
+      <div class="kicker">Dress Code / Centennial Edition</div>
+      <h2>食衣住行，<br>这一席也少不了<span>「衣」</span>。</h2>
+      <p>百年，读进心里，也穿进日常。传教100周年纪念衫正在进行意向调查，先选尺寸、登记意向，看看这一席有多少人想把百年的记号穿在身上。</p>
+    </div>
+
+      <div class="shirt-banner-shell">
+        <!-- 傳教100週年紀念衫｜直接登記 Banner v3：以內容實際高度自動貼合，不留下底部空白 -->
+        <div id="philemon-shirt-banner-embed" style="display:block;width:100%;max-width:1460px;margin:0 auto;line-height:0;">
+          <iframe id="philemon-shirt-banner-frame"
+            src="https://www.philemon.com.tw/shirt/banner.html?v=20261108banner3"
+            title="傳教100週年紀念衫意向登記｜可在此直接填寫"
+            loading="eager" scrolling="no" referrerpolicy="strict-origin-when-cross-origin"
+            style="display:block;width:100%;min-height:0;border:0;background:transparent;overflow:hidden;border-radius:22px"></iframe>
+        </div>
+      </div>
+      <style>
+      #philemon-shirt-banner-frame{height:690px}
+      @media(max-width:1100px){#philemon-shirt-banner-frame{height:810px}}
+      @media(max-width:760px){#philemon-shirt-banner-frame{height:1100px}}
+      @media(max-width:400px){#philemon-shirt-banner-frame{height:1200px}}
+      </style>
+      <script>
+      (function(){
+        var frame=document.getElementById('philemon-shirt-banner-frame');
+        if(!frame||frame.dataset.autosize==='v3')return;
+        frame.dataset.autosize='v3';
+        var minHeight=350,maxHeight=2200;
+        window.addEventListener('message',function(event){
+          if(event.origin!=='https://www.philemon.com.tw'||event.source!==frame.contentWindow)return;
+          var data=event.data||{};
+          if(data.type!=='philemon-shirt-banner-height')return;
+          var measured=Number(data.height);
+          if(!Number.isFinite(measured)||measured<minHeight||measured>maxHeight)return;
+          var height=Math.ceil(measured);
+          if(frame.dataset.contentHeight===String(height))return;
+          frame.dataset.contentHeight=String(height);
+          frame.style.height=height+'px';
+        });
+      })();
+      </script>
+  </section>
+
+<section class="tasting-menu" id="choose">
     <div class="wrap">
       <div class="kicker">The Tasting Notes</div>
       <h2>这一席，你想先从哪道开始？</h2>
