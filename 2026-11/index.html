@@ -16,6 +16,8 @@
 <link rel="alternate" hreflang="zh-Hans" href="https://philemon.com.tw/2026-11/zh-cn.html">
 <link rel="alternate" hreflang="en" href="https://philemon.com.tw/2026-11/en.html">
 <link rel="alternate" hreflang="x-default" href="https://philemon.com.tw/2026-11/">
+<link rel="prefetch" href="./zh-cn.html">
+<link rel="prefetch" href="./en.html">
 <link rel="icon" type="image/svg+xml" href="https://philemon.com.tw/favicon-news.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -62,7 +64,29 @@
   }
 
   img { display: block; max-width: 100%; }
-  a { text-decoration: none; color: inherit; transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+
+  /* 語言切換效能：先完成首屏排版，再啟動非必要氛圍動畫。 */
+  .steam-wisp,
+  .bubble,
+  .prologue::before,
+  .prologue::after {
+    animation-play-state: paused !important;
+  }
+  body.page-ready .steam-wisp,
+  body.page-ready .bubble,
+  body.page-ready .prologue::before,
+  body.page-ready .prologue::after {
+    animation-play-state: running !important;
+  }
+
+  /* 首屏之外延後繪製，降低三語整頁切換時的 layout / paint 負擔。 */
+  .course-section,
+  .tasting-menu,
+  .closing-banner {
+    content-visibility: auto;
+    contain-intrinsic-size: 900px;
+  }
+  a { text-decoration: none; color: inherit; transition: color .28s ease, background-color .28s ease, border-color .28s ease, opacity .28s ease, transform .38s cubic-bezier(0.22, 1, 0.36, 1), box-shadow .38s cubic-bezier(0.22, 1, 0.36, 1); }
   a:focus-visible { outline: 2px solid var(--gold); outline-offset: 5px; }
   ::selection { background: var(--gold); color: var(--bg-deep); }
 
@@ -1156,9 +1180,9 @@
   </nav>
   <div class="head-actions">
     <div class="locale-switch" aria-label="Language">
-      <a href="https://philemon.com.tw/2026-11/" hreflang="zh-Hant" lang="zh-Hant" class="active" aria-current="page">繁中</a>
-      <a href="https://philemon.com.tw/2026-11/zh-cn.html" hreflang="zh-Hans" lang="zh-Hans">简中</a>
-      <a href="https://philemon.com.tw/2026-11/en.html" hreflang="en" lang="en">EN</a>
+      <a href="./" hreflang="zh-Hant" lang="zh-Hant" class="active" aria-current="page">繁中</a>
+      <a href="./zh-cn.html" hreflang="zh-Hans" lang="zh-Hans">简中</a>
+      <a href="./en.html" hreflang="en" lang="en">EN</a>
     </div>
     <a class="headcta" href="https://www.philemon.com.tw/">返回首頁 ↗</a>
   </div>
@@ -1178,43 +1202,43 @@
           <!-- 0deg 為正下方（6點鐘位置，完全正立） -->
           <div class="dish-slot" style="--angle: 0deg;">
             <div class="book-plate">
-              <img src="assets/c296-04.webp?v=20261109b" alt="《隱藏的盼望》書封">
+              <img decoding="async" src="assets/c296-04.webp?v=20261109b" alt="《隱藏的盼望》書封">
             </div>
           </div>
 
           <div class="dish-slot" style="--angle: 51.428571deg;">
             <div class="book-plate">
-              <img src="assets/c297.webp?v=20261109b" alt="《我的心哪，你為何憂悶？》書封" fetchpriority="high">
+              <img decoding="async" src="assets/c297.webp?v=20261109b" alt="《我的心哪，你為何憂悶？》書封" fetchpriority="high">
             </div>
           </div>
 
           <div class="dish-slot" style="--angle: 102.857143deg;">
             <div class="book-plate">
-              <img src="assets/c298.webp?v=20261109b" alt="《預見・遇見・癒見》書封">
+              <img decoding="async" src="assets/c298.webp?v=20261109b" alt="《預見・遇見・癒見》書封">
             </div>
           </div>
 
           <div class="dish-slot" style="--angle: 154.285714deg;">
             <div class="book-plate">
-              <img src="assets/c296-01.webp?v=20261109b" alt="《新芽的應許》書封">
+              <img decoding="async" src="assets/c296-01.webp?v=20261109b" alt="《新芽的應許》書封">
             </div>
           </div>
 
           <div class="dish-slot" style="--angle: 205.714286deg;">
             <div class="book-plate">
-              <img src="assets/c296-02.webp?v=20261109b" alt="《綿延的喜樂》書封">
+              <img decoding="async" src="assets/c296-02.webp?v=20261109b" alt="《綿延的喜樂》書封">
             </div>
           </div>
 
           <div class="dish-slot" style="--angle: 257.142857deg;">
             <div class="book-plate">
-              <img src="assets/c299.webp?v=20261109b" alt="《洗腳禮論》書封">
+              <img decoding="async" src="assets/c299.webp?v=20261109b" alt="《洗腳禮論》書封">
             </div>
           </div>
 
           <div class="dish-slot" style="--angle: 308.571429deg;">
             <div class="book-plate">
-              <img src="assets/c296-03.webp?v=20261109b" alt="《繁盛的恩典》書封">
+              <img decoding="async" src="assets/c296-03.webp?v=20261109b" alt="《繁盛的恩典》書封">
             </div>
           </div>
         </div>
@@ -1355,28 +1379,28 @@
 
       <div class="four-gallery">
         <div class="gallery-item">
-          <a class="cover-link" href="https://philemon.com.tw/c296/" aria-label="了解《新芽的應許》書封"><img src="assets/c296-01.webp?v=20261109b" alt="《新芽的應許》書封" loading="lazy"></a>
+          <a class="cover-link" href="https://philemon.com.tw/c296/" aria-label="了解《新芽的應許》書封"><img decoding="async" src="assets/c296-01.webp?v=20261109b" alt="《新芽的應許》書封" loading="lazy"></a>
           <div class="gallery-meta">
             <strong>新芽的應許</strong>
             <span>1994–2002</span>
           </div>
         </div>
         <div class="gallery-item">
-          <a class="cover-link" href="https://philemon.com.tw/c296/" aria-label="了解《綿延的喜樂》書封"><img src="assets/c296-02.webp?v=20261109b" alt="《綿延的喜樂》書封" loading="lazy"></a>
+          <a class="cover-link" href="https://philemon.com.tw/c296/" aria-label="了解《綿延的喜樂》書封"><img decoding="async" src="assets/c296-02.webp?v=20261109b" alt="《綿延的喜樂》書封" loading="lazy"></a>
           <div class="gallery-meta">
             <strong>綿延的喜樂</strong>
             <span>2003–2010</span>
           </div>
         </div>
         <div class="gallery-item">
-          <a class="cover-link" href="https://philemon.com.tw/c296/" aria-label="了解《繁盛的恩典》書封"><img src="assets/c296-03.webp?v=20261109b" alt="《繁盛的恩典》書封" loading="lazy"></a>
+          <a class="cover-link" href="https://philemon.com.tw/c296/" aria-label="了解《繁盛的恩典》書封"><img decoding="async" src="assets/c296-03.webp?v=20261109b" alt="《繁盛的恩典》書封" loading="lazy"></a>
           <div class="gallery-meta">
             <strong>繁盛的恩典</strong>
             <span>2011–2018</span>
           </div>
         </div>
         <div class="gallery-item">
-          <a class="cover-link" href="https://philemon.com.tw/c296/" aria-label="了解《隱藏的盼望》書封"><img src="assets/c296-04.webp?v=20261109b" alt="《隱藏的盼望》書封" loading="lazy"></a>
+          <a class="cover-link" href="https://philemon.com.tw/c296/" aria-label="了解《隱藏的盼望》書封"><img decoding="async" src="assets/c296-04.webp?v=20261109b" alt="《隱藏的盼望》書封" loading="lazy"></a>
           <div class="gallery-meta">
             <strong>隱藏的盼望</strong>
             <span>2019–2024</span>
@@ -1403,7 +1427,7 @@
         <div class="spotlight-beam"></div>
         <div class="spotlight-floor"></div>
         <div class="dish-badge">第二道・給心的暖湯</div>
-        <img src="assets/c297.webp?v=20261109b" alt="《我的心哪，你為何憂悶？》封面" loading="lazy">
+        <img decoding="async" src="assets/c297.webp?v=20261109b" alt="《我的心哪，你為何憂悶？》封面" loading="lazy">
       </div>
       <div>
         <div class="kicker">Course 02 / A Warm Bowl for the Heart</div>
@@ -1456,7 +1480,7 @@
 
       <div class="daylight-stage">
         <div class="daylight-arch"></div>
-        <img src="assets/c298.webp?v=20261109b" alt="《預見・遇見・癒見》水彩封面" loading="lazy">
+        <img decoding="async" src="assets/c298.webp?v=20261109b" alt="《預見・遇見・癒見》水彩封面" loading="lazy">
         <div class="scene-pills">
           <span>#書店</span>
           <span>#銀行</span>
@@ -1472,7 +1496,7 @@
     <div class="wrap spotlight-grid">
       <div class="c299-stage">
         <div class="dish-badge">第四道・席間一盆水</div>
-        <img src="assets/c299.webp?v=20261109b" alt="《洗腳禮論》封面" loading="lazy">
+        <img decoding="async" src="assets/c299.webp?v=20261109b" alt="《洗腳禮論》封面" loading="lazy">
       </div>
       <div>
         <div class="kicker">Course 04 / A Basin at the Table</div>
@@ -1605,6 +1629,11 @@
 </footer>
 
 <script>
+  // 語言切換時先把首屏與書封穩定呈現，再啟動煙霧、氣泡與玻璃光影。
+  window.addEventListener('load', () => {
+    requestAnimationFrame(() => document.body.classList.add('page-ready'));
+  }, { once: true });
+
   // 自轉由 CSS 持續執行；手動拖曳的水平位移採反向旋轉角度，
   // 因為書位於圓周底部，這樣往右滑時書才能跟著往右移動。
   (() => {
