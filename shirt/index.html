@@ -8,7 +8,7 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2213%22%20fill%3D%22%23162d49%22%2F%3E%3Ctext%20x%3D%2232%22%20y%3D%2245%22%20text-anchor%3D%22middle%22%20font-family%3D%22Noto%20Sans%20CJK%20TC%2CMicrosoft%20JhengHei%2Csans-serif%22%20font-size%3D%2243%22%20font-weight%3D%22900%22%20fill%3D%22%23fff%22%3E%E8%A1%A3%3C%2Ftext%3E%3C%2Fsvg%3E">
 <title>百週年紀念衫｜各地統計與意向登記</title>
 <!-- Core CSS embedded to keep the page fully styled even when separate CSS files fail to load. -->
-<style id="shirt-main-style" data-version="20261108cssinline1">
+<style id="shirt-main-style" data-version="20261111coverage1">
 :root{
   --navy:#162d49;--ink:#1b3550;--gold:#b28b52;--cream:#faf8f3;
   --line:#dfe5e6;--slate:#738491;--white:#fff;
@@ -1192,10 +1192,43 @@ body.lightbox-open{overflow:hidden!important}
  .quick-table-box{overflow:visible}
  .quick-table tbody tr{height:47px}
 }
+/* Visible, aggregated registration counts for customers without map coordinates. */
+.map-coverage{
+  display:flex;flex-direction:column;gap:7px;flex:0 0 auto;
+  padding:10px 13px;margin:0 0 10px;
+  border:1px solid #e5cba5;border-left:4px solid #b48a4d;
+  border-radius:11px;background:#fffaf1;color:#243f55;
+}
+.map-coverage[hidden]{display:none!important}
+.map-coverage-top{display:flex;align-items:baseline;flex-wrap:wrap;column-gap:8px;row-gap:2px}
+.map-coverage-top strong{font-size:13px;font-weight:800}
+.map-coverage-top strong span{font-size:17px;font-weight:950;font-variant-numeric:tabular-nums}
+.map-coverage-sep{color:#baa17b;font-size:14px}
+.map-coverage-missing{color:#9d5932}
+.map-coverage-items{display:flex;flex-wrap:wrap;gap:5px 8px}
+.map-coverage-item{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;
+  background:#fff;border:1px solid #f0ddc1;border-radius:7px;color:#38566b;
+  font-size:12px;font-weight:700;line-height:1.35}
+.map-coverage-item strong{font-size:14px;font-variant-numeric:tabular-nums;color:#935b32}
+@media(max-width:900px){
+ .map-pane.has-unmapped{height:auto;min-height:550px}
+ .map-pane.has-unmapped .map-shell{flex:1 0 340px;min-height:340px}
+ .map-coverage{padding:9px 11px}
+ .map-coverage-top strong{font-size:12px}
+ .map-coverage-item{font-size:12px}
+}
+@media(max-width:500px){
+ .map-pane.has-unmapped{height:auto;min-height:535px}
+ .map-pane.has-unmapped .map-shell{min-height:325px}
+}
+@media(min-width:901px) and (max-height:720px){
+ .map-coverage{padding:6px 9px;gap:4px;margin-bottom:7px}
+ .map-coverage-item{padding:3px 8px}
+}
 </style>
 <script src="./config.js"></script>
 
-<script src="./app.js?v=20261108cssinline1" defer></script>
+<script src="./app.js?v=20261111coverage1" defer></script>
 </head>
 <body>
 <header class="site-head">
@@ -1222,6 +1255,14 @@ body.lightbox-open{overflow:hidden!important}
       <input id="churchSearch" type="search" placeholder="搜尋教會、總會、書房或聯絡處" autocomplete="off">
       <div id="churchSuggestions" class="search-results" hidden></div>
     </div>
+    <section class="map-coverage" id="unmappedSummary" aria-label="未標示於地圖的意向" aria-live="polite" hidden>
+      <div class="map-coverage-top">
+        <strong>地圖可定位 <span id="mappedTotal">0</span> 件</strong>
+        <span class="map-coverage-sep">·</span>
+        <strong class="map-coverage-missing">另有 <span id="unmappedTotal">0</span> 件未定位</strong>
+      </div>
+      <div class="map-coverage-items" id="unmappedItems"></div>
+    </section>
     <div class="map-shell" id="mapShell">
       <div id="mapStage" role="application" aria-label="教會互動地圖"></div>
       <div class="map-fallback" id="mapFallback" aria-label="教會位置示意地圖">
@@ -1257,7 +1298,7 @@ body.lightbox-open{overflow:hidden!important}
       </button>
       <div class="product-copy">
         <h2>預計滿100件就會製作</h2>
-        <p class="arrival-line">預計<span class="arrival-emphasis">農曆年後</span>到貨 <a href="https://www.pbooks.com.tw/products/pg36" target="_blank" rel="noopener noreferrer">商品介紹 ↗</a></p>
+        <p class="arrival-line">預計<span class="arrival-emphasis">2027年農曆年後</span>到貨 <a href="https://www.pbooks.com.tw/products/pg36" target="_blank" rel="noopener noreferrer">商品介紹 ↗</a></p>
       </div>
     </div>
     <div class="form-heading"><h3>選尺寸・填件數・送出意向</h3></div>
