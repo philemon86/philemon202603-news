@@ -184,26 +184,6 @@ function getPopup(meta,rec){
  return '<div class="popup-title">'+clean(churchTitle(meta))+'</div><div class="popup-info">'+fmt(qty)+' 件</div>';
 }
 
-function regionCounts(){
- const grouped={TW:0,overseas:0,unknown:0};
- for(const rec of live?.churches||[]){
-  const qty=countOf(rec),unit=byId.get(rec.id);
-  if(!unit){grouped.unknown+=qty;continue;}
-  if(unit.c==='TW')grouped.TW+=qty;else grouped.overseas+=qty;
- }
- return grouped;
-}
-function updateMapRegionPulse(){
- const element=$('mapRegionPulse'),tw=$('mapTaiwanQty'),over=$('mapOverseasQty');
- if(!element||!tw||!over)return;
- const counts=regionCounts();
- if(!live||!catalog.length){element.hidden=true;return;}
- element.hidden=false;
- tw.textContent=fmt(counts.TW);
- over.textContent=fmt(counts.overseas+counts.unknown);
- $('showOverseas').hidden=counts.overseas+counts.unknown===0;
- $('showOverseas').setAttribute('aria-label','查看全球地圖，海外 '+fmt(counts.overseas+counts.unknown)+' 件');
-}
 function countryStats(){
  const map=new Map();
  // Country groups need a position from any mapped church, even when orders
@@ -315,7 +295,7 @@ function restoreCachedStats(){
   const item=JSON.parse(sessionStorage.getItem('shirt_last_public_stats')||'null');
   if(item&&Date.now()-item.at<180000&&item.data&&Array.isArray(item.data.churches)){
    delete item.data.recent;
-   live=item.data;updateStats();updateMapRegionPulse();if(mapVisible)renderFallback();status('統計資料更新中');
+   live=item.data;updateStats();if(mapVisible)renderFallback();status('統計資料更新中');
   }
  }catch(e){}
 }
@@ -330,7 +310,7 @@ function loadStats(){
     if(data&&Array.isArray(data.churches)){
       delete data.recent;
       try{sessionStorage.setItem('shirt_last_public_stats',JSON.stringify({at:Date.now(),data}));}catch(e){}
-      live=data;updateStats();updateMapRegionPulse();if(mapVisible){renderFallback();renderMarkers();}status('統計更新 '+new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'}));
+      live=data;updateStats();if(mapVisible){renderFallback();renderMarkers();}status('統計更新 '+new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'}));
     }else status('統計暫時無法連線；地圖仍可查看');
     resolve();
   };
@@ -541,7 +521,7 @@ async function start(){
   if(!r.ok)throw Error('無法讀取教會資料');return r.json();
  }).then(x=>{
   if(!Array.isArray(x))throw Error('教會資料格式錯誤');
-  catalog=x;byId=new Map(x.map(c=>[c.id,c]));renderChurchOptions();updateStats();updateMapRegionPulse();
+  catalog=x;byId=new Map(x.map(c=>[c.id,c]));renderChurchOptions();updateStats();
   if(mapVisible){renderFallback();renderMarkers();}
   status('已收錄 '+catalog.length+' 個教會／聚會點');
  }).catch(()=>status('教會名錄暫時無法讀取'));
