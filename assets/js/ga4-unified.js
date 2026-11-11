@@ -1,4 +1,4 @@
-/* Philemon unified GA4 tracking, v20261112.
+/* Philemon unified GA4 tracking, v20261112.1.
  * Sends only non-personal interaction metadata. Never reads form field values.
  * The existing GA4 bootstrap is retained on legacy pages; no duplicate config.
  */
