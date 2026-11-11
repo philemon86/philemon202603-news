@@ -1266,6 +1266,38 @@
   .turntable-order-hint{display:none;}
 }
 
+
+/* November arrivals: replacing tasting notes with fast inline illustrated product cards. */
+.stock-arrivals{position:relative;padding:100px 0 93px;background:radial-gradient(circle at 86% 10%,rgba(207,174,111,.12),transparent 39%),linear-gradient(180deg,#171512,#201c18);border-top:1px solid rgba(214,176,123,.3);color:#f7efe1;scroll-margin-top:72px}
+.stock-arrivals .arrivals-heading{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(210px,.65fr);gap:33px;align-items:end;margin-bottom:38px}
+.stock-arrivals .arrivals-kicker{font:600 11px/1.7 var(--sans);letter-spacing:.19em;color:#d9bb85;margin:0 0 11px}
+.stock-arrivals h2{font:500 clamp(30px,3.4vw,45px)/1.5 var(--serif);letter-spacing:.04em;color:#f8efe0;margin:0 0 12px;text-wrap:balance}
+.stock-arrivals .arrivals-lead{font-size:14px;line-height:2.05;color:#c9bfae;max-width:820px;margin:0}
+.stock-arrivals .arrivals-feature{border:1px solid rgba(233,199,146,.47);border-radius:14px;background:linear-gradient(140deg,rgba(215,182,126,.17),rgba(255,255,255,.025));display:flex;align-items:center;justify-content:center;gap:13px;padding:20px 18px;min-height:96px;font:500 16px/1.65 var(--serif);color:#f0dab1}
+.stock-arrivals .arrivals-feature:before{content:"✳";font-size:26px;color:#d8bd8b}
+.stock-arrivals .arrival-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:17px}
+.stock-arrivals .arrival-card{display:flex;flex-direction:column;min-width:0;overflow:hidden;border:1px solid rgba(218,185,131,.22);border-radius:15px;background:#28251f;color:#f5ebda;text-decoration:none;transition:transform .24s ease,border-color .24s ease,box-shadow .24s ease}
+.stock-arrivals .arrival-card:hover,.stock-arrivals .arrival-card:focus-visible{transform:translateY(-4px);border-color:#d8ba87;box-shadow:0 15px 30px #0005;outline:none}
+.stock-arrivals .arrival-card.featured{border-color:rgba(226,193,135,.65)}
+.stock-arrivals .arrival-art{margin:0;aspect-ratio:1.45;min-height:139px;display:grid;place-items:center;overflow:hidden;background:radial-gradient(ellipse at 54% 64%,rgba(235,214,173,.15),transparent 65%),linear-gradient(145deg,#42584c,#283b32)}
+.stock-arrivals .arrival-card:nth-child(2) .arrival-art{background:radial-gradient(ellipse at 54% 65%,rgba(235,213,183,.22),transparent 65%),linear-gradient(145deg,#6d6260,#413c3b)}
+.stock-arrivals .arrival-card:nth-child(3) .arrival-art{background:radial-gradient(ellipse at 54% 65%,rgba(218,234,218,.17),transparent 65%),linear-gradient(145deg,#4d6b66,#334d4b)}
+.stock-arrivals .arrival-card:nth-child(4) .arrival-art{background:radial-gradient(ellipse at 54% 65%,rgba(218,234,218,.17),transparent 65%),linear-gradient(145deg,#61745e,#37473a)}
+.stock-arrivals .arrival-art svg{width:90%;height:auto;max-height:183px;display:block}
+.stock-arrivals .arrival-copy{padding:18px 16px 19px;display:flex;flex:1;flex-direction:column;align-items:flex-start;gap:7px}
+.stock-arrivals .arrival-badge{border:1px solid rgba(231,204,157,.35);border-radius:28px;padding:2px 10px;font-size:10px;color:#e6ce9f;line-height:1.8;white-space:nowrap}
+.stock-arrivals .featured .arrival-badge{background:#dfbf8d;color:#2b2922;border-color:#dfbf8d;font-weight:650}
+.stock-arrivals .arrival-code{font:500 12px/1.4 var(--en-serif);letter-spacing:.04em;color:#b8aa95}
+.stock-arrivals .arrival-copy h3{font:500 clamp(17px,1.5vw,21px)/1.5 var(--serif);margin:0;color:#f3e8d7;text-wrap:balance;overflow-wrap:anywhere}
+.stock-arrivals .arrival-detail{font:400 12px/1.9 var(--sans);color:#c4b6a4;margin:0}
+.stock-arrivals .arrival-foot{width:100%;margin-top:auto;padding-top:13px;border-top:1px solid rgba(216,191,145,.16);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:7px}
+.stock-arrivals .arrival-price{font-size:18px;font-weight:700;color:#efce96;font-variant-numeric:tabular-nums;white-space:nowrap}
+.stock-arrivals .arrival-cta{font-size:11px;color:#e9d4ad;white-space:nowrap}
+.stock-arrivals .arrivals-note{font-size:11px;color:#a79c8d;line-height:1.95;text-align:center;margin:24px 0 0}
+@media(max-width:1050px){.stock-arrivals .arrival-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.stock-arrivals .arrival-art{aspect-ratio:1.8}}
+@media(max-width:680px){.stock-arrivals{padding:68px 0 72px}.stock-arrivals .arrivals-heading{grid-template-columns:1fr;gap:17px;margin-bottom:24px}.stock-arrivals h2{font-size:31px}.stock-arrivals .arrivals-lead{font-size:13px}.stock-arrivals .arrivals-feature{justify-content:flex-start;min-height:65px;padding:12px 16px;font-size:14px}.stock-arrivals .arrival-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.stock-arrivals .arrival-art{min-height:108px;aspect-ratio:1.3}.stock-arrivals .arrival-copy{padding:13px 11px 15px;gap:6px}.stock-arrivals .arrival-copy h3{font-size:16px}.stock-arrivals .arrival-code{font-size:10px}.stock-arrivals .arrival-detail{font-size:11px}.stock-arrivals .arrival-price{font-size:15px}.stock-arrivals .arrival-cta{font-size:10px}.stock-arrivals .arrival-badge{font-size:9px;padding:2px 7px}.stock-arrivals .arrivals-note{text-align:left}}
+@media(max-width:360px){.stock-arrivals .arrival-grid{grid-template-columns:1fr}.stock-arrivals .arrival-art{aspect-ratio:1.8;max-height:170px}.stock-arrivals .arrival-copy h3{font-size:18px}}
+@media(prefers-reduced-motion:reduce){.stock-arrivals .arrival-card{transition:none}}
 </style>
 </head>
 <body id="top">
@@ -1634,7 +1666,7 @@
         <p class="book-code">C299｜《洗腳禮論》</p>
         <div class="hero-actions" style="margin-top:24px; justify-content:flex-start;">
           <a class="btn-gold" href="https://www.pbooks.com.tw/products/c299">讀《洗腳禮論》 ↗</a>
-          <a class="btn-ghost" href="#choose">回到本期選單</a>
+          <a class="btn-ghost" href="#menu">回到本期選單</a>
         </div>
       </div>
     </div>
@@ -1662,7 +1694,7 @@
         <p class="book-code">C300｜《這樣過日子，挺好的》・曾恩榮 著</p>
         <div class="hero-actions" style="margin-top:24px;justify-content:flex-start;">
           <a class="btn-gold" href="../c300/">一起過過挺好的生活 ↗</a>
-          <a class="btn-ghost" href="#choose">回到本期選單</a>
+          <a class="btn-ghost" href="#menu">回到本期選單</a>
         </div>
       </div>
     </div>
@@ -1714,44 +1746,59 @@
       </script>
   </section>
 
-<section class="tasting-menu" id="choose">
+  <!-- 到貨商品公告：取代品味選單；內嵌 SVG 無額外圖片請求 -->
+  <section class="stock-arrivals" id="arrivals" aria-labelledby="arrivals-title">
     <div class="wrap">
-      <div class="kicker">The Tasting Notes</div>
-      <h2>這一席，你想先從哪道開始？</h2>
-      <p class="sublead">閱讀沒有規定的上菜順序。今天最需要哪一種滋味，就先翻開哪一本。</p>
-      <div class="tasting-cards">
-        <article class="t-card">
-          <span class="en-num">01 / Slow-Aged Grace</span>
-          <h3>歲月慢燉・恩典醇香</h3>
-          <p>三十年的見證，如同文火慢燉的佳餚。從新芽到繁花，將歲月的酸甜苦辣細細熬煮，每翻開一頁，都能品出神一路帶領的醇厚餘韻。</p>
-          <a href="https://www.pbooks.com.tw/products/c296">品嘗《臺灣傳教100周年見證集》 ↗</a>
-        </article>
-        <article class="t-card">
-          <span class="en-num">02 / A Bowl of Warmth</span>
-          <h3>暖湯入心・苦中有味</h3>
-          <p>人生難免嚐到苦澀，有些滋味也難以向人訴說。這一道，先不急著加糖，只想為疲倦的心盛上一碗暖湯，讓理解慢慢熬出溫度，讓陪伴成為最溫柔的調味。</p>
-          <a href="https://www.pbooks.com.tw/products/c297">品嘗《我的心哪，你為何憂悶？》 ↗</a>
-        </article>
-        <article class="t-card">
-          <span class="en-num">03 / A Sweet Aftertaste</span>
-          <h3>日常細嚐・相遇回甘</h3>
-          <p>生活就像一杯每天喝的茶，熟悉得讓人忘了細品。從書店、銀行到機場，換個角度，慢慢啜飲那些尋常片刻，才發現與主相遇的甘甜，原來一直藏在日常的餘韻裡。</p>
-          <a href="https://www.pbooks.com.tw/products/c298">品嘗《預見・遇見・癒見》 ↗</a>
-        </article>
-        <article class="t-card t-card-water">
-          <span class="en-num">04 / A Basin at the Table</span>
-          <h3>席間清水・與主有分</h3>
-          <p>筵席仍在繼續，主卻從席間起身，拿起手巾，倒水在盆裡。這一道沒有滋味可嚐，卻留下了一句不能略過的話：「我若不洗你，你就與我無分了。」</p>
-          <a href="https://www.pbooks.com.tw/products/c299">讀《洗腳禮論》 ↗</a>
-        </article>
-        <article class="t-card t-card-tea">
-          <span class="en-num">05 / After-Dinner Tea</span>
-          <h3>飯後一杯好茶・日子慢慢回甘</h3>
-          <p>第一口苦得皺眉，過一會兒卻嚐到茶香。曾恩榮長老從這杯童年的好茶說起，談十六年裡遇過的人、走過的路，還有依靠神、追求神、面對挑戰、實踐信仰、學習交託、數算恩典的六種生活練習。喝完這杯茶，再回頭看看自己的日子。</p>
-          <a href="../c300/">翻開《這樣過日子，挺好的》 ↗</a>
-        </article>
+      <div class="arrivals-heading">
+        <div>
+          <p class="arrivals-kicker">BACK IN STOCK / NOVEMBER ARRIVALS</p>
+          <h2 id="arrivals-title">喜歡的日常小物，已經到貨了。</h2>
+          <p class="arrivals-lead">本期餐桌的最後，還有幾件可以帶走的小禮物。讚美詩布套、百週年紀念鋼珠筆與鑰匙圈都已到貨；這次也特別製作了臺灣傳教百週年紀念聖經專用布套。</p>
+        </div>
+        <div class="arrivals-feature">NEW · 百週年紀念聖經專用布套</div>
       </div>
-      <p style="font-size:12px; color:#6E6A63; margin-top:42px;">商品價格、優惠及供貨情形，以書房購物網站當下公告為準。</p>
+      <div class="arrival-grid"><a class="arrival-card featured" href="https://www.pbooks.com.tw/products/pg11b" target="_blank" rel="noopener noreferrer" aria-label="百週年紀念聖經布套，NT$200">
+        <figure class="arrival-art" aria-hidden="true"><svg viewBox="0 0 240 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="120" cy="143" rx="72" ry="8" fill="#14241b" opacity=".2"/><g transform="rotate(-8 118 80)"><rect x="70" y="17" width="108" height="120" rx="7" fill="#496457"/><rect x="61" y="14" width="109" height="121" rx="7" fill="#a7bda7" stroke="#dfe2ca" stroke-width="3"/><path d="M79 19v111" stroke="#eee1c8" stroke-width="2" stroke-dasharray="3 4"/><rect x="91" y="27" width="64" height="95" rx="3" fill="none" stroke="#f2ead7" opacity=".75"/><path d="M121 46v37m-15-19h30" stroke="#f4e3b9" stroke-width="3"/><text x="122" y="109" font-family="serif" font-size="16" text-anchor="middle" fill="#f4e3b9">100</text><rect x="163" y="56" width="21" height="29" rx="7" fill="#d7c7a2"/></g></svg></figure>
+        <div class="arrival-copy">
+          <span class="arrival-badge">新製作・專用布套</span>
+          <span class="arrival-code">PG11B</span>
+          <h3>百週年紀念聖經布套</h3>
+          <p class="arrival-detail">適合七號字紀念聖經・日本布手工製作</p>
+          <div class="arrival-foot"><span class="arrival-price">NT$200</span><span class="arrival-cta">查看商品・選購 ↗</span></div>
+        </div>
+      </a>
+<a class="arrival-card" href="https://www.pbooks.com.tw/products/pg11" target="_blank" rel="noopener noreferrer" aria-label="讚美詩布套，NT$200">
+        <figure class="arrival-art" aria-hidden="true"><svg viewBox="0 0 240 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="117" cy="143" rx="71" ry="8" fill="#18241d" opacity=".2"/><g transform="rotate(8 117 76)"><rect x="66" y="18" width="113" height="119" rx="8" fill="#ac9a98" stroke="#e6d9d0" stroke-width="3"/><path d="M81 21v112" stroke="#ecded3" stroke-width="2" stroke-dasharray="3 4"/><rect x="98" y="73" width="61" height="39" rx="3" fill="#e8dfcd"/><path d="M113 99V84l23-6v15m-23 0a6 5 0 1 1-2-4m25-2a6 5 0 1 1-2-4" stroke="#8b7370" stroke-width="3" fill="none"/><path d="M97 39h59M97 51h59M97 63h59" stroke="#eaddd5" stroke-width="2"/><rect x="168" y="52" width="21" height="38" rx="7" fill="#d9bfb0" /></g></svg></figure>
+        <div class="arrival-copy">
+          <span class="arrival-badge">現貨已到</span>
+          <span class="arrival-code">PG11</span>
+          <h3>讚美詩布套</h3>
+          <p class="arrival-detail">中型 A5 尺寸・日本布手工製作</p>
+          <div class="arrival-foot"><span class="arrival-price">NT$200</span><span class="arrival-cta">查看商品・選購 ↗</span></div>
+        </div>
+      </a>
+<a class="arrival-card" href="https://www.pbooks.com.tw/products/p5p6p7" target="_blank" rel="noopener noreferrer" aria-label="百週年紀念水滴鋼珠筆，NT$15–20">
+        <figure class="arrival-art" aria-hidden="true"><svg viewBox="0 0 240 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="122" cy="132" rx="85" ry="9" fill="#14241b" opacity=".15"/><g transform="rotate(-24 126 83)"><rect x="36" y="51" width="171" height="17" rx="8" fill="#779a95"/><rect x="36" y="51" width="100" height="17" rx="8" fill="#a7c0b7"/><path d="m207 51 20 9-20 8z" fill="#cfb68a"/><rect x="31" y="55" width="7" height="9" rx="3" fill="#f0d9c2"/><rect x="57" y="86" width="154" height="17" rx="8" fill="#c3b6aa"/><rect x="57" y="86" width="88" height="17" rx="8" fill="#e5d4bf"/><path d="m211 87 18 8-18 8z" fill="#d0b48a"/><rect x="52" y="89" width="7" height="10" rx="3" fill="#c7d4c8"/><path d="M169 53v13m6-11h27" stroke="#e9f1e8" stroke-width="2"/></g></svg></figure>
+        <div class="arrival-copy">
+          <span class="arrival-badge">現貨已到</span>
+          <span class="arrival-code">P5 / P6 / P7</span>
+          <h3>百週年紀念水滴鋼珠筆</h3>
+          <p class="arrival-detail">0.5mm 按壓式・多款顏色</p>
+          <div class="arrival-foot"><span class="arrival-price">NT$15–20</span><span class="arrival-cta">查看商品・選購 ↗</span></div>
+        </div>
+      </a>
+<a class="arrival-card" href="https://www.pbooks.com.tw/products/pg49" target="_blank" rel="noopener noreferrer" aria-label="讚美詩壓克力鑰匙圈，NT$44">
+        <figure class="arrival-art" aria-hidden="true"><svg viewBox="0 0 240 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="118" cy="141" rx="71" ry="8" fill="#14241b" opacity=".16"/><circle cx="118" cy="34" r="17" fill="none" stroke="#d9c39a" stroke-width="7"/><circle cx="118" cy="34" r="7" fill="none" stroke="#f0e1c6" stroke-width="2"/><path d="M118 51v15" stroke="#d6c39d" stroke-width="6"/><g transform="rotate(-11 121 101)"><rect x="74" y="67" width="95" height="70" rx="16" fill="#c1d7cb" opacity=".92" stroke="#e7ece2" stroke-width="4"/><path d="M94 110q30-17 59-3" fill="none" stroke="#89a899" stroke-width="2" stroke-dasharray="3 4"/><path d="M108 102V86l24-6v17m-24-1a6 5 0 1 1-3-4m27-1a6 5 0 1 1-3-4" fill="none" stroke="#698a7b" stroke-width="4"/></g></svg></figure>
+        <div class="arrival-copy">
+          <span class="arrival-badge">現貨已到</span>
+          <span class="arrival-code">PG49</span>
+          <h3>讚美詩壓克力鑰匙圈</h3>
+          <p class="arrival-detail">腦海有聲系列・隨身小提醒</p>
+          <div class="arrival-foot"><span class="arrival-price">NT$44</span><span class="arrival-cta">查看商品・選購 ↗</span></div>
+        </div>
+      </a>
+      </div>
+      <p class="arrivals-note">商品圖為簡約示意，實際花色、款式、價格與庫存請以商品頁為準。布套花色可能因門市、書展及網路同步銷售而異。</p>
     </div>
   </section>
 
