@@ -896,7 +896,39 @@
         margin-top: 16px;
       }
     }
-  </style>
+  
+    /* 新書書單：標籤不拆字，長書名依行寬平衡換行 */
+    #hero-books .book-card .book-meta { min-width: 0; }
+    #hero-books .book-order { white-space: nowrap; max-width: 100%; letter-spacing: .025em; }
+    #hero-books .book-meta h3 { text-wrap: balance; word-break: normal; overflow-wrap: break-word; }
+    @media (max-width: 430px) {
+      #hero-books .book-card, #hero-books .book-card.book-card-c136 {
+        grid-template-columns: 76px minmax(0, 1fr);
+        gap: 12px;
+        padding: 12px;
+      }
+      #hero-books .book-cover, #hero-books .book-card-c136 .book-cover,
+      #hero-books .book-cover-carousel { width: 76px; }
+      #hero-books .book-order {
+        font-size: 11px;
+        min-width: 0;
+        padding: 0 8px;
+        height: 27px;
+      }
+      #hero-books .book-meta h3 {
+        font-size: clamp(1.02rem, 4.3vw, 1.18rem);
+        line-height: 1.48;
+        margin-top: 7px;
+      }
+    }
+    @media (max-width: 360px) {
+      #hero-books .book-card, #hero-books .book-card.book-card-c136 { grid-template-columns: 66px minmax(0,1fr); gap: 10px; padding: 10px; }
+      #hero-books .book-cover, #hero-books .book-card-c136 .book-cover,
+      #hero-books .book-cover-carousel { width: 66px; }
+      #hero-books .book-order { font-size: 10px; letter-spacing: 0; }
+      #hero-books .book-meta h3 { font-size: 1rem; }
+    }
+</style>
   <link rel="stylesheet" href="./newsletter-index.css?v=20260905" />
 </head>
 <body>
@@ -984,7 +1016,7 @@
               <a class="book-card" href="./c295/">
                 <img class="book-cover cover-c295" src="./assets/home/cover-c295-small.webp" srcset="./assets/home/cover-c295-small.webp 184w, ./assets/home/cover-c295.webp 276w" sizes="92px" alt="C295 物理學×主裡學 書封" width="276" height="388" loading="eager" decoding="async">
                 <div class="book-meta">
-                  <span class="book-order">01</span>
+                  <span class="book-order">物理遇見信仰</span>
                   <h3>C295 物理學×主裡學</h3>
                 </div>
               </a>
@@ -999,7 +1031,7 @@
                   </div>
                 </div>
                 <div class="book-meta">
-                  <span class="book-order">02</span>
+                  <span class="book-order">聖經探險</span>
                   <h3>C136 進入聖經的世界</h3>
                 </div>
               </a>
@@ -1007,7 +1039,7 @@
               <a class="book-card" href="./c294/">
                 <img class="book-cover cover-c294" src="./assets/home/cover-c294-small.webp" srcset="./assets/home/cover-c294-small.webp 184w, ./assets/home/cover-c294.webp 229w" sizes="92px" alt="C294 重建聖殿的勸勉 書封" width="229" height="320" loading="lazy" decoding="async">
                 <div class="book-meta">
-                  <span class="book-order">03</span>
+                  <span class="book-order">歸回與重建</span>
                   <h3>C294 重建聖殿的勸勉</h3>
                 </div>
               </a>
@@ -1015,7 +1047,7 @@
               <a class="book-card" href="./c293/">
                 <img class="book-cover cover-c293" src="./assets/home/cover-c293-small.webp" srcset="./assets/home/cover-c293-small.webp 184w, ./assets/home/cover-c293.webp 276w" sizes="92px" alt="C293 親身體會神的大愛 書封" width="276" height="397" loading="lazy" decoding="async">
                 <div class="book-meta">
-                  <span class="book-order">04</span>
+                  <span class="book-order">生命見證</span>
                   <h3>C293 親身體會神的大愛</h3>
                 </div>
               </a>
@@ -1023,7 +1055,7 @@
               <a class="book-card" href="./c292/">
                 <img class="book-cover cover-c292" src="./assets/home/cover-c292-small.webp" srcset="./assets/home/cover-c292-small.webp 184w, ./assets/home/cover-c292.webp 276w" sizes="92px" alt="C292 使徒行傳釋義 書封" width="276" height="386" loading="lazy" decoding="async">
                 <div class="book-meta">
-                  <span class="book-order">05</span>
+                  <span class="book-order">聖靈的腳蹤</span>
                   <h3>C292 使徒行傳釋義</h3>
                 </div>
               </a>
@@ -1031,7 +1063,7 @@
               <a class="book-card" href="./c291/">
                 <img class="book-cover cover-c291" src="./assets/home/cover-c291-small.webp" srcset="./assets/home/cover-c291-small.webp 184w, ./assets/home/cover-c291.webp 276w" sizes="92px" alt="C291 路得記講壇 書封" width="276" height="401" loading="lazy" decoding="async">
                 <div class="book-meta">
-                  <span class="book-order">06</span>
+                  <span class="book-order">路得與家庭</span>
                   <h3>C291 路得記講壇</h3>
                 </div>
               </a>
@@ -1039,7 +1071,7 @@
               <a class="book-card" href="./c290/">
                 <img class="book-cover cover-c290" src="./assets/home/cover-c290-small.webp" srcset="./assets/home/cover-c290-small.webp 184w, ./assets/home/cover-c290.webp 276w" sizes="92px" alt="C290 洗禮論 書封" width="276" height="395" loading="lazy" decoding="async">
                 <div class="book-meta">
-                  <span class="book-order">07</span>
+                  <span class="book-order">洗禮的真義</span>
                   <h3>C290 洗禮論</h3>
                 </div>
               </a>
@@ -1047,7 +1079,7 @@
               <a class="book-card" href="./c185/">
                 <img class="book-cover cover-c185" src="./assets/home/cover-c185-small.webp" srcset="./assets/home/cover-c185-small.webp 184w, ./assets/home/cover-c185.webp 276w" sizes="92px" alt="C185 活讀猶大書 書封" width="276" height="386" loading="lazy" decoding="async">
                 <div class="book-meta">
-                  <span class="book-order">08</span>
+                  <span class="book-order">為真道竭力爭辯</span>
                   <h3>C185 活讀猶大書</h3>
                 </div>
               </a>
@@ -1055,7 +1087,7 @@
               <a class="book-card" href="./c002/">
                 <img class="book-cover cover-c002" src="./assets/home/cover-c002-small.webp" srcset="./assets/home/cover-c002-small.webp 184w, ./assets/home/cover-c002.webp 276w" sizes="92px" alt="C002 好好接住 書封" width="276" height="386" loading="lazy" decoding="async">
                 <div class="book-meta">
-                  <span class="book-order">09</span>
+                  <span class="book-order">溫柔陪伴學</span>
                   <h3>C002 好好接住</h3>
                 </div>
               </a>
