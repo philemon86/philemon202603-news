@@ -13,7 +13,7 @@ from bs4 import BeautifulSoup
 from PIL import Image, ImageOps
 
 ROOT = Path(__file__).resolve().parents[1]
-PRODUCTS = ["pg11b", "pg11", "p5p6p7", "pg49"]
+PRODUCTS = ["p9p10p11p12"]
 TARGET = ROOT / "2026-11/assets/arrivals"
 LANGUAGES = ("index.html", "zh-cn.html", "en.html")
 HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; PhilemonImageSync/1.0; +https://www.philemon.com.tw/)",
@@ -96,68 +96,113 @@ def download_photo(candidates: list[str], code: str) -> tuple[str,int,int,int]:
     raise RuntimeError(f"All image candidates failed for {code}: {'; '.join(problems)}")
 
 def replace_cards():
-    disclaimer_old = {
-        "index.html": "商品圖為簡約示意，實際花色、款式、價格與庫存請以商品頁為準。",
-        "zh-cn.html": "商品图为简约示意，实际花色、款式、价格与库存请以商品页为准。",
-        "en.html": "Artwork is illustrative. See each product page for actual patterns, colors, pricing and availability."
+    """Swap only the third arrival card; leave all other book/newsletter content intact."""
+    languages = {
+        "index.html": {
+            "old_title":"百週年紀念水滴鋼珠筆",
+            "title":"TJC LOGO／貓狗躲躲筆",
+            "old_detail":"0.5mm 按壓式・多款顏色",
+            "detail":"0.5mm・四款貓狗造型",
+            "old_intro":"百週年紀念鋼珠筆",
+            "intro":"貓狗躲躲筆",
+            "old_alt":"百週年紀念水滴鋼珠筆",
+            "alt":"TJC LOGO／貓狗躲躲筆",
+        },
+        "zh-cn.html": {
+            "old_title":"百周年纪念水滴钢珠笔",
+            "title":"TJC LOGO／猫狗躲躲笔",
+            "old_detail":"0.5mm 按压式・多款颜色",
+            "detail":"0.5mm・四款猫狗造型",
+            "old_intro":"百周年纪念钢珠笔",
+            "intro":"猫狗躲躲笔",
+            "old_alt":"百周年纪念水滴钢珠笔",
+            "alt":"TJC LOGO／猫狗躲躲笔",
+        },
+        "en.html": {
+            "old_title":"Centennial Retractable Gel Pens",
+            "title":"TJC Cat & Dog Peekaboo Pens",
+            "old_detail":"0.5mm · Multiple colors",
+            "detail":"0.5mm · Four cat & dog styles",
+            "old_intro":"centennial pens",
+            "intro":"cat-and-dog peekaboo pens",
+            "old_alt":"Centennial pens",
+            "alt":"TJC Cat & Dog Peekaboo Pens",
+        },
     }
-    disclaimer_new = {
-        "index.html": "照片取自各商品頁的第一張商品圖；實際花色、款式、價格與庫存請以商品頁為準。",
-        "zh-cn.html": "照片取自各商品页的第一张商品图；实际花色、款式、价格与库存请以商品页为准。",
-        "en.html": "Photos are the first product images from the store. Check each product page for available patterns, colors, pricing and stock."
-    }
-    css = """
-/* Product-first photos: one shared locally optimized WebP per product for all three locales. */
-.stock-arrivals .arrival-art img {
-  display:block;width:100%;height:100%;max-height:220px;object-fit:contain;
-  padding:8px 12px;box-sizing:border-box;
-}
-@media(max-width:680px) {
-  .stock-arrivals .arrival-art img {max-height:165px;padding:5px;}
-}
-"""
+    card_pattern = re.compile(
+        r'<a class="arrival-card" href="https://www\.pbooks\.com\.tw/products/p5p6p7"[\s\S]*?</a>'
+    )
     for lang in LANGUAGES:
         path = ROOT / "2026-11" / lang
         text = path.read_text(encoding="utf-8")
-        if ".stock-arrivals .arrival-art img" not in text:
-            text = text.replace("</style>", css + "\n</style>", 1)
-        for code in PRODUCTS:
-            # Each thumbnail belongs to an explicit product URL, and each must be replaced once.
-            pattern = re.compile(
-                r'(<a class="arrival-card(?: featured)?" href="https://www\.pbooks\.com\.tw/products/'
-                + re.escape(code)
-                + r'"[\s\S]*?<figure class="arrival-art" aria-hidden="true">)'
-                + r'(<svg[\s\S]*?</svg>)'
-                + r'(</figure>)'
-            )
-            alt = {
-                "pg11b": ("百週年紀念聖經專用布套","百周年纪念圣经专用布套","Centennial Bible fabric cover"),
-                "pg11": ("讚美詩布套","赞美诗布套","Hymnbook fabric cover"),
-                "p5p6p7": ("百週年紀念水滴鋼珠筆","百周年纪念水滴钢珠笔","Centennial pens"),
-                "pg49": ("讚美詩壓克力鑰匙圈","赞美诗亚克力钥匙圈","Hymn-inspired acrylic keychain")
-            }[code][LANGUAGES.index(lang)]
-            repl = rf'\g<1><img src="assets/arrivals/{code}.webp" alt="{alt}" loading="lazy" decoding="async" width="800" height="800">\g<3>'
-            text, n = pattern.subn(repl, text)
-            if n != 1:
-                raise RuntimeError(f"{lang} {code}: Expected exactly 1 matching product SVG; got {n}")
-        a, b = disclaimer_old[lang], disclaimer_new[lang]
-        if a not in text:
-            raise RuntimeError(f"Original image notice not found in {lang}")
-        text = text.replace(a, b, 1)
+        cfg = languages[lang]
+        cards = list(card_pattern.finditer(text))
+        if len(cards) != 1:
+            raise RuntimeError(f"{lang}: expected one old pen card, found {len(cards)}")
+        card = cards[0].group(0)
+        for old, new in [
+            ("https://www.pbooks.com.tw/products/p5p6p7","https://www.pbooks.com.tw/products/p9p10p11p12"),
+            ("assets/arrivals/p5p6p7.webp","assets/arrivals/p9p10p11p12.webp"),
+            ("P5 / P6 / P7","P9 / P10 / P11 / P12"),
+            ("NT$15–20","NT$29"),
+            (cfg["old_title"],cfg["title"]),
+            (cfg["old_detail"],cfg["detail"])
+        ]:
+            if old not in card:
+                raise RuntimeError(f"{lang}: could not find expected {old!r} in product card")
+            card = card.replace(old, new)
+        if cfg["old_alt"] != cfg["old_title"]:
+            if cfg["old_alt"] not in card:
+                raise RuntimeError(f"{lang}: original image alt missing")
+            card = card.replace(cfg["old_alt"], cfg["alt"])
+        text = text[:cards[0].start()] + card + text[cards[0].end():]
+        if cfg["old_intro"] not in text:
+            raise RuntimeError(f"{lang}: original introduction missing")
+        text = text.replace(cfg["old_intro"], cfg["intro"], 1)
+        # The earlier square-photo update is already present. Enforce it without
+        # changing layout or downloading any additional photos.
+        if "/* Arrival photos are genuinely square" not in text:
+            square_css = """
+/* All real product photographs are square on desktop and mobile. */
+.stock-arrivals .arrival-art { aspect-ratio:1/1; min-height:0; max-height:none; }
+.stock-arrivals .arrival-art img {
+  width:100%;height:100%;max-height:none;aspect-ratio:1/1;
+  padding:0;object-fit:contain;display:block;
+}
+@media(max-width:680px) {
+  .stock-arrivals .arrival-art {aspect-ratio:1/1;min-height:0;max-height:none;}
+  .stock-arrivals .arrival-art img {max-height:none;padding:0;}
+}
+"""
+            text=text.replace("</style>",square_css+"</style>",1)
+        if "p5p6p7.webp" in text or "products/p5p6p7" in text:
+            raise RuntimeError(f"{lang}: obsolete pen link/image remains")
+        if text.count('class="arrival-card') != 4:
+            raise RuntimeError(f"{lang}: expected four product cards")
         path.write_text(text, encoding="utf-8")
-        print(f"HTML_OK {lang}: real product images and updated disclaimer", flush=True)
+        print(f"HTML_OK {lang}: first photo 1:1; replaced original pen by P9/P10/P11/P12",flush=True)
+
 
 def main():
     TARGET.mkdir(parents=True, exist_ok=True)
-    results = {}
-    for code in PRODUCTS:
-        page = f"https://www.pbooks.com.tw/products/{code}"
-        candidate, candidates = parse_product_image(page)
-        source, width, height, bytesize = download_photo(candidates, code)
-        results[code] = {"product":page,"source_image":source,"dimensions":[width,height],"bytes":bytesize}
+    code = "p9p10p11p12"
+    page = f"https://www.pbooks.com.tw/products/{code}"
+    first, candidates = parse_product_image(page)
+    source, width, height, bytesize = download_photo(candidates, code)
+    manifest = TARGET / "sources.json"
+    previous = json.loads(manifest.read_text(encoding="utf-8")) if manifest.exists() else {}
+    previous.pop("p5p6p7", None)
+    previous[code] = {
+        "product":page,"source_image":source,
+        "dimensions":[width,height],"bytes":bytesize
+    }
     replace_cards()
-    (TARGET / "sources.json").write_text(json.dumps(results,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+    manifest.write_text(json.dumps(previous,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+    obsolete = TARGET / "p5p6p7.webp"
+    if obsolete.exists():
+        obsolete.unlink()
     print("ALL_PRODUCTS_OK",flush=True)
+
 
 if __name__ == "__main__":
     main()
