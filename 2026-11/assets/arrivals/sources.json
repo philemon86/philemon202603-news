@@ -1,0 +1,38 @@
+{
+  "pg11b": {
+    "product": "https://www.pbooks.com.tw/products/pg11b",
+    "source_image": "https://cdn-general.cybassets.com/media/W1siZiIsIjI3Mjk1L3Byb2R1Y3RzLzcyNTgxMTE4LzE3OTI4MzE3OTJfMjFiMjA0OTk4NWZiOWZlY2NjZmUucG5nIl0sWyJwIiwidGh1bWIiLCI0ODB4NDgwIl1d.png?sha=a03df9fd984e4ba4",
+    "dimensions": [
+      480,
+      480
+    ],
+    "bytes": 59436
+  },
+  "pg11": {
+    "product": "https://www.pbooks.com.tw/products/pg11",
+    "source_image": "https://cdn-general.cybassets.com/media/W1siZiIsIjI3Mjk1L3Byb2R1Y3RzLzQ0MzM2MzMyLzE3OTI2NzU1MzdfMDA3MDkxMWMyY2VkNDI0YWRiZDEucG5nIl0sWyJwIiwidGh1bWIiLCI0ODB4NDgwIl1d.png?sha=b3af9d60c60c3a43",
+    "dimensions": [
+      480,
+      480
+    ],
+    "bytes": 47044
+  },
+  "p5p6p7": {
+    "product": "https://www.pbooks.com.tw/products/p5p6p7",
+    "source_image": "https://cdn-general.cybassets.com/media/W1siZiIsIjI3Mjk1L3Byb2R1Y3RzLzY2ODgxODgwLzE3ODk1NzI1NTdfMjNhNGE1ZWM0MTJlMThhZDk4YjAucG5nIl0sWyJwIiwidGh1bWIiLCI0ODB4NDgwIl1d.png?sha=cedb8947b1781cbc",
+    "dimensions": [
+      480,
+      480
+    ],
+    "bytes": 12090
+  },
+  "pg49": {
+    "product": "https://www.pbooks.com.tw/products/pg49",
+    "source_image": "https://cdn-general.cybassets.com/media/W1siZiIsIjI3Mjk1L3Byb2R1Y3RzLzY5MzE4ODQyLzE3ODcyOTYzODFfMjQ0ZmQyMzZmOTg1NDczMjgyNDUucG5nIl0sWyJwIiwidGh1bWIiLCI0ODB4NDgwIl1d.png?sha=00c46bdac937048b",
+    "dimensions": [
+      480,
+      480
+    ],
+    "bytes": 20054
+  }
+}

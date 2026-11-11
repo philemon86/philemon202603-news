@@ -1298,6 +1298,16 @@
 @media(max-width:680px){.stock-arrivals{padding:68px 0 72px}.stock-arrivals .arrivals-heading{grid-template-columns:1fr;gap:17px;margin-bottom:24px}.stock-arrivals h2{font-size:31px}.stock-arrivals .arrivals-lead{font-size:13px}.stock-arrivals .arrivals-feature{justify-content:flex-start;min-height:65px;padding:12px 16px;font-size:14px}.stock-arrivals .arrival-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.stock-arrivals .arrival-art{min-height:108px;aspect-ratio:1.3}.stock-arrivals .arrival-copy{padding:13px 11px 15px;gap:6px}.stock-arrivals .arrival-copy h3{font-size:16px}.stock-arrivals .arrival-code{font-size:10px}.stock-arrivals .arrival-detail{font-size:11px}.stock-arrivals .arrival-price{font-size:15px}.stock-arrivals .arrival-cta{font-size:10px}.stock-arrivals .arrival-badge{font-size:9px;padding:2px 7px}.stock-arrivals .arrivals-note{text-align:left}}
 @media(max-width:360px){.stock-arrivals .arrival-grid{grid-template-columns:1fr}.stock-arrivals .arrival-art{aspect-ratio:1.8;max-height:170px}.stock-arrivals .arrival-copy h3{font-size:18px}}
 @media(prefers-reduced-motion:reduce){.stock-arrivals .arrival-card{transition:none}}
+
+/* Product-first photos: one shared locally optimized WebP per product for all three locales. */
+.stock-arrivals .arrival-art img {
+  display:block;width:100%;height:100%;max-height:220px;object-fit:contain;
+  padding:8px 12px;box-sizing:border-box;
+}
+@media(max-width:680px) {
+  .stock-arrivals .arrival-art img {max-height:165px;padding:5px;}
+}
+
 </style>
 </head>
 <body id="top">
@@ -1758,7 +1768,7 @@
         <div class="arrivals-feature">NEW · A Cover for the Centennial Bible</div>
       </div>
       <div class="arrival-grid"><a class="arrival-card featured" href="https://www.pbooks.com.tw/products/pg11b" target="_blank" rel="noopener noreferrer" aria-label="Centennial Bible Fabric Cover，NT$200">
-        <figure class="arrival-art" aria-hidden="true"><svg viewBox="0 0 240 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="120" cy="143" rx="72" ry="8" fill="#14241b" opacity=".2"/><g transform="rotate(-8 118 80)"><rect x="70" y="17" width="108" height="120" rx="7" fill="#496457"/><rect x="61" y="14" width="109" height="121" rx="7" fill="#a7bda7" stroke="#dfe2ca" stroke-width="3"/><path d="M79 19v111" stroke="#eee1c8" stroke-width="2" stroke-dasharray="3 4"/><rect x="91" y="27" width="64" height="95" rx="3" fill="none" stroke="#f2ead7" opacity=".75"/><path d="M121 46v37m-15-19h30" stroke="#f4e3b9" stroke-width="3"/><text x="122" y="109" font-family="serif" font-size="16" text-anchor="middle" fill="#f4e3b9">100</text><rect x="163" y="56" width="21" height="29" rx="7" fill="#d7c7a2"/></g></svg></figure>
+        <figure class="arrival-art" aria-hidden="true"><img src="assets/arrivals/pg11b.webp" alt="Centennial Bible fabric cover" loading="lazy" decoding="async" width="800" height="800"></figure>
         <div class="arrival-copy">
           <span class="arrival-badge">NEW · SPECIAL EDITION</span>
           <span class="arrival-code">PG11B</span>
@@ -1768,7 +1778,7 @@
         </div>
       </a>
 <a class="arrival-card" href="https://www.pbooks.com.tw/products/pg11" target="_blank" rel="noopener noreferrer" aria-label="Hymnbook Fabric Cover，NT$200">
-        <figure class="arrival-art" aria-hidden="true"><svg viewBox="0 0 240 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="117" cy="143" rx="71" ry="8" fill="#18241d" opacity=".2"/><g transform="rotate(8 117 76)"><rect x="66" y="18" width="113" height="119" rx="8" fill="#ac9a98" stroke="#e6d9d0" stroke-width="3"/><path d="M81 21v112" stroke="#ecded3" stroke-width="2" stroke-dasharray="3 4"/><rect x="98" y="73" width="61" height="39" rx="3" fill="#e8dfcd"/><path d="M113 99V84l23-6v15m-23 0a6 5 0 1 1-2-4m25-2a6 5 0 1 1-2-4" stroke="#8b7370" stroke-width="3" fill="none"/><path d="M97 39h59M97 51h59M97 63h59" stroke="#eaddd5" stroke-width="2"/><rect x="168" y="52" width="21" height="38" rx="7" fill="#d9bfb0" /></g></svg></figure>
+        <figure class="arrival-art" aria-hidden="true"><img src="assets/arrivals/pg11.webp" alt="Hymnbook fabric cover" loading="lazy" decoding="async" width="800" height="800"></figure>
         <div class="arrival-copy">
           <span class="arrival-badge">BACK IN STOCK</span>
           <span class="arrival-code">PG11</span>
@@ -1778,7 +1788,7 @@
         </div>
       </a>
 <a class="arrival-card" href="https://www.pbooks.com.tw/products/p5p6p7" target="_blank" rel="noopener noreferrer" aria-label="Centennial Retractable Gel Pens，NT$15–20">
-        <figure class="arrival-art" aria-hidden="true"><svg viewBox="0 0 240 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="122" cy="132" rx="85" ry="9" fill="#14241b" opacity=".15"/><g transform="rotate(-24 126 83)"><rect x="36" y="51" width="171" height="17" rx="8" fill="#779a95"/><rect x="36" y="51" width="100" height="17" rx="8" fill="#a7c0b7"/><path d="m207 51 20 9-20 8z" fill="#cfb68a"/><rect x="31" y="55" width="7" height="9" rx="3" fill="#f0d9c2"/><rect x="57" y="86" width="154" height="17" rx="8" fill="#c3b6aa"/><rect x="57" y="86" width="88" height="17" rx="8" fill="#e5d4bf"/><path d="m211 87 18 8-18 8z" fill="#d0b48a"/><rect x="52" y="89" width="7" height="10" rx="3" fill="#c7d4c8"/><path d="M169 53v13m6-11h27" stroke="#e9f1e8" stroke-width="2"/></g></svg></figure>
+        <figure class="arrival-art" aria-hidden="true"><img src="assets/arrivals/p5p6p7.webp" alt="Centennial pens" loading="lazy" decoding="async" width="800" height="800"></figure>
         <div class="arrival-copy">
           <span class="arrival-badge">BACK IN STOCK</span>
           <span class="arrival-code">P5 / P6 / P7</span>
@@ -1788,7 +1798,7 @@
         </div>
       </a>
 <a class="arrival-card" href="https://www.pbooks.com.tw/products/pg49" target="_blank" rel="noopener noreferrer" aria-label="Hymn-Inspired Acrylic Keychain，NT$44">
-        <figure class="arrival-art" aria-hidden="true"><svg viewBox="0 0 240 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="118" cy="141" rx="71" ry="8" fill="#14241b" opacity=".16"/><circle cx="118" cy="34" r="17" fill="none" stroke="#d9c39a" stroke-width="7"/><circle cx="118" cy="34" r="7" fill="none" stroke="#f0e1c6" stroke-width="2"/><path d="M118 51v15" stroke="#d6c39d" stroke-width="6"/><g transform="rotate(-11 121 101)"><rect x="74" y="67" width="95" height="70" rx="16" fill="#c1d7cb" opacity=".92" stroke="#e7ece2" stroke-width="4"/><path d="M94 110q30-17 59-3" fill="none" stroke="#89a899" stroke-width="2" stroke-dasharray="3 4"/><path d="M108 102V86l24-6v17m-24-1a6 5 0 1 1-3-4m27-1a6 5 0 1 1-3-4" fill="none" stroke="#698a7b" stroke-width="4"/></g></svg></figure>
+        <figure class="arrival-art" aria-hidden="true"><img src="assets/arrivals/pg49.webp" alt="Hymn-inspired acrylic keychain" loading="lazy" decoding="async" width="800" height="800"></figure>
         <div class="arrival-copy">
           <span class="arrival-badge">BACK IN STOCK</span>
           <span class="arrival-code">PG49</span>
@@ -1798,7 +1808,7 @@
         </div>
       </a>
       </div>
-      <p class="arrivals-note">Artwork is illustrative. See each product page for actual patterns, colors, pricing and availability. Fabric patterns may vary as in-store, exhibition and online sales continue.</p>
+      <p class="arrivals-note">Photos are the first product images from the store. Check each product page for available patterns, colors, pricing and stock. Fabric patterns may vary as in-store, exhibition and online sales continue.</p>
     </div>
   </section>
 
