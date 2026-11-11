@@ -61,6 +61,7 @@ function initSearch(){
  document.addEventListener('click',e=>{if(!e.target.closest('.map-search'))results.hidden=true;});
 }
 function setScope(next){
+ if(scope!==next && typeof window.gtag==='function')window.gtag('event','shirt_map_scope_change',{map_scope:next==='TW'?'taiwan':'global'});
  scope=next;
  document.querySelectorAll('[data-scope]').forEach(b=>b.classList.toggle('active',b.dataset.scope===next));
  resetMap();renderFallback();renderMarkers();
@@ -427,6 +428,7 @@ function handleBridgeResult(data){
  $('quickName').value='';
  Object.keys(quantities).forEach(k=>{quantities[k]=0;});paintQty();
  showQuickMessage('登記成功：'+p.qty+' 件。可繼續填寫下一位。','success');
+ if(typeof window.gtag==='function')window.gtag('event','shirt_interest_submit_success',{item_category:'anniversary_shirt',quantity:p.qty});
  $('quickName').focus();
  status('登記成功 · 統計更新中');
  loadStats();
@@ -540,3 +542,12 @@ async function start(){
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
 })();
+// GA4: count outbound visits to the product details page; do not send names or form content.
+document.addEventListener('click',function(event){
+ const link=event.target.closest('a[href]');
+ if(!link || typeof window.gtag!=='function')return;
+ let url;try{url=new URL(link.href,location.href)}catch(e){return}
+ if(url.hostname==='www.pbooks.com.tw' && url.pathname.startsWith('/products/pg36')){
+  window.gtag('event','shirt_product_link_click',{link_url:url.origin+url.pathname});
+ }
+});
