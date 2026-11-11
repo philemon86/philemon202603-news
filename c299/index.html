@@ -109,6 +109,64 @@ body.footsteps-paused .walking-print{animation-play-state:paused}
  .excerpt-tab{transition:none}
 }
 
+
+/* November 2026 readability + visible animated footsteps */
+body{font-size:17px;line-height:2}
+.intro .copy p,.step-panel p,.method-intro p,.thought p,.card p,.book-page p,.significance .section-lead{font-size:clamp(16px,1.35vw,18px);line-height:2.05}
+.section-lead,.chapter p,.faq .section-lead{font-size:clamp(16px,1.45vw,18px);line-height:2.1}
+.excerpts .excerpt-tab{font-size:clamp(14px,1.15vw,16px)}
+.faq{padding:106px 0 114px;position:relative;isolation:isolate}
+.faq-inner{max-width:980px;position:relative;z-index:2}
+.faq details{padding:29px 4px}
+.faq summary{font-size:clamp(23px,2.5vw,30px);line-height:1.55;font-weight:600;gap:25px}
+.faq summary:after{font-size:29px;flex:none}
+.faq details p{font-size:clamp(17px,1.6vw,20px);line-height:2.05;padding:15px 40px 0 0;color:#425e4b}
+.faq .faq-source{font-size:14px;line-height:1.9;color:#7e907b;padding:12px 0 0}
+.ambient-footprints,.cover-footprints{pointer-events:none;overflow:hidden;user-select:none}
+.ambient-footprints{z-index:3;opacity:1;color:#567454}
+.ambient-footprints.is-dark{opacity:1;color:#5a7756}
+.hero>.ambient-footprints{color:#d5e2bf;z-index:3}
+.intro>.ambient-footprints{color:#678b6e}
+.explore>.ambient-footprints{color:#6b8d6b;opacity:1}
+.significance>.ambient-footprints{color:#517751;opacity:1}
+.method>.ambient-footprints{color:#547455;opacity:1}
+.excerpts>.ambient-footprints{color:#638365;opacity:1}
+.faq>.ambient-footprints{color:#587757;opacity:1}
+.end>.ambient-footprints{color:#d1e0b3;opacity:1}
+.cover-footprints{z-index:5;color:#32492e;opacity:1}
+.walking-print{
+  position:absolute;display:block;width:var(--print-size,28px);height:auto;
+  aspect-ratio:60/95;fill:currentColor;opacity:0;
+  animation:ink-footstep-visible var(--step-cycle,15.5s) linear var(--step-delay,0s) infinite;
+  will-change:opacity,transform
+}
+.ambient-footprints .walking-print{width:var(--print-size,28px)}
+.cover-footprints .walking-print{width:var(--print-size,21px);filter:none}
+@keyframes ink-footstep-visible{
+  0%,100%{opacity:0;transform:translate(-50%,-50%) rotate(var(--foot-angle,0deg)) scale(.65)}
+  4%{opacity:var(--print-opacity,.84);transform:translate(calc(-50% + var(--drift-x,0px) * 0),calc(-50% + var(--drift-y,0px) * 0)) rotate(var(--foot-angle,0deg)) scale(1.03)}
+  13%,61%{opacity:var(--print-opacity,.84);transform:translate(-50%,-50%) rotate(var(--foot-angle,0deg)) scale(1)}
+  80%{opacity:0;transform:translate(-50%,-50%) rotate(var(--foot-angle,0deg)) scale(1)}
+}
+.hero-inner{z-index:1}
+.hero>.ambient-footprints{z-index:3}
+.hero .hero-inner,.hero .site-header{pointer-events:auto}
+.intro,.explore,.significance,.method,.excerpts,.faq,.end{position:relative;isolation:isolate}
+.intro>.ambient-footprints~*,.explore>.ambient-footprints~*,.significance>.ambient-footprints~*,.method>.ambient-footprints~*,.excerpts>.ambient-footprints~*,.faq>.ambient-footprints~*,.end>.ambient-footprints~*{position:relative;z-index:2}
+.excerpts .excerpt-slide[hidden],.step-detail[hidden]{display:none}
+@media(max-width:700px){
+ .faq{padding:76px 0 82px}
+ .faq summary{font-size:clamp(21px,5.5vw,25px);line-height:1.55}
+ .faq details p{font-size:17px;line-height:1.95;padding-right:8px}
+ .faq .faq-source{font-size:13px}
+ .ambient-footprints .walking-print{width:19px}
+ .cover-footprints .walking-print{width:13px}
+ .faq>.ambient-footprints,.excerpts>.ambient-footprints{opacity:.78}
+}
+@media(prefers-reduced-motion:reduce){
+ .walking-print{animation:none!important;opacity:.25!important;transform:translate(-50%,-50%) rotate(var(--foot-angle,0deg))!important}
+}
+
 </style>
 </head>
 <body>
@@ -141,7 +199,7 @@ body.footsteps-paused .walking-print{animation-play-state:paused}
 <div class="book-stage"><figure class="cover"><img src="../2026-11/assets/c299.webp" alt="《洗腳禮論：教義專論》淡綠色封面，山谷晨光，並有動畫腳印踏過封面" width="420" height="588" fetchpriority="high"><div class="cover-footprints" id="cover-walk" aria-hidden="true"></div></figure><span class="cover-tag">真耶穌教會 · 腓利門書房</span></div>
 </div>
 </section>
-<section class="intro wrap" id="intro">
+<section class="intro wrap" id="intro"><div class="ambient-footprints side-walk" id="intro-walk" aria-hidden="true"></div>
 <div><p class="eyebrow">THE QUESTION</p><h2>彼得說不要。<br>耶穌卻說，<br>你要讓我洗。</h2></div>
 <div class="copy">
 <p>在古代，走過塵土飛揚的路，洗腳是生活裡平常的事。令人意外的是，最後晚餐的席間，<strong>主耶穌親自起身，替門徒洗腳。</strong></p>
@@ -175,14 +233,6 @@ body.footsteps-paused .walking-print{animation-play-state:paused}
 </div>
 </section>
 <div class="foot-divider" aria-hidden="true"><svg class="foot" viewBox="0 0 60 95"><use href="#footprint"/></svg><svg class="foot" viewBox="0 0 60 95"><use href="#footprint"/></svg><svg class="foot" viewBox="0 0 60 95"><use href="#footprint"/></svg></div>
-<section class="story wrap" id="difference"><div class="ambient-footprints is-dark" id="story-walk" aria-hidden="true"></div>
-<p class="eyebrow center">TWO DIMENSIONS</p><h2 class="section-title center">同一盆水，兩個需要分清楚的層面</h2><p class="section-lead center">讀懂這個區別，就能更準確理解《洗腳禮論》所提出的信仰主張。</p>
-<div class="story-grid">
-<div class="thought"><p class="eyebrow">01 · 聖禮性的洗腳</p><h3>領受主所賜的恩典</h3><p>依照真耶穌教會的理解，這是基督設立、由奉差遣者代表主施行的洗腳禮。已受洗的信徒領受一次，重點在於「與基督有分」的屬靈應許。</p></div>
-<div class="thought special"><p class="eyebrow">02 · 彼此洗腳的精神</p><h3>活出主所留下的愛</h3><p>信徒照著耶穌的榜樣，在群體中彼此服事、接納、饒恕，讓謙卑成為持續的生活實踐。這項教導可以反覆實行。</p></div>
-</div>
-<p class="note">本書在第 129 頁特別以對照表區分兩者，也指出洗腳禮的屬靈重點是「與主有分」；受洗後的額外赦罪或潔淨，並非本書對洗腳禮功效的定義。</p>
-</section>
 <section class="significance" id="for-you"><div class="ambient-footprints" id="reader-walk" aria-hidden="true"></div>
 <div class="wrap"><div class="center"><p class="eyebrow">FOR EVERY READER</p><h2 class="section-title">不論你來自哪間教會，<br>都值得讀這本書。</h2><p class="section-lead">不同教會對洗腳有不同理解。這本書清楚提出真耶穌教會的論證，也邀請讀者自己回到聖經，重新思考。</p></div>
 <div class="cards">
@@ -207,7 +257,7 @@ body.footsteps-paused .walking-print{animation-play-state:paused}
 </section>
 
 <div class="foot-divider" aria-hidden="true"><svg class="foot" viewBox="0 0 60 95"><use href="#footprint"/></svg><svg class="foot" viewBox="0 0 60 95"><use href="#footprint"/></svg><svg class="foot" viewBox="0 0 60 95"><use href="#footprint"/></svg></div>
-<section class="excerpts" id="excerpts">
+<section class="excerpts" id="excerpts"><div class="ambient-footprints side-walk" id="excerpt-walk" aria-hidden="true"></div>
  <div class="wrap">
   <div class="center"><p class="eyebrow">PAGES FROM THE BOOK</p><h2 class="section-title">翻開書頁，讀一段原文</h2><p class="section-lead">五段選自《洗腳禮論》校對稿的正文。左頁保留書中原句，右頁補上一點導讀。點選標籤，就能換一段閱讀。</p></div>
   <div class="excerpt-navigation" role="tablist" aria-label="書籍內文選讀">
@@ -246,15 +296,18 @@ body.footsteps-paused .walking-print{animation-play-state:paused}
  </div>
 </section>
 
-<section class="faq" id="questions"><div class="wrap faq-inner">
-<div class="center"><p class="eyebrow">READERS ASK</p><h2 class="section-title">你可能也想問</h2></div>
-<details><summary>洗腳在耶穌時代，本來就很常見嗎？</summary><p>是。洗腳可能出於衛生、旅途後的款待或服事。本書第二章討論這些背景，並進一步分析約翰福音第十三章的這次洗腳，為什麼具有特別的意義。</p></details>
-<details><summary>其他教會的基督徒，一定要同意這本書嗎？</summary><p>讀者可以帶著原有的理解與疑問閱讀。不同基督教傳統對洗腳是否屬於聖禮、是否具有救恩功效，有不同看法。本書代表真耶穌教會的立場，重點在於提出經文、原文與神學論證，讓讀者有依據地比較與思考。</p></details>
-<details><summary>這本書認為洗腳禮是洗去受洗後犯的罪嗎？</summary><p>沒有。本書結論特別指出，受洗的人已在洗禮中得到潔淨；洗腳禮所強調的屬靈功效是「與基督有分」。這是閱讀本書時很重要的區別。</p></details>
-<details><summary>既然談的是教義，和每天的生活有關嗎？</summary><p>有。耶穌親自服事門徒，也吩咐他們彼此洗腳。這份教導延伸到信徒如何面對他人、練習饒恕、學會接納，以及在生活中持續活出主的愛。</p></details>
-</div></section>
-<section class="end" id="book">
-<div class="wrap"><svg class="foot" viewBox="0 0 60 95" aria-hidden="true"><use href="#footprint"/></svg><p class="eyebrow" style="color:#cddfad">ONE BOWL OF WATER · ONE LASTING QUESTION</p><h2>主耶穌留下的這一盆水，<br>你讀懂了嗎？</h2><p>在翻開《洗腳禮論》以前，我們或許已經有自己的答案。這本書邀請我們再次打開約翰福音十三章，仔細聽耶穌怎麼說，再思考自己要如何回應。</p>
+<section class="faq" id="questions">
+<div class="ambient-footprints faq-walk" id="faq-walk" aria-hidden="true"></div>
+<div class="wrap faq-inner">
+<div class="center"><p class="eyebrow">QUESTIONS FROM THE BOOK</p><h2 class="section-title">關於洗腳禮，書中回答的四個問題</h2><p class="section-lead">以下回答依照《洗腳禮論》原書內容整理，標出相應章節與頁碼，方便查考。</p></div>
+<details open><summary>在聖經時代，洗腳通常是什麼意思？</summary><p>本書第二章整理了洗腳在聖經中的不同場合，包括為舒適與衛生而洗腳、接待旅人、服事他人，以及出於愛的自願洗腳。這些背景有助於理解約翰福音第十三章的記載，但書中也進一步論證耶穌為門徒洗腳具有獨特的屬靈意義。</p><p class="faq-source">書中依據：第二章，頁 87–106；第三章，頁 107–125</p></details>
+<details><summary>為什麼真耶穌教會相信洗腳禮具有救恩的意義？</summary><p>本書從耶穌對彼得所說「我若不洗你，你就與我無分了」（約十三 8）出發，考察「有分」的意思，並從耶穌設立洗腳的行動、命令與差遣，論證洗腳禮是關乎與基督有分的聖禮。書中序論也說明，這項立場與其他基督教傳統常見的理解有所不同。</p><p class="faq-source">書中依據：序論，頁 8–9；第三章，頁 116–125；第七章，頁 162</p></details>
+<details><summary>洗腳禮是為了洗去受洗後所犯的罪嗎？</summary><p>本書明確否定這樣的解釋。第七章指出，人在洗禮中已經得著潔淨，洗腳禮並非提供額外的屬靈潔淨；本書認為它所帶來的屬靈功效，在於使信徒與基督有分。</p><p class="faq-source">書中依據：第三章，頁 116–125；第七章，頁 162</p></details>
+<details><summary>耶穌為門徒洗腳，對信徒日常生活有什麼教訓？</summary><p>第五章談到耶穌的愛與謙卑、信徒如何彼此服事，以及彼此洗腳所表達的愛與接納。第七章也指出，洗腳的教導關係到人與基督，以及信徒彼此之間的關係。</p><p class="faq-source">書中依據：第五章，頁 139–147；第七章，頁 162</p></details>
+</div>
+</section>
+<section class="end" id="book"><div class="ambient-footprints end-walk" id="end-walk" aria-hidden="true"></div>
+<div class="wrap"><svg class="foot" viewBox="0 0 60 95" aria-hidden="true"><use href="#footprint"/></svg><p class="eyebrow" style="color:#cddfad">ONE BOWL OF WATER · ONE LASTING QUESTION</p><h2>主耶穌留下的這一盆水，<br>你讀懂了嗎？</h2>
 <blockquote class="quote">「我若不洗你，你就與我無分了。」<cite>約翰福音 13:8</cite></blockquote>
 <p style="font-family:var(--serif);font-size:23px;color:#f4f5e9">《洗腳禮論》</p>
 <div class="book-info"><span>C299 · 教義專論</span><span>平裝 168 頁</span><span>定價 NT$250</span><span>優惠價 NT$225</span></div>
@@ -268,61 +321,80 @@ body.footsteps-paused .walking-print{animation-play-state:paused}
 </script>
 
 <script>
-/* The marks are generated at runtime: each left/right foot appears in sequence,
-   lingers like ink on parchment, then fades. No canvas or image duplication. */
+/* Map-like walking tracks: pairs of footprints are drawn progressively with ink
+   lingering long enough to be visibly present, including when arriving mid-scroll. */
 (function(){
- const ns='http://www.w3.org/2000/svg';
- const reduced=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
- const routes=[
-  {id:'cover-walk',opacity:.35,size:16,paths:[
-   [[10,42],[26,35],[41,33],[58,36],[82,44]],
-   [[78,79],[57,82],[36,84],[16,89]],
-   [[14,64],[35,67],[56,69],[82,64]]
-  ],counts:[9,7,8],offsets:[0,4,7]},
-  {id:'hero-walk',opacity:.32,size:25,paths:[
-   [[48,87],[56,74],[67,57],[78,41],[92,25]],
-   [[94,89],[87,77],[92,63],[88,50]]
-  ],counts:[12,7],offsets:[1,6]},
-  {id:'steps-walk',opacity:.35,size:22,paths:[
-   [[7,82],[12,67],[6,48],[15,24]],
-   [[90,15],[95,33],[88,57],[94,85]]
-  ],counts:[8,9],offsets:[1,4]},
-  {id:'story-walk',opacity:.3,size:22,paths:[[[94,10],[91,32],[96,57],[86,91]]],counts:[9],offsets:[3]},
-  {id:'reader-walk',opacity:.28,size:23,paths:[[[5,92],[13,71],[7,52],[14,17]],[[96,9],[91,34],[96,68],[85,91]]],counts:[9,9],offsets:[2,7]},
-  {id:'chapters-walk',opacity:.22,size:21,paths:[[[4,12],[9,39],[4,68],[11,93]]],counts:[10],offsets:[3]}
+ const ns="http://www.w3.org/2000/svg";
+ const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+ const footprints=[
+  {id:"cover-walk",color:.85,size:21,paths:[
+   [[78,14],[63,23],[81,32],[64,42]],[[17,79],[35,74],[53,81],[68,88]]
+  ]},
+  {id:"hero-walk",size:32,paths:[
+   [[8,83],[14,67],[8,51],[16,31]],[[84,91],[91,73],[84,57],[93,38]]
+  ]},
+  {id:"intro-walk",size:27,paths:[
+   [[3,91],[11,69],[5,42],[11,15]],[[95,12],[88,36],[95,60],[87,89]]
+  ]},
+  {id:"steps-walk",size:30,paths:[
+   [[5,93],[11,73],[5,51],[12,25]],[[95,10],[89,31],[95,55],[88,82]]
+  ]},
+  {id:"reader-walk",size:29,paths:[
+   [[4,90],[11,71],[6,48],[13,21]],[[96,15],[88,37],[96,58],[88,87]]
+  ]},
+  {id:"chapters-walk",size:28,paths:[
+   [[4,9],[11,31],[5,57],[11,88]],[[96,91],[89,72],[95,49],[89,16]]
+  ]},
+  {id:"excerpt-walk",size:28,paths:[
+   [[4,91],[11,70],[5,42],[10,19]],[[95,12],[88,34],[94,57],[88,86]]
+  ]},
+  {id:"faq-walk",size:29,paths:[
+   [[5,12],[12,37],[5,61],[12,91]],[[94,90],[87,67],[94,41],[86,14]]
+  ]},
+  {id:"end-walk",size:27,paths:[
+   [[7,85],[15,66],[8,47],[16,29]],[[93,19],[87,39],[94,63],[86,85]]
+  ]}
  ];
- function locate(points,t){
-  const z=t*(points.length-1),j=Math.min(Math.floor(z),points.length-2),f=z-j,a=points[j],b=points[j+1],dx=b[0]-a[0],dy=b[1]-a[1],length=Math.hypot(dx,dy)||1;
-  return {x:a[0]+f*dx,y:a[1]+f*dy,dx:dx/length,dy:dy/length,angle:Math.atan2(dy,dx)*180/Math.PI+90};
+ function point(path,t){
+  const pos=t*(path.length-1),idx=Math.min(Math.floor(pos),path.length-2),f=pos-idx,a=path[idx],b=path[idx+1];
+  const dx=b[0]-a[0],dy=b[1]-a[1],len=Math.hypot(dx,dy)||1;
+  return {x:a[0]+dx*f,y:a[1]+dy*f,dx:dx/len,dy:dy/len,angle:Math.atan2(dy,dx)*180/Math.PI+90};
  }
- function addRoute(config){
-  const host=document.getElementById(config.id);if(!host)return;
-  config.paths.forEach((points,track)=>{
-   const count=config.counts[track],cycle=12.8,offset=config.offsets[track]||0;
-   for(let i=0;i<count;i++){
-    const p=locate(points,i/(count-1)),side=i%2===0?-1:1,spread=config.id==='cover-walk'?2.3:1.2;
-    const x=p.x-p.dy*side*spread,y=p.y+p.dx*side*spread;
-    const svg=document.createElementNS(ns,'svg');svg.classList.add('walking-print');svg.setAttribute('viewBox','0 0 60 95');svg.setAttribute('aria-hidden','true');
-    const use=document.createElementNS(ns,'use');use.setAttribute('href','#footprint');svg.appendChild(use);
-    svg.style.left=x+'%';svg.style.top=y+'%';
-    svg.style.setProperty('--foot-angle',(p.angle+side*7)+'deg');
-    svg.style.setProperty('--print-opacity',String(config.opacity));
-    svg.style.setProperty('--print-size',config.size+'px');
-    svg.style.setProperty('--step-cycle',cycle+'s');
-    svg.style.setProperty('--step-delay',(i*.69-offset)+'s');
-    if(reduced && i%3!==0)continue;
+ for(const route of footprints){
+  const host=document.getElementById(route.id);if(!host)continue;
+  const cover=route.id==="cover-walk";
+  route.paths.forEach((path,track)=>{
+   const count=cover?9:11;
+   for(let n=0;n<count;n++){
+    if(reduced && n%4!==0)continue;
+    const p=point(path,n/(count-1));
+    const side=n%2===0?-1:1,spread=cover?2.1:1.45;
+    const svg=document.createElementNS(ns,"svg");
+    svg.setAttribute("viewBox","0 0 60 95");svg.setAttribute("aria-hidden","true");
+    svg.setAttribute("class","walking-print");
+    const use=document.createElementNS(ns,"use");
+    use.setAttribute("href","#footprint");
+    svg.appendChild(use);
+    svg.style.left=(p.x-p.dy*side*spread)+"%";
+    svg.style.top=(p.y+p.dx*side*spread)+"%";
+    svg.style.setProperty("--foot-angle",(p.angle+side*12)+"deg");
+    svg.style.setProperty("--print-size",(cover?route.size:route.size)+"px");
+    svg.style.setProperty("--print-opacity",cover?".68":".84");
+    svg.style.setProperty("--step-cycle","15.5s");
+    svg.style.setProperty("--step-delay",(n*.67-8.4-track*3.1)+"s");
+    svg.style.setProperty("--drift-x",(p.dx*11)+"px");
+    svg.style.setProperty("--drift-y",(p.dy*11)+"px");
     host.appendChild(svg);
    }
   });
  }
- routes.forEach(addRoute);
- const toggle=document.getElementById('footprint-toggle');
+ const toggle=document.getElementById("footprint-toggle");
  if(toggle){
-  if(reduced){toggle.textContent='減少動態已啟用';toggle.disabled=true;}
-  else toggle.addEventListener('click',()=>{
-   const paused=document.body.classList.toggle('footsteps-paused');
-   toggle.setAttribute('aria-pressed',String(paused));
-   toggle.textContent=paused?'繼續腳印 ▶':'暫停腳印 ◼';
+  if(reduced){toggle.textContent="已依系統設定減少動態";toggle.disabled=true;}
+  else toggle.addEventListener("click",()=>{
+   const paused=document.body.classList.toggle("footsteps-paused");
+   toggle.setAttribute("aria-pressed",String(paused));
+   toggle.textContent=paused?"繼續腳印 ▶":"暫停腳印 ◼";
   });
  }
 })();
