@@ -101,10 +101,15 @@ def inject_ga(html: str, path: str):
               f' data-legacy-ga="{int(legacy)}"'
               f' data-legacy-purchase="{int(legacy_purchase)}"'
               f' data-embedded="{int(embedded)}"></script>\n')
-    matches = list(re.finditer(r'</head\s*>', html, re.I))
-    if len(matches) != 1:
-        raise ValueError(f"{path}: invalid head closing tag count: {len(matches)}")
-    at = matches[0].start()
+    # Some older product pages have embedded HTML samples or templates
+    # containing another closing head tag; use the first real document head.
+    opening = re.search(r'<head\b[^>]*>', html, re.I)
+    if opening is None:
+        raise ValueError(f"{path}: document head missing")
+    closing = re.search(r'</head\s*>', html[opening.end():], re.I)
+    if closing is None:
+        raise ValueError(f"{path}: document head closing tag missing")
+    at = opening.end() + closing.start()
     return html[:at] + insert + html[at:], "legacy" if legacy else ("embedded_no_pageview" if embedded else "new")
 
 def patch_banner_success():
