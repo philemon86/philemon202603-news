@@ -44,9 +44,12 @@ function initSearch(){
     btn.append(strong,small);
     btn.onclick=()=>{
       input.value=churchTitle(c);results.hidden=true;
-      if(c.kind!=='customer'&&c.c!=='TW'&&scope==='TW')setScope('ALL');
-      if(map&&Number.isFinite(+c.lat)&&Number.isFinite(+c.lng)){
-        map.flyTo([c.lat,c.lng],c.loc==='country_center_approximate'?5:12,{duration:.7});
+      if(c.c!=='TW'&&scope==='TW')setScope('ALL');
+      const fallbackPosition=c.kind==='customer' ? countryStats().get(c.c) : null;
+      const lat=Number.isFinite(+c.lat)&&c.lat!=null?+c.lat:fallbackPosition?.lat;
+      const lng=Number.isFinite(+c.lng)&&c.lng!=null?+c.lng:fallbackPosition?.lng;
+      if(map&&Number.isFinite(lat)&&Number.isFinite(lng)){
+        map.flyTo([lat,lng],c.kind==='customer'||c.loc==='country_center_approximate'?5:12,{duration:.7});
       }
     };
     results.append(btn);
@@ -106,16 +109,15 @@ function renderFallback(){
   }
   $('fallbackCaption').textContent='© OpenStreetMap contributors · 教會位置';
  }else{
-  const byCountry=new Map();
-  for(const c of catalog){
-   if(!Number.isFinite(+c.lat)||!Number.isFinite(+c.lng))continue;
-   if(!byCountry.has(c.c)||c.loc==='country_center_approximate')byCountry.set(c.c,c);
-  }
-  for(const c of byCountry.values()){
-   const x=(c.lng+180)/360*100,y=(90-c.lat)/180*100;
+  for(const group of countryStats().values()){
+   if(!Number.isFinite(group.lat)||!Number.isFinite(group.lng))continue;
+   const x=(group.lng+180)/360*100,y=(90-group.lat)/180*100;
    if(x<0||x>100||y<0||y>100)continue;
-   const marker=document.createElement('span');marker.className='offline-dot';
-   marker.style.left=x+'%';marker.style.top=y+'%';marker.title=c.country;
+   const marker=document.createElement('span');
+   marker.className='offline-dot'+(group.qty>0?' offline-demand':'');
+   marker.style.left=x+'%';marker.style.top=y+'%';
+   marker.title=group.label+' · '+fmt(group.qty)+' 件';
+   if(group.qty>0)marker.textContent=fmt(group.qty);
    world.append(marker);
   }
   $('fallbackCaption').textContent='全球教會位置概覽 · 含概略定位';
@@ -181,6 +183,50 @@ function getPopup(meta,rec){
  const qty=countOf(rec);
  return '<div class="popup-title">'+clean(churchTitle(meta))+'</div><div class="popup-info">'+fmt(qty)+' 件</div>';
 }
+
+function regionCounts(){
+ const grouped={TW:0,overseas:0,unknown:0};
+ for(const rec of live?.churches||[]){
+  const qty=countOf(rec),unit=byId.get(rec.id);
+  if(!unit){grouped.unknown+=qty;continue;}
+  if(unit.c==='TW')grouped.TW+=qty;else grouped.overseas+=qty;
+ }
+ return grouped;
+}
+function updateMapRegionPulse(){
+ const element=$('mapRegionPulse'),tw=$('mapTaiwanQty'),over=$('mapOverseasQty');
+ if(!element||!tw||!over)return;
+ const counts=regionCounts();
+ if(!live||!catalog.length){element.hidden=true;return;}
+ element.hidden=false;
+ tw.textContent=fmt(counts.TW);
+ over.textContent=fmt(counts.overseas+counts.unknown);
+ $('showOverseas').hidden=counts.overseas+counts.unknown===0;
+ $('showOverseas').setAttribute('aria-label','查看全球地圖，海外 '+fmt(counts.overseas+counts.unknown)+' 件');
+}
+function countryStats(){
+ const map=new Map();
+ // Country groups need a position from any mapped church, even when orders
+ // are registered by customer units without precise geocoordinates.
+ for(const c of catalog){
+  if(!c.c)continue;
+  let rec=map.get(c.c);
+  if(!rec){rec={label:c.country,c:c.c,lat:null,lng:null,qty:0,approx:false};map.set(c.c,rec);}
+  if(Number.isFinite(+c.lat)&&Number.isFinite(+c.lng)&&c.lat!=null&&c.lng!=null){
+   if(rec.lat==null||c.loc==='country_center_approximate'){
+    rec.lat=+c.lat;rec.lng=+c.lng;
+    rec.approx=c.loc==='country_center_approximate';
+   }
+  }
+ }
+ for(const stat of live?.churches||[]){
+  const c=byId.get(stat.id);if(!c?.c)continue;
+  const group=map.get(c.c);
+  if(group)group.qty+=countOf(stat);
+ }
+ return map;
+}
+
 function renderMarkers(){
  if(!map||!base||!hot)return;
  base.clearLayers();hot.clearLayers();
@@ -201,18 +247,17 @@ function renderMarkers(){
    }
   }
  }else{
-  const countries=new Map();
-  for(const c of catalog){
-   if(!Number.isFinite(+c.lat)||!Number.isFinite(+c.lng))continue;
-   let group=countries.get(c.c);if(!group){group={label:c.country,count:0,lat:c.lat,lng:c.lng,loc:c.loc,qty:0};countries.set(c.c,group);}
-   group.count++;
-   if(c.loc==='country_center_approximate'&&group.loc!=='country_center_approximate'){group.lat=c.lat;group.lng=c.lng;group.loc=c.loc;}
-   group.qty+=countOf(stats.get(c.id));
-  }
-  for(const grp of countries.values()){
-    L.circleMarker([grp.lat,grp.lng],{radius:Math.min(18,7+Math.sqrt(grp.qty)*2),color:'#fff',weight:1.8,fillColor:grp.qty>0?labelColor(grp.qty):'#8faebc',fillOpacity:.9})
-    .bindPopup('<div class="popup-title">'+clean(grp.label)+'</div><div class="popup-info">'+fmt(grp.qty)+' 件</div>')
-    .addTo(base);
+  for(const grp of countryStats().values()){
+   if(!Number.isFinite(grp.lat)||!Number.isFinite(grp.lng))continue;
+   const popup='<div class="popup-title">'+clean(grp.label)+'</div><div class="popup-info">'+fmt(grp.qty)+' 件</div>'+
+     (grp.approx?'<div class="popup-info">國家概略位置，並非登記單位地址</div>':'');
+   if(grp.qty>0){
+    const size=Math.min(56,30+Math.sqrt(grp.qty)*4);
+    const icon=L.divIcon({className:'',html:'<span class="demand-marker" style="width:'+size+'px;height:'+size+'px;background:'+labelColor(grp.qty)+'">'+fmt(grp.qty)+'</span><span class="demand-label">'+clean(grp.label)+'</span>',iconSize:[size,size],iconAnchor:[size/2,size/2]});
+    L.marker([grp.lat,grp.lng],{icon}).bindPopup(popup,{maxWidth:280}).addTo(hot);
+   }else{
+    L.circleMarker([grp.lat,grp.lng],{radius:7,color:'#fff',weight:1.5,fillColor:'#8faebc',fillOpacity:.85}).bindPopup(popup).addTo(base);
+   }
   }
  }
 }
@@ -231,7 +276,7 @@ function restoreCachedStats(){
   const item=JSON.parse(sessionStorage.getItem('shirt_last_public_stats')||'null');
   if(item&&Date.now()-item.at<180000&&item.data&&Array.isArray(item.data.churches)){
    delete item.data.recent;
-   live=item.data;updateStats();if(mapVisible)renderFallback();status('統計資料更新中');
+   live=item.data;updateStats();updateMapRegionPulse();if(mapVisible)renderFallback();status('統計資料更新中');
   }
  }catch(e){}
 }
@@ -246,7 +291,7 @@ function loadStats(){
     if(data&&Array.isArray(data.churches)){
       delete data.recent;
       try{sessionStorage.setItem('shirt_last_public_stats',JSON.stringify({at:Date.now(),data}));}catch(e){}
-      live=data;updateStats();if(mapVisible){renderFallback();renderMarkers();}status('統計更新 '+new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'}));
+      live=data;updateStats();updateMapRegionPulse();if(mapVisible){renderFallback();renderMarkers();}status('統計更新 '+new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'}));
     }else status('統計暫時無法連線；地圖仍可查看');
     resolve();
   };
@@ -431,6 +476,14 @@ function bindEvents(){
  $('resetMapBtn').onclick=resetMap;
  $('zoomInBtn').onclick=()=>map?.zoomIn();
  $('zoomOutBtn').onclick=()=>map?.zoomOut();
+ $('showOverseas').onclick=()=>{
+  setScope('ALL');
+  const groups=[...countryStats().values()].filter(x=>x.c!=='TW'&&x.qty>0&&Number.isFinite(x.lat));
+  groups.sort((a,b)=>b.qty-a.qty);
+  if(map&&groups.length){
+   const g=groups[0];map.setView([g.lat,g.lng],Math.min(5,Math.max(3,map.getZoom())),{animate:false});
+  }
+ };
  // Recalculate the map viewport when a phone rotates or browser width changes.
  let lastNarrow=isNarrowScreen();
  window.addEventListener('resize',()=>{
@@ -449,7 +502,7 @@ async function start(){
   if(!r.ok)throw Error('無法讀取教會資料');return r.json();
  }).then(x=>{
   if(!Array.isArray(x))throw Error('教會資料格式錯誤');
-  catalog=x;byId=new Map(x.map(c=>[c.id,c]));renderChurchOptions();updateStats();
+  catalog=x;byId=new Map(x.map(c=>[c.id,c]));renderChurchOptions();updateStats();updateMapRegionPulse();
   if(mapVisible){renderFallback();renderMarkers();}
   status('已收錄 '+catalog.length+' 個教會／聚會點');
  }).catch(()=>status('教會名錄暫時無法讀取'));
