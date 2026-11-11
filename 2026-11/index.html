@@ -1212,6 +1212,60 @@
 .course-05 .price-box s {color:#dfdfcf;}
 .course-05 .price-box .sale {color:#f0d6a0;}
 @media(max-width:1100px) { .sitenav{display:none;} }
+
+/* 桌機餐桌：放大圓盤、縮小盤上書封，手機保留既有展示比例。 */
+@media(min-width:1025px) {
+  .semicircle-viewport {
+    --inner-size:min(115vw,1450px);
+    --plate-size:clamp(184px,15.5vw,225px);
+    --book-w:calc(var(--plate-size) * .75);
+  }
+}
+/* 讓書封本身可選購；盤面空白仍可拖曳。 */
+.book-plate .dish-buy {
+  pointer-events:auto;display:grid;place-items:center;position:relative;
+  width:var(--book-w);height:auto;padding:0;margin:0;border:0;background:transparent;
+  border-radius:3px;cursor:pointer;touch-action:pan-y;outline-offset:6px;
+}
+.book-plate .dish-buy img {width:100%;height:auto;aspect-ratio:976 / 1371;object-fit:cover;}
+.book-plate .dish-buy:hover img,.book-plate .dish-buy:focus-visible img {
+  outline:2px solid #e2c28d;outline-offset:4px;filter:brightness(1.08);
+}
+.semicircle-viewport.is-hovering .turntable-wheel,
+.semicircle-viewport.is-ordering .turntable-wheel {animation-play-state:paused;}
+.turntable-order-hint {
+  position:absolute;z-index:30;pointer-events:none;left:0;top:0;
+  display:block;max-width:min(265px,80vw);padding:8px 13px;
+  color:#fff3d8;background:rgba(25,24,21,.94);border:1px solid rgba(217,183,122,.6);
+  box-shadow:0 7px 20px rgba(0,0,0,.38);border-radius:999px;
+  font-size:13px;line-height:1.55;white-space:nowrap;
+}
+.turntable-order-hint[hidden]{display:none;}
+.turntable-order-dialog{
+  box-sizing:border-box;width:min(410px,calc(100vw - 34px));max-height:calc(100dvh - 34px);
+  overflow-y:auto;margin:auto;border:1px solid rgba(216,185,134,.62);
+  border-radius:20px;padding:27px 27px 25px;
+  color:#f4eee2;background:linear-gradient(150deg,#302821,#1c2822);
+  box-shadow:0 25px 75px rgba(0,0,0,.55);
+}
+.turntable-order-dialog::backdrop{background:rgba(10,10,9,.67);backdrop-filter:blur(3px);}
+.turntable-order-dialog .order-eyebrow{font-family:var(--en-serif);font-size:13px;letter-spacing:.16em;color:#c7a97a;}
+.turntable-order-dialog h2{font-family:var(--serif);font-size:clamp(23px,5vw,29px);font-weight:500;margin:12px 0 10px;line-height:1.5;}
+.turntable-order-dialog .order-book-name{font-family:var(--serif);font-size:19px;line-height:1.7;color:#f9edcd;margin-bottom:12px;overflow-wrap:anywhere;}
+.turntable-order-dialog .order-caption{font-size:13px;line-height:1.8;color:#c7c8bb;margin-bottom:21px;}
+.turntable-order-dialog .order-actions{display:flex;flex-wrap:wrap;gap:10px;}
+.turntable-order-dialog .order-actions>button,.turntable-order-dialog .order-actions>a{
+  display:inline-flex;align-items:center;justify-content:center;border-radius:100px;
+  font-size:13px;line-height:1.4;text-decoration:none;font-weight:700;padding:12px 17px;
+}
+.turntable-order-dialog .order-cancel{color:#f1e5d2;background:transparent;border:1px solid #858074;cursor:pointer;}
+.turntable-order-dialog .order-confirm{color:#253b32;background:#e6c795;border:1px solid #e6c795;}
+.turntable-order-dialog .order-confirm:hover{background:#f1dcb6;}
+@media(max-width:820px){
+  .turntable-order-dialog{padding:24px 20px;}
+  .turntable-order-hint{display:none;}
+}
+
 </style>
 </head>
 <body id="top">
@@ -1245,7 +1299,7 @@
     <!-- 桌面煙霧放在獨立舞台中，避免文案區出現突然閃爍的粒子 -->
 
     <!-- 頂部半圓轉盤：書本全部向外放射，轉到最下方正中央時自動變正 -->
-    <div class="semicircle-viewport" id="turntableStage" aria-label="全螢幕大型旋轉閱讀餐桌，八張原版書封陳列在獨立圓盤上">
+    <div class="semicircle-viewport" data-order-hover="要點這道嗎？點擊書封選購" id="turntableStage" aria-label="全螢幕大型旋轉閱讀餐桌，八張原版書封陳列在獨立圓盤上">
       <div class="outer-table">
         <div class="wheel-controller" id="wheelController">
         <div class="turntable-wheel" id="turntableWheel">
@@ -1253,49 +1307,49 @@
           <!-- 0deg 為正下方（6點鐘位置，完全正立） -->
           <div class="dish-slot" style="--angle: 0deg;">
             <div class="book-plate">
-              <img decoding="async" src="assets/c296-04.webp?v=20261109b" alt="《隱藏的盼望》書封">
+              <button type="button" class="dish-buy" data-buy-url="https://www.pbooks.com.tw/products/c296" data-book-title="C296《隱藏的盼望》（見證集全套）" aria-label="點餐：C296《隱藏的盼望》（見證集全套）"><img decoding="async" src="assets/c296-04.webp?v=20261109b" alt="《隱藏的盼望》書封"></button>
             </div>
           </div>
 
           <div class="dish-slot" style="--angle: 45deg;">
             <div class="book-plate">
-              <img decoding="async" src="assets/c297.webp?v=20261109b" alt="《我的心哪，你為何憂悶？》書封" fetchpriority="high">
+              <button type="button" class="dish-buy" data-buy-url="https://www.pbooks.com.tw/products/c297" data-book-title="C297《我的心哪，你為何憂悶？》" aria-label="點餐：C297《我的心哪，你為何憂悶？》"><img decoding="async" src="assets/c297.webp?v=20261109b" alt="《我的心哪，你為何憂悶？》書封" fetchpriority="high"></button>
             </div>
           </div>
 
           <div class="dish-slot" style="--angle: 90deg;">
             <div class="book-plate">
-              <img decoding="async" src="assets/c298.webp?v=20261109b" alt="《預見・遇見・癒見》書封">
+              <button type="button" class="dish-buy" data-buy-url="https://www.pbooks.com.tw/products/c298" data-book-title="C298《預見・遇見・癒見》" aria-label="點餐：C298《預見・遇見・癒見》"><img decoding="async" src="assets/c298.webp?v=20261109b" alt="《預見・遇見・癒見》書封"></button>
             </div>
           </div>
 
           <div class="dish-slot" style="--angle: 135deg;">
             <div class="book-plate">
-              <img decoding="async" src="assets/c296-01.webp?v=20261109b" alt="《新芽的應許》書封">
+              <button type="button" class="dish-buy" data-buy-url="https://www.pbooks.com.tw/products/c296" data-book-title="C296《新芽的應許》（見證集全套）" aria-label="點餐：C296《新芽的應許》（見證集全套）"><img decoding="async" src="assets/c296-01.webp?v=20261109b" alt="《新芽的應許》書封"></button>
             </div>
           </div>
 
           <div class="dish-slot" style="--angle: 180deg;">
             <div class="book-plate">
-              <img decoding="async" src="assets/c296-02.webp?v=20261109b" alt="《綿延的喜樂》書封">
+              <button type="button" class="dish-buy" data-buy-url="https://www.pbooks.com.tw/products/c296" data-book-title="C296《綿延的喜樂》（見證集全套）" aria-label="點餐：C296《綿延的喜樂》（見證集全套）"><img decoding="async" src="assets/c296-02.webp?v=20261109b" alt="《綿延的喜樂》書封"></button>
             </div>
           </div>
 
           <div class="dish-slot" style="--angle: 225deg;">
             <div class="book-plate">
-              <img decoding="async" src="assets/c299.webp?v=20261109b" alt="《洗腳禮論》書封">
+              <button type="button" class="dish-buy" data-buy-url="https://www.pbooks.com.tw/products/c299" data-book-title="C299《洗腳禮論》" aria-label="點餐：C299《洗腳禮論》"><img decoding="async" src="assets/c299.webp?v=20261109b" alt="《洗腳禮論》書封"></button>
             </div>
           </div>
 
           <div class="dish-slot" style="--angle: 270deg;">
             <div class="book-plate">
-              <img decoding="async" src="../c300/cover-hq.webp" width="650" height="913" alt="《這樣過日子，挺好的》書封" loading="eager">
+              <button type="button" class="dish-buy" data-buy-url="https://www.pbooks.com.tw/products/c300" data-book-title="C300《這樣過日子，挺好的》" aria-label="點餐：C300《這樣過日子，挺好的》"><img decoding="async" src="../c300/cover-hq.webp" width="650" height="913" alt="《這樣過日子，挺好的》書封" loading="eager"></button>
             </div>
           </div>
 
           <div class="dish-slot" style="--angle: 315deg;">
             <div class="book-plate">
-              <img decoding="async" src="assets/c296-03.webp?v=20261109b" alt="《繁盛的恩典》書封">
+              <button type="button" class="dish-buy" data-buy-url="https://www.pbooks.com.tw/products/c296" data-book-title="C296《繁盛的恩典》（見證集全套）" aria-label="點餐：C296《繁盛的恩典》（見證集全套）"><img decoding="async" src="assets/c296-03.webp?v=20261109b" alt="《繁盛的恩典》書封"></button>
             </div>
           </div>
         </div>
@@ -1309,7 +1363,19 @@
         <div class="bubble b-3"></div><div class="bubble b-4"></div>
         <div class="bubble b-5"></div><div class="bubble b-6"></div>
       </div>
+      <div class="turntable-order-hint" id="turntableOrderHint" hidden></div>
     </div>
+
+    <dialog class="turntable-order-dialog" id="turntableOrderDialog" aria-labelledby="turntableOrderHeading">
+      <div class="order-eyebrow">PHILEMON · READING MENU</div>
+      <h2 id="turntableOrderHeading">要點這道嗎？</h2>
+      <p class="order-book-name" id="turntableOrderBook"></p>
+      <p class="order-caption">選好這本書，就到腓利門書房繼續點餐。</p>
+      <div class="order-actions">
+        <button class="order-cancel" type="button" id="turntableOrderCancel">再看看</button>
+        <a class="order-confirm" id="turntableOrderBuy" href="https://www.pbooks.com.tw/" rel="noopener">前往購買 ↗</a>
+      </div>
+    </dialog>
 
     <!-- 下方主標題與引言 -->
     <div class="hero-copy">
@@ -1728,43 +1794,98 @@
     requestAnimationFrame(() => document.body.classList.add('page-ready'));
   }, { once: true });
 
-  // 自轉由 CSS 持續執行；手動拖曳的水平位移採反向旋轉角度，
-  // 因為書位於圓周底部，這樣往右滑時書才能跟著往右移動。
+  // 書封可點餐，維持手機拖曳轉盤：只有輕點才開啟購書確認。
   (() => {
     const stage = document.getElementById('turntableStage');
     const controller = document.getElementById('wheelController');
-    if (!stage || !controller) return;
-    let dragging = false, pointer = null, lastX = 0, manual = 0;
-    stage.addEventListener('pointerdown', (e) => {
-      if (e.target.closest('button,a')) return;
-      if (e.pointerType === 'mouse' && e.button !== 0) return;
-      dragging = true; pointer = e.pointerId; lastX = e.clientX;
-      stage.classList.add('is-dragging');
-      try {stage.setPointerCapture(e.pointerId);} catch (_) {}
-    });
-    stage.addEventListener('pointermove', (e) => {
-      if (!dragging || pointer !== e.pointerId) return;
-      const dx = e.clientX-lastX;
-      lastX=e.clientX;
-      manual -= dx * .52;
-      controller.style.setProperty('--manual-angle', `${manual}deg`);
-    });
-    function release(e) {
-      if (!dragging || (e && pointer !== e.pointerId)) return;
-      dragging = false; pointer = null;
-      stage.classList.remove('is-dragging');
+    const dialog = document.getElementById('turntableOrderDialog');
+    const hint = document.getElementById('turntableOrderHint');
+    const bookText = document.getElementById('turntableOrderBook');
+    const buyLink = document.getElementById('turntableOrderBuy');
+    const closeBtn = document.getElementById('turntableOrderCancel');
+    if (!stage || !controller || !dialog || !hint || !bookText || !buyLink || !closeBtn) return;
+    let dragging = false, pointer = null, lastX = 0, manual = 0, start = null;
+    const books = Array.from(stage.querySelectorAll('.dish-buy'));
+    const message = stage.dataset.orderHover || '';
+    const hideHint = () => { hint.hidden = true; stage.classList.remove('is-hovering'); };
+    function showHint(e, book) {
+      if (dragging || !book || e.pointerType !== 'mouse' || dialog.open) return;
+      const box = stage.getBoundingClientRect();
+      hint.textContent = message;
+      hint.hidden = false;
+      stage.classList.add('is-hovering');
+      hint.style.left = Math.max(8, Math.min(e.clientX - box.left + 12, box.width - hint.offsetWidth - 8)) + 'px';
+      hint.style.top = Math.max(12, Math.min(e.clientY - box.top - hint.offsetHeight - 15, box.height - hint.offsetHeight - 12)) + 'px';
     }
-    stage.addEventListener('pointerup',release);
-    stage.addEventListener('pointercancel',release);
-    stage.addEventListener('lostpointercapture',()=>release());
-    stage.setAttribute('tabindex','0');
+    function order(book) {
+      if (!book || !book.dataset.buyUrl || dialog.open) return;
+      hideHint();
+      bookText.textContent = book.dataset.bookTitle;
+      buyLink.href = book.dataset.buyUrl;
+      stage.classList.add('is-ordering');
+      if (typeof dialog.showModal === 'function') dialog.showModal();
+      else {
+        if (window.confirm(dialog.querySelector('h2').textContent + '\n' + book.dataset.bookTitle)) window.location.assign(book.dataset.buyUrl);
+        stage.classList.remove('is-ordering');
+      }
+    }
+    closeBtn.addEventListener('click', () => dialog.close());
+    dialog.addEventListener('close', () => stage.classList.remove('is-ordering'));
+    dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close(); });
+    books.forEach(book => book.addEventListener('click', e => {
+      // Keyboard Enter/Space produces a click with detail=0; pointer taps are handled on pointerup.
+      e.preventDefault();
+      if (e.detail === 0) order(book);
+    }));
+    stage.addEventListener('pointerover', e => showHint(e, e.target.closest('.dish-buy')));
+    stage.addEventListener('pointerout', e => {
+      if (!e.relatedTarget || !e.relatedTarget.closest?.('.dish-buy')) hideHint();
+    });
+    stage.addEventListener('pointerdown', e => {
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      if (dialog.open) return;
+      dragging = true;
+      pointer = e.pointerId;
+      lastX = e.clientX;
+      start = { x: e.clientX, y: e.clientY, moved: false, book: e.target.closest('.dish-buy') };
+      hideHint();
+      stage.classList.add('is-dragging');
+      try { stage.setPointerCapture(e.pointerId); } catch (_) {}
+    });
+    stage.addEventListener('pointermove', e => {
+      if (!dragging || e.pointerId !== pointer) {
+        showHint(e, e.target.closest('.dish-buy'));
+        return;
+      }
+      const dx = e.clientX - lastX;
+      lastX = e.clientX;
+      if (start && Math.hypot(e.clientX - start.x, e.clientY - start.y) >= 10) start.moved = true;
+      manual -= dx * .52;
+      controller.style.setProperty('--manual-angle', manual + 'deg');
+    });
+    function release(e, cancelled) {
+      if (!dragging || (e && pointer !== e.pointerId)) return;
+      const tappedBook = !cancelled && start && !start.moved && start.book &&
+        Math.hypot(e.clientX - start.x, e.clientY - start.y) < 10 ? start.book : null;
+      dragging = false; pointer = null; start = null;
+      stage.classList.remove('is-dragging');
+      if (tappedBook) order(tappedBook);
+    }
+    stage.addEventListener('pointerup', e => release(e, false));
+    stage.addEventListener('pointercancel', e => release(e, true));
+    stage.addEventListener('lostpointercapture', () => {
+      if (dragging) release(null, true);
+    });
+    stage.addEventListener('pointerleave', () => { if (!dragging) hideHint(); });
+    stage.setAttribute('tabindex', '0');
     stage.addEventListener('keydown', e => {
-      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      if (e.target !== stage || (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft')) return;
       e.preventDefault();
       manual += e.key === 'ArrowRight' ? -15 : 15;
-      controller.style.setProperty('--manual-angle', `${manual}deg`);
+      controller.style.setProperty('--manual-angle', manual + 'deg');
     });
   })();
+
 </script>
 </body>
 </html>
