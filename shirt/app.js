@@ -261,6 +261,39 @@ function renderMarkers(){
   }
  }
 }
+function updateUnmappedSummary(){
+ const card=$('unmappedSummary');
+ if(!card)return;
+ if(!live||!Array.isArray(live.churches)||!catalog.length){
+  card.hidden=true;$('mapSection').classList.remove('has-unmapped');return;
+ }
+ const missing=[];let mapped=0;
+ for(const entry of live.churches){
+  const qty=countOf(entry);
+  if(qty<=0)continue;
+  const place=byId.get(entry.id);
+  const located=place&&place.kind!=='customer'&&place.loc!=='not_mapped'&&
+   place.lat!==null&&place.lat!==undefined&&place.lng!==null&&place.lng!==undefined&&
+   Number.isFinite(Number(place.lat))&&Number.isFinite(Number(place.lng));
+  if(located){mapped+=qty;continue;}
+  missing.push({name:place?churchTitle(place):'尚未對應單位',qty});
+ }
+ const missingTotal=missing.reduce((sum,item)=>sum+item.qty,0);
+ card.hidden=missingTotal===0;
+ $('mapSection').classList.toggle('has-unmapped',missingTotal>0);
+ if(!missingTotal)return;
+ $('mappedTotal').textContent=fmt(mapped);
+ $('unmappedTotal').textContent=fmt(missingTotal);
+ const list=$('unmappedItems');
+ list.replaceChildren();
+ missing.sort((a,b)=>b.qty-a.qty||a.name.localeCompare(b.name,'zh-TW'));
+ for(const item of missing){
+  const tag=document.createElement('span');tag.className='map-coverage-item';
+  const name=document.createElement('span');name.textContent=item.name;
+  const num=document.createElement('strong');num.textContent=fmt(item.qty)+' 件';
+  tag.append(name,num);list.append(tag);
+ }
+}
 function updateStats(){
  const total=live?Math.max(0,Number(live.total)||0):null;
  // Earlier deployed versions omit "people". With exactly one registered item,
@@ -270,6 +303,7 @@ function updateStats(){
  const people=total===0?0:total===1?1:explicitPeople?Math.max(0,Number(live.people)):null;
  $('totalQtyNum').textContent=total===null?'—':fmt(total);
  $('peopleNum').textContent=people===null?'—':fmt(people);
+ updateUnmappedSummary();
 }
 function restoreCachedStats(){
  try{
