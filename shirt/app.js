@@ -281,6 +281,11 @@ function updateUnmappedSummary(){
  const missingTotal=missing.reduce((sum,item)=>sum+item.qty,0);
  card.hidden=missingTotal===0;
  $('mapSection').classList.toggle('has-unmapped',missingTotal>0);
+ const globalLink=$('showOverseas');
+ if(globalLink)globalLink.hidden=!missing.some(item=>{
+  const matching=catalog.find(c=>churchTitle(c)===item.name);
+  return matching&&matching.c!=='TW';
+ });
  if(!missingTotal)return;
  $('mappedTotal').textContent=fmt(mapped);
  $('unmappedTotal').textContent=fmt(missingTotal);
