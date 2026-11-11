@@ -1337,6 +1337,41 @@
     padding:0;
   }
 }
+
+/* 到貨商品極簡卡片：保留原本膠囊比例、1:1 照片與四欄佈局 */
+.stock-arrivals .arrival-card { aspect-ratio:4 / 7; }
+.stock-arrivals .arrival-copy {
+  flex:1;
+  padding:16px 16px 19px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+}
+.stock-arrivals .arrival-copy h3 {
+  margin:0;
+  font-size:clamp(18px,1.55vw,22px);
+  line-height:1.55;
+  font-weight:600;
+}
+.stock-arrivals .arrival-foot {
+  margin-top:auto;
+  width:100%;
+  padding-top:11px;
+  border-top:1px solid rgba(216,191,145,.16);
+}
+.stock-arrivals .arrival-price { font-size:clamp(19px,1.8vw,24px); }
+@media(max-width:680px) {
+  .stock-arrivals .arrival-copy { padding:12px 11px 14px;gap:8px; }
+  .stock-arrivals .arrival-copy h3 { font-size:clamp(15px,4vw,19px);line-height:1.45; }
+  .stock-arrivals .arrival-price { font-size:clamp(16px,4.3vw,20px); }
+}
+@media(max-width:360px) {
+  .stock-arrivals .arrival-card { aspect-ratio:4 / 7; }
+  .stock-arrivals .arrival-copy { padding:14px 14px 18px; }
+}
+
 </style>
 </head>
 <body id="top">
@@ -1790,54 +1825,39 @@
     <div class="wrap">
       <div class="arrivals-heading">
         <div>
-          <p class="arrivals-kicker">BACK IN STOCK / NOVEMBER ARRIVALS</p>
           <h2 id="arrivals-title">Little treasures, ready to take home.</h2>
-          <p class="arrivals-lead">Before leaving the table, a few thoughtful gifts have arrived: hymnbook fabric covers, cat-and-dog peekaboo pens and keychains. We've also specially made a new fabric cover to fit the Taiwan Evangelism Centennial Bible.</p>
         </div>
         <div class="arrivals-feature">NEW · A Cover for the Centennial Bible</div>
       </div>
       <div class="arrival-grid"><a class="arrival-card featured" href="https://www.pbooks.com.tw/products/pg11b" target="_blank" rel="noopener noreferrer" aria-label="Centennial Bible Fabric Cover，NT$200">
         <figure class="arrival-art" aria-hidden="true"><img src="assets/arrivals/pg11b.webp" alt="Centennial Bible fabric cover" loading="lazy" decoding="async" fetchpriority="low" width="480" height="480"></figure>
         <div class="arrival-copy">
-          <span class="arrival-badge">NEW · SPECIAL EDITION</span>
-          <span class="arrival-code">PG11B</span>
           <h3>Centennial Bible Fabric Cover</h3>
-          <p class="arrival-detail">Fits the Centennial Bible · Handmade Japanese fabric</p>
-          <div class="arrival-foot"><span class="arrival-price">NT$200</span><span class="arrival-cta">View &amp; Shop ↗</span></div>
+          <div class="arrival-foot"><span class="arrival-price">NT$200</span></div>
         </div>
       </a>
 <a class="arrival-card" href="https://www.pbooks.com.tw/products/pg11" target="_blank" rel="noopener noreferrer" aria-label="Hymnbook Fabric Cover，NT$200">
         <figure class="arrival-art" aria-hidden="true"><img src="assets/arrivals/pg11.webp" alt="Hymnbook fabric cover" loading="lazy" decoding="async" fetchpriority="low" width="480" height="480"></figure>
         <div class="arrival-copy">
-          <span class="arrival-badge">BACK IN STOCK</span>
-          <span class="arrival-code">PG11</span>
           <h3>Hymnbook Fabric Cover</h3>
-          <p class="arrival-detail">A5 size · Handmade Japanese fabric</p>
-          <div class="arrival-foot"><span class="arrival-price">NT$200</span><span class="arrival-cta">View &amp; Shop ↗</span></div>
+          <div class="arrival-foot"><span class="arrival-price">NT$200</span></div>
         </div>
       </a>
 <a class="arrival-card" href="https://www.pbooks.com.tw/products/p9p10p11p12" target="_blank" rel="noopener noreferrer" aria-label="TJC Cat & Dog Peekaboo Pens，NT$29">
         <figure class="arrival-art" aria-hidden="true"><img src="assets/arrivals/p9p10p11p12.webp?v=20261112" alt="TJC Cat & Dog Peekaboo Pens" loading="lazy" decoding="async" fetchpriority="low" width="480" height="480"></figure>
         <div class="arrival-copy">
-          <span class="arrival-badge">BACK IN STOCK</span>
-          <span class="arrival-code">P9 / P10 / P11 / P12</span>
           <h3>TJC Cat & Dog Peekaboo Pens</h3>
-          <p class="arrival-detail">0.5mm · Four cat & dog styles</p>
-          <div class="arrival-foot"><span class="arrival-price">NT$29</span><span class="arrival-cta">View &amp; Shop ↗</span></div>
+          <div class="arrival-foot"><span class="arrival-price">NT$29</span></div>
         </div>
       </a>
 <a class="arrival-card" href="https://www.pbooks.com.tw/products/pg49" target="_blank" rel="noopener noreferrer" aria-label="Hymn-Inspired Acrylic Keychain，NT$44">
         <figure class="arrival-art" aria-hidden="true"><img src="assets/arrivals/pg49.webp" alt="Hymn-inspired acrylic keychain" loading="lazy" decoding="async" fetchpriority="low" width="480" height="480"></figure>
         <div class="arrival-copy">
-          <span class="arrival-badge">BACK IN STOCK</span>
-          <span class="arrival-code">PG49</span>
           <h3>Hymn-Inspired Acrylic Keychain</h3>
-          <p class="arrival-detail">Melody in Mind · A daily keepsake</p>
-          <div class="arrival-foot"><span class="arrival-price">NT$44</span><span class="arrival-cta">View &amp; Shop ↗</span></div>
+          <div class="arrival-foot"><span class="arrival-price">NT$44</span></div>
         </div>
       </a>
       </div>
-      <p class="arrivals-note">Photos are the first product images from the store. Check each product page for available patterns, colors, pricing and stock. Fabric patterns may vary as in-store, exhibition and online sales continue.</p>
     </div>
   </section>
 
