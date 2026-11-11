@@ -49,11 +49,11 @@
 }
 .cover-footprints .walking-print{--print-size:16px;filter:blur(.18px)}
 .ambient-footprints .walking-print{--print-size:24px}
-.ambient-footprints.is-dark{color:#718a70;opacity:.28}
+.ambient-footprints.is-dark{color:#718a70;opacity:.52}
 .story,.significance,.method,.faq,.explore,.intro{position:relative;isolation:isolate}
-.story>.ambient-footprints,.method>.ambient-footprints{color:#627f62;opacity:.18}
-.significance>.ambient-footprints{color:#547b53;opacity:.22}
-.explore>.ambient-footprints{color:#849b79;opacity:.25}
+.story>.ambient-footprints,.method>.ambient-footprints{color:#627f62;opacity:.45}
+.significance>.ambient-footprints{color:#547b53;opacity:.42}
+.explore>.ambient-footprints{color:#849b79;opacity:.53}
 .story>.ambient-footprints~*,.method>.ambient-footprints~*,.significance>.ambient-footprints~*,.explore>.ambient-footprints~*,.intro>.ambient-footprints~*{position:relative;z-index:1}
 .footprint-toggle{appearance:none;background:transparent;color:#fff5dd;cursor:pointer}
 .footprint-toggle:focus-visible,.excerpt-tab:focus-visible,.excerpt-direction:focus-visible{outline:3px solid #d8e4ad;outline-offset:4px}
@@ -309,7 +309,7 @@ body.footsteps-paused .walking-print{animation-play-state:paused}
     svg.style.setProperty('--print-opacity',String(config.opacity));
     svg.style.setProperty('--print-size',config.size+'px');
     svg.style.setProperty('--step-cycle',cycle+'s');
-    svg.style.setProperty('--step-delay',(-((i*.69+offset)%cycle))+'s');
+    svg.style.setProperty('--step-delay',(i*.69-offset)+'s');
     if(reduced && i%3!==0)continue;
     host.appendChild(svg);
    }
