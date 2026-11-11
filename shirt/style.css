@@ -1214,3 +1214,47 @@ body.lightbox-open{overflow:hidden!important}
  .map-coverage{padding:6px 9px;gap:4px;margin-bottom:7px}
  .map-coverage-item{padding:3px 8px}
 }
+
+
+/* 20261111 overseas registrations map pulse: map-level regional totals only. */
+.map-shell{position:relative}
+.map-region-pulse{
+  position:absolute;top:11px;left:12px;z-index:1100;
+  display:flex;align-items:center;flex-wrap:wrap;gap:7px;
+  max-width:calc(100% - 26px);
+  background:rgba(255,255,255,.95);
+  color:#203c55;
+  border:1px solid rgba(180,203,214,.9);
+  border-radius:10px;
+  box-shadow:0 3px 14px rgba(26,53,75,.16);
+  padding:5px 8px;
+  font:750 12px/1.45 "Noto Sans TC",system-ui,sans-serif;
+  pointer-events:auto;
+}
+.map-region-pulse[hidden],.map-region-pulse button[hidden]{display:none!important}
+.map-region-pulse .map-tw-count{white-space:nowrap}
+.map-region-pulse .map-tw-count strong{color:#173c59;font-size:15px}
+.map-region-pulse .map-global-jump{
+  border:0;border-radius:7px;
+  background:#e8f0f4;color:#20496a;
+  padding:5px 8px;
+  font-weight:850;font-size:12px;
+  white-space:nowrap;
+}
+.map-region-pulse .map-global-jump:hover,.map-region-pulse .map-global-jump:focus-visible{
+  background:#d7e6ee;outline:2px solid #6c9ebd;outline-offset:1px;
+}
+.map-region-pulse .map-global-jump strong{color:#a64c30;font-size:15px}
+.map-fallback .offline-dot.offline-demand{
+  width:27px;height:27px;opacity:1;
+  display:grid;place-items:center;
+  background:#244f71;border:2px solid white;
+  color:white;font-size:11px;font-weight:900;
+  box-shadow:0 2px 9px rgba(15,42,62,.35);
+  z-index:5;white-space:nowrap;
+}
+@media(max-width:600px){
+ .map-region-pulse{top:8px;left:8px;max-width:calc(100% - 16px);gap:5px;padding:5px 6px}
+ .map-region-pulse .map-tw-count{font-size:11px}
+ .map-region-pulse .map-global-jump{font-size:11px;padding:5px 6px}
+}
