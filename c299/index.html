@@ -32,6 +32,83 @@
 @media(max-width:900px){.hero-inner{grid-template-columns:1fr 1fr;gap:3%}.book-stage{min-height:430px}.step-tab .name{font-size:16px}.step-tab{min-height:139px}.chapter{grid-template-columns:39px 1fr 35px}.intro{gap:6%}}
 @media(max-width:700px){.wrap{width:calc(100% - 36px)}.site-header{padding:18px}.site-header .brand{font-size:11px}.site-header>a:last-child{font-size:11px}.hero-inner{display:flex;flex-direction:column;align-items:stretch;padding:120px 0 62px;gap:16px;min-height:unset}.hero h1{font-size:clamp(47px,12vw,64px);margin:15px 0 13px}.hero-lead{font-size:17px}.hero-desc{font-size:13px;margin-top:15px}.hero-actions{margin-top:22px}.book-stage{min-height:unset;padding:23px 0 0}.cover{width:min(61vw,290px);transform:rotate(-2deg)}.cover-tag{right:4%;bottom:0}.intro{grid-template-columns:1fr;padding:76px 0 64px;gap:26px}.intro h2{font-size:34px}.intro .copy p{font-size:15px}.explore,.story,.significance,.method,.faq{padding:75px 0}.step-row{grid-template-columns:repeat(3,1fr);gap:10px;margin:35px 0 21px}.step-tab{min-height:112px;border-radius:55px 55px 14px 14px}.step-tab:nth-child(even){transform:none}.step-tab[aria-selected="true"]:nth-child(even){transform:none}.step-tab .foot{height:30px;width:20px}.step-panel{grid-template-columns:1fr;gap:23px;min-height:unset;padding:26px}.step-panel h3{font-size:29px}.step-quote{font-size:22px;padding-left:17px}.story-grid,.cards,.method-layout{grid-template-columns:1fr}.cards{gap:12px;margin-top:30px}.card{padding:24px}.card .foot{display:none}.method-intro{position:static}.method-layout{gap:28px}.chapter{grid-template-columns:32px 1fr 34px;gap:6px}.chapter h3{font-size:17px}.thought{padding:27px}.thought h3{font-size:23px}.end{padding:77px 0 70px}.end h2{font-size:32px}.book-info{gap:6px}.book-info span+span:before{margin-right:6px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.pill,.step-tab{transition:none}}
+
+/* ── A living parchment: paired footprints walk across the site and cover ── */
+.hero-inner{position:relative;z-index:1}
+.ambient-footprints,.cover-footprints{position:absolute;inset:0;pointer-events:none;overflow:hidden;user-select:none}
+.ambient-footprints{z-index:0;color:#d7dfbc;opacity:.48}
+.cover-footprints{z-index:3;color:#30442d;opacity:.85;border-radius:2px}
+.cover{isolation:isolate}
+.cover img{position:relative;z-index:1}
+.walking-print{
+ position:absolute;width:var(--print-size,20px);height:auto;aspect-ratio:60/95;
+ color:inherit;fill:currentColor;opacity:0;
+ transform-origin:center center;will-change:opacity,transform;
+ animation:ink-footstep var(--step-cycle,13s) ease-in-out var(--step-delay,0s) infinite;
+ filter:drop-shadow(0 0 1px rgba(255,255,255,.13))
+}
+.cover-footprints .walking-print{--print-size:16px;filter:blur(.18px)}
+.ambient-footprints .walking-print{--print-size:24px}
+.ambient-footprints.is-dark{color:#718a70;opacity:.28}
+.story,.significance,.method,.faq,.explore,.intro{position:relative;isolation:isolate}
+.story>.ambient-footprints,.method>.ambient-footprints{color:#627f62;opacity:.18}
+.significance>.ambient-footprints{color:#547b53;opacity:.22}
+.explore>.ambient-footprints{color:#849b79;opacity:.25}
+.story>.ambient-footprints~*,.method>.ambient-footprints~*,.significance>.ambient-footprints~*,.explore>.ambient-footprints~*,.intro>.ambient-footprints~*{position:relative;z-index:1}
+.footprint-toggle{appearance:none;background:transparent;color:#fff5dd;cursor:pointer}
+.footprint-toggle:focus-visible,.excerpt-tab:focus-visible,.excerpt-direction:focus-visible{outline:3px solid #d8e4ad;outline-offset:4px}
+body.footsteps-paused .walking-print{animation-play-state:paused}
+@keyframes ink-footstep{
+ 0%,100%{opacity:0;transform:translate(-50%,-50%) rotate(var(--foot-angle,0deg)) scale(.65)}
+ 5%{opacity:var(--print-opacity,.55);transform:translate(-50%,-50%) rotate(var(--foot-angle,0deg)) scale(1.02)}
+ 17%{opacity:var(--print-opacity,.55);transform:translate(-50%,-50%) rotate(var(--foot-angle,0deg)) scale(1)}
+ 31%{opacity:0;transform:translate(-50%,-50%) rotate(var(--foot-angle,0deg)) scale(1)}
+}
+/* Actual excerpts from the supplied C299 print proof, with page citations. */
+.excerpts{background:#f7f5ed;padding:102px 0 110px;position:relative;isolation:isolate}
+.excerpts .section-lead{margin-bottom:36px}
+.excerpt-navigation{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;margin:25px 0 30px}
+.excerpt-tab{appearance:none;border:1px solid #c8d3bd;border-radius:999px;background:#fffdf6;color:#496150;padding:10px 17px;cursor:pointer;font:600 13px/1.5 var(--sans);transition:background .2s,color .2s}
+.excerpt-tab:hover{background:#e8eedf}
+.excerpt-tab[aria-selected="true"]{background:#355e49;border-color:#355e49;color:white}
+.open-book{display:grid;grid-template-columns:1fr 1fr;background:#fffef8;border-radius:7px 17px 17px 7px;box-shadow:0 22px 45px #23392719,7px 4px 0 #e6e6d7;border:1px solid #e5e9da;min-height:365px;overflow:hidden;position:relative}
+.open-book:after{content:"";position:absolute;left:50%;top:0;bottom:0;width:17px;transform:translateX(-50%);background:linear-gradient(90deg,#263d2810,transparent 45%,#283f2913);pointer-events:none}
+.book-page{padding:clamp(28px,5vw,60px);position:relative}
+.book-page+.book-page{border-left:1px solid #e7ecdf;background:#fbfcf5}
+.book-page .page-label{font:500 11px/1.6 var(--sans);color:#849481;letter-spacing:.16em}
+.book-page blockquote{margin:27px 0 22px;font:500 clamp(18px,2.15vw,24px)/2.05 var(--serif);color:#354b37}
+.book-page cite{font:400 12px/1.7 var(--sans);color:#7f927f}
+.book-page h3{font:600 clamp(24px,2.8vw,34px)/1.65 var(--serif);margin:26px 0 19px;color:#2f5541}
+.book-page p{font-size:15px;line-height:2.15;color:#617465}
+.page-mark{position:absolute;bottom:21px;right:28px;font:500 12px var(--serif);color:#90a08e}
+.excerpt-slide[hidden]{display:none}
+.excerpt-slide{display:contents}
+.excerpt-controls{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-top:22px}
+.excerpt-direction{display:inline-flex;align-items:center;gap:9px;padding:8px 0;border:0;background:none;cursor:pointer;color:#335746;font:600 14px var(--sans)}
+.excerpt-count{font:400 12px var(--sans);letter-spacing:.12em;color:#819282}
+.excerpt-note{text-align:center;margin-top:21px;color:#8a9888;font-size:12px;line-height:1.9}
+@media(max-width:700px){
+ .cover-footprints .walking-print{--print-size:12px}
+ .ambient-footprints .walking-print{--print-size:17px}
+ .ambient-footprints{opacity:.24}
+ .excerpts{padding:70px 0}
+ .excerpt-navigation{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+ .excerpt-tab{font-size:12px;padding:9px 3px}
+ .open-book{grid-template-columns:1fr;min-height:0;box-shadow:0 13px 30px #2339271c}
+ .open-book:after{display:none}
+ .book-page{padding:29px 26px}
+ .book-page+.book-page{border-top:1px solid #e7ecdf;border-left:0}
+ .book-page blockquote{font-size:20px;line-height:1.95;margin:20px 0}
+ .book-page h3{margin:10px 0}
+ .page-mark{display:none}
+ .hero-actions{gap:8px}
+ .footprint-toggle{font-size:11px;padding:9px 13px}
+}
+@media(prefers-reduced-motion:reduce){
+ .walking-print{animation:none!important;opacity:.16!important;transform:translate(-50%,-50%) rotate(var(--foot-angle,0deg))!important;will-change:auto}
+ .excerpt-tab{transition:none}
+}
+
 </style>
 </head>
 <body>
@@ -52,16 +129,16 @@
 </header>
 <main id="main">
 <section class="hero" id="top">
-<svg class="hero-foot one" viewBox="0 0 60 95"><use href="#footprint"/></svg><svg class="hero-foot two" viewBox="0 0 60 95"><use href="#footprint"/></svg>
+<div class="ambient-footprints" id="hero-walk" aria-hidden="true"></div>
 <div class="wrap hero-inner">
 <div>
 <div class="eyebrow" style="color:#d5e1b2">C299 · 教義專論 · FOOT WASHING</div>
 <h1>從愛，<br>到<span>與主有分。</span></h1>
 <p class="hero-lead">耶穌彎下腰，為門徒洗腳。<br>祂留下的，究竟是什麼？</p>
 <p class="hero-desc">《洗腳禮論》從約翰福音第十三章開始，重新追問一盆水、一雙腳，與主耶穌那句「我若不洗你，你就與我無分了」之間的關係。</p>
-<div class="hero-actions"><a class="pill primary" href="#steps">沿著腳印讀下去 ↓</a><a class="pill" href="#for-you">第一次認識洗腳禮？</a></div>
+<div class="hero-actions"><a class="pill primary" href="#steps">沿著腳印讀下去 ↓</a><a class="pill" href="#excerpts">翻閱內文選讀 ↗</a><button class="pill footprint-toggle" type="button" id="footprint-toggle" aria-pressed="false">暫停腳印 ◼</button></div>
 </div>
-<div class="book-stage"><figure class="cover"><img src="../2026-11/assets/c299.webp" alt="《洗腳禮論：教義專論》淡綠色書封，中央是山谷晨光" width="420" height="588" fetchpriority="high"></figure><span class="cover-tag">真耶穌教會 · 腓利門書房</span></div>
+<div class="book-stage"><figure class="cover"><img src="../2026-11/assets/c299.webp" alt="《洗腳禮論：教義專論》淡綠色封面，山谷晨光，並有動畫腳印踏過封面" width="420" height="588" fetchpriority="high"><div class="cover-footprints" id="cover-walk" aria-hidden="true"></div></figure><span class="cover-tag">真耶穌教會 · 腓利門書房</span></div>
 </div>
 </section>
 <section class="intro wrap" id="intro">
@@ -76,7 +153,7 @@
 </div>
 </section>
 <div class="foot-divider" aria-hidden="true"><svg class="foot" viewBox="0 0 60 95"><use href="#footprint"/></svg><svg class="foot" viewBox="0 0 60 95"><use href="#footprint"/></svg><svg class="foot" viewBox="0 0 60 95"><use href="#footprint"/></svg></div>
-<section class="explore" id="steps">
+<section class="explore" id="steps"><div class="ambient-footprints is-dark" id="steps-walk" aria-hidden="true"></div>
 <div class="wrap">
 <div class="center"><p class="eyebrow">SIX FOOTSTEPS · 六個腳印</p><h2 class="section-title">沿著腳印，重新認識洗腳</h2><p class="section-lead">從耶穌為門徒洗腳的那一晚出發。點選腳印，逐步走進本書最想回答的六個問題。</p></div>
 <div class="step-row" role="tablist" aria-label="洗腳禮的六個問題">
@@ -98,7 +175,7 @@
 </div>
 </section>
 <div class="foot-divider" aria-hidden="true"><svg class="foot" viewBox="0 0 60 95"><use href="#footprint"/></svg><svg class="foot" viewBox="0 0 60 95"><use href="#footprint"/></svg><svg class="foot" viewBox="0 0 60 95"><use href="#footprint"/></svg></div>
-<section class="story wrap" id="difference">
+<section class="story wrap" id="difference"><div class="ambient-footprints is-dark" id="story-walk" aria-hidden="true"></div>
 <p class="eyebrow center">TWO DIMENSIONS</p><h2 class="section-title center">同一盆水，兩個需要分清楚的層面</h2><p class="section-lead center">讀懂這個區別，就能更準確理解《洗腳禮論》所提出的信仰主張。</p>
 <div class="story-grid">
 <div class="thought"><p class="eyebrow">01 · 聖禮性的洗腳</p><h3>領受主所賜的恩典</h3><p>依照真耶穌教會的理解，這是基督設立、由奉差遣者代表主施行的洗腳禮。已受洗的信徒領受一次，重點在於「與基督有分」的屬靈應許。</p></div>
@@ -106,7 +183,7 @@
 </div>
 <p class="note">本書在第 129 頁特別以對照表區分兩者，也指出洗腳禮的屬靈重點是「與主有分」；受洗後的額外赦罪或潔淨，並非本書對洗腳禮功效的定義。</p>
 </section>
-<section class="significance" id="for-you">
+<section class="significance" id="for-you"><div class="ambient-footprints" id="reader-walk" aria-hidden="true"></div>
 <div class="wrap"><div class="center"><p class="eyebrow">FOR EVERY READER</p><h2 class="section-title">不論你來自哪間教會，<br>都值得讀這本書。</h2><p class="section-lead">不同教會對洗腳有不同理解。這本書清楚提出真耶穌教會的論證，也邀請讀者自己回到聖經，重新思考。</p></div>
 <div class="cards">
 <div class="card"><svg class="foot" aria-hidden="true" viewBox="0 0 60 95"><use href="#footprint"/></svg><p class="card-index">01 / 初次認識基督信仰</p><h3>從一個動作，認識耶穌的愛</h3><p>為什麼被稱為主的耶穌，甘願替人洗腳？先從這個令人意外的故事，認識祂對人的接納、謙卑與愛。</p></div>
@@ -115,7 +192,7 @@
 </div></div>
 </section>
 <div class="foot-divider" aria-hidden="true"><svg class="foot" viewBox="0 0 60 95"><use href="#footprint"/></svg><svg class="foot" viewBox="0 0 60 95"><use href="#footprint"/></svg><svg class="foot" viewBox="0 0 60 95"><use href="#footprint"/></svg></div>
-<section class="method wrap" id="chapters">
+<section class="method wrap" id="chapters"><div class="ambient-footprints is-dark" id="chapters-walk" aria-hidden="true"></div>
 <p class="eyebrow">INSIDE THE BOOK</p><h2 class="section-title">一本書，七章的查考旅程</h2>
 <div class="method-layout"><div class="method-intro"><p>《洗腳禮論》從聖經原文及上下文開始，循序進入洗腳禮的必要性、耶穌的命令、生活中的實踐，也追索基督教歷史裡的洗腳記載。</p><p>值得慢慢讀，也適合與同工、朋友一起討論。書中提出清楚的立場，同時列出經文脈絡與研究理由，讓讀者有機會深入查驗。</p><p style="font-size:12px;color:#859183;margin-top:22px">以下頁碼依本書 168 頁版本編列。</p></div>
 <div class="chapters">
@@ -128,6 +205,47 @@
 <div class="chapter"><span>07</span><div><h3>回到最初的問題</h3><p>整合聖經、聖禮與生活實踐，提出結論。</p></div><small>p.162</small></div>
 </div></div>
 </section>
+
+<div class="foot-divider" aria-hidden="true"><svg class="foot" viewBox="0 0 60 95"><use href="#footprint"/></svg><svg class="foot" viewBox="0 0 60 95"><use href="#footprint"/></svg><svg class="foot" viewBox="0 0 60 95"><use href="#footprint"/></svg></div>
+<section class="excerpts" id="excerpts">
+ <div class="wrap">
+  <div class="center"><p class="eyebrow">PAGES FROM THE BOOK</p><h2 class="section-title">翻開書頁，讀一段原文</h2><p class="section-lead">五段選自《洗腳禮論》校對稿的正文。左頁保留書中原句，右頁補上一點導讀。點選標籤，就能換一段閱讀。</p></div>
+  <div class="excerpt-navigation" role="tablist" aria-label="書籍內文選讀">
+   <button type="button" class="excerpt-tab" role="tab" id="excerpt-tab-0" aria-controls="excerpt-panel-0" aria-selected="true" tabindex="0" data-excerpt="0">01　愛到底</button>
+   <button type="button" class="excerpt-tab" role="tab" id="excerpt-tab-1" aria-controls="excerpt-panel-1" aria-selected="false" tabindex="-1" data-excerpt="1">02　與主有分</button>
+   <button type="button" class="excerpt-tab" role="tab" id="excerpt-tab-2" aria-controls="excerpt-panel-2" aria-selected="false" tabindex="-1" data-excerpt="2">03　兩種洗腳</button>
+   <button type="button" class="excerpt-tab" role="tab" id="excerpt-tab-3" aria-controls="excerpt-panel-3" aria-selected="false" tabindex="-1" data-excerpt="3">04　彼此接納</button>
+   <button type="button" class="excerpt-tab" role="tab" id="excerpt-tab-4" aria-controls="excerpt-panel-4" aria-selected="false" tabindex="-1" data-excerpt="4">05　結論</button>
+  </div>
+  <div class="open-book" id="excerpt-pages" aria-live="polite">
+   <article class="excerpt-slide" role="tabpanel" id="excerpt-panel-0" aria-labelledby="excerpt-tab-0">
+    <div class="book-page"><p class="page-label">摘自原書 · 出版序</p><blockquote>「主耶穌親自彎下腰來，拿起毛巾，洗門徒的腳，留下永不改變的愛的榜樣。祂教導門徒真正的偉大，在於謙卑；真正的權柄，在於服事；真正的愛，是愛到底。」</blockquote><cite>《洗腳禮論》p.6</cite><span class="page-mark">06</span></div>
+    <div class="book-page"><p class="page-label">READING NOTE · 導讀</p><h3>祂先走到人面前，<br>把愛做給人看。</h3><p>洗腳禮的起點是耶穌主動的愛。想理解祂為何洗腳，先看祂如何願意降卑、服事門徒，再去讀那份愛裡所包含的應許。</p></div>
+   </article>
+   <article class="excerpt-slide" role="tabpanel" id="excerpt-panel-1" aria-labelledby="excerpt-tab-1" hidden>
+    <div class="book-page"><p class="page-label">摘自原書 · 第三章</p><blockquote>「當彼得堅持耶穌絕不該為他洗腳時，耶穌回答說：『我若不洗你，你就與我無分。』基督這番話是洗腳禮的根本依據。」</blockquote><cite>《洗腳禮論》p.117</cite><span class="page-mark">117</span></div>
+    <div class="book-page"><p class="page-label">READING NOTE · 導讀</p><h3>關鍵不在水有多少，<br>而在耶穌怎麼說。</h3><p>這段話是本書論證洗腳禮必要性的核心。其他教會的讀者，也可以從這句經文開始，查考「與主有分」究竟所指為何。</p></div>
+   </article>
+   <article class="excerpt-slide" role="tabpanel" id="excerpt-panel-2" aria-labelledby="excerpt-tab-2" hidden>
+    <div class="book-page"><p class="page-label">摘自原書 · 第四章</p><blockquote>「耶穌的洗腳禮與我們彼此洗腳的主要區別在於：耶穌的洗腳禮是聖禮，而彼此洗腳則不是。」</blockquote><cite>《洗腳禮論》p.129</cite><span class="page-mark">129</span></div>
+    <div class="book-page"><p class="page-label">READING NOTE · 導讀</p><h3>同樣是洗腳，<br>意義並不完全相同。</h3><p>書中用一張對照表區分一次領受的洗腳聖禮，以及持續實踐的彼此洗腳。這個區別，是理解真耶穌教會信仰立場的重要線索。</p></div>
+   </article>
+   <article class="excerpt-slide" role="tabpanel" id="excerpt-panel-3" aria-labelledby="excerpt-tab-3" hidden>
+    <div class="book-page"><p class="page-label">摘自原書 · 第五章</p><blockquote>「當我們能以謙卑的心彼此服事時，也就能以愛心彼此接納。愛是不求自己的益處（林前十三5）。」</blockquote><cite>《洗腳禮論》p.146</cite><span class="page-mark">146</span></div>
+    <div class="book-page"><p class="page-label">READING NOTE · 導讀</p><h3>一雙洗過的腳，<br>可以走向誰？</h3><p>耶穌用行動接納門徒，也將彼此相愛的命令交給他們。書中從洗腳的精神談到謙卑、包容與群體合一，讓教義進到生活。</p></div>
+   </article>
+   <article class="excerpt-slide" role="tabpanel" id="excerpt-panel-4" aria-labelledby="excerpt-tab-4" hidden>
+    <div class="book-page"><p class="page-label">摘自原書 · 第七章</p><blockquote>「更具體而言，藉著洗腳賜予信徒的屬靈功效，在於使其與基督有分。」</blockquote><cite>《洗腳禮論》p.162</cite><span class="page-mark">162</span></div>
+    <div class="book-page"><p class="page-label">READING NOTE · 導讀</p><h3>這本書要回答的問題，<br>終究回到與主的關係。</h3><p>對真耶穌教會而言，洗腳禮所應許的關鍵是與基督有分。書末也澄清，這裡並不主張洗腳禮是洗禮之後額外的赦罪或潔淨。</p></div>
+   </article>
+  </div>
+  <div class="excerpt-controls">
+   <button type="button" class="excerpt-direction" id="excerpt-prev" aria-label="閱讀上一段">← 上一段</button><span class="excerpt-count" id="excerpt-count">01 / 05</span><button type="button" class="excerpt-direction" id="excerpt-next" aria-label="閱讀下一段">下一段 →</button>
+  </div>
+  <p class="excerpt-note">書內文摘錄依所提供的《洗腳禮論》內頁校對稿，頁碼以此稿為準。導讀文字由腓利門介紹頁整理。</p>
+ </div>
+</section>
+
 <section class="faq" id="questions"><div class="wrap faq-inner">
 <div class="center"><p class="eyebrow">READERS ASK</p><h2 class="section-title">你可能也想問</h2></div>
 <details><summary>洗腳在耶穌時代，本來就很常見嗎？</summary><p>是。洗腳可能出於衛生、旅途後的款待或服事。本書第二章討論這些背景，並進一步分析約翰福音第十三章的這次洗腳，為什麼具有特別的意義。</p></details>
@@ -147,6 +265,83 @@
 <footer class="site-footer"><div class="wrap footer-inner"><span>© 腓利門書房 · PHILEMON BOOKS</span><a href="https://www.philemon.com.tw/">返回電子報首頁</a></div></footer>
 <script>
 (()=>{const tabs=[...document.querySelectorAll('.step-tab')],panels=[...document.querySelectorAll('.step-detail')];function show(i,focus){tabs.forEach((t,n)=>{const yes=n===i;t.setAttribute('aria-selected',String(yes));t.tabIndex=yes?0:-1;if(yes&&focus)t.focus()});panels.forEach((p,n)=>{p.hidden=n!==i})}tabs.forEach((t,i)=>{t.addEventListener('click',()=>show(i,false));t.addEventListener('keydown',e=>{if(!['ArrowRight','ArrowLeft','Home','End'].includes(e.key))return;e.preventDefault();let n=e.key==='Home'?0:e.key==='End'?tabs.length-1:(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;show(n,true)})})})();
+</script>
+
+<script>
+/* The marks are generated at runtime: each left/right foot appears in sequence,
+   lingers like ink on parchment, then fades. No canvas or image duplication. */
+(function(){
+ const ns='http://www.w3.org/2000/svg';
+ const reduced=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const routes=[
+  {id:'cover-walk',opacity:.35,size:16,paths:[
+   [[10,42],[26,35],[41,33],[58,36],[82,44]],
+   [[78,79],[57,82],[36,84],[16,89]],
+   [[14,64],[35,67],[56,69],[82,64]]
+  ],counts:[9,7,8],offsets:[0,4,7]},
+  {id:'hero-walk',opacity:.32,size:25,paths:[
+   [[48,87],[56,74],[67,57],[78,41],[92,25]],
+   [[94,89],[87,77],[92,63],[88,50]]
+  ],counts:[12,7],offsets:[1,6]},
+  {id:'steps-walk',opacity:.35,size:22,paths:[
+   [[7,82],[12,67],[6,48],[15,24]],
+   [[90,15],[95,33],[88,57],[94,85]]
+  ],counts:[8,9],offsets:[1,4]},
+  {id:'story-walk',opacity:.3,size:22,paths:[[[94,10],[91,32],[96,57],[86,91]]],counts:[9],offsets:[3]},
+  {id:'reader-walk',opacity:.28,size:23,paths:[[[5,92],[13,71],[7,52],[14,17]],[[96,9],[91,34],[96,68],[85,91]]],counts:[9,9],offsets:[2,7]},
+  {id:'chapters-walk',opacity:.22,size:21,paths:[[[4,12],[9,39],[4,68],[11,93]]],counts:[10],offsets:[3]}
+ ];
+ function locate(points,t){
+  const z=t*(points.length-1),j=Math.min(Math.floor(z),points.length-2),f=z-j,a=points[j],b=points[j+1],dx=b[0]-a[0],dy=b[1]-a[1],length=Math.hypot(dx,dy)||1;
+  return {x:a[0]+f*dx,y:a[1]+f*dy,dx:dx/length,dy:dy/length,angle:Math.atan2(dy,dx)*180/Math.PI+90};
+ }
+ function addRoute(config){
+  const host=document.getElementById(config.id);if(!host)return;
+  config.paths.forEach((points,track)=>{
+   const count=config.counts[track],cycle=12.8,offset=config.offsets[track]||0;
+   for(let i=0;i<count;i++){
+    const p=locate(points,i/(count-1)),side=i%2===0?-1:1,spread=config.id==='cover-walk'?2.3:1.2;
+    const x=p.x-p.dy*side*spread,y=p.y+p.dx*side*spread;
+    const svg=document.createElementNS(ns,'svg');svg.classList.add('walking-print');svg.setAttribute('viewBox','0 0 60 95');svg.setAttribute('aria-hidden','true');
+    const use=document.createElementNS(ns,'use');use.setAttribute('href','#footprint');svg.appendChild(use);
+    svg.style.left=x+'%';svg.style.top=y+'%';
+    svg.style.setProperty('--foot-angle',(p.angle+side*7)+'deg');
+    svg.style.setProperty('--print-opacity',String(config.opacity));
+    svg.style.setProperty('--print-size',config.size+'px');
+    svg.style.setProperty('--step-cycle',cycle+'s');
+    svg.style.setProperty('--step-delay',(-((i*.69+offset)%cycle))+'s');
+    if(reduced && i%3!==0)continue;
+    host.appendChild(svg);
+   }
+  });
+ }
+ routes.forEach(addRoute);
+ const toggle=document.getElementById('footprint-toggle');
+ if(toggle){
+  if(reduced){toggle.textContent='減少動態已啟用';toggle.disabled=true;}
+  else toggle.addEventListener('click',()=>{
+   const paused=document.body.classList.toggle('footsteps-paused');
+   toggle.setAttribute('aria-pressed',String(paused));
+   toggle.textContent=paused?'繼續腳印 ▶':'暫停腳印 ◼';
+  });
+ }
+})();
+(function(){
+ const tabs=[...document.querySelectorAll('.excerpt-tab')],panels=[...document.querySelectorAll('.excerpt-slide')],count=document.getElementById('excerpt-count');
+ let active=0;
+ function show(i,focus){
+  active=(i+tabs.length)%tabs.length;
+  tabs.forEach((t,n)=>{let current=n===active;t.setAttribute('aria-selected',String(current));t.tabIndex=current?0:-1;if(current&&focus)t.focus()});
+  panels.forEach((p,n)=>{p.hidden=n!==active});
+  count.textContent=String(active+1).padStart(2,'0')+' / '+String(tabs.length).padStart(2,'0');
+ }
+ tabs.forEach((t,n)=>{t.addEventListener('click',()=>show(n,false));t.addEventListener('keydown',e=>{
+  if(!['ArrowRight','ArrowLeft','Home','End'].includes(e.key))return;
+  e.preventDefault();show(e.key==='Home'?0:e.key==='End'?tabs.length-1:n+(e.key==='ArrowRight'?1:-1),true);
+ })});
+ document.getElementById('excerpt-prev')?.addEventListener('click',()=>show(active-1,false));
+ document.getElementById('excerpt-next')?.addEventListener('click',()=>show(active+1,false));
+})();
 </script>
 </body>
 </html>
