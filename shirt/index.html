@@ -1287,6 +1287,16 @@ body.lightbox-open{overflow:hidden!important}
 @media(max-width:600px){
  .map-coverage .coverage-global-button{font-size:12px;padding:7px 10px}
 }
+/* Simplify map: hide redundant coverage copy; retain search, scope tabs, and location pins. */
+.map-coverage{display:none!important}
+@media(max-width:900px){
+ .map-pane.has-unmapped{height:390px;min-height:390px}
+ .map-pane.has-unmapped .map-shell{flex:1;min-height:235px}
+}
+@media(max-width:500px){
+ .map-pane.has-unmapped{height:340px;min-height:340px}
+ .map-pane.has-unmapped .map-shell{min-height:210px}
+}
 </style>
 <script src="./config.js"></script>
 
