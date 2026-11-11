@@ -1372,6 +1372,59 @@
   .stock-arrivals .arrival-copy { padding:14px 14px 18px; }
 }
 
+
+/* C296 final course: one authentic boxed-set photograph, tap to turn. */
+.c296-arrived .c296-showcase {
+ display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.06fr);
+ align-items:center;gap:clamp(28px,5vw,86px);
+}
+.c296-arrived .c296-photo-switch {
+ display:block;width:100%;max-width:570px;border:0;margin:0 auto;
+ background:transparent;cursor:pointer;text-align:center;padding:10px 8px 0;
+ color:#e5ce9b;border-radius:18px;
+}
+.c296-arrived .c296-photo-switch:focus-visible {outline:2px solid #e5c88e;outline-offset:4px;}
+.c296-arrived .c296-photo-switch img {
+ display:block;aspect-ratio:1/1;width:100%;height:auto;object-fit:contain;
+ filter:drop-shadow(0 18px 25px rgba(10,10,8,.38));
+ transition:transform .25s ease;will-change:transform;
+}
+.c296-arrived .c296-photo-switch:hover img {transform:translateY(-4px);}
+.c296-arrived .c296-photo-hint {
+ display:inline-flex;align-items:center;gap:8px;
+ padding:8px 15px;border:1px solid rgba(228,205,162,.35);
+ border-radius:999px;background:rgba(0,0,0,.17);
+ font-size:13px;line-height:1.6;letter-spacing:.03em;
+}
+.c296-arrived .c296-news {
+ display:inline-flex;align-items:center;padding:6px 15px;
+ border:1px solid #d9c38c;background:rgba(221,193,130,.13);
+ color:#f6dfaa;border-radius:999px;
+ font-size:13px;letter-spacing:.08em;font-weight:700;margin:0 0 20px;
+}
+.c296-arrived .c296-desc {max-width:660px;line-height:2.05;}
+.c296-arrived .c296-amount {margin:27px 0 12px;display:flex;gap:15px;align-items:baseline;flex-wrap:wrap;}
+.c296-arrived .c296-amount-label {font-size:15px;color:#ddcba3;}
+.c296-arrived .c296-amount strong {
+ color:#f4db9f;font-weight:600;font-family:var(--serif);
+ font-size:clamp(45px,5.4vw,74px);font-variant-numeric:tabular-nums;
+ letter-spacing:.012em;line-height:1.15;
+}
+.c296-arrived .c296-details {color:#d9ceb8;font-size:13px;line-height:1.9;}
+.c296-arrived .c296-buttons {display:flex;gap:13px;flex-wrap:wrap;margin-top:22px;}
+.c296-arrived .c296-buttons a {max-width:100%;white-space:normal;text-align:center;}
+.book-plate .dish-buy img.c296-set-wheel {aspect-ratio:1 / 1!important;object-fit:contain!important;}
+@media(max-width:820px) {
+ .c296-arrived .c296-showcase {grid-template-columns:1fr;gap:12px;}
+ .c296-arrived .c296-photo-switch {max-width:390px;}
+ .c296-arrived .c296-photo-switch img {max-height:390px;}
+ .c296-arrived .c296-amount strong {font-size:clamp(43px,12vw,62px);}
+ .c296-arrived .c296-desc {font-size:14px;}
+}
+@media(prefers-reduced-motion:reduce) {
+ .c296-arrived .c296-photo-switch img {transition:none;}
+}
+
 </style>
 <script defer src="/assets/js/ga4-unified.js?v=20261112" data-legacy-ga="0" data-legacy-purchase="0" data-embedded="0"></script>
 </head>
@@ -1384,11 +1437,11 @@
     <span class="brandword">腓利門<span>PHILEMON NEWS · NOV 2026</span></span>
   </a>
   <nav class="sitenav">
-    <a href="#first">01 歲月慢燉</a>
-    <a href="#second">02 暖心細品</a>
+    <a href="#fifth">01 開席好茶</a>
+    <a href="#fourth">02 席間一盆水</a>
     <a href="#third">03 日常回甘</a>
-    <a href="#fourth">04 席間一盆水</a>
-    <a href="#fifth">05 飯後好茶</a>
+    <a href="#second">04 暖心細品</a>
+    <a href="#first">05 歲月慢燉</a>
   </nav>
   <div class="head-actions">
     <div class="locale-switch" aria-label="Language">
@@ -1406,7 +1459,7 @@
     <!-- 桌面煙霧放在獨立舞台中，避免文案區出現突然閃爍的粒子 -->
 
     <!-- 頂部半圓轉盤：書本全部向外放射，轉到最下方正中央時自動變正 -->
-    <div class="semicircle-viewport" data-order-hover="要點這道嗎？點擊書封選購" id="turntableStage" aria-label="全螢幕大型旋轉閱讀餐桌，八張原版書封陳列在獨立圓盤上">
+    <div class="semicircle-viewport" data-order-hover="要點這道嗎？點擊書封選購" id="turntableStage" aria-label="旋轉閱讀餐桌，五款書籍依新書順序陳列">
       <div class="outer-table">
         <div class="wheel-controller" id="wheelController">
         <div class="turntable-wheel" id="turntableWheel">
@@ -1418,45 +1471,31 @@
             </div>
           </div>
 
-          <div class="dish-slot" style="--angle: 45deg;">
+          <div class="dish-slot" style="--angle: 72deg;">
             <div class="book-plate">
               <button type="button" class="dish-buy" data-buy-url="https://www.pbooks.com.tw/products/c299" data-book-title="C299《洗腳禮論》" aria-label="點餐：C299《洗腳禮論》"><img decoding="async" src="assets/c299.webp?v=20261109b" alt="《洗腳禮論》書封"></button>
             </div>
           </div>
 
-          <div class="dish-slot" style="--angle: 90deg;">
+          <div class="dish-slot" style="--angle: 144deg;">
             <div class="book-plate">
               <button type="button" class="dish-buy" data-buy-url="https://www.pbooks.com.tw/products/c298" data-book-title="C298《預見・遇見・癒見》" aria-label="點餐：C298《預見・遇見・癒見》"><img decoding="async" src="assets/c298.webp?v=20261109b" alt="《預見・遇見・癒見》書封"></button>
             </div>
           </div>
 
-          <div class="dish-slot" style="--angle: 135deg;">
+          <div class="dish-slot" style="--angle: 216deg;">
             <div class="book-plate">
               <button type="button" class="dish-buy" data-buy-url="https://www.pbooks.com.tw/products/c297" data-book-title="C297《我的心哪，你為何憂悶？》" aria-label="點餐：C297《我的心哪，你為何憂悶？》"><img decoding="async" src="assets/c297.webp?v=20261109b" alt="《我的心哪，你為何憂悶？》書封" fetchpriority="high"></button>
             </div>
           </div>
 
-          <div class="dish-slot" style="--angle: 180deg;">
+          <div class="dish-slot" style="--angle: 288deg;">
             <div class="book-plate">
-              <button type="button" class="dish-buy" data-buy-url="https://www.pbooks.com.tw/products/c296" data-book-title="C296《新芽的應許》（見證集全套）" aria-label="點餐：C296《新芽的應許》（見證集全套）"><img decoding="async" src="assets/c296-01.webp?v=20261109b" alt="《新芽的應許》書封"></button>
-            </div>
-          </div>
-
-          <div class="dish-slot" style="--angle: 225deg;">
-            <div class="book-plate">
-              <button type="button" class="dish-buy" data-buy-url="https://www.pbooks.com.tw/products/c296" data-book-title="C296《綿延的喜樂》（見證集全套）" aria-label="點餐：C296《綿延的喜樂》（見證集全套）"><img decoding="async" src="assets/c296-02.webp?v=20261109b" alt="《綿延的喜樂》書封"></button>
-            </div>
-          </div>
-
-          <div class="dish-slot" style="--angle: 270deg;">
-            <div class="book-plate">
-              <button type="button" class="dish-buy" data-buy-url="https://www.pbooks.com.tw/products/c296" data-book-title="C296《繁盛的恩典》（見證集全套）" aria-label="點餐：C296《繁盛的恩典》（見證集全套）"><img decoding="async" src="assets/c296-03.webp?v=20261109b" alt="《繁盛的恩典》書封"></button>
-            </div>
-          </div>
-
-          <div class="dish-slot" style="--angle: 315deg;">
-            <div class="book-plate">
-              <button type="button" class="dish-buy" data-buy-url="https://www.pbooks.com.tw/products/c296" data-book-title="C296《隱藏的盼望》（見證集全套）" aria-label="點餐：C296《隱藏的盼望》（見證集全套）"><img decoding="async" src="assets/c296-04.webp?v=20261109b" alt="《隱藏的盼望》書封"></button>
+              <button type="button" class="dish-buy" data-buy-url="https://www.pbooks.com.tw/products/c296"
+                data-book-title="C296 四冊見證集套書" aria-label="點餐：C296 四冊見證集套書">
+                <img decoding="async" class="c296-set-wheel" src="assets/c296-set-front.webp"
+                  width="900" height="900" alt="臺灣傳教百週年見證集四冊套書正面，綠色新芽封面與收藏盒" loading="lazy">
+              </button>
             </div>
           </div>
         </div>
@@ -1492,15 +1531,15 @@
         <span class="desktop-desc">入冬之前，把燈調暗，先留一張椅子給自己。<br>
         這個十一月，腓利門在夜色裡備好一桌書香：<br>
         三十年熬煮的恩典、理解心事的微光，<br>
-        以及藏在尋常日子裡的溫柔相遇。<br>飯後，再留一杯好茶，細細嚐生活的回甘。</span>
+        以及藏在尋常日子裡的溫柔相遇。<br>開席先泡一杯好茶，細細嚐生活的回甘。</span>
         <span class="mobile-desc">入冬之前，把燈調暗，<br>
         先留一張椅子給自己。<br>
         這個十一月，腓利門備好一桌書香：<br>
         三十年熬煮的恩典、理解心事的微光，<br>
-        以及藏在尋常日子裡的溫柔相遇。<br>飯後，再留一杯好茶，細細嚐生活的回甘。</span>
+        以及藏在尋常日子裡的溫柔相遇。<br>開席先泡一杯好茶，細細嚐生活的回甘。</span>
       </p>
       <div class="hero-actions">
-        <a class="btn-gold" href="#first">我要點餐 ↗</a>
+        <a class="btn-gold" href="#fifth">我要點餐 ↗</a>
         <a class="btn-ghost" href="#menu">瀏覽今日五道 ↓</a>
       </div>
     </div>
@@ -1509,49 +1548,13 @@
   <!-- 菜單導覽列 -->
   <section class="menu-strip" id="menu" aria-label="本期閱讀菜單">
     <div class="wrap menu-grid">
-      <a class="menu-item" href="#first">
-        <span class="menu-no">01</span>
-        <span class="menu-text">
-          <strong>歲月慢燉</strong>
-          <small>1994–2024・四冊見證集</small>
-        </span>
-      </a>
-      <a class="menu-item" href="#second">
-        <span class="menu-no">02</span>
-        <span class="menu-text">
-          <strong>暖心細品</strong>
-          <small>留一盞聚光燈，給疲倦的心</small>
-        </span>
-      </a>
-      <a class="menu-item" href="#third">
-        <span class="menu-no">03</span>
-        <span class="menu-text">
-          <strong>日常回甘</strong>
-          <small>21 個尋常場景裡的相遇</small>
-        </span>
-      </a>
-      <a class="menu-item" href="#fourth">
-        <span class="menu-no">04</span>
-        <span class="menu-text">
-          <strong>席間一盆水</strong>
-          <small>從約翰十三章重新思想「有分」</small>
-        </span>
-      </a>
-    
-      <a class="menu-item" href="#fifth">
-        <span class="menu-no">05</span><span class="menu-text">
-          <strong>飯後好茶</strong><small>一杯茶，六種生活練習</small>
-        </span>
-      </a>
-
-      <a class="menu-item menu-item-dress" href="#dresscode">
-        <span class="menu-no">DRESS</span>
-        <span class="menu-text">
-          <strong>百年上身</strong>
-          <small>食衣住行，這一席也少不了「衣」</small>
-        </span>
-      </a>
-</div>
+      <a class="menu-item" href="#fifth"><span class="menu-no">01</span><span class="menu-text"><strong>開席好茶</strong><small>一杯好茶・六種生活練習</small></span></a>
+      <a class="menu-item" href="#fourth"><span class="menu-no">02</span><span class="menu-text"><strong>席間一盆水</strong><small>從洗腳禮思想與主有分</small></span></a>
+      <a class="menu-item" href="#third"><span class="menu-no">03</span><span class="menu-text"><strong>日常回甘</strong><small>21 個尋常場景裡的相遇</small></span></a>
+      <a class="menu-item" href="#second"><span class="menu-no">04</span><span class="menu-text"><strong>暖心細品</strong><small>留一張椅子給疲倦的心</small></span></a>
+      <a class="menu-item" href="#first"><span class="menu-no">05</span><span class="menu-text"><strong>歲月慢燉</strong><small>四冊見證集已到貨・特價 NT$899</small></span></a>
+      <a class="menu-item menu-item-dress" href="#dresscode"><span class="menu-no">DRESS</span><span class="menu-text"><strong>百年上身</strong><small>食衣住行，這一席也少不了「衣」</small></span></a>
+    </div>
   </section>
 
   <!-- 直書序言區 -->
@@ -1567,127 +1570,63 @@
     <h2 class="prologue-vertical">
       好書如慢食，<br>需要留一點<span>夜色與時間</span>，<br>才讀得出回甘。
     </h2>
-    <p class="prologue-desc">
-      有些故事要經過歲月，才讀得出其中的恩典；有些心情需要有人坐在身旁，才有勇氣慢慢說出口；也有些答案，藏在我們每天經過的地方。三種風味之外，席間再添一盆水，讓我們回到約翰福音十三章，重新思想「與主有分」。
-     用過餐，別急著離席。再泡一杯曾恩榮長老記憶裡的好茶，從六個生活面向，慢慢回望日子中的恩典。</p>
+    <p class="prologue-desc">先泡一杯好茶，聽曾恩榮長老談日子裡的回甘；接著從洗腳禮的一盆水，重新思想與主有分。走進日常的相遇，為憂悶的心留下一張椅子，最後翻開四冊見證集，讀三十年來神帶領人的故事。</p>
     <div class="prologue-sign">— A Note from the Reading Table —</div>
   </section>
 
-  <!-- COURSE 01：歲月慢燉 -->
-  <section class="course-section course-01" id="first">
-    <div class="aroma-layer" aria-hidden="true">
-      <div class="steam-wisp s1"></div>
-      <div class="steam-wisp s3"></div>
-      <div class="bubble b-1"></div>
-      <div class="bubble b-3"></div>
-      <div class="bubble b-4"></div>
-    </div>
-    <div class="wrap">
-      <div class="c1-header">
-        <div>
-          <div class="kicker">Course 01 / Slow-Brewed Memories</div>
-          <h2 class="course-title">讓三十年的歲月，<br>慢慢熬成恩典。</h2>
-          <p class="course-lead">
-            有些故事，當年讀過便放在心裡；有些經歷，過了許多年才真正懂得。1994 至 2024，四冊見證集將散落在時間裡的蒙恩故事重新端上桌。從新芽、喜樂、繁盛到盼望，每一冊都保留了那個年代的眼淚、禱告與感謝。
-          </p>
-        </div>
-        <div>
-          <div class="meta-tags">
-            <span>四冊套書</span>
-            <span>1994 — 2024</span>
-            <span>合計 1,152 頁</span>
-          </div>
-          <div class="price-box">
-            <s>定價 NT$1,600</s>
-            <span class="sale">特價 <strong>NT$899</strong></span>
-          </div>
-          <p class="book-code">C296｜《臺灣傳教100周年見證集》</p>
-        </div>
-      </div>
-
-      <div class="timeline-bar">
-        <span>1994 SPRING</span>
-        <span>· · · 30 YEARS OF GRACE · · ·</span>
-        <span>2024 WINTER</span>
-      </div>
-
-      <div class="four-gallery">
-        <div class="gallery-item">
-          <a class="cover-link" href="https://philemon.com.tw/c296/" aria-label="了解《新芽的應許》書封"><img decoding="async" src="assets/c296-01.webp?v=20261109b" alt="《新芽的應許》書封" loading="lazy"></a>
-          <div class="gallery-meta">
-            <strong>新芽的應許</strong>
-            <span>1994–2002</span>
-          </div>
-        </div>
-        <div class="gallery-item">
-          <a class="cover-link" href="https://philemon.com.tw/c296/" aria-label="了解《綿延的喜樂》書封"><img decoding="async" src="assets/c296-02.webp?v=20261109b" alt="《綿延的喜樂》書封" loading="lazy"></a>
-          <div class="gallery-meta">
-            <strong>綿延的喜樂</strong>
-            <span>2003–2010</span>
-          </div>
-        </div>
-        <div class="gallery-item">
-          <a class="cover-link" href="https://philemon.com.tw/c296/" aria-label="了解《繁盛的恩典》書封"><img decoding="async" src="assets/c296-03.webp?v=20261109b" alt="《繁盛的恩典》書封" loading="lazy"></a>
-          <div class="gallery-meta">
-            <strong>繁盛的恩典</strong>
-            <span>2011–2018</span>
-          </div>
-        </div>
-        <div class="gallery-item">
-          <a class="cover-link" href="https://philemon.com.tw/c296/" aria-label="了解《隱藏的盼望》書封"><img decoding="async" src="assets/c296-04.webp?v=20261109b" alt="《隱藏的盼望》書封" loading="lazy"></a>
-          <div class="gallery-meta">
-            <strong>隱藏的盼望</strong>
-            <span>2019–2024</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="c1-footer">
-        <a href="https://philemon.com.tw/c296/" class="btn-gold">先讀四冊故事 ↗</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- COURSE 02：暖心細品 -->
-  <section class="course-section course-02" id="second">
-    <div class="aroma-layer" aria-hidden="true">
-      <div class="steam-wisp s1"></div>
-      <div class="steam-wisp s2"></div>
-      <div class="bubble b-2"></div>
-      <div class="bubble b-5"></div>
-    </div>
+  <!-- COURSE 01 / C300 -->
+  <section class="course-section course-05" id="fifth" aria-labelledby="c300-headline">
     <div class="wrap spotlight-grid">
-      <div class="spotlight-stage">
-        <div class="spotlight-beam"></div>
-        <div class="spotlight-floor"></div>
-        <div class="dish-badge">第二道・給心的暖湯</div>
-        <img decoding="async" src="assets/c297.webp?v=20261109b" alt="《我的心哪，你為何憂悶？》封面" loading="lazy">
+      <div class="c300-stage">
+        <span class="tea-moon" aria-hidden="true"></span>
+        <div class="dish-badge">第一道・開席好茶</div>
+        <img decoding="async" src="../c300/cover-hq.webp" width="650" height="913" alt="《這樣過日子，挺好的》書封" loading="lazy">
       </div>
       <div>
-        <div class="kicker">Course 02 / A Warm Bowl for the Heart</div>
-        <h2 class="course-title">心裡有苦澀時，<br>讓陪伴先上桌。</h2>
-        <p class="course-lead">
-          一桌人吃飯，總有人笑得開懷，也有人正努力吞下說不出口的心事。若我們願意留一張椅子給憂悶，談談失去、情傷、事奉的疲倦，聽聽醫療專業與陪伴者的經驗，也許就能學習更合宜地理解自己、關懷別人。
-        </p>
-        <div class="meta-tags">
-          <span>醫療觀點 × 信仰經歷</span>
-          <span>關懷與陪伴</span>
-          <span>216 頁</span>
-        </div>
+        <div class="kicker">Course 01 / Tea to Begin</div>
+        <h2 class="course-title" id="c300-headline">第一口有點苦，<br>後來才嚐到香。</h2>
+        <p class="course-lead">十歲那年，曾恩榮長老喝了黃以利沙長老泡的第一杯好茶。入口苦得直皺眉，過了一會兒，喉間卻慢慢回甘。這杯茶，他記了一輩子。人生也是這樣：有起有落，有時苦澀，有時清香；回頭再看，那些走過的路，常常藏著神的帶領。</p>
+        <blockquote class="tasting-quote">「有濃有淡，有苦澀有清香。」——〈我喝的第一杯好茶〉，第 136 頁</blockquote>
+        <div class="meta-tags"><span>依靠・追求・挑戰</span><span>實踐・交託・恩典</span><span>248 頁彩色</span></div>
         <div class="price-box">
-          <s>定價 NT$300</s>
-          <span class="sale">特價 <strong>NT$270</strong></span>
+          <s>定價 NT$400</s><span class="sale">特價 <strong>NT$360</strong></span>
         </div>
-        <p class="book-code">C297｜《我的心哪，你為何憂悶？》・Jone Lin 編著</p>
-        <div class="hero-actions" style="margin-top:24px; justify-content:flex-start;">
-          <a class="btn-gold" href="https://philemon.com.tw/c297/">為心留一席 ↗</a>
-          <a class="btn-ghost" href="https://www.pbooks.com.tw/products/c297">前往購書</a>
+        <p class="book-code">C300｜《這樣過日子，挺好的》・曾恩榮 著</p>
+        <div class="hero-actions" style="margin-top:24px;justify-content:flex-start;">
+          <a class="btn-gold" href="../c300/">一起過過挺好的生活 ↗</a>
+          <a class="btn-ghost" href="#menu">回到本期選單</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- COURSE 03：日常回甘 -->
+  
+<!-- COURSE 02 / C299 -->
+  <section class="course-section course-04" id="fourth">
+    <div class="wrap spotlight-grid">
+      <div class="c299-stage">
+        <div class="dish-badge">第二道・席間一盆水</div>
+        <img decoding="async" src="assets/c299.webp?v=20261109b" alt="《洗腳禮論》封面" loading="lazy">
+      </div>
+      <div>
+        <div class="kicker">Course 02 / A Basin at the Table</div>
+        <h2 class="course-title">這一席，<br>主親自彎下了身。</h2>
+        <p class="course-lead">晚餐席間，耶穌起身，倒水在盆裡，開始洗門徒的腳。彼得拒絕時，祂說：「我若不洗你，你就與我無分了。」一盆水、一條手巾、一個卑微的動作，卻牽動了「與主有分」這件事。</p>
+        <blockquote class="tasting-quote">《洗腳禮論》回到約翰福音十三章，從原文、經文結構與上下文開始，重新思想洗腳所包含的愛與謙卑，也追問耶穌所說的「有分」究竟意味著什麼。</blockquote>
+        <div class="meta-tags"><span>教義專論</span><span>約翰福音十三章</span><span>與主有分</span></div>
+        <p class="book-code">C299｜《洗腳禮論》</p>
+        <div class="hero-actions" style="margin-top:24px; justify-content:flex-start;">
+          <a class="btn-gold" href="https://www.pbooks.com.tw/products/c299">讀《洗腳禮論》 ↗</a>
+          <a class="btn-ghost" href="#menu">回到本期選單</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 品味選單（已替換為最新指定文案） -->
+  
+  
+<!-- COURSE 03 / C298 -->
   <section class="course-section course-03" id="third">
     <div class="wrap spotlight-grid">
       <div>
@@ -1725,51 +1664,76 @@
     </div>
   </section>
 
-  <!-- COURSE 04：席間一盆水 -->
-  <section class="course-section course-04" id="fourth">
+  
+<!-- COURSE 04 / C297 -->
+  <section class="course-section course-02" id="second">
+    <div class="aroma-layer" aria-hidden="true">
+      <div class="steam-wisp s1"></div>
+      <div class="steam-wisp s2"></div>
+      <div class="bubble b-2"></div>
+      <div class="bubble b-5"></div>
+    </div>
     <div class="wrap spotlight-grid">
-      <div class="c299-stage">
-        <div class="dish-badge">第四道・席間一盆水</div>
-        <img decoding="async" src="assets/c299.webp?v=20261109b" alt="《洗腳禮論》封面" loading="lazy">
+      <div class="spotlight-stage">
+        <div class="spotlight-beam"></div>
+        <div class="spotlight-floor"></div>
+        <div class="dish-badge">第四道・給心的暖湯</div>
+        <img decoding="async" src="assets/c297.webp?v=20261109b" alt="《我的心哪，你為何憂悶？》封面" loading="lazy">
       </div>
       <div>
-        <div class="kicker">Course 04 / A Basin at the Table</div>
-        <h2 class="course-title">這一席，<br>主親自彎下了身。</h2>
-        <p class="course-lead">晚餐席間，耶穌起身，倒水在盆裡，開始洗門徒的腳。彼得拒絕時，祂說：「我若不洗你，你就與我無分了。」一盆水、一條手巾、一個卑微的動作，卻牽動了「與主有分」這件事。</p>
-        <blockquote class="tasting-quote">《洗腳禮論》回到約翰福音十三章，從原文、經文結構與上下文開始，重新思想洗腳所包含的愛與謙卑，也追問耶穌所說的「有分」究竟意味著什麼。</blockquote>
-        <div class="meta-tags"><span>教義專論</span><span>約翰福音十三章</span><span>與主有分</span></div>
-        <p class="book-code">C299｜《洗腳禮論》</p>
+        <div class="kicker">Course 04 / A Warm Bowl for the Heart</div>
+        <h2 class="course-title">心裡有苦澀時，<br>讓陪伴先上桌。</h2>
+        <p class="course-lead">
+          一桌人吃飯，總有人笑得開懷，也有人正努力吞下說不出口的心事。若我們願意留一張椅子給憂悶，談談失去、情傷、事奉的疲倦，聽聽醫療專業與陪伴者的經驗，也許就能學習更合宜地理解自己、關懷別人。
+        </p>
+        <div class="meta-tags">
+          <span>醫療觀點 × 信仰經歷</span>
+          <span>關懷與陪伴</span>
+          <span>216 頁</span>
+        </div>
+        <div class="price-box">
+          <s>定價 NT$300</s>
+          <span class="sale">特價 <strong>NT$270</strong></span>
+        </div>
+        <p class="book-code">C297｜《我的心哪，你為何憂悶？》・Jone Lin 編著</p>
         <div class="hero-actions" style="margin-top:24px; justify-content:flex-start;">
-          <a class="btn-gold" href="https://www.pbooks.com.tw/products/c299">讀《洗腳禮論》 ↗</a>
-          <a class="btn-ghost" href="#menu">回到本期選單</a>
+          <a class="btn-gold" href="https://philemon.com.tw/c297/">為心留一席 ↗</a>
+          <a class="btn-ghost" href="https://www.pbooks.com.tw/products/c297">前往購書</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 品味選單（已替換為最新指定文案） -->
   
-  <!-- COURSE 05 · C300 After-Dinner Tea -->
-  <section class="course-section course-05" id="fifth" aria-labelledby="c300-headline">
-    <div class="wrap spotlight-grid">
-      <div class="c300-stage">
-        <span class="tea-moon" aria-hidden="true"></span>
-        <div class="dish-badge">第五道・飯後一杯好茶</div>
-        <img decoding="async" src="../c300/cover-hq.webp" width="650" height="913" alt="《這樣過日子，挺好的》書封" loading="lazy">
-      </div>
+<!-- COURSE 05 / C296 In Stock -->
+  <section class="course-section course-01 c296-arrived" id="first" aria-label="C296">
+    <div class="wrap c296-showcase">
       <div>
-        <div class="kicker">Course 05 / A Cup of Tea After Supper</div>
-        <h2 class="course-title" id="c300-headline">第一口有點苦，<br>後來才嚐到香。</h2>
-        <p class="course-lead">十歲那年，曾恩榮長老喝了黃以利沙長老泡的第一杯好茶。入口苦得直皺眉，過了一會兒，喉間卻慢慢回甘。這杯茶，他記了一輩子。人生也是這樣：有起有落，有時苦澀，有時清香；回頭再看，那些走過的路，常常藏著神的帶領。</p>
-        <blockquote class="tasting-quote">「有濃有淡，有苦澀有清香。」——〈我喝的第一杯好茶〉，第 136 頁</blockquote>
-        <div class="meta-tags"><span>依靠・追求・挑戰</span><span>實踐・交託・恩典</span><span>248 頁彩色</span></div>
-        <div class="price-box">
-          <s>定價 NT$400</s><span class="sale">特價 <strong>NT$360</strong></span>
+        <button type="button" class="c296-photo-switch"
+          data-front="assets/c296-set-front.webp" data-back="assets/c296-set-back.webp"
+          data-front-label="查看套書另一面" data-back-label="返回套書正面"
+          data-front-name="正面" data-back-name="另一面"
+          data-front-alt="臺灣傳教百週年見證集四冊套書正面，綠色新芽封面與收藏盒" data-back-alt="臺灣傳教百週年見證集四冊套書另一面，藍色隱藏的盼望封面與收藏盒"
+          aria-label="查看套書另一面" aria-pressed="false">
+          <img src="assets/c296-set-front.webp" alt="臺灣傳教百週年見證集四冊套書正面，綠色新芽封面與收藏盒"
+            width="900" height="900" loading="lazy" decoding="async">
+          <span class="c296-photo-hint">點擊照片查看另一面 ↻</span>
+        </button>
+      </div>
+      <div class="c296-detail">
+        <div class="kicker">Course 05 / Thirty Years of Grace</div>
+        <p class="c296-news">現貨已到 · 四冊套書</p>
+        <h2 class="course-title">三十年的見證，<br>現在可以帶回家。</h2>
+        <p class="course-lead c296-desc">1994 至 2024，四冊見證集收錄臺灣傳教百週年的蒙恩故事。從《新芽的應許》、《綿延的喜樂》、《繁盛的恩典》到《隱藏的盼望》，連同專用收藏書盒，四冊完整到貨。</p>
+        <p class="c296-details">四冊・1994–2024・共 1,152 頁</p>
+        <div class="c296-amount">
+          <span class="c296-amount-label">到貨特價</span>
+          <strong>NT$899</strong>
         </div>
-        <p class="book-code">C300｜《這樣過日子，挺好的》・曾恩榮 著</p>
-        <div class="hero-actions" style="margin-top:24px;justify-content:flex-start;">
-          <a class="btn-gold" href="../c300/">一起過過挺好的生活 ↗</a>
-          <a class="btn-ghost" href="#menu">回到本期選單</a>
+        <p class="book-code">C296｜臺灣傳教100周年見證集</p>
+        <div class="c296-buttons">
+          <a class="btn-gold" href="https://www.pbooks.com.tw/products/c296">立即選購四冊套書 ↗</a>
+          <a class="btn-ghost" href="../c296/">了解見證集</a>
         </div>
       </div>
     </div>
@@ -1993,6 +1957,25 @@
     });
   })();
 
+</script>
+<script>
+/* C296 boxed set: click to alternate two real product photographs. */
+(function(){
+  const button=document.querySelector('.c296-photo-switch');
+  if(!button)return;
+  const picture=button.querySelector('img');
+  let other=false;
+  button.addEventListener('click',function(){
+    other=!other;
+    picture.src=other?button.dataset.back:button.dataset.front;
+    picture.alt=other?button.dataset.backAlt:button.dataset.frontAlt;
+    button.setAttribute('aria-pressed',String(other));
+    button.setAttribute('aria-label',other?button.dataset.backLabel:button.dataset.frontLabel);
+    if(typeof window.gtag==='function')window.gtag('event','book_cover_flip',{
+      item_id:'C296',view_side:other?'back':'front',content_group:'newsletter'
+    });
+  });
+})();
 </script>
 </body>
 </html>
