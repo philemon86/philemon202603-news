@@ -124,7 +124,8 @@
     storedToken='';try{localStorage.removeItem('shirt-banner-token-v1');}catch(e){}
     Object.keys(Q).forEach(k=>Q[k]=0);paint();$('bwName').value='';
     $('bwSend').disabled=false;$('bwSend').textContent='繼續填寫下一位 →';
-    setStatus('登記成功，已送出 '+n+' 件意向。','success');loadStats();setTimeout(loadStats,1800);
+    setStatus('登記成功，已送出 '+n+' 件意向。','success');
+    if(typeof window.gtag==='function')window.gtag('event','shirt_interest_submit_success',{item_category:'anniversary_shirt',quantity:n,form_variant:'banner'});loadStats();setTimeout(loadStats,1800);
    };
    port.start?.();sendRequest();
   });

@@ -1,0 +1,324 @@
+{
+  "measurementId": "G-JD1JHF86H1",
+  "scope": "github-static-code",
+  "trackedPages": 49,
+  "GA4SetupModeCounts": {
+    "legacy": 28,
+    "new": 20,
+    "embedded_no_pageview": 1,
+    "already_patched": 0
+  },
+  "order": [
+    "C300",
+    "C299",
+    "C298",
+    "C297",
+    "C296-01",
+    "C296-02",
+    "C296-03",
+    "C296-04"
+  ],
+  "bannerSuccessTracking": "tracked_verified_success",
+  "externalIframeNote": "Cross-origin iframe content must carry its own GA4. Parent wrapper views only.",
+  "redirectsSkipped": [
+    "2026-07/",
+    "camp/",
+    "C299/"
+  ],
+  "pages": [
+    {
+      "path": "index.html",
+      "mode": "legacy",
+      "updated": true,
+      "language": "zh-Hant"
+    },
+    {
+      "path": "2026-03/index.html",
+      "mode": "legacy",
+      "updated": true,
+      "language": "zh-Hant"
+    },
+    {
+      "path": "2026-03/zh-cn.html",
+      "mode": "legacy",
+      "updated": true,
+      "language": "zh-CN"
+    },
+    {
+      "path": "2026-03/en.html",
+      "mode": "legacy",
+      "updated": true,
+      "language": "en"
+    },
+    {
+      "path": "2026-04/index.html",
+      "mode": "legacy",
+      "updated": true,
+      "language": "zh-Hant"
+    },
+    {
+      "path": "2026-04/zh-cn.html",
+      "mode": "legacy",
+      "updated": true,
+      "language": "zh-CN"
+    },
+    {
+      "path": "2026-04/en.html",
+      "mode": "legacy",
+      "updated": true,
+      "language": "en"
+    },
+    {
+      "path": "2026-05/index.html",
+      "mode": "legacy",
+      "updated": true,
+      "language": "zh-Hant"
+    },
+    {
+      "path": "2026-05/zh-cn.html",
+      "mode": "legacy",
+      "updated": true,
+      "language": "zh-Hans"
+    },
+    {
+      "path": "2026-05/en.html",
+      "mode": "legacy",
+      "updated": true,
+      "language": "en"
+    },
+    {
+      "path": "2026-06/index.html",
+      "mode": "legacy",
+      "updated": true,
+      "language": "zh-Hant"
+    },
+    {
+      "path": "2026-06/zh-cn.html",
+      "mode": "legacy",
+      "updated": true,
+      "language": "zh-Hans"
+    },
+    {
+      "path": "2026-06/en.html",
+      "mode": "legacy",
+      "updated": true,
+      "language": "en"
+    },
+    {
+      "path": "2026-09/index.html",
+      "mode": "new",
+      "updated": true,
+      "language": "zh-Hant"
+    },
+    {
+      "path": "2026-09/zh-cn.html",
+      "mode": "new",
+      "updated": true,
+      "language": "zh-Hans"
+    },
+    {
+      "path": "2026-09/en.html",
+      "mode": "new",
+      "updated": true,
+      "language": "en"
+    },
+    {
+      "path": "2026-11/index.html",
+      "mode": "new",
+      "updated": true,
+      "language": "zh-Hant"
+    },
+    {
+      "path": "2026-11/zh-cn.html",
+      "mode": "new",
+      "updated": true,
+      "language": "zh-Hans"
+    },
+    {
+      "path": "2026-11/en.html",
+      "mode": "new",
+      "updated": true,
+      "language": "en"
+    },
+    {
+      "path": "2026-05/book/index.html",
+      "mode": "new",
+      "updated": true,
+      "language": "zh-Hant"
+    },
+    {
+      "path": "2026-08/index.html",
+      "mode": "new",
+      "updated": true,
+      "language": "zh-Hant"
+    },
+    {
+      "path": "c290/index.html",
+      "mode": "legacy",
+      "updated": true,
+      "language": "zh-Hant"
+    },
+    {
+      "path": "c291/index.html",
+      "mode": "legacy",
+      "updated": true,
+      "language": "zh-Hant"
+    },
+    {
+      "path": "c292/index.html",
+      "mode": "legacy",
+      "updated": true,
+      "language": "zh-Hant"
+    },
+    {
+      "path": "c293/index.html",
+      "mode": "legacy",
+      "updated": true,
+      "language": "zh-Hant"
+    },
+    {
+      "path": "c294/index.html",
+      "mode": "new",
+      "updated": true,
+      "language": "zh-Hant"
+    },
+    {
+      "path": "c295/index.html",
+      "mode": "new",
+      "updated": true,
+      "language": "zh-Hant-TW"
+    },
+    {
+      "path": "c296/index.html",
+      "mode": "new",
+      "updated": true,
+      "language": "zh-TW"
+    },
+    {
+      "path": "c297/index.html",
+      "mode": "new",
+      "updated": true,
+      "language": "zh-Hant-TW"
+    },
+    {
+      "path": "c298/index.html",
+      "mode": "legacy",
+      "updated": true,
+      "language": "zh-Hant"
+    },
+    {
+      "path": "c299/index.html",
+      "mode": "new",
+      "updated": true,
+      "language": "zh-Hant-TW"
+    },
+    {
+      "path": "c300/index.html",
+      "mode": "new",
+      "updated": true,
+      "language": "zh-Hant-TW"
+    },
+    {
+      "path": "c298/en.html",
+      "mode": "legacy",
+      "updated": true,
+      "language": "en"
+    },
+    {
+      "path": "c298/zh-cn.html",
+      "mode": "legacy",
+      "updated": true,
+      "language": "zh-Hans"
+    },
+    {
+      "path": "c002/index.html",
+      "mode": "legacy",
+      "updated": true,
+      "language": "zh-Hant"
+    },
+    {
+      "path": "c136/index.html",
+      "mode": "new",
+      "updated": true,
+      "language": "zh-Hant"
+    },
+    {
+      "path": "c185/index.html",
+      "mode": "legacy",
+      "updated": true,
+      "language": "zh-Hant"
+    },
+    {
+      "path": "cup/index.html",
+      "mode": "legacy",
+      "updated": true,
+      "language": "zh-Hant"
+    },
+    {
+      "path": "2026-luggage/index.html",
+      "mode": "legacy",
+      "updated": true,
+      "language": "zh-TW"
+    },
+    {
+      "path": "book/index.html",
+      "mode": "new",
+      "updated": true,
+      "language": "zh-Hant"
+    },
+    {
+      "path": "bookstore/index.html",
+      "mode": "legacy",
+      "updated": true,
+      "language": "zh-TW"
+    },
+    {
+      "path": "first/index.html",
+      "mode": "legacy",
+      "updated": true,
+      "language": "zh-Hant"
+    },
+    {
+      "path": "timeline/index.html",
+      "mode": "legacy",
+      "updated": true,
+      "language": "zh-Hant"
+    },
+    {
+      "path": "shirt/index.html",
+      "mode": "legacy",
+      "updated": true,
+      "language": "zh-Hant"
+    },
+    {
+      "path": "shirt/banner.html",
+      "mode": "embedded_no_pageview",
+      "updated": true,
+      "language": "zh-Hant"
+    },
+    {
+      "path": "shirt/size-guide.html",
+      "mode": "new",
+      "updated": true,
+      "language": "zh-Hant"
+    },
+    {
+      "path": "2027calendar/index.html",
+      "mode": "new",
+      "updated": true,
+      "language": "zh-Hant"
+    },
+    {
+      "path": "soonsoonbible/index.html",
+      "mode": "new",
+      "updated": true,
+      "language": "zh-Hant"
+    },
+    {
+      "path": "soonsoonbible/rankings.html",
+      "mode": "new",
+      "updated": true,
+      "language": "zh-Hant"
+    }
+  ]
+}
