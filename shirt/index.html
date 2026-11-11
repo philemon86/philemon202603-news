@@ -1269,6 +1269,24 @@ body.lightbox-open{overflow:hidden!important}
  .map-region-pulse .map-tw-count{font-size:11px}
  .map-region-pulse .map-global-jump{font-size:11px;padding:5px 6px}
 }
+
+
+/* 20261111 map coverage jump to overseas totals. */
+.map-coverage .coverage-global-button{
+  border:0;border-radius:8px;align-self:flex-start;
+  color:#fff;background:#204c70;
+  font:850 12px/1.35 "Noto Sans TC",system-ui,sans-serif;
+  padding:7px 12px;
+  box-shadow:0 2px 7px rgba(26,63,89,.16);
+}
+.map-coverage .coverage-global-button[hidden]{display:none!important}
+.map-coverage .coverage-global-button:hover,
+.map-coverage .coverage-global-button:focus-visible{
+ background:#143754;outline:2px solid #b3cddd;outline-offset:2px;
+}
+@media(max-width:600px){
+ .map-coverage .coverage-global-button{font-size:12px;padding:7px 10px}
+}
 </style>
 <script src="./config.js"></script>
 
