@@ -144,7 +144,7 @@ body{font-size:17px;line-height:2}
 .cover-footprints .walking-print{width:var(--print-size,21px);filter:none}
 @keyframes ink-footstep-visible{
   0%,100%{opacity:0;transform:translate(-50%,-50%) rotate(var(--foot-angle,0deg)) scale(.65)}
-  4%{opacity:var(--print-opacity,.84);transform:translate(calc(-50% + var(--drift-x,0px) * 0),calc(-50% + var(--drift-y,0px) * 0)) rotate(var(--foot-angle,0deg)) scale(1.03)}
+  4%{opacity:var(--print-opacity,.84);transform:translate(-50%,-50%) rotate(var(--foot-angle,0deg)) scale(1.03)}
   13%,61%{opacity:var(--print-opacity,.84);transform:translate(-50%,-50%) rotate(var(--foot-angle,0deg)) scale(1)}
   80%{opacity:0;transform:translate(-50%,-50%) rotate(var(--foot-angle,0deg)) scale(1)}
 }
