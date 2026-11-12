@@ -1308,7 +1308,7 @@ body.lightbox-open{overflow:hidden!important}
 </style>
 <script src="./config.js"></script>
 
-<script src="./app.js?v=20261112speed1" defer></script>
+<script src="./app.js?v=20261112cnprovince1" defer></script>
 <script defer src="/assets/js/ga4-unified.js?v=20261112" data-legacy-ga="1" data-legacy-purchase="0" data-embedded="0"></script>
 </head>
 <body>
@@ -1333,7 +1333,7 @@ body.lightbox-open{overflow:hidden!important}
     <div class="map-search">
       <label class="sr-only" for="churchSearch">搜尋教會或客戶</label>
       <span class="magnifier" aria-hidden="true">⌕</span>
-      <input id="churchSearch" type="search" placeholder="搜尋教會、總會、書房或聯絡處" autocomplete="off">
+      <input id="churchSearch" type="search" placeholder="搜尋教會、總會、書房或省級地區" autocomplete="off">
       <div id="churchSuggestions" class="search-results" hidden></div>
     </div>
     <section class="map-coverage" id="unmappedSummary" aria-label="未標示於地圖的意向" aria-live="polite" hidden>
@@ -1387,12 +1387,12 @@ body.lightbox-open{overflow:hidden!important}
     <div id="formWrapper" class="form-wrapper"><form id="quickForm" class="quick-form" autocomplete="off" novalidate>
   <div class="quick-fields">
     <div class="quick-field">
-      <label for="quickChurch">01　所屬教會／客戶</label>
-      <input id="quickChurch" type="search" placeholder="搜尋教會／Church（台、臺、繁簡皆可）" required autocomplete="off">
+      <label for="quickChurch">01　所屬教會／地區／客戶</label>
+      <input id="quickChurch" type="search" placeholder="搜尋教會或省份（中國大陸僅填省級地區）" required autocomplete="off">
       <div class="quick-options" id="quickChurchOptions" hidden></div>
     </div>
     <div class="quick-field">
-      <label for="quickName">02　姓名 <small>供所屬教會書報組核對</small></label>
+      <label for="quickName">02　姓名 <small>供書房或所屬單位核對</small></label>
       <input id="quickName" type="text" maxlength="40" placeholder="輸入書報組或全名即可" required>
     </div>
   </div>
