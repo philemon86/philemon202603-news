@@ -10,7 +10,7 @@
  */
 const APP = {
   SPREADSHEET_ID: '1YeD69Wnvbwvf76ouee0qbKuwsMgRM491HlErmONOUXc',
-  CATALOG_URL: 'https://www.philemon.com.tw/shirt/churches.json?v=20261108customers1',
+  CATALOG_URL: 'https://www.philemon.com.tw/shirt/churches.json?v=20261112cnprovince1',
   CLOSE_AT: '2026-12-20T23:59:59+08:00',
   TAB: '意向回覆',
   HEADERS: ['建立時間','回覆代碼','教會／客戶ID','姓名','各尺寸明細','總件數','處理狀態','更新時間','備註','名單使用告知','教會／客戶名稱','尺寸件數（易讀）'],
@@ -33,9 +33,10 @@ function fullChurchName_(c) {
   if (!taiwan || /(?:教會|教会|祈禱所|祈祷所|聚會所|聚会所|禱告所|祷告所|福音中心)$/.test(raw)) return raw;
   return raw+'教會';
 }
+// 中國大陸只使用省級行政區做意向分類，並無個別教會清單、地址或定位。
 function getChurches(){return catalog_().map(c=>({id:c.id,name:fullChurchName_(c),en:c.en,region:c.region,country:c.country,c:c.c,kind:c.kind||'church',aliases:c.aliases||[]}));}
 function catalog_(){
-  const cache=CacheService.getScriptCache(),data=cache.get('shirt_churches_v2');
+  const cache=CacheService.getScriptCache(),data=cache.get('shirt_churches_v3cn');
   if(data) return JSON.parse(data);
   const resp=UrlFetchApp.fetch(APP.CATALOG_URL,{muteHttpExceptions:true});
   if(resp.getResponseCode()!==200)throw new Error('教會清單無法取得，請確認網站已有 /shirt/churches.json');
@@ -72,7 +73,7 @@ function bridgeHtml_(nonce) {
    '<\/script></body></html>';
 }
 function isValidChurchId_(id){
-  const cache=CacheService.getScriptCache(),key='shirt_valid_churches_v2';
+  const cache=CacheService.getScriptCache(),key='shirt_valid_churches_v3cn';
   let json=cache.get(key);
   if(!json){
     const ids=catalog_().map(c=>c.id).filter(x=>/^tjc_[a-f0-9]{16}$/.test(x));
@@ -101,7 +102,7 @@ function doGet(e){
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
 function churchMetadata_(id){
-  const cache=CacheService.getScriptCache(),key='shirt_church_metadata_v2';
+  const cache=CacheService.getScriptCache(),key='shirt_church_metadata_v3cn';
   let json=cache.get(key);
   if(!json){
     const mapping={};
