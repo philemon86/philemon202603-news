@@ -89,7 +89,11 @@
   });
  }
  let storedToken=(()=>{try{return localStorage.getItem('shirt-banner-token-v1')||'';}catch(e){return '';}})();
- function markFailed(msg){
+ function trackError(reason){
+  if(typeof window.gtag==='function')window.gtag('event','shirt_interest_submit_error',{error_type:reason,form_variant:'banner'});
+ }
+ function markFailed(msg,reason='connection_error'){
+  trackError(reason);
   if(req?.timer)clearTimeout(req.timer);req=null;
   $('bwSend').disabled=false;$('bwSend').textContent='重新送出意向 →';
   setStatus(msg,'error');
@@ -119,7 +123,11 @@
    port.onmessage=e=>{
     const data=e.data;
     if(!req||data?.type!=='result'||data.requestId!==req.id)return;
-    if(!data.ok||!data.result?.ok){markFailed('登記失敗：'+String(data.error||'請稍後重試'));return;}
+    if(!data.ok||!data.result?.ok){
+     const error=String(data.error||'請稍後重試');
+     const outdated=/無效的教會|無效的.*客戶|請選擇有效的教會|名單中重新選擇/.test(error);
+     markFailed(outdated?'此地區尚未在 Google 後端啟用，請書房管理員部署最新版 Apps Script。':'登記失敗：'+error,outdated?'outdated_backend_catalog':'backend_rejected');return;
+    }
     const n=req.count;clearTimeout(req.timer);req=null;
     storedToken='';try{localStorage.removeItem('shirt-banner-token-v1');}catch(e){}
     Object.keys(Q).forEach(k=>Q[k]=0);paint();$('bwName').value='';
@@ -130,13 +138,16 @@
    port.start?.();sendRequest();
   });
   $('bwBridge').src=API+'?mode=bridge&nonce='+encodeURIComponent(nonce);
+  setTimeout(()=>{
+   if(!ready&&req&&!req.sent){setStatus('Google 服務尚未連線，這筆資料沒有送出。請使用手機瀏覽器開啟正式網站，或請書報組代填。','error');}
+  },11000);
  }
  bridge();
  $('bwForm').addEventListener('submit',event=>{
   event.preventDefault();
   if(Date.now()>END){setStatus('意向登記已截止。','error');return;}
   if(req){setStatus('上一筆正在送出，請勿重複提交。');return;}
-  if(!selected){setStatus('請從搜尋清單選擇教會或客戶。','error');search.focus();return;}
+  if(!selected){trackError('location_not_selected');setStatus('請從建議清單點選教會或省級地區，不能只輸入文字。','error');search.focus();return;}
   const name=$('bwName').value.trim().normalize('NFKC');
   if(!/^[\p{L}\p{M}][\p{L}\p{M}.'’\-\s]{1,39}$/u.test(name)){setStatus('請輸入書報組或中文／英文全名（2～40字）。','error');$('bwName').focus();return;}
   const count=total();if(count<1||count>10){setStatus('請選擇合計 1～10 件。','error');return;}
@@ -145,7 +156,7 @@
   req={id:Date.now()+'-'+Math.random().toString(36).slice(2),count,payload:{churchId:selected.id,name,sizes:{...Q},honey:'',token:storedToken},sent:false};
   $('bwSend').disabled=true;$('bwSend').textContent='連線中…';
   setStatus(ready?'正在儲存意向…':'正在連接 Google 登記系統…');
-  req.timer=setTimeout(()=>markFailed('Google 尚未確認儲存，請稍後重新送出。'),30000);
+  req.timer=setTimeout(()=>markFailed('Google 登記服務逾時，資料尚未確認儲存。請使用 Chrome／Safari 開啟正式網站；中國大陸可請能連線 Google 的書報組代填。','google_timeout'),30000);
   sendRequest();
  });
  // Send the card's intrinsic height, never the iframe document/viewport height.
