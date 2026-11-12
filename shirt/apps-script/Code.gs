@@ -8,6 +8,9 @@
  * 5. 送出成功即計入統計；僅需在試算表將異常或測試資料改為「排除」。
  * 只在私人試算表保留姓名及尺寸供書房與所屬教會書報組核對，需本人同意，代填者須取得本人同意；公開 API 僅回傳統計，不提供個人資料。
  */
+// Non-geolocated registrations count toward the goal without publishing any church/location.
+const UNLOCATED_CHURCH_ID_ = 'tjc_0000000000000000';
+const UNLOCATED_CHURCH_NAME_ = '未指定地點';
 const APP = {
   SPREADSHEET_ID: '1YeD69Wnvbwvf76ouee0qbKuwsMgRM491HlErmONOUXc',
   CATALOG_URL: 'https://www.philemon.com.tw/shirt/churches.json?v=20261112cnprovince1',
@@ -127,10 +130,13 @@ function churchMetadata_(id){
 function submitInterest(payload){
   if(Date.now()>new Date(APP.CLOSE_AT).getTime())throw new Error('本次調查已截止');
   if(!payload || payload.honey)throw new Error('無法送出，請重新載入');
-  const cId=String(payload.churchId||'');
-  if(!/^tjc_[a-f0-9]{16}$/.test(cId))throw new Error('請選擇有效的教會或客戶單位');
-  const church=churchMetadata_(cId);
-  if(!church)throw new Error('無效的教會或客戶，請從名單中重新選擇');
+  // Blank or unmatched text is intentionally treated as anonymous location data.
+  // Never store arbitrary, potentially sensitive unlisted congregation names.
+  const rawId=String(payload.churchId||'');
+  const cId=rawId||UNLOCATED_CHURCH_ID_;
+  if(!/^tjc_[a-f0-9]{16}$/.test(cId))throw new Error('登記地區資料格式不正確');
+  const church=cId===UNLOCATED_CHURCH_ID_?{name:UNLOCATED_CHURCH_NAME_}:churchMetadata_(cId);
+  if(!church)throw new Error('登記地區尚未啟用，請更新頁面再試');
   const fullName=String(payload.name||'').trim().normalize('NFKC');
   if(!/^[\p{L}\p{M}][\p{L}\p{M}.'’\-\s]{1,39}$/u.test(fullName))throw new Error('請輸入書報組或中文／英文全名（2～40字）');
   const counts={},raw=payload.sizes||{};
@@ -165,8 +171,12 @@ function publicStats_(){
  for(const r of rows){
   const id=String(r[2]||''),qty=Number(r[5])||0,status=String(r[6]||'已登記');
   if(!/^tjc_[a-f0-9]{16}$/.test(id)||!Number.isInteger(qty)||qty<1||qty>10||status==='排除')continue;
-  if(!stats.has(id))stats.set(id,{id,confirmed:0,pending:0});
-  stats.get(id).confirmed+=qty;total+=qty;
+  // Always count valid pieces and people; map only verified named locations.
+  if(id!==UNLOCATED_CHURCH_ID_){
+   if(!stats.has(id))stats.set(id,{id,confirmed:0,pending:0});
+   stats.get(id).confirmed+=qty;
+  }
+  total+=qty;
   people+=1; // One valid response row represents one registrant, regardless of quantity.
  }
  // Public data: one person per valid registration row; never include names or receipt tokens.
