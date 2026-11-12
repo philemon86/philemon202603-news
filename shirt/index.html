@@ -1,6 +1,10 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
+<!-- Google Apps Script bridge accepts www.philemon.com.tw as its parent origin. -->
+<script>
+if(location.hostname==='philemon.com.tw')location.replace('https://www.philemon.com.tw'+location.pathname+location.search+location.hash);
+</script>
 <!-- GA4 | Philemon main property -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-JD1JHF86H1"></script>
 <script>
@@ -1308,7 +1312,7 @@ body.lightbox-open{overflow:hidden!important}
 </style>
 <script src="./config.js"></script>
 
-<script src="./app.js?v=20261112cnprovince1" defer></script>
+<script src="./app.js?v=20261112errors2" defer></script>
 <script defer src="/assets/js/ga4-unified.js?v=20261112" data-legacy-ga="1" data-legacy-purchase="0" data-embedded="0"></script>
 </head>
 <body>
