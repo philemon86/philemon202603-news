@@ -4,6 +4,7 @@
  if(!root)return;
  const $=id=>document.getElementById(id);
  const API=(window.SHIRT_CONFIG||{}).scriptUrl||'';
+ const UNLOCATED_CHURCH_ID='tjc_0000000000000000';
  const END=new Date('2026-12-20T23:59:59+08:00').getTime();
  const SIZES=['110cm','120cm','2XS','XS','S','M','L','XL','2XL','3XL','4XL','5XL'];
  const Q=Object.fromEntries(SIZES.map(k=>[k,0]));
@@ -130,11 +131,12 @@
      const outdated=/無效的教會|無效的.*客戶|請選擇有效的教會|名單中重新選擇/.test(error);
      markFailed(outdated?'此地區尚未在 Google 後端啟用，請書房管理員部署最新版 Apps Script。':'登記失敗：'+error,outdated?'outdated_backend_catalog':'backend_rejected');return;
     }
-    const n=req.count;const elapsed=Math.max(0,Date.now()-(req.startedAt||Date.now()));clearTimeout(req.timer);req=null;
+    const n=req.count;const withoutLocation=req.payload.churchId===UNLOCATED_CHURCH_ID;const elapsed=Math.max(0,Date.now()-(req.startedAt||Date.now()));clearTimeout(req.timer);req=null;
     storedToken='';try{localStorage.removeItem('shirt-banner-token-v1');}catch(e){}
     Object.keys(Q).forEach(k=>Q[k]=0);paint();$('bwName').value='';
+    if(withoutLocation){selected=null;search.value='';search.classList.remove('selected');}
     $('bwSend').disabled=false;$('bwSend').textContent='繼續填寫下一位 →';
-    setStatus('登記成功，已送出 '+n+' 件意向。','success');
+    setStatus('登記成功，已送出 '+n+' 件意向。'+(withoutLocation?'地點未指定，僅統計件數。':''),'success');
     if(typeof window.gtag==='function')window.gtag('event','shirt_interest_submit_success',{item_category:'anniversary_shirt',quantity:n,form_variant:'banner',response_time_ms:elapsed});loadStats();setTimeout(loadStats,1800);
    };
    port.start?.();sendRequest();
@@ -149,13 +151,13 @@
   event.preventDefault();
   if(Date.now()>END){setStatus('意向登記已截止。','error');return;}
   if(req){setStatus('上一筆正在送出，請勿重複提交。');return;}
-  if(!selected){trackError('location_not_selected');setStatus('請從建議清單點選教會或省級地區，不能只輸入文字。','error');search.focus();return;}
+  // Blank or unmatched church names are allowed and count toward the total only.
   const name=$('bwName').value.trim().normalize('NFKC');
   if(!/^[\p{L}\p{M}][\p{L}\p{M}.'’\-\s]{1,39}$/u.test(name)){setStatus('請輸入書報組或中文／英文全名（2～40字）。','error');$('bwName').focus();return;}
   const count=total();if(count<1||count>10){setStatus('請選擇合計 1～10 件。','error');return;}
   if(!/^[0-9a-f-]{36}$/.test(storedToken))storedToken=createToken();
   try{localStorage.setItem('shirt-banner-token-v1',storedToken);}catch(e){}
-  req={id:Date.now()+'-'+Math.random().toString(36).slice(2),startedAt:Date.now(),count,payload:{churchId:selected.id,name,sizes:{...Q},honey:'',token:storedToken},sent:false};
+  req={id:Date.now()+'-'+Math.random().toString(36).slice(2),startedAt:Date.now(),count,payload:{churchId:selected?.id||UNLOCATED_CHURCH_ID,name,sizes:{...Q},honey:'',token:storedToken},sent:false};
   $('bwSend').disabled=true;$('bwSend').textContent='連線中…';
   setStatus(ready?'正在儲存意向…':'正在連接 Google 登記系統…');
   req.timer=setTimeout(()=>markFailed('Google 登記服務逾時，資料尚未確認儲存。請使用 Chrome／Safari 開啟正式網站；中國大陸可請能連線 Google 的書報組代填。','google_timeout'),30000);
