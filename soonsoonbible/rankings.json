@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-11T07:46:44.407415+00:00",
+  "updatedAt": "2026-11-12T08:23:04.834013+00:00",
   "startDate": "2026-06-24",
   "dateRangeLabel": "\u7d2f\u8a08\uff08\u81ea 2026-06-24\uff09",
   "keywordSearchTop5": [
@@ -28,6 +28,10 @@
     {
       "label": "Jhn \u7b2c1\u7ae0",
       "value": 10
+    },
+    {
+      "label": "Mat \u7b2c6\u7ae0",
+      "value": 8
     }
   ],
   "verseCopyTop5": [
