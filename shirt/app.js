@@ -1,6 +1,7 @@
 'use strict';
 (()=>{
 const $=id=>document.getElementById(id);
+const UNLOCATED_CHURCH_ID='tjc_0000000000000000';
 const APP_URL=(window.SHIRT_CONFIG||{}).scriptUrl||'';
 const END=new Date('2026-12-20T23:59:59+08:00').getTime();
 const PAIRS="乾干亞亚來来俱具倫伦傘伞傳传僑侨內内務务勝胜勢势區区員员問问啟启國国圍围園园圓圆報报壇坛壢坜壩坝壽寿奧奥學学實实寧宁寶宝專专岡冈島岛峽峡崙仑嶼屿巒峦師师庫库廈厦廣广廬庐強强後后復复愛爱慶庆應应戶户擔担昇升晉晋書书會会東东柵栅棧栈楊杨榮荣樂乐樓楼樹树橋桥橫横權权歷历歸归涼凉溝沟滿满漁渔漢汉漬渍澤泽濱滨灣湾烏乌營营爾尔獅狮現现瑪玛璉琏環环發发磯矶禱祷穌稣篤笃簡简紅红納纳紐纽組组綠绿維维線线縣县繼继羅罗義义聖圣腦脑腳脚臥卧臺台興兴莊庄華华萊莱萬万葉叶蓋盖蓮莲蘆芦蘇苏蘭兰號号裡里見见親亲觀观觸触詩诗豐丰貝贝貞贞財财貢贡貴贵賓宾輝辉轄辖農农連连遊游運运達达遠远邊边鄉乡鄰邻醃腌銅铜鋪铺錦锦鎮镇鐵铁長长門门開开間间閣阁閩闽關关阪坂陽阳際际雙双雲云霧雾靈灵靜静韓韩頂顶順顺領领頭头館馆馬马鬧闹魯鲁鰲鳌鳥鸟鳳凤鴨鸭鶯莺鶴鹤鹽盐麗丽麥麦龍龙龜龟";
@@ -390,7 +391,7 @@ function initQuickForm(){
   event.preventDefault();
   if(Date.now()>END){showQuickMessage('意向調查已截止','error');return;}
   if(pendingRequest){showQuickMessage('上一筆資料仍在傳送，請勿重複送出','info');return;}
-  if(!selectedChurch){trackSubmitError('location_not_selected');showQuickMessage('請從教會或省份的建議清單點選地區，不能只輸入文字','error');church.focus();return;}
+  // A location may be blank or unmatched. Those submissions count pieces only.
   const fullName=$('quickName').value.trim().normalize('NFKC');
   if(!/^[\p{L}\p{M}][\p{L}\p{M}.'’\-\s]{1,39}$/u.test(fullName)){showQuickMessage('請填寫書報組或中文／英文全名（2～40字）','error');return;}
   const qty=getTotal();if(qty<1||qty>10){showQuickMessage('請選擇1至10件','error');return;}
@@ -401,7 +402,8 @@ function initQuickForm(){
    });
   }
   try{localStorage.setItem('shirt_receipt_code_v3',token);}catch(e){}
-  pendingRequest={req:String(Date.now())+'-'+Math.random().toString(36).slice(2,8),token,churchId:selectedChurch.id,qty,body:{churchId:selectedChurch.id,name:fullName,sizes:{...quantities},honey:'',token},sent:false};
+  const registrationId=selectedChurch?.id||UNLOCATED_CHURCH_ID;
+  pendingRequest={req:String(Date.now())+'-'+Math.random().toString(36).slice(2,8),token,churchId:registrationId,qty,body:{churchId:registrationId,name:fullName,sizes:{...quantities},honey:'',token},sent:false};
   submit.disabled=true;submit.textContent='準備送出…';
   showQuickMessage(readyBridge?'正在保存登記…':'正在連接 Google，尚未送出資料');
   pendingRequest.timeout=setTimeout(()=>{
@@ -444,7 +446,8 @@ function handleBridgeResult(data){
  $('quickSend').disabled=false;$('quickSend').textContent='送出下一筆 →';
  $('quickName').value='';
  Object.keys(quantities).forEach(k=>{quantities[k]=0;});paintQty();
- showQuickMessage('登記成功：'+p.qty+' 件。可繼續填寫下一位。','success');
+ if(p.churchId===UNLOCATED_CHURCH_ID){$('quickChurch').value='';$('quickChurch').classList.remove('selected');}
+ showQuickMessage('登記成功：'+p.qty+' 件。'+(p.churchId===UNLOCATED_CHURCH_ID?'地點未指定，僅統計件數。':'可繼續填寫下一位。'),'success');
  if(typeof window.gtag==='function')window.gtag('event','shirt_interest_submit_success',{item_category:'anniversary_shirt',quantity:p.qty});
  $('quickName').focus();
  status('登記成功 · 統計更新中');
