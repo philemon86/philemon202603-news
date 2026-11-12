@@ -252,6 +252,626 @@
     "loc": "country_center_approximate"
   },
   {
+    "id": "tjc_c1a0000000000001",
+    "c": "CN",
+    "country": "中國大陸",
+    "region": "北京市",
+    "name": "中國大陸｜北京市",
+    "en": "北京市",
+    "label": "中國大陸｜北京市（省級登記，不代表教會位置）",
+    "aliases": [
+      "北京",
+      "北京",
+      "中國大陸",
+      "中国大陆",
+      "China"
+    ],
+    "lat": 39.9,
+    "lng": 116.4,
+    "loc": "province_reference_approximate",
+    "kind": "province"
+  },
+  {
+    "id": "tjc_c1a0000000000002",
+    "c": "CN",
+    "country": "中國大陸",
+    "region": "天津市",
+    "name": "中國大陸｜天津市",
+    "en": "天津市",
+    "label": "中國大陸｜天津市（省級登記，不代表教會位置）",
+    "aliases": [
+      "天津",
+      "天津",
+      "中國大陸",
+      "中国大陆",
+      "China"
+    ],
+    "lat": 39.12,
+    "lng": 117.2,
+    "loc": "province_reference_approximate",
+    "kind": "province"
+  },
+  {
+    "id": "tjc_c1a0000000000003",
+    "c": "CN",
+    "country": "中國大陸",
+    "region": "上海市",
+    "name": "中國大陸｜上海市",
+    "en": "上海市",
+    "label": "中國大陸｜上海市（省級登記，不代表教會位置）",
+    "aliases": [
+      "上海",
+      "上海",
+      "中國大陸",
+      "中国大陆",
+      "China"
+    ],
+    "lat": 31.23,
+    "lng": 121.47,
+    "loc": "province_reference_approximate",
+    "kind": "province"
+  },
+  {
+    "id": "tjc_c1a0000000000004",
+    "c": "CN",
+    "country": "中國大陸",
+    "region": "重慶市",
+    "name": "中國大陸｜重慶市",
+    "en": "重慶市",
+    "label": "中國大陸｜重慶市（省級登記，不代表教會位置）",
+    "aliases": [
+      "重庆",
+      "重慶",
+      "中國大陸",
+      "中国大陆",
+      "China"
+    ],
+    "lat": 29.56,
+    "lng": 106.55,
+    "loc": "province_reference_approximate",
+    "kind": "province"
+  },
+  {
+    "id": "tjc_c1a0000000000005",
+    "c": "CN",
+    "country": "中國大陸",
+    "region": "河北省",
+    "name": "中國大陸｜河北省",
+    "en": "河北省",
+    "label": "中國大陸｜河北省（省級登記，不代表教會位置）",
+    "aliases": [
+      "河北",
+      "河北",
+      "中國大陸",
+      "中国大陆",
+      "China"
+    ],
+    "lat": 38.04,
+    "lng": 114.51,
+    "loc": "province_reference_approximate",
+    "kind": "province"
+  },
+  {
+    "id": "tjc_c1a0000000000006",
+    "c": "CN",
+    "country": "中國大陸",
+    "region": "山西省",
+    "name": "中國大陸｜山西省",
+    "en": "山西省",
+    "label": "中國大陸｜山西省（省級登記，不代表教會位置）",
+    "aliases": [
+      "山西",
+      "山西",
+      "中國大陸",
+      "中国大陆",
+      "China"
+    ],
+    "lat": 37.87,
+    "lng": 112.55,
+    "loc": "province_reference_approximate",
+    "kind": "province"
+  },
+  {
+    "id": "tjc_c1a0000000000007",
+    "c": "CN",
+    "country": "中國大陸",
+    "region": "遼寧省",
+    "name": "中國大陸｜遼寧省",
+    "en": "遼寧省",
+    "label": "中國大陸｜遼寧省（省級登記，不代表教會位置）",
+    "aliases": [
+      "辽宁",
+      "遼寧",
+      "中國大陸",
+      "中国大陆",
+      "China"
+    ],
+    "lat": 41.8,
+    "lng": 123.43,
+    "loc": "province_reference_approximate",
+    "kind": "province"
+  },
+  {
+    "id": "tjc_c1a0000000000008",
+    "c": "CN",
+    "country": "中國大陸",
+    "region": "吉林省",
+    "name": "中國大陸｜吉林省",
+    "en": "吉林省",
+    "label": "中國大陸｜吉林省（省級登記，不代表教會位置）",
+    "aliases": [
+      "吉林",
+      "吉林",
+      "中國大陸",
+      "中国大陆",
+      "China"
+    ],
+    "lat": 43.9,
+    "lng": 125.32,
+    "loc": "province_reference_approximate",
+    "kind": "province"
+  },
+  {
+    "id": "tjc_c1a0000000000009",
+    "c": "CN",
+    "country": "中國大陸",
+    "region": "黑龍江省",
+    "name": "中國大陸｜黑龍江省",
+    "en": "黑龍江省",
+    "label": "中國大陸｜黑龍江省（省級登記，不代表教會位置）",
+    "aliases": [
+      "黑龙江",
+      "黑龍江",
+      "中國大陸",
+      "中国大陆",
+      "China"
+    ],
+    "lat": 45.8,
+    "lng": 126.53,
+    "loc": "province_reference_approximate",
+    "kind": "province"
+  },
+  {
+    "id": "tjc_c1a0000000000010",
+    "c": "CN",
+    "country": "中國大陸",
+    "region": "江蘇省",
+    "name": "中國大陸｜江蘇省",
+    "en": "江蘇省",
+    "label": "中國大陸｜江蘇省（省級登記，不代表教會位置）",
+    "aliases": [
+      "江苏",
+      "江蘇",
+      "中國大陸",
+      "中国大陆",
+      "China"
+    ],
+    "lat": 32.06,
+    "lng": 118.8,
+    "loc": "province_reference_approximate",
+    "kind": "province"
+  },
+  {
+    "id": "tjc_c1a0000000000011",
+    "c": "CN",
+    "country": "中國大陸",
+    "region": "浙江省",
+    "name": "中國大陸｜浙江省",
+    "en": "浙江省",
+    "label": "中國大陸｜浙江省（省級登記，不代表教會位置）",
+    "aliases": [
+      "浙江",
+      "浙江",
+      "中國大陸",
+      "中国大陆",
+      "China"
+    ],
+    "lat": 30.27,
+    "lng": 120.15,
+    "loc": "province_reference_approximate",
+    "kind": "province"
+  },
+  {
+    "id": "tjc_c1a0000000000012",
+    "c": "CN",
+    "country": "中國大陸",
+    "region": "安徽省",
+    "name": "中國大陸｜安徽省",
+    "en": "安徽省",
+    "label": "中國大陸｜安徽省（省級登記，不代表教會位置）",
+    "aliases": [
+      "安徽",
+      "安徽",
+      "中國大陸",
+      "中国大陆",
+      "China"
+    ],
+    "lat": 31.82,
+    "lng": 117.23,
+    "loc": "province_reference_approximate",
+    "kind": "province"
+  },
+  {
+    "id": "tjc_c1a0000000000013",
+    "c": "CN",
+    "country": "中國大陸",
+    "region": "福建省",
+    "name": "中國大陸｜福建省",
+    "en": "福建省",
+    "label": "中國大陸｜福建省（省級登記，不代表教會位置）",
+    "aliases": [
+      "福建",
+      "福建",
+      "中國大陸",
+      "中国大陆",
+      "China"
+    ],
+    "lat": 26.07,
+    "lng": 119.3,
+    "loc": "province_reference_approximate",
+    "kind": "province"
+  },
+  {
+    "id": "tjc_c1a0000000000014",
+    "c": "CN",
+    "country": "中國大陸",
+    "region": "江西省",
+    "name": "中國大陸｜江西省",
+    "en": "江西省",
+    "label": "中國大陸｜江西省（省級登記，不代表教會位置）",
+    "aliases": [
+      "江西",
+      "江西",
+      "中國大陸",
+      "中国大陆",
+      "China"
+    ],
+    "lat": 28.68,
+    "lng": 115.85,
+    "loc": "province_reference_approximate",
+    "kind": "province"
+  },
+  {
+    "id": "tjc_c1a0000000000015",
+    "c": "CN",
+    "country": "中國大陸",
+    "region": "山東省",
+    "name": "中國大陸｜山東省",
+    "en": "山東省",
+    "label": "中國大陸｜山東省（省級登記，不代表教會位置）",
+    "aliases": [
+      "山东",
+      "山東",
+      "中國大陸",
+      "中国大陆",
+      "China"
+    ],
+    "lat": 36.65,
+    "lng": 117.12,
+    "loc": "province_reference_approximate",
+    "kind": "province"
+  },
+  {
+    "id": "tjc_c1a0000000000016",
+    "c": "CN",
+    "country": "中國大陸",
+    "region": "河南省",
+    "name": "中國大陸｜河南省",
+    "en": "河南省",
+    "label": "中國大陸｜河南省（省級登記，不代表教會位置）",
+    "aliases": [
+      "河南",
+      "河南",
+      "中國大陸",
+      "中国大陆",
+      "China"
+    ],
+    "lat": 34.75,
+    "lng": 113.62,
+    "loc": "province_reference_approximate",
+    "kind": "province"
+  },
+  {
+    "id": "tjc_c1a0000000000017",
+    "c": "CN",
+    "country": "中國大陸",
+    "region": "湖北省",
+    "name": "中國大陸｜湖北省",
+    "en": "湖北省",
+    "label": "中國大陸｜湖北省（省級登記，不代表教會位置）",
+    "aliases": [
+      "湖北",
+      "湖北",
+      "中國大陸",
+      "中国大陆",
+      "China"
+    ],
+    "lat": 30.59,
+    "lng": 114.3,
+    "loc": "province_reference_approximate",
+    "kind": "province"
+  },
+  {
+    "id": "tjc_c1a0000000000018",
+    "c": "CN",
+    "country": "中國大陸",
+    "region": "湖南省",
+    "name": "中國大陸｜湖南省",
+    "en": "湖南省",
+    "label": "中國大陸｜湖南省（省級登記，不代表教會位置）",
+    "aliases": [
+      "湖南",
+      "湖南",
+      "中國大陸",
+      "中国大陆",
+      "China"
+    ],
+    "lat": 28.23,
+    "lng": 112.94,
+    "loc": "province_reference_approximate",
+    "kind": "province"
+  },
+  {
+    "id": "tjc_c1a0000000000019",
+    "c": "CN",
+    "country": "中國大陸",
+    "region": "廣東省",
+    "name": "中國大陸｜廣東省",
+    "en": "廣東省",
+    "label": "中國大陸｜廣東省（省級登記，不代表教會位置）",
+    "aliases": [
+      "广东",
+      "廣東",
+      "中國大陸",
+      "中国大陆",
+      "China"
+    ],
+    "lat": 23.13,
+    "lng": 113.26,
+    "loc": "province_reference_approximate",
+    "kind": "province"
+  },
+  {
+    "id": "tjc_c1a0000000000020",
+    "c": "CN",
+    "country": "中國大陸",
+    "region": "海南省",
+    "name": "中國大陸｜海南省",
+    "en": "海南省",
+    "label": "中國大陸｜海南省（省級登記，不代表教會位置）",
+    "aliases": [
+      "海南",
+      "海南",
+      "中國大陸",
+      "中国大陆",
+      "China"
+    ],
+    "lat": 20.03,
+    "lng": 110.33,
+    "loc": "province_reference_approximate",
+    "kind": "province"
+  },
+  {
+    "id": "tjc_c1a0000000000021",
+    "c": "CN",
+    "country": "中國大陸",
+    "region": "四川省",
+    "name": "中國大陸｜四川省",
+    "en": "四川省",
+    "label": "中國大陸｜四川省（省級登記，不代表教會位置）",
+    "aliases": [
+      "四川",
+      "四川",
+      "中國大陸",
+      "中国大陆",
+      "China"
+    ],
+    "lat": 30.67,
+    "lng": 104.06,
+    "loc": "province_reference_approximate",
+    "kind": "province"
+  },
+  {
+    "id": "tjc_c1a0000000000022",
+    "c": "CN",
+    "country": "中國大陸",
+    "region": "貴州省",
+    "name": "中國大陸｜貴州省",
+    "en": "貴州省",
+    "label": "中國大陸｜貴州省（省級登記，不代表教會位置）",
+    "aliases": [
+      "贵州",
+      "貴州",
+      "中國大陸",
+      "中国大陆",
+      "China"
+    ],
+    "lat": 26.65,
+    "lng": 106.63,
+    "loc": "province_reference_approximate",
+    "kind": "province"
+  },
+  {
+    "id": "tjc_c1a0000000000023",
+    "c": "CN",
+    "country": "中國大陸",
+    "region": "雲南省",
+    "name": "中國大陸｜雲南省",
+    "en": "雲南省",
+    "label": "中國大陸｜雲南省（省級登記，不代表教會位置）",
+    "aliases": [
+      "云南",
+      "雲南",
+      "中國大陸",
+      "中国大陆",
+      "China"
+    ],
+    "lat": 25.04,
+    "lng": 102.71,
+    "loc": "province_reference_approximate",
+    "kind": "province"
+  },
+  {
+    "id": "tjc_c1a0000000000024",
+    "c": "CN",
+    "country": "中國大陸",
+    "region": "陝西省",
+    "name": "中國大陸｜陝西省",
+    "en": "陝西省",
+    "label": "中國大陸｜陝西省（省級登記，不代表教會位置）",
+    "aliases": [
+      "陕西",
+      "陝西",
+      "中國大陸",
+      "中国大陆",
+      "China"
+    ],
+    "lat": 34.34,
+    "lng": 108.94,
+    "loc": "province_reference_approximate",
+    "kind": "province"
+  },
+  {
+    "id": "tjc_c1a0000000000025",
+    "c": "CN",
+    "country": "中國大陸",
+    "region": "甘肅省",
+    "name": "中國大陸｜甘肅省",
+    "en": "甘肅省",
+    "label": "中國大陸｜甘肅省（省級登記，不代表教會位置）",
+    "aliases": [
+      "甘肃",
+      "甘肅",
+      "中國大陸",
+      "中国大陆",
+      "China"
+    ],
+    "lat": 36.06,
+    "lng": 103.83,
+    "loc": "province_reference_approximate",
+    "kind": "province"
+  },
+  {
+    "id": "tjc_c1a0000000000026",
+    "c": "CN",
+    "country": "中國大陸",
+    "region": "青海省",
+    "name": "中國大陸｜青海省",
+    "en": "青海省",
+    "label": "中國大陸｜青海省（省級登記，不代表教會位置）",
+    "aliases": [
+      "青海",
+      "青海",
+      "中國大陸",
+      "中国大陆",
+      "China"
+    ],
+    "lat": 36.62,
+    "lng": 101.78,
+    "loc": "province_reference_approximate",
+    "kind": "province"
+  },
+  {
+    "id": "tjc_c1a0000000000027",
+    "c": "CN",
+    "country": "中國大陸",
+    "region": "內蒙古自治區",
+    "name": "中國大陸｜內蒙古自治區",
+    "en": "內蒙古自治區",
+    "label": "中國大陸｜內蒙古自治區（省級登記，不代表教會位置）",
+    "aliases": [
+      "内蒙古",
+      "內蒙古",
+      "中國大陸",
+      "中国大陆",
+      "China"
+    ],
+    "lat": 40.82,
+    "lng": 111.75,
+    "loc": "province_reference_approximate",
+    "kind": "province"
+  },
+  {
+    "id": "tjc_c1a0000000000028",
+    "c": "CN",
+    "country": "中國大陸",
+    "region": "廣西壯族自治區",
+    "name": "中國大陸｜廣西壯族自治區",
+    "en": "廣西壯族自治區",
+    "label": "中國大陸｜廣西壯族自治區（省級登記，不代表教會位置）",
+    "aliases": [
+      "广西",
+      "廣西壯族",
+      "中國大陸",
+      "中国大陆",
+      "China"
+    ],
+    "lat": 22.82,
+    "lng": 108.32,
+    "loc": "province_reference_approximate",
+    "kind": "province"
+  },
+  {
+    "id": "tjc_c1a0000000000029",
+    "c": "CN",
+    "country": "中國大陸",
+    "region": "西藏自治區",
+    "name": "中國大陸｜西藏自治區",
+    "en": "西藏自治區",
+    "label": "中國大陸｜西藏自治區（省級登記，不代表教會位置）",
+    "aliases": [
+      "西藏",
+      "西藏",
+      "中國大陸",
+      "中国大陆",
+      "China"
+    ],
+    "lat": 29.65,
+    "lng": 91.12,
+    "loc": "province_reference_approximate",
+    "kind": "province"
+  },
+  {
+    "id": "tjc_c1a0000000000030",
+    "c": "CN",
+    "country": "中國大陸",
+    "region": "寧夏回族自治區",
+    "name": "中國大陸｜寧夏回族自治區",
+    "en": "寧夏回族自治區",
+    "label": "中國大陸｜寧夏回族自治區（省級登記，不代表教會位置）",
+    "aliases": [
+      "宁夏",
+      "寧夏回族",
+      "中國大陸",
+      "中国大陆",
+      "China"
+    ],
+    "lat": 38.47,
+    "lng": 106.27,
+    "loc": "province_reference_approximate",
+    "kind": "province"
+  },
+  {
+    "id": "tjc_c1a0000000000031",
+    "c": "CN",
+    "country": "中國大陸",
+    "region": "新疆維吾爾自治區",
+    "name": "中國大陸｜新疆維吾爾自治區",
+    "en": "新疆維吾爾自治區",
+    "label": "中國大陸｜新疆維吾爾自治區（省級登記，不代表教會位置）",
+    "aliases": [
+      "新疆",
+      "新疆維吾爾",
+      "中國大陸",
+      "中国大陆",
+      "China"
+    ],
+    "lat": 43.83,
+    "lng": 87.62,
+    "loc": "province_reference_approximate",
+    "kind": "province"
+  },
+  {
     "id": "tjc_c14d16b232e81575",
     "c": "DE",
     "country": "德國",
