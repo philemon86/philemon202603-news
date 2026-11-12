@@ -10,7 +10,7 @@
  const P="乾干亞亚來来俱具倫伦傘伞傳传僑侨內内務务勝胜勢势區区員员問问啟启國国圍围園园圓圆報报壇坛壢坜壩坝壽寿奧奥學学實实寧宁寶宝專专岡冈島岛峽峡崙仑嶼屿巒峦師师庫库廈厦廣广廬庐強强後后復复愛爱慶庆應应戶户擔担昇升晉晋書书會会東东柵栅棧栈楊杨榮荣樂乐樓楼樹树橋桥橫横權权歷历歸归涼凉溝沟滿满漁渔漢汉漬渍澤泽濱滨灣湾烏乌營营爾尔獅狮現现瑪玛璉琏環环發发磯矶禱祷穌稣篤笃簡简紅红納纳紐纽組组綠绿維维線线縣县繼继羅罗義义聖圣腦脑腳脚臥卧臺台興兴莊庄華华萊莱萬万葉叶蓋盖蓮莲蘆芦蘇苏蘭兰號号裡里見见親亲觀观觸触詩诗豐丰貝贝貞贞財财貢贡貴贵賓宾輝辉轄辖農农連连遊游運运達达遠远邊边鄉乡鄰邻醃腌銅铜鋪铺錦锦鎮镇鐵铁長长門门開开間间閣阁閩闽關关阪坂陽阳際际雙双雲云霧雾靈灵靜静韓韩頂顶順顺領领頭头館馆馬马鬧闹魯鲁鰲鳌鳥鸟鳳凤鴨鸭鶯莺鶴鹤鹽盐麗丽麥麦龍龙龜龟";
  const dict=new Map(Array.from({length:P.length/2},(_,i)=>[P[2*i],P[2*i+1]]));
  const norm=v=>Array.from(String(v||'').normalize('NFKC').toLowerCase()).map(x=>dict.get(x)||x).join('').replace(/[\s\-_.·・（）()]/g,'');
- const title=c=>c.c==='TW'&&!/(教會|教会|祈禱所|祈祷所|聚會所|聚会所|福音中心|禱告所|祷告所)$/.test(c.name||'')?c.name+'教會':c.name;
+ const title=c=>c.kind==='province'?(c.region||c.name.split('｜').pop()):c.c==='TW'&&!/(教會|教会|祈禱所|祈祷所|聚會所|聚会所|福音中心|禱告所|祷告所)$/.test(c.name||'')?c.name+'教會':c.name;
  const fmt=n=>Math.max(0,Number(n)||0).toLocaleString('zh-TW');
  let catalog=[],selected=null,port=null,ready=false,req=null;
  const deadlineTimer=()=>{
@@ -46,10 +46,10 @@
   if(!q){box.hidden=true;return;}
   const found=catalog.filter(c=>[c.name,title(c),c.en,c.region,c.country,c.label,...(Array.isArray(c.aliases)?c.aliases:[])].some(x=>norm(x).includes(q)))
     .map((c,i)=>({c,i,score:norm(title(c))===q?0:norm(title(c)).startsWith(q)?1:c.kind==='customer'?2:3}))
-    .sort((a,b)=>a.score-b.score||a.i-b.i).slice(0,12);
+    .sort((a,b)=>a.score-b.score||a.i-b.i).slice(0,/^(中國|中國大陸|大陸|china|cn)$/.test(q)?40:12);
   for(const {c} of found){
    const b=document.createElement('button');b.type='button';
-   b.textContent=title(c)+(c.kind==='customer'?' · 客戶':' · '+c.country);
+   b.textContent=title(c)+(c.kind==='province'?' · 中國大陸（省級地區）':c.kind==='customer'?' · 客戶':' · '+c.country);
    b.addEventListener('click',()=>{
     selected=c;search.value=title(c);search.classList.add('selected');box.hidden=true;$('bwName').focus();
    });
@@ -61,7 +61,7 @@
  search.addEventListener('input',()=>{selected=null;search.classList.remove('selected');options();});
  search.addEventListener('focus',options);
  document.addEventListener('click',e=>{if(!e.target.closest('.field'))box.hidden=true;});
- fetch('./churches.json?v=20261108customers1',{cache:'default'}).then(r=>{if(!r.ok)throw Error('名錄無法讀取');return r.json();})
+ fetch('./churches.json?v=20261112cnprovince1',{cache:'default'}).then(r=>{if(!r.ok)throw Error('名錄無法讀取');return r.json();})
  .then(a=>{if(!Array.isArray(a))throw Error('名錄格式異常');catalog=a;options();})
  .catch(()=>setStatus('教會／客戶名錄載入失敗，請重新整理頁面。','error'));
  function loadStats(){
