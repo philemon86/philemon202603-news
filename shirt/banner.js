@@ -65,6 +65,8 @@
  .then(a=>{if(!Array.isArray(a))throw Error('名錄格式異常');catalog=a;options();})
  .catch(()=>setStatus('教會／客戶名錄載入失敗，請重新整理頁面。','error'));
  function loadStats(){
+  // Prioritize saving the user's registration over public summary refreshes.
+  if(req)return;
   if(!/^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(API))return;
   const key='__bwStat_'+Date.now()+'_'+Math.random().toString(36).slice(2,8);
   const script=document.createElement('script');let finished=false;
