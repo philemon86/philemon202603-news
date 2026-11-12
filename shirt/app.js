@@ -18,7 +18,7 @@ const searchCatalog=(q,limit=12)=>catalog.filter(c=>queryChurch(c,q))
  }).sort((a,b)=>a.score-b.score||a.i-b.i).slice(0,limit).map(x=>x.c);
 const countOf=r=>Math.max(0,Number(r?.confirmed)||0)+Math.max(0,Number(r?.pending)||0);
 const validURL=/^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/.test(APP_URL);
-let catalog=[],byId=new Map(),live=null,scope='TW',map=null,base=null,hot=null,mapLoaded=false,loadingStats=false;
+let catalog=[],byId=new Map(),live=null,scope='TW',map=null,base=null,hot=null,mapLoaded=false,loadingStats=false,statsRefreshRequested=false;
 let selectedChurch=null,bridgePort=null,bridgeNonce='',pendingRequest=null,readyBridge=false;
 let mapVisible=true;
 const SIZES=['110cm','120cm','2XS','XS','S','M','L','XL','2XL','3XL','4XL','5XL'];
@@ -301,23 +301,26 @@ function restoreCachedStats(){
  }catch(e){}
 }
 function loadStats(){
- if(!validURL||loadingStats)return Promise.resolve();
+ if(!validURL)return Promise.resolve();
+ if(loadingStats){statsRefreshRequested=true;return Promise.resolve();}
  loadingStats=true;
  const cb='__shirtMap_'+Date.now()+'_'+Math.floor(Math.random()*99999);
  return new Promise(resolve=>{
   const script=document.createElement('script');let done=false;
   const finish=data=>{
     if(done)return;done=true;clearTimeout(timer);delete window[cb];script.remove();loadingStats=false;
+    const refreshAgain=statsRefreshRequested;statsRefreshRequested=false;
     if(data&&Array.isArray(data.churches)){
       delete data.recent;
       try{sessionStorage.setItem('shirt_last_public_stats',JSON.stringify({at:Date.now(),data}));}catch(e){}
       live=data;updateStats();if(mapVisible){renderFallback();renderMarkers();}status('統計更新 '+new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'}));
     }else status('統計暫時無法連線；地圖仍可查看');
     resolve();
+    if(refreshAgain)setTimeout(loadStats,400);
   };
   window[cb]=finish;
   script.async=true;script.onerror=()=>finish(null);
-  const timer=setTimeout(()=>finish(null),15000);
+  const timer=setTimeout(()=>finish(null),12000);
   script.src=APP_URL+'?mode=public&callback='+encodeURIComponent(cb)+'&v='+Date.now();
   document.head.append(script);
  });
@@ -432,7 +435,7 @@ function handleBridgeResult(data){
  $('quickName').focus();
  status('登記成功 · 統計更新中');
  loadStats();
- setTimeout(loadStats,2400);
+ setTimeout(loadStats,3000);
 }
 function initBridge(){
  const nonce=window.crypto?.randomUUID?.().replaceAll('-','')||Math.random().toString(36).slice(2)+Date.now();
@@ -534,8 +537,8 @@ async function start(){
  });
  if(validURL){
   loadStats();
-  const poll=()=>{if(!document.hidden)loadStats();setTimeout(poll,23000+Math.random()*10000);};
-  setTimeout(poll,23000);
+  const poll=()=>{if(!document.hidden)loadStats();setTimeout(poll,14000+Math.random()*4000);};
+  setTimeout(poll,14000);
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)loadStats();});
  }
  await catalogs;
