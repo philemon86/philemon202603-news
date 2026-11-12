@@ -8,14 +8,14 @@ const chars=new Map(Array.from({length:PAIRS.length/2},(_,i)=>[PAIRS[2*i],PAIRS[
 const norm=s=>Array.from(String(s||'').normalize('NFKC').toLowerCase()).map(ch=>chars.get(ch)||ch).join('').replace(/[\s\-_.·・（）()]/g,'');
 const clean=s=>String(s??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 const fmt=n=>Math.max(0,Number(n)||0).toLocaleString('zh-TW');
-const churchTitle=c=>c.c==='TW'&&c.name&&!/(教會|祈禱所|聚會所|福音中心|禱告所)$/.test(c.name)?c.name+'教會':c.name;
+const churchTitle=c=>c.kind==='province'?(c.region||c.name.split('｜').pop()):c.c==='TW'&&c.name&&!/(教會|祈禱所|聚會所|福音中心|禱告所)$/.test(c.name)?c.name+'教會':c.name;
 const queryChurch=(c,q)=>[churchTitle(c),c.name,c.en,c.region,c.country,c.label,...(Array.isArray(c.aliases)?c.aliases:[])].some(v=>norm(v).includes(q));
 const searchCatalog=(q,limit=12)=>catalog.filter(c=>queryChurch(c,q))
  .map((c,i)=>{
   const name=norm(churchTitle(c)),aliases=(c.aliases||[]).map(norm),country=norm(c.country);
   const score=name===q?0:name.startsWith(q)?1:aliases.some(a=>a===q||a.startsWith(q))?2:name.includes(q)?3:c.kind==='customer'?4:country.startsWith(q)?5:6;
   return {c,i,score};
- }).sort((a,b)=>a.score-b.score||a.i-b.i).slice(0,limit).map(x=>x.c);
+ }).sort((a,b)=>a.score-b.score||a.i-b.i).slice(0,/^(中國|中國大陸|大陸|china|cn)$/.test(q)?40:limit).map(x=>x.c);
 const countOf=r=>Math.max(0,Number(r?.confirmed)||0)+Math.max(0,Number(r?.pending)||0);
 const validURL=/^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/.test(APP_URL);
 let catalog=[],byId=new Map(),live=null,scope='TW',map=null,base=null,hot=null,mapLoaded=false,loadingStats=false,statsRefreshRequested=false;
@@ -40,7 +40,7 @@ function initSearch(){
    for(const c of picks){
     const btn=document.createElement('button');btn.type='button';
     const strong=document.createElement('strong');strong.textContent=churchTitle(c);
-    const small=document.createElement('small');small.textContent=c.kind==='customer'?'客戶'+(c.country?' · '+c.country:''):c.country+(c.region?' · '+c.region:'');
+    const small=document.createElement('small');small.textContent=c.kind==='province'?'中國大陸 · 省級地區（不公開教會位置）':c.kind==='customer'?'客戶'+(c.country?' · '+c.country:''):c.country+(c.region?' · '+c.region:'');
     btn.append(strong,small);
     btn.onclick=()=>{
       input.value=churchTitle(c);results.hidden=true;
@@ -49,7 +49,7 @@ function initSearch(){
       const lat=Number.isFinite(+c.lat)&&c.lat!=null?+c.lat:fallbackPosition?.lat;
       const lng=Number.isFinite(+c.lng)&&c.lng!=null?+c.lng:fallbackPosition?.lng;
       if(map&&Number.isFinite(lat)&&Number.isFinite(lng)){
-        map.flyTo([lat,lng],c.kind==='customer'||c.loc==='country_center_approximate'?5:12,{duration:.7});
+        map.flyTo([lat,lng],c.kind==='province'?6:c.kind==='customer'||c.loc==='country_center_approximate'?5:12,{duration:.7});
       }
     };
     results.append(btn);
@@ -182,7 +182,7 @@ function initMap(){
 }
 function getPopup(meta,rec){
  const qty=countOf(rec);
- return '<div class="popup-title">'+clean(churchTitle(meta))+'</div><div class="popup-info">'+fmt(qty)+' 件</div>';
+ return '<div class="popup-title">'+clean(churchTitle(meta))+'</div><div class="popup-info">'+fmt(qty)+' 件</div>'+(meta.kind==='province'?'<div class="popup-info">僅統計省級地區，標記不代表教會位置</div>':'');
 }
 
 function countryStats(){
@@ -200,6 +200,8 @@ function countryStats(){
    }
   }
  }
+ const mainland=map.get('CN');
+ if(mainland){mainland.lat=35.2;mainland.lng=104.0;mainland.approx=true;}
  for(const stat of live?.churches||[]){
   const c=byId.get(stat.id);if(!c?.c)continue;
   const group=map.get(c.c);
@@ -218,6 +220,8 @@ function renderMarkers(){
    if(scope==='TW'&&c.c!=='TW')continue;
    if(c.loc==='country_center_approximate'||!Number.isFinite(+c.lat)||!Number.isFinite(+c.lng)||!bounds.contains([c.lat,c.lng]))continue;
    const item=stats.get(c.id),total=countOf(item);
+   // Province markers are public summary regions only; do not imply an actual church at this point.
+   if(c.kind==='province' && total===0 && selectedChurch?.id!==c.id)continue;
    if(total>0){
      const size=Math.min(49,27+Math.sqrt(total)*4);
      const icon=L.divIcon({className:'',html:'<span class="demand-marker" style="width:'+size+'px;height:'+size+'px;background:'+labelColor(total)+'">'+fmt(total)+'</span><span class="demand-label">'+clean(churchTitle(c))+'</span>',iconSize:[size,size],iconAnchor:[size/2,size/2]});
@@ -347,14 +351,14 @@ function renderChurchOptions(){
  const matches=searchCatalog(q);
  for(const c of matches){
   const button=document.createElement('button');button.type='button';
-  button.textContent=churchTitle(c)+(c.kind==='customer'?' · 客戶':' · '+c.country);
+  button.textContent=churchTitle(c)+(c.kind==='province'?' · 中國大陸（省級地區）':c.kind==='customer'?' · 客戶':' · '+c.country);
   button.addEventListener('click',()=>{
    selectedChurch=c;input.value=churchTitle(c);input.classList.add('selected');box.hidden=true;
    renderFallback();renderMarkers();
    $('churchSearch').value=churchTitle(c);
    if(c.kind!=='customer'&&c.c!=='TW'&&scope==='TW')setScope('ALL');
    if(map&&Number.isFinite(Number(c.lat))&&Number.isFinite(Number(c.lng))){
-    map.flyTo([+c.lat,+c.lng],c.loc==='country_center_approximate'?5:12,{duration:.55});
+    map.flyTo([+c.lat,+c.lng],c.kind==='province'?6:c.loc==='country_center_approximate'?5:12,{duration:.55});
    }
   });box.append(button);
  }
@@ -522,7 +526,7 @@ function bindEvents(){
 }
 async function start(){
  bindEvents();initShirtLightbox();initSearch();refreshTime();setInterval(refreshTime,60000);initQuickForm();restoreCachedStats();
- const catalogs=fetch('./churches.json?v=20261108customers1',{cache:'default'}).then(r=>{
+ const catalogs=fetch('./churches.json?v=20261112cnprovince1',{cache:'default'}).then(r=>{
   if(!r.ok)throw Error('無法讀取教會資料');return r.json();
  }).then(x=>{
   if(!Array.isArray(x))throw Error('教會資料格式錯誤');
