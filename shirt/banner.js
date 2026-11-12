@@ -128,12 +128,12 @@
      const outdated=/無效的教會|無效的.*客戶|請選擇有效的教會|名單中重新選擇/.test(error);
      markFailed(outdated?'此地區尚未在 Google 後端啟用，請書房管理員部署最新版 Apps Script。':'登記失敗：'+error,outdated?'outdated_backend_catalog':'backend_rejected');return;
     }
-    const n=req.count;clearTimeout(req.timer);req=null;
+    const n=req.count;const elapsed=Math.max(0,Date.now()-(req.startedAt||Date.now()));clearTimeout(req.timer);req=null;
     storedToken='';try{localStorage.removeItem('shirt-banner-token-v1');}catch(e){}
     Object.keys(Q).forEach(k=>Q[k]=0);paint();$('bwName').value='';
     $('bwSend').disabled=false;$('bwSend').textContent='繼續填寫下一位 →';
     setStatus('登記成功，已送出 '+n+' 件意向。','success');
-    if(typeof window.gtag==='function')window.gtag('event','shirt_interest_submit_success',{item_category:'anniversary_shirt',quantity:n,form_variant:'banner'});loadStats();setTimeout(loadStats,1800);
+    if(typeof window.gtag==='function')window.gtag('event','shirt_interest_submit_success',{item_category:'anniversary_shirt',quantity:n,form_variant:'banner',response_time_ms:elapsed});loadStats();setTimeout(loadStats,1800);
    };
    port.start?.();sendRequest();
   });
@@ -153,7 +153,7 @@
   const count=total();if(count<1||count>10){setStatus('請選擇合計 1～10 件。','error');return;}
   if(!/^[0-9a-f-]{36}$/.test(storedToken))storedToken=createToken();
   try{localStorage.setItem('shirt-banner-token-v1',storedToken);}catch(e){}
-  req={id:Date.now()+'-'+Math.random().toString(36).slice(2),count,payload:{churchId:selected.id,name,sizes:{...Q},honey:'',token:storedToken},sent:false};
+  req={id:Date.now()+'-'+Math.random().toString(36).slice(2),startedAt:Date.now(),count,payload:{churchId:selected.id,name,sizes:{...Q},honey:'',token:storedToken},sent:false};
   $('bwSend').disabled=true;$('bwSend').textContent='連線中…';
   setStatus(ready?'正在儲存意向…':'正在連接 Google 登記系統…');
   req.timer=setTimeout(()=>markFailed('Google 登記服務逾時，資料尚未確認儲存。請使用 Chrome／Safari 開啟正式網站；中國大陸可請能連線 Google 的書報組代填。','google_timeout'),30000);
@@ -164,7 +164,8 @@
  let lastHeight=0;
  function sendHeight(){
   if(window.parent===window)return;
-  const height=Math.ceil(root.getBoundingClientRect().height)+2;
+  // Reserve 30px below the visible card for its shadow and the following CYBERBIZ section title.
+  const height=Math.ceil(root.getBoundingClientRect().height)+30;
   if(height<250||height===lastHeight)return;
   lastHeight=height;
   window.parent.postMessage({type:'philemon-shirt-banner-height',height},'*');
