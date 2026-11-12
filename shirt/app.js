@@ -330,6 +330,10 @@ function loadStats(){
  });
 }
 
+function trackSubmitError(errorType){
+ // Failure category only. Never send submitted names, locations or sizes to analytics.
+ if(typeof window.gtag==='function')window.gtag('event','shirt_interest_submit_error',{error_type:errorType,form_variant:'main'});
+}
 function showQuickMessage(message,kind='info'){
  const el=$('quickStatus');
  el.textContent=message;el.className='quick-status active '+kind;
@@ -386,7 +390,7 @@ function initQuickForm(){
   event.preventDefault();
   if(Date.now()>END){showQuickMessage('意向調查已截止','error');return;}
   if(pendingRequest){showQuickMessage('上一筆資料仍在傳送，請勿重複送出','info');return;}
-  if(!selectedChurch){showQuickMessage('請從教會建議名單點選所屬教會','error');church.focus();return;}
+  if(!selectedChurch){trackSubmitError('location_not_selected');showQuickMessage('請從教會或省份的建議清單點選地區，不能只輸入文字','error');church.focus();return;}
   const fullName=$('quickName').value.trim().normalize('NFKC');
   if(!/^[\p{L}\p{M}][\p{L}\p{M}.'’\-\s]{1,39}$/u.test(fullName)){showQuickMessage('請填寫書報組或中文／英文全名（2～40字）','error');return;}
   const qty=getTotal();if(qty<1||qty>10){showQuickMessage('請選擇1至10件','error');return;}
@@ -403,7 +407,8 @@ function initQuickForm(){
   pendingRequest.timeout=setTimeout(()=>{
    if(!pendingRequest)return;
    pendingRequest=null;submit.disabled=false;submit.textContent='重新送出意向 →';
-   showQuickMessage('Google 尚未回覆，資料尚未確認儲存。請稍後重新送出。','error');
+   trackSubmitError('google_timeout');
+   showQuickMessage('Google 登記服務逾時，資料尚未確認儲存。請改用 Chrome／Safari 開啟完整網址；若在中國大陸連線，請改由可連接 Google 的書報組代為登記。','error');
   },30000);
   sendPending();
  });
@@ -419,7 +424,8 @@ function sendPending(){
  try{bridgePort.postMessage({type:'submit',requestId:pendingRequest.req,payload:pendingRequest.body});}
  catch(e){submitFailure('無法連接 Google，請重新整理再試');}
 }
-function submitFailure(why){
+function submitFailure(why,reason='connection_error'){
+ trackSubmitError(reason);
  const p=pendingRequest;if(p?.timeout)clearTimeout(p.timeout);
  pendingRequest=null;
  $('quickSend').disabled=false;$('quickSend').textContent='重新送出意向 →';
@@ -428,7 +434,11 @@ function submitFailure(why){
 function handleBridgeResult(data){
  if(!pendingRequest||data.requestId!==pendingRequest.req)return;
  const p=pendingRequest;
- if(!data.ok||!data.result?.ok){submitFailure('送出未成功：'+String(data.error||'請稍後再試'));return;}
+ if(!data.ok||!data.result?.ok){
+  const error=String(data.error||'請稍後再試');
+  const catalogMismatch=/無效的教會|無效的.*客戶|請選擇有效的教會|名單中重新選擇/.test(error);
+  submitFailure(catalogMismatch?'登記地區尚未在 Google 後端啟用，請書房管理員重新部署最新版 Apps Script。':'送出未成功：'+error,catalogMismatch?'outdated_backend_catalog':'backend_rejected');return;
+ }
  clearTimeout(p.timeout);pendingRequest=null;
  try{localStorage.removeItem('shirt_receipt_code_v3');}catch(e){}
  $('quickSend').disabled=false;$('quickSend').textContent='送出下一筆 →';
@@ -466,6 +476,12 @@ function initBridge(){
      showQuickMessage('Google 登記服務連線中，資料尚未送出。','info');
    }
  },3500));
+ // Google may be unreachable in some countries or embedded browsers.
+ setTimeout(()=>{
+  if(!readyBridge&&pendingRequest&&!pendingRequest.sent){
+   showQuickMessage('目前無法連接 Google 登記服務，這筆資料尚未送出。請使用手機瀏覽器開啟正式網站，或請書報組代填。','error');
+  }
+ },11000);
 }
 
 function initShirtLightbox(){
