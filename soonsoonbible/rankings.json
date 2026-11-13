@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-12T08:23:04.834013+00:00",
+  "updatedAt": "2026-11-13T08:03:49.577486+00:00",
   "startDate": "2026-06-24",
   "dateRangeLabel": "\u7d2f\u8a08\uff08\u81ea 2026-06-24\uff09",
   "keywordSearchTop5": [
@@ -28,10 +28,6 @@
     {
       "label": "Jhn \u7b2c1\u7ae0",
       "value": 10
-    },
-    {
-      "label": "Mat \u7b2c6\u7ae0",
-      "value": 8
     }
   ],
   "verseCopyTop5": [
@@ -46,10 +42,6 @@
     {
       "label": "Rom \u7b2c1\u7ae0 \u7b2c1\u7bc0",
       "value": 4
-    },
-    {
-      "label": "1Ti \u7b2c4\u7ae0 \u7b2c16\u7bc0",
-      "value": 3
     }
   ]
 }
