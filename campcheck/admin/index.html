@@ -1,0 +1,30 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>福音成功嶺｜同工後台</title><link rel="stylesheet" href="/campcheck/style.css"><script src="/campcheck/qrcode.js" defer></script><script src="/campcheck/common.js" defer></script><script src="/campcheck/admin.js" defer></script></head><body><header><div class="wrap"><small>中區大專聯契 · 同工管理</small><h1>福音成功嶺｜報到後台</h1></div></header><main class="admin"><div id="message" class="notice" hidden></div><section id="dashboard">
+<div class="row between"><h2>即時報到統計</h2><button id="unlock" class="btn">管理模式</button></div>
+<form id="login" class="panel" hidden><label for="password">同工共用密碼</label>
+<input type="password" id="password" autocomplete="current-password" required><button class="btn">解鎖</button></form>
+<p id="updated" class="muted" aria-live="polite"></p><p>台灣時間 <strong id="clock"></strong></p>
+<div id="stats" class="stats"></div>
+<section class="panel"><h2>各團契報到進度</h2><div id="teams" class="stats"></div></section>
+<section class="panel"><h2>上午三組與下午七組</h2><div id="groups" class="stats"></div></section>
+</section>
+<section id="management" class="panel" hidden>
+<div class="row between"><h2>人員名單與分組管理</h2><button id="logout" class="btn sub">鎖定管理模式</button></div>
+<div class="row"><button id="copy" class="btn sub">複製現場報到連結</button>
+<button id="qr" class="btn sub">下載現場 QR Code PNG</button>
+<button id="export" class="btn sub">匯出同工 CSV</button><button id="refresh" class="btn sub">更新名單</button></div>
+<details><summary>新增現場人員並代報到</summary><form id="add" class="row">
+<label>姓名 <input name="name" required maxlength="60"></label>
+<label>團契 <select name="team" id="addTeam" required></select></label>
+<label>學校 <input name="school" maxlength="100"></label>
+<label>科系 <input name="major" maxlength="100"></label>
+<button class="btn">新增並報到</button></form></details>
+<details><summary>調整下午集合地點</summary><form id="groupPlace" class="row">
+<label>下午組別 <select name="pm" id="placeGroup"></select></label>
+<label>集合地點 <input name="place" id="groupLocation" maxlength="100"></label>
+<button class="btn">更新全組地點</button></form></details>
+<details><summary>下午分組批次作業</summary>
+<div class="row"><button type="button" id="suggest" class="btn sub">建議待分配組別</button>
+<label>匯入 CSV <input id="import" type="file" accept=".csv,text/csv"></label></div>
+<p class="muted">使用匯出名單的「報名編號」及「下午組」欄位，下午組輸入 0 至 7，0 代表待分配。</p>
+<div id="batchPreview"></div><button type="button" id="commitBatch" class="btn" hidden>確認寫入分組</button></details>
+<div class="row"><input id="query" placeholder="搜尋姓名、團契、學校、科系、Email" style="flex:2;min-width:180px"><select id="filter" style="flex:1;min-width:120px"><option value="all">全部人員</option><option value="checked">已報到</option><option value="missing">未報到</option><option value="onsite">現場新增</option><option value="unassigned">下午未分組</option></select><select id="teamFilter" style="flex:1;min-width:120px"><option value="">所有團契</option></select></div><p class="muted" style="margin-top:8px">可代為報到、撤銷錯誤報到，並儲存下午組別與集合位置。固定團契依上午路線分組，其他人員可調整。請勿將含 Email 的 CSV 對外分享。</p><div class="scroll"><table><thead><tr><th>姓名／團契</th><th>學校／科系</th><th>狀態</th><th>Google Email</th><th>上午</th><th>下午組別與地點</th><th>操作</th></tr></thead><tbody id="rows"></tbody></table></div></section><footer><a href="/campcheck/">返回學生報到頁</a></footer></main></body></html>
