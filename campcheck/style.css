@@ -6,3 +6,5 @@
 .admin #password{width:min(100%,260px);margin:0 8px 8px 0}
 .admin .stat small{display:block;color:var(--muted)}
 #clock{font-variant-numeric:tabular-nums}
+
+#staffCheck{width:auto;min-height:auto;vertical-align:middle;margin-right:.4rem}

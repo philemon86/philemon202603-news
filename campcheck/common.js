@@ -9,8 +9,35 @@ async function api(action,data={}){const controller=new AbortController(),timer=
 async function startGoogle(cb){try{const r=await fetch('/api/campcheck',{cache:'no-store'}),j=await r.json();if(!j.clientId)throw Error(j.error||'Google 登入尚未設定');for(let i=0;i<50&&!window.google?.accounts?.id;i++)await new Promise(r=>setTimeout(r,100));if(!window.google?.accounts?.id)throw Error('無法載入 Google 登入，請使用 Safari 或 Chrome');google.accounts.id.initialize({client_id:j.clientId,callback:async res=>{token=res.credential;try{await cb();}catch(e){msg(e.message);}finally{token='';}}});google.accounts.id.renderButton($('google'),{theme:'outline',size:'large',text:'signin_with',locale:'zh-TW'});}catch(e){msg(e.message);}}
 async function logout(){try{await api('studentLogout');token='';window.google?.accounts?.id?.disableAutoSelect();location.reload();}catch(e){msg(e.message);}}
 
-const places={1:'1F 腓利門書房',4:'4F 宣道處',7:'7F 主展場'};
-const routes={1:[1,4,7],2:[4,7,1],3:[7,1,4]};
-function schedule(m){let route=routes[m.am]||[];const stops=route.length?route.map(n=>places[n]):['請洽同工','請洽同工','請洽同工'];return [
-['10:40','11:05','全體簡報分享','臺灣總會｜依同工指引'],['11:05','11:09','前往第一站',stops[0]],['11:09','11:24','第一站導覽',stops[0]],['11:24','11:27','樓層移動',stops[1]],['11:27','11:42','第二站導覽',stops[1]],['11:42','11:45','樓層移動',stops[2]],['11:45','11:57','第三站導覽',stops[2]],['11:57','12:00','前往用餐','臺灣總會 B1'],['12:00','12:30','午餐','臺灣總會 B1'],['12:30','13:00','前往伸港教會','車程'],['13:00','16:00','下午活動',m.place||'伸港教會']];}
+const AM_LEADERS={1:'黃琮道大哥',2:'呂昕雅大姊',3:'林彤穎大姊'};
+const PM_LABELS=['','商業財經與管理','資訊智慧與電子科技','工程製造與自然環境','醫療照護與生命科學','教育人文與社會發展','設計藝術與傳播'];
+const TOUR_STOPS={
+  7:['總會 7F','7F 導覽｜黃畀予、蔡基秀'],
+  4:['總會 4F → 3F','4F、3F 導覽｜黃政偉、黃韻涵'],
+  1:['總會 1F 腓利門','腓利門導覽']
+};
+const TOUR_ROUTES={1:[7,4,1],2:[1,7,4],3:[4,1,7]};
+function schedule(group) {
+  const times=['11:00','11:20','11:40','12:00'];
+  const route=TOUR_ROUTES[group]||[];
+  return [
+    ['08:30','09:00','報到','臺灣總會'],
+    ['09:00','10:30','專題講座｜領受真耶穌教會傳入台灣史','總會 1F｜王惠姬長老娘'],
+    ['10:30','10:40','全體大合照','總會 1F 會堂'],
+    ['10:40','11:00','尋根之旅介紹｜宣道處、理事會各 10 分鐘','總會 1F｜政偉大哥'],
+    ...(route.length?route.map((stop,i)=>[times[i],times[i+1],TOUR_STOPS[stop][1],TOUR_STOPS[stop][0]]):
+      [['11:00','12:00','尋根之旅①｜分組參觀總會','依同工指引']]),
+    ['12:00','12:40','午餐｜原 2F 兩個印章移至 B1','總會 B1 餐廳'],
+    ['12:40',null,'集合、禱告、出發前往伸港教會','總會 1F']
+  ];
+}
+function scheduleStatus(group,clock=eventClock()){
+  const entries=schedule(group);
+  if(clock.date<'2026-12-06'||(clock.date==='2026-12-06'&&clock.time<entries[0][0]))return {entries,next:entries[0],state:'before'};
+  if(clock.date>'2026-12-06')return {entries,state:'finished'};
+  const index=entries.findIndex(([start,end])=>start<=clock.time&&end&&clock.time<end);
+  if(index>=0)return {entries,current:entries[index],next:entries[index+1],state:'active'};
+  if(clock.time===entries.at(-1)[0])return {entries,current:entries.at(-1),state:'active'};
+  return {entries,state:'pending'};
+}
 function eventClock(){const now=new Date(Date.now()+serverDelta),parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).formatToParts(now);let p=Object.fromEntries(parts.map(x=>[x.type,x.value]));return {date:`${p.year}-${p.month}-${p.day}`,time:`${p.hour}:${p.minute}`,clock:`${p.hour}:${p.minute}:${p.second}`};}
